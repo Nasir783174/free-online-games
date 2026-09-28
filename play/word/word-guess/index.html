@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Guess Game - Play Free Online</title>
+  <meta name="description" content="Play Word Guess free online in your browser. Guess the hidden five-letter word in six tries with helpful letter feedback. No download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>* { box-sizing: border-box; }
+
+:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --accent: #16B8C4;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game-bg: #111827;
+  --game-secondary: #1F2937;
+  --tile-border: #697386;
+  --yellow: #D8A900;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, input { font: inherit; }
+
+.site-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-tag {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.page {
+  width: min(100% - 32px, 1120px);
+  margin: 0 auto;
+  padding: 34px 0 72px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 26px;
+}
+
+.breadcrumb a { color: var(--primary-dark); text-decoration: none; font-weight: 700; }
+
+.intro { max-width: 760px; margin-bottom: 28px; }
+.eyebrow {
+  margin: 0 0 5px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+h1, h2, h3 { line-height: 1.15; }
+h1 { font-size: clamp(38px, 6vw, 58px); margin: 0 0 12px; font-weight: 800; letter-spacing: -0.035em; }
+.intro p:last-child { margin: 0; color: var(--muted); font-size: 18px; }
+
+.game-card {
+  background: var(--game-bg);
+  border-radius: 20px;
+  padding: clamp(18px, 4vw, 30px);
+  color: #fff;
+  box-shadow: 0 14px 38px rgba(17, 24, 39, .14);
+}
+
+.game-topbar {
+  max-width: 540px;
+  margin: 0 auto 22px;
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  gap: 10px;
+  align-items: center;
+}
+
+.stat-label {
+  display: block;
+  color: #9CA3AF;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.game-topbar strong { font-size: 21px; font-weight: 800; }
+.status { text-align: center; font-size: 15px; font-weight: 700; color: #D1D5DB; }
+.score-box { text-align: right; }
+
+.board {
+  width: min(100%, 350px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 7px;
+}
+
+.tile {
+  aspect-ratio: 1;
+  border: 2px solid var(--tile-border);
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(22px, 6vw, 30px);
+  font-weight: 800;
+  text-transform: uppercase;
+  background: #151E2D;
+  transition: transform .12s ease, background .15s ease, border-color .15s ease;
+}
+.tile.filled { border-color: #9CA3AF; }
+.tile.correct { background: var(--success); border-color: var(--success); }
+.tile.present { background: var(--yellow); border-color: var(--yellow); }
+.tile.absent { background: #4B5563; border-color: #4B5563; }
+
+.keyboard {
+  width: min(100%, 570px);
+  margin: 28px auto 0;
+  display: grid;
+  gap: 7px;
+}
+.key-row { display: flex; gap: 6px; justify-content: center; }
+.key {
+  min-width: 36px;
+  height: 48px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 7px;
+  background: #374151;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.key.wide { min-width: 64px; font-size: 12px; }
+.key:hover { background: #4B5563; }
+.key:focus-visible, .primary-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.key.correct { background: var(--success); }
+.key.present { background: var(--yellow); }
+.key.absent { background: #1F2937; color: #9CA3AF; }
+
+.controls { display: flex; justify-content: center; margin-top: 22px; }
+.primary-btn {
+  border: 0;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+.primary-btn:hover { background: var(--primary-dark); }
+
+.content-section {
+  margin-top: 54px;
+  max-width: 820px;
+}
+.content-section h2 { font-size: 32px; margin: 0 0 12px; font-weight: 700; }
+.content-section h3 { font-size: 22px; margin: 28px 0 8px; }
+.content-section p, .content-section li { color: var(--muted); }
+.content-section ul { padding-left: 24px; }
+.faq details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 10px 0;
+}
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq details p { margin-bottom: 0; }
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 26px 16px 40px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .site-header { height: 64px; padding: 0 16px; }
+  .brand-tag { display: none; }
+  .page { width: min(100% - 20px, 1120px); padding-top: 24px; }
+  .intro p:last-child { font-size: 16px; }
+  .game-card { padding: 16px 10px 20px; border-radius: 16px; }
+  .game-topbar { grid-template-columns: 65px 1fr 65px; }
+  .board { gap: 5px; width: min(100%, 330px); }
+  .tile { border-radius: 6px; }
+  .keyboard { gap: 5px; margin-top: 22px; }
+  .key-row { gap: 4px; }
+  .key { min-width: 0; flex: 1; height: 46px; padding: 0 3px; }
+  .key.wide { flex: 1.45; min-width: 0; }
+  .content-section { margin-top: 42px; }
+  .content-section h2 { font-size: 27px; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Games Hub home">Games Hub</a>
+    <span class="brand-tag">Play in your browser</span>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games</a><span aria-hidden="true">/</span><span>Word Guess</span>
+    </nav>
+
+    <section class="intro">
+      <p class="eyebrow">WORD GAME</p>
+      <h1>Word Guess Game</h1>
+      <p>Find the hidden five-letter word in six tries. Each guess gives you clues about which letters are correct and where they belong.</p>
+    </section>
+
+    <section class="game-card" aria-label="Word Guess game">
+      <div class="game-topbar">
+        <div>
+          <span class="stat-label">Round</span>
+          <strong id="roundText">1</strong>
+        </div>
+        <div class="status" id="status" role="status" aria-live="polite">Guess the word</div>
+        <div class="score-box">
+          <span class="stat-label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+      </div>
+
+      <div id="board" class="board" aria-label="Word Guess board"></div>
+
+      <div class="keyboard" id="keyboard" aria-label="On-screen keyboard"></div>
+
+      <div class="controls">
+        <button class="primary-btn" id="newGameBtn" type="button">New Game</button>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Word Guess</h2>
+      <p>Enter a five-letter word and press Enter. A green tile means the letter is correct and in the correct position. A yellow tile means the letter is in the hidden word but belongs in another position. A gray tile means the letter is not in the word.</p>
+      <h3>Controls</h3>
+      <p>Use your keyboard on desktop or the on-screen keyboard on phones and tablets. Backspace removes the last letter, and Enter submits your guess.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>About Word Guess</h2>
+      <p>Word Guess is a browser-based word puzzle built for quick rounds. There is no download, account, or server connection required. Start a new round whenever you want and try to improve your score.</p>
+    </section>
+
+    <section class="content-section tips">
+      <h2>Word Guess Tips</h2>
+      <ul>
+        <li>Start with a word containing several common vowels and consonants.</li>
+        <li>Use yellow letters in new positions rather than repeating them in the same place.</li>
+        <li>Use the remaining attempts to narrow down the word instead of guessing randomly.</li>
+      </ul>
+    </section>
+
+    <section class="content-section faq">
+      <h2>Word Guess FAQ</h2>
+      <details>
+        <summary>How many guesses do I get?</summary>
+        <p>You get six guesses for each five-letter word.</p>
+      </details>
+      <details>
+        <summary>Can I play on mobile?</summary>
+        <p>Yes. The game includes a large on-screen keyboard designed for touch devices.</p>
+      </details>
+      <details>
+        <summary>Do I need to download anything?</summary>
+        <p>No. Word Guess runs directly in a modern web browser.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">Word Guess · Free browser game</footer>
+  <script>(() => {
+  "use strict";
+
+  // A compact built-in word list keeps the game fully static and offline-friendly.
+  const WORDS = [
+    "apple","beach","brain","bread","chair","charm","chess","cloud","crown","dance",
+    "dream","earth","flame","flock","fruit","ghost","giant","glass","grape","green",
+    "heart","house","human","jelly","knife","light","magic","metal","money","mouse",
+    "music","ocean","paper","party","peace","phone","plant","plane","point","pride",
+    "queen","quick","radio","river","robot","round","scale","score","sheep","shine",
+    "shirt","short","smile","snake","sound","space","spice","sport","storm","table",
+    "tiger","toast","today","tower","train","treat","truck","under","video","water",
+    "whale","wheel","world","write","young"
+  ];
+
+  const VALID_GUESSES = new Set(WORDS);
+  const MAX_ROWS = 6;
+  const WORD_LENGTH = 5;
+
+  const board = document.getElementById("board");
+  const keyboard = document.getElementById("keyboard");
+  const status = document.getElementById("status");
+  const scoreEl = document.getElementById("score");
+  const roundEl = document.getElementById("roundText");
+  const newGameBtn = document.getElementById("newGameBtn");
+
+  const keyRows = [
+    ["Q","W","E","R","T","Y","U","I","O","P"],
+    ["A","S","D","F","G","H","J","K","L"],
+    ["ENTER","Z","X","C","V","B","N","M","BACK"]
+  ];
+
+  let target = "";
+  let guesses = [];
+  let current = "";
+  let gameOver = false;
+  let score = 0;
+  let round = 1;
+  let keyStates = {};
+
+  function chooseWord() {
+    return WORDS[Math.floor(Math.random() * WORDS.length)];
+  }
+
+  function buildBoard() {
+    board.innerHTML = "";
+    for (let i = 0; i < MAX_ROWS * WORD_LENGTH; i++) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.setAttribute("aria-hidden", "true");
+      board.appendChild(tile);
+    }
+  }
+
+  function buildKeyboard() {
+    keyboard.innerHTML = "";
+    keyRows.forEach(row => {
+      const rowEl = document.createElement("div");
+      rowEl.className = "key-row";
+      row.forEach(label => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "key" + (label === "ENTER" || label === "BACK" ? " wide" : "");
+        btn.textContent = label === "BACK" ? "⌫" : label;
+        btn.setAttribute("aria-label", label === "BACK" ? "Backspace" : label === "ENTER" ? "Enter guess" : `Letter ${label}`);
+        btn.dataset.key = label;
+        btn.addEventListener("click", () => handleKey(label));
+        rowEl.appendChild(btn);
+      });
+      keyboard.appendChild(rowEl);
+    });
+  }
+
+  function render() {
+    const tiles = [...board.children];
+    tiles.forEach((tile, i) => {
+      const row = Math.floor(i / WORD_LENGTH);
+      const col = i % WORD_LENGTH;
+      tile.textContent = "";
+      tile.className = "tile";
+
+      if (guesses[row]) {
+        tile.textContent = guesses[row][col];
+        tile.classList.add(guesses[row].result[col]);
+      } else if (row === guesses.length && current[col]) {
+        tile.textContent = current[col];
+        tile.classList.add("filled");
+      }
+    });
+
+    [...keyboard.querySelectorAll(".key")].forEach(btn => {
+      const state = keyStates[btn.dataset.key];
+      btn.classList.remove("correct", "present", "absent");
+      if (state) btn.classList.add(state);
+    });
+
+    scoreEl.textContent = score;
+    roundEl.textContent = round;
+  }
+
+  function evaluateGuess(guess) {
+    const result = Array(WORD_LENGTH).fill("absent");
+    const remaining = target.split("");
+
+    for (let i = 0; i < WORD_LENGTH; i++) {
+      if (guess[i] === target[i]) {
+        result[i] = "correct";
+        remaining[i] = null;
+      }
+    }
+
+    for (let i = 0; i < WORD_LENGTH; i++) {
+      if (result[i] !== "absent") continue;
+      const index = remaining.indexOf(guess[i]);
+      if (index !== -1) {
+        result[i] = "present";
+        remaining[index] = null;
+      }
+    }
+    return result;
+  }
+
+  function updateKeyStates(guess, result) {
+    const priority = { absent: 1, present: 2, correct: 3 };
+    for (let i = 0; i < WORD_LENGTH; i++) {
+      const key = guess[i].toUpperCase();
+      const next = result[i];
+      if (!keyStates[key] || priority[next] > priority[keyStates[key]]) {
+        keyStates[key] = next;
+      }
+    }
+  }
+
+  function submitGuess() {
+    if (gameOver) return;
+
+    if (current.length !== WORD_LENGTH) {
+      status.textContent = "Enter a five-letter word";
+      return;
+    }
+
+    if (!VALID_GUESSES.has(current)) {
+      status.textContent = "That word is not in the game list";
+      return;
+    }
+
+    const result = evaluateGuess(current);
+    const solved = current === target;
+    guesses.push({ word: current, result });
+    updateKeyStates(current, result);
+    current = "";
+
+    if (solved) {
+      const points = [100, 80, 60, 45, 30, 20][guesses.length - 1];
+      score += points;
+      gameOver = true;
+      status.textContent = `You found it! +${points} points`;
+    } else if (guesses.length >= MAX_ROWS) {
+      gameOver = true;
+      status.textContent = `The word was ${target.toUpperCase()}`;
+    } else {
+      status.textContent = `${MAX_ROWS - guesses.length} guesses remaining`;
+    }
+    render();
+  }
+
+  function handleKey(key) {
+    if (gameOver) return;
+
+    if (key === "ENTER") {
+      submitGuess();
+      return;
+    }
+
+    if (key === "BACK") {
+      current = current.slice(0, -1);
+      status.textContent = "Guess the word";
+      render();
+      return;
+    }
+
+    if (/^[A-Z]$/.test(key) && current.length < WORD_LENGTH) {
+      current += key.toLowerCase();
+      status.textContent = "Guess the word";
+      render();
+    }
+  }
+
+  function newGame() {
+    target = chooseWord();
+    guesses = [];
+    current = "";
+    gameOver = false;
+    keyStates = {};
+    status.textContent = "Guess the word";
+    render();
+  }
+
+  document.addEventListener("keydown", event => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleKey("ENTER");
+    } else if (event.key === "Backspace") {
+      event.preventDefault();
+      handleKey("BACK");
+    } else if (/^[a-zA-Z]$/.test(event.key)) {
+      handleKey(event.key.toUpperCase());
+    }
+  });
+
+  newGameBtn.addEventListener("click", () => {
+    round += 1;
+    newGame();
+  });
+
+  buildBoard();
+  buildKeyboard();
+  newGame();
+})();
+</script>
+</body>
+</html>

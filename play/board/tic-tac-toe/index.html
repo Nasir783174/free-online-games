@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5B5CE2">
+  <meta name="description" content="Play Tic Tac Toe online for free in your browser. Challenge the computer or play with a friend—no download or signup required.">
+  <meta name="robots" content="index, follow">
+  <title>Tic Tac Toe Game - Play Free Online</title>
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --teal: #16b8c4;
+  --amber: #ffb84d;
+  --danger: #ef5b5b;
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game-bg: #111827;
+  --game-secondary: #1f2937;
+  --shadow: 0 18px 50px rgba(33, 38, 73, 0.1);
+  font-family: "Nunito Sans", Nunito, ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, select { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+
+.shell {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 12px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  transform: translateY(-150%);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  height: 72px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.header-inner, .footer-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.header-tag, .coming-note { color: var(--muted); font-size: 14px; font-weight: 700; }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-top: 26px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.breadcrumb a { color: var(--brand-dark); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.hero {
+  max-width: 780px;
+  margin: 48px auto 38px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--brand-dark);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 18px; font-size: clamp(42px, 6vw, 62px); font-weight: 800; line-height: 1.08; letter-spacing: -0.035em; }
+h2 { margin-bottom: 18px; font-size: clamp(28px, 4vw, 35px); font-weight: 800; line-height: 1.18; letter-spacing: -0.02em; }
+h3 { margin-bottom: 4px; font-size: 21px; line-height: 1.25; }
+.hero > p:last-child { margin-bottom: 0; color: var(--muted); font-size: 18px; }
+
+.game-shell {
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto 76px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.game-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.field-group { display: grid; gap: 7px; }
+.field-label { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+
+.segmented {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.segment {
+  min-height: 40px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.segment.active { background: var(--brand); color: #fff; box-shadow: 0 4px 12px rgba(91, 92, 226, .22); }
+
+select {
+  min-width: 130px;
+  height: 48px;
+  padding: 0 38px 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 3px solid rgba(22, 184, 196, .38);
+  outline-offset: 3px;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  border-bottom: 1px solid var(--border);
+  background: var(--border);
+}
+
+.score-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 22px;
+  background: #fff;
+}
+
+.score-symbol { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 9px; font-weight: 900; line-height: 1; }
+.player-x .score-symbol { background: #eeeefe; color: var(--brand); }
+.player-o .score-symbol { background: #e6f8fa; color: #087f88; }
+.draws .score-symbol { background: #fff2dc; color: #a86400; }
+.score-label { color: var(--muted); font-size: 14px; font-weight: 700; }
+.score-card strong { font-size: 24px; line-height: 1; }
+.score-card.active { box-shadow: inset 0 -3px 0 var(--brand); }
+.score-card.player-o.active { box-shadow: inset 0 -3px 0 var(--teal); }
+
+.play-area {
+  padding: 30px 24px 32px;
+  background: var(--game-bg);
+  color: #fff;
+}
+
+.turn-panel {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto 22px;
+}
+
+.turn-icon { display: grid; width: 43px; height: 43px; place-items: center; border-radius: 13px; background: var(--brand); font-size: 24px; font-weight: 900; line-height: 1; }
+.turn-icon.o { background: var(--teal); }
+.turn-icon.draw { background: var(--amber); color: #432c00; }
+.turn-kicker { margin-bottom: 0; color: #9ca3af; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.status { margin-bottom: 0; font-size: 21px; font-weight: 800; line-height: 1.25; }
+
+.board-wrap {
+  width: min(100%, 430px);
+  margin-inline: auto;
+  padding: 10px;
+  border-radius: 20px;
+  background: var(--game-secondary);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.cell {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 0;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: var(--brand);
+  font-size: clamp(48px, 11vw, 72px);
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease;
+}
+
+.cell:not([aria-disabled="true"]):hover { background: #fff; transform: translateY(-2px); }
+.cell.o { color: #0796a1; }
+.cell.winner { background: #dff8e7; color: #16803a; animation: winner-pop .36s ease both; }
+.cell[aria-disabled="true"] { cursor: default; }
+
+@keyframes winner-pop { 50% { transform: scale(.94); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+.game-actions { display: flex; justify-content: center; gap: 12px; margin-top: 24px; }
+
+.button {
+  min-height: 48px;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.button.primary { background: var(--brand); color: #fff; }
+.button.primary:hover { background: var(--brand-dark); }
+.button.secondary { border-color: #4b5563; background: transparent; color: #e5e7eb; }
+.button.secondary:hover { background: #273244; }
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+.content-card {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+}
+
+.content-card p, .content-card li, .text-section p { color: #475467; }
+.content-card ol { margin: 20px 0; padding-left: 24px; }
+.content-card li + li { margin-top: 9px; }
+
+.tips-card { background: #f0f0ff; border-color: #dedeff; }
+.tip-list { display: grid; gap: 20px; margin: 0; padding: 0; list-style: none; }
+.tip-list li { display: flex; align-items: flex-start; gap: 12px; }
+.tip-list li > span { display: grid; flex: 0 0 30px; height: 30px; place-items: center; border-radius: 9px; background: var(--brand); color: #fff; font-size: 14px; font-weight: 800; }
+
+.text-section { max-width: 820px; margin: 0 auto 70px; }
+.text-section p { font-size: 18px; }
+
+.related-section { margin-bottom: 70px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+.section-heading h2, .section-heading .eyebrow { margin-bottom: 0; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.related-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+.related-card p { margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.4; }
+.game-badge { display: grid; width: 48px; height: 48px; place-items: center; border-radius: 13px; color: #fff; font-size: 23px; font-weight: 900; }
+.game-badge.purple { background: var(--brand); }
+.game-badge.teal { background: var(--teal); }
+.game-badge.amber { background: #d88c18; }
+.soon { padding: 3px 8px; border-radius: 999px; background: var(--bg); color: var(--muted); font-size: 12px; font-weight: 800; }
+
+.faq-section { max-width: 820px; margin: 0 auto 80px; }
+.faq-section h2 { text-align: center; }
+details { border-top: 1px solid var(--border); background: transparent; }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { padding: 20px 4px; font-size: 18px; font-weight: 800; cursor: pointer; }
+details p { padding: 0 28px 20px 4px; color: var(--muted); }
+
+.site-footer { min-height: 92px; border-top: 1px solid var(--border); background: #fff; color: var(--muted); font-size: 14px; }
+
+[hidden] { display: none !important; }
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .shell { width: min(100% - 28px, 1160px); }
+  .header-tag { display: none; }
+  .hero { margin-top: 38px; }
+  .hero > p:last-child { font-size: 17px; }
+  .game-toolbar { align-items: stretch; }
+  .field-group:first-child { flex: 1; }
+  .segmented, .segment { width: 100%; }
+  .segment { padding-inline: 10px; }
+  .score-card { grid-template-columns: 1fr; justify-items: center; gap: 5px; padding: 13px 8px; text-align: center; }
+  .score-symbol { width: 29px; height: 29px; }
+  .content-grid, .related-grid { grid-template-columns: 1fr; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .footer-inner { padding: 20px 0; flex-direction: column; justify-content: center; gap: 2px; text-align: center; }
+}
+
+@media (max-width: 510px) {
+  .site-header { height: 64px; }
+  .breadcrumb { overflow: hidden; padding-top: 20px; white-space: nowrap; }
+  h1 { font-size: 40px; }
+  .hero { margin-bottom: 30px; }
+  .game-shell { margin-inline: -4px; margin-bottom: 60px; border-radius: 16px; }
+  .game-toolbar { flex-direction: column; gap: 14px; padding: 16px; }
+  #difficulty-group select { width: 100%; }
+  .play-area { padding: 25px 14px 28px; }
+  .board-wrap { padding: 8px; border-radius: 17px; }
+  .board { gap: 7px; }
+  .cell { border-radius: 11px; }
+  .game-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .button { padding-inline: 12px; }
+  .content-card { padding: 23px 20px; }
+  .content-grid, .text-section, .related-section { margin-bottom: 56px; }
+  .text-section p { font-size: 17px; }
+}
+</style>
+  <script>'use strict';
+
+const WINNING_LINES = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+  [0, 4, 8], [2, 4, 6]
+];
+
+const CELL_NAMES = [
+  'Top left', 'Top center', 'Top right',
+  'Middle left', 'Center', 'Middle right',
+  'Bottom left', 'Bottom center', 'Bottom right'
+];
+
+const boardElement = document.getElementById('game-board');
+const cells = [...document.querySelectorAll('.cell')];
+const statusElement = document.getElementById('status');
+const turnIcon = document.getElementById('turn-icon');
+const difficultySelect = document.getElementById('difficulty');
+const difficultyGroup = document.getElementById('difficulty-group');
+const modeButtons = [...document.querySelectorAll('[data-mode]')];
+const newRoundButton = document.getElementById('new-round');
+const resetScoreButton = document.getElementById('reset-score');
+const xScoreElement = document.getElementById('x-score');
+const oScoreElement = document.getElementById('o-score');
+const drawScoreElement = document.getElementById('draw-score');
+const xLabel = document.getElementById('x-label');
+const oLabel = document.getElementById('o-label');
+const xScoreCard = document.getElementById('x-score-card');
+const oScoreCard = document.getElementById('o-score-card');
+
+let board = Array(9).fill('');
+let mode = 'computer';
+let difficulty = 'hard';
+let currentPlayer = 'X';
+let startingPlayer = 'X';
+let isGameOver = false;
+let isComputerThinking = false;
+let aiTimer = null;
+let scores = loadScores();
+
+function loadScores() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('gamesHubTicTacToeScores'));
+    if (saved && Number.isInteger(saved.x) && Number.isInteger(saved.o) && Number.isInteger(saved.draws)) {
+      return saved;
+    }
+  } catch (error) {
+    // The game still works if browser storage is unavailable.
+  }
+  return { x: 0, o: 0, draws: 0 };
+}
+
+function saveScores() {
+  try {
+    localStorage.setItem('gamesHubTicTacToeScores', JSON.stringify(scores));
+  } catch (error) {
+    // Scores remain available for the current page session.
+  }
+}
+
+function renderScores() {
+  xScoreElement.textContent = scores.x;
+  oScoreElement.textContent = scores.o;
+  drawScoreElement.textContent = scores.draws;
+}
+
+function setMode(nextMode) {
+  mode = nextMode;
+  modeButtons.forEach((button) => {
+    const selected = button.dataset.mode === mode;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  difficultyGroup.hidden = mode !== 'computer';
+  xLabel.textContent = mode === 'computer' ? 'You' : 'Player X';
+  oLabel.textContent = mode === 'computer' ? 'Computer' : 'Player O';
+  startingPlayer = 'X';
+  startRound(false);
+}
+
+function startRound(alternateStarter = true) {
+  window.clearTimeout(aiTimer);
+  if (alternateStarter) startingPlayer = startingPlayer === 'X' ? 'O' : 'X';
+  board = Array(9).fill('');
+  currentPlayer = startingPlayer;
+  isGameOver = false;
+  isComputerThinking = false;
+
+  cells.forEach((cell, index) => {
+    cell.textContent = '';
+    cell.className = 'cell';
+    cell.setAttribute('aria-disabled', 'false');
+    cell.setAttribute('aria-label', `${CELL_NAMES[index]}, empty`);
+  });
+
+  updateStatus();
+  focusFirstCell();
+
+  if (mode === 'computer' && currentPlayer === 'O') scheduleComputerMove();
+}
+
+function focusFirstCell() {
+  cells.forEach((cell, index) => { cell.tabIndex = index === 0 ? 0 : -1; });
+}
+
+function getResult(state) {
+  for (const line of WINNING_LINES) {
+    const [a, b, c] = line;
+    if (state[a] && state[a] === state[b] && state[a] === state[c]) {
+      return { winner: state[a], line };
+    }
+  }
+  if (state.every(Boolean)) return { winner: 'draw', line: [] };
+  return null;
+}
+
+function placeMark(index, player) {
+  board[index] = player;
+  const cell = cells[index];
+  cell.textContent = player;
+  cell.classList.add(player.toLowerCase());
+  cell.setAttribute('aria-label', `${CELL_NAMES[index]}, ${player}`);
+  cell.setAttribute('aria-disabled', 'true');
+}
+
+function handleCellSelection(index) {
+  if (isGameOver || isComputerThinking || board[index]) return;
+  if (mode === 'computer' && currentPlayer === 'O') return;
+
+  placeMark(index, currentPlayer);
+  finishTurn();
+}
+
+function finishTurn() {
+  const result = getResult(board);
+  if (result) {
+    finishGame(result);
+    return;
+  }
+
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  updateStatus();
+  if (mode === 'computer' && currentPlayer === 'O') scheduleComputerMove();
+}
+
+function finishGame(result) {
+  isGameOver = true;
+  isComputerThinking = false;
+  cells.forEach((cell) => cell.setAttribute('aria-disabled', 'true'));
+
+  if (result.winner === 'draw') {
+    scores.draws += 1;
+    statusElement.textContent = 'Round drawn';
+    turnIcon.textContent = '—';
+    turnIcon.className = 'turn-icon draw';
+  } else {
+    scores[result.winner.toLowerCase()] += 1;
+    result.line.forEach((index) => cells[index].classList.add('winner'));
+    const winnerName = getPlayerName(result.winner);
+    const verb = mode === 'friend' || result.winner === 'O' ? 'wins' : 'win';
+    statusElement.textContent = `${winnerName} ${verb}`;
+    turnIcon.textContent = result.winner;
+    turnIcon.className = `turn-icon ${result.winner.toLowerCase()}`;
+  }
+
+  xScoreCard.classList.remove('active');
+  oScoreCard.classList.remove('active');
+  renderScores();
+  saveScores();
+  newRoundButton.focus();
+}
+
+function getPlayerName(player) {
+  if (mode === 'computer') return player === 'X' ? 'You' : 'Computer';
+  return `Player ${player}`;
+}
+
+function updateStatus() {
+  const playerName = getPlayerName(currentPlayer);
+  const possessive = mode === 'computer' && currentPlayer === 'X' ? 'Your' : `${playerName}’s`;
+  statusElement.textContent = `${possessive} turn`;
+  turnIcon.textContent = currentPlayer;
+  turnIcon.className = `turn-icon ${currentPlayer.toLowerCase()}`;
+  xScoreCard.classList.toggle('active', currentPlayer === 'X');
+  oScoreCard.classList.toggle('active', currentPlayer === 'O');
+}
+
+function scheduleComputerMove() {
+  isComputerThinking = true;
+  statusElement.textContent = 'Computer is thinking…';
+
+  aiTimer = window.setTimeout(() => {
+    if (isGameOver || mode !== 'computer') return;
+    const index = difficulty === 'easy' ? chooseEasyMove() : chooseHardMove();
+    isComputerThinking = false;
+    placeMark(index, 'O');
+    finishTurn();
+  }, 420);
+}
+
+function availableMoves(state) {
+  return state.map((value, index) => value ? -1 : index).filter((index) => index !== -1);
+}
+
+function chooseEasyMove() {
+  const moves = availableMoves(board);
+  return moves[Math.floor(Math.random() * moves.length)];
+}
+
+function chooseHardMove() {
+  let bestScore = -Infinity;
+  let bestMoves = [];
+
+  for (const index of availableMoves(board)) {
+    board[index] = 'O';
+    const score = minimax(board, 0, false);
+    board[index] = '';
+    if (score > bestScore) {
+      bestScore = score;
+      bestMoves = [index];
+    } else if (score === bestScore) {
+      bestMoves.push(index);
+    }
+  }
+
+  return bestMoves[Math.floor(Math.random() * bestMoves.length)];
+}
+
+function minimax(state, depth, isMaximizing) {
+  const result = getResult(state);
+  if (result?.winner === 'O') return 10 - depth;
+  if (result?.winner === 'X') return depth - 10;
+  if (result?.winner === 'draw') return 0;
+
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (const index of availableMoves(state)) {
+      state[index] = 'O';
+      bestScore = Math.max(bestScore, minimax(state, depth + 1, false));
+      state[index] = '';
+    }
+    return bestScore;
+  }
+
+  let bestScore = Infinity;
+  for (const index of availableMoves(state)) {
+    state[index] = 'X';
+    bestScore = Math.min(bestScore, minimax(state, depth + 1, true));
+    state[index] = '';
+  }
+  return bestScore;
+}
+
+function resetScores() {
+  scores = { x: 0, o: 0, draws: 0 };
+  saveScores();
+  renderScores();
+  startingPlayer = 'X';
+  startRound(false);
+}
+
+function handleBoardKeyboard(event) {
+  const currentIndex = cells.indexOf(document.activeElement);
+  if (currentIndex < 0) return;
+
+  const row = Math.floor(currentIndex / 3);
+  const column = currentIndex % 3;
+  let nextIndex = currentIndex;
+
+  if (event.key === 'ArrowRight') nextIndex = row * 3 + ((column + 1) % 3);
+  else if (event.key === 'ArrowLeft') nextIndex = row * 3 + ((column + 2) % 3);
+  else if (event.key === 'ArrowDown') nextIndex = ((row + 1) % 3) * 3 + column;
+  else if (event.key === 'ArrowUp') nextIndex = ((row + 2) % 3) * 3 + column;
+  else return;
+
+  event.preventDefault();
+  cells.forEach((cell, index) => { cell.tabIndex = index === nextIndex ? 0 : -1; });
+  cells[nextIndex].focus();
+}
+
+cells.forEach((cell) => {
+  cell.addEventListener('click', () => handleCellSelection(Number(cell.dataset.index)));
+});
+
+boardElement.addEventListener('keydown', handleBoardKeyboard);
+modeButtons.forEach((button) => button.addEventListener('click', () => setMode(button.dataset.mode)));
+difficultySelect.addEventListener('change', () => {
+  difficulty = difficultySelect.value;
+  startingPlayer = 'X';
+  startRound(false);
+});
+newRoundButton.addEventListener('click', () => startRound(true));
+resetScoreButton.addEventListener('click', resetScores);
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
+renderScores();
+setMode('computer');
+</script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game-board">Skip to game</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Free browser games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Board Games</span>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Tic Tac Toe</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Classic board game</p>
+        <h1 id="page-title">Tic Tac Toe Game</h1>
+        <p>Play free Tic Tac Toe online against a smart computer or share the board with a friend. Make three in a row before your opponent does.</p>
+      </section>
+
+      <section class="game-shell" aria-label="Tic Tac Toe game">
+        <div class="game-toolbar">
+          <div class="field-group">
+            <span class="field-label" id="mode-label">Game mode</span>
+            <div class="segmented" role="group" aria-labelledby="mode-label">
+              <button class="segment active" type="button" data-mode="computer" aria-pressed="true">Vs computer</button>
+              <button class="segment" type="button" data-mode="friend" aria-pressed="false">Two players</button>
+            </div>
+          </div>
+
+          <div class="field-group" id="difficulty-group">
+            <label class="field-label" for="difficulty">Difficulty</label>
+            <select id="difficulty" name="difficulty">
+              <option value="easy">Easy</option>
+              <option value="hard" selected>Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="scoreboard" aria-label="Scoreboard">
+          <div class="score-card player-x" id="x-score-card">
+            <span class="score-symbol" aria-hidden="true">X</span>
+            <span class="score-label" id="x-label">You</span>
+            <strong id="x-score">0</strong>
+          </div>
+          <div class="score-card draws">
+            <span class="score-symbol" aria-hidden="true">—</span>
+            <span class="score-label">Draws</span>
+            <strong id="draw-score">0</strong>
+          </div>
+          <div class="score-card player-o" id="o-score-card">
+            <span class="score-symbol" aria-hidden="true">O</span>
+            <span class="score-label" id="o-label">Computer</span>
+            <strong id="o-score">0</strong>
+          </div>
+        </div>
+
+        <div class="play-area">
+          <div class="turn-panel">
+            <span class="turn-icon x" id="turn-icon" aria-hidden="true">X</span>
+            <div>
+              <p class="turn-kicker">Game status</p>
+              <p class="status" id="status" role="status" aria-live="polite">Your turn</p>
+            </div>
+          </div>
+
+          <div class="board-wrap">
+            <div class="board" id="game-board" role="grid" aria-label="Tic Tac Toe board">
+              <button class="cell" type="button" role="gridcell" data-index="0" aria-label="Top left, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="1" aria-label="Top center, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="2" aria-label="Top right, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="3" aria-label="Middle left, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="4" aria-label="Center, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="5" aria-label="Middle right, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="6" aria-label="Bottom left, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="7" aria-label="Bottom center, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="8" aria-label="Bottom right, empty"></button>
+            </div>
+          </div>
+
+          <div class="game-actions">
+            <button class="button primary" id="new-round" type="button">New round</button>
+            <button class="button secondary" id="reset-score" type="button">Reset score</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid" aria-label="Game guide">
+        <article class="content-card">
+          <h2>How to Play Tic Tac Toe</h2>
+          <p>Choose an empty square to place your mark. You play as X against the computer, while two-player mode lets X and O take turns on the same device.</p>
+          <ol>
+            <li>Select <strong>Vs computer</strong> or <strong>Two players</strong>.</li>
+            <li>Place your mark in any open square.</li>
+            <li>Complete a horizontal, vertical, or diagonal line of three marks to win.</li>
+          </ol>
+          <p>The round ends immediately when someone wins or all nine squares are filled. Select <strong>New round</strong> to play again; the starting player alternates each round.</p>
+        </article>
+
+        <aside class="content-card tips-card">
+          <h2>Tic Tac Toe Tips</h2>
+          <ul class="tip-list">
+            <li><span>1</span><div><strong>Control the center</strong><br>The center connects to four possible winning lines.</div></li>
+            <li><span>2</span><div><strong>Watch every threat</strong><br>Block two marks in a row before making your own plan.</div></li>
+            <li><span>3</span><div><strong>Create a fork</strong><br>Build two winning threats that cannot both be blocked.</div></li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="text-section">
+        <h2>About Tic Tac Toe</h2>
+        <p>Tic Tac Toe is a two-player strategy game played on a 3×3 grid. Players take turns placing X and O, and the first player to connect three matching marks wins. Its simple rules make it quick to learn, while careful play rewards planning and pattern recognition.</p>
+        <p>This browser version needs no download. Scores are kept on your device, so you can play several rounds against the computer or a friend.</p>
+      </section>
+
+      <section class="related-section" aria-labelledby="related-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Keep playing</p>
+            <h2 id="related-title">Related Board Games</h2>
+          </div>
+          <span class="coming-note">More games coming soon</span>
+        </div>
+        <div class="related-grid">
+          <article class="related-card"><span class="game-badge purple">4</span><div><h3>Four in a Row</h3><p>Connect four matching pieces.</p></div><span class="soon">Soon</span></article>
+          <article class="related-card"><span class="game-badge teal">●</span><div><h3>Checkers</h3><p>Plan jumps and capture pieces.</p></div><span class="soon">Soon</span></article>
+          <article class="related-card"><span class="game-badge amber">▦</span><div><h3>Sudoku</h3><p>Complete the number grid.</p></div><span class="soon">Soon</span></article>
+        </div>
+      </section>
+
+      <section class="faq-section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Tic Tac Toe FAQ</h2>
+        <details><summary>Can I play Tic Tac Toe for free?</summary><p>Yes. This Tic Tac Toe game is free to play in your browser and requires no download, login, or signup.</p></details>
+        <details><summary>Can I play against another person?</summary><p>Yes. Choose Two players to let X and O take turns on the same phone, tablet, or computer.</p></details>
+        <details><summary>How does Hard mode work?</summary><p>Hard mode evaluates possible moves and plays optimal Tic Tac Toe strategy. You can draw with perfect play, but you cannot force a win.</p></details>
+        <details><summary>Does the game work on mobile?</summary><p>Yes. Tap any open square to play. The board and controls resize for modern mobile screens.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© <span id="current-year"></span> Games Hub</span>
+      <span>Play fast. Think smart. Have fun.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>Stunt Game - Play Free Online</title>
+  <meta name="description" content="Play Stunt Game free online in your browser. Perform flips, land safely, collect stars, and beat your best score with no download required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root{
+  --brand:#5B5CE2;
+  --brand-dark:#4546B8;
+  --cyan:#16B8C4;
+  --orange:#FFB84D;
+  --green:#22C55E;
+  --danger:#EF5B5B;
+  --bg:#F6F7FB;
+  --card:#FFFFFF;
+  --text:#171B2D;
+  --muted:#667085;
+  --border:#E5E7EF;
+  --dark:#111827;
+  --dark2:#1F2937;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Nunito Sans",sans-serif;
+  font-size:17px;
+  line-height:1.65;
+}
+button,a{font:inherit}
+a{color:inherit}
+.site-header{
+  height:72px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.header-inner{
+  max-width:1180px;
+  height:100%;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  text-decoration:none;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  color:var(--brand);
+}
+.home-link{
+  text-decoration:none;
+  font-weight:700;
+  color:var(--muted);
+}
+.home-link:hover{color:var(--brand)}
+.page{max-width:1180px;margin:auto;padding:30px 20px 80px}
+.breadcrumb{
+  display:flex;gap:10px;align-items:center;
+  color:var(--muted);font-size:14px;margin-bottom:26px
+}
+.breadcrumb a{color:var(--brand);text-decoration:none;font-weight:700}
+.intro{max-width:780px;margin-bottom:28px}
+.eyebrow{
+  margin:0 0 8px;
+  color:var(--brand);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:13px;
+  font-weight:800;
+}
+h1,h2{line-height:1.15;letter-spacing:-.025em}
+h1{font-size:56px;margin:0 0 16px;font-weight:800}
+h2{font-size:32px;margin:0 0 14px;font-weight:700}
+.intro p{margin:0;color:var(--muted);max-width:720px}
+.game-shell{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 10px 35px rgba(23,27,45,.07);
+}
+.hud{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:14px;
+}
+.hud>div{
+  min-height:72px;
+  padding:11px 14px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fff;
+}
+.hud span{display:block;color:var(--muted);font-size:13px;font-weight:700}
+.hud strong{display:block;font-size:23px;line-height:1.25}
+.canvas-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  background:var(--dark);
+}
+canvas{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:1100/620;
+  touch-action:none;
+}
+.overlay{
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+  padding:20px;
+  background:rgba(17,24,39,.52);
+}
+.overlay.hidden{display:none}
+.overlay-card{
+  width:min(470px,100%);
+  padding:30px;
+  border-radius:18px;
+  background:#fff;
+  text-align:center;
+  box-shadow:0 18px 60px rgba(0,0,0,.28);
+}
+.overlay-kicker{margin:0 0 6px;color:var(--brand);font-weight:800;letter-spacing:.14em}
+.overlay-card h2{font-size:34px;margin:0 0 10px}
+.overlay-card p:not(.overlay-kicker){color:var(--muted);margin:0 0 20px}
+button{
+  border:0;
+  cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+}
+button:focus-visible,a:focus-visible{outline:3px solid rgba(91,92,226,.35);outline-offset:3px}
+button:active{transform:translateY(1px)}
+.primary-btn,.secondary-btn{
+  min-height:48px;padding:0 20px;border-radius:12px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center
+}
+.primary-btn{background:var(--brand);color:#fff;box-shadow:0 7px 18px rgba(91,92,226,.25)}
+.primary-btn:hover{background:var(--brand-dark)}
+.secondary-btn{background:#fff;border:1px solid var(--border);color:var(--text)}
+.secondary-btn:hover{border-color:var(--brand);color:var(--brand)}
+.controls{
+  display:flex;align-items:center;gap:18px;
+  padding:18px 4px 2px;
+}
+.control-copy{flex:1}
+.control-copy h2{font-size:20px;margin:0 0 5px}
+.control-copy p{margin:0;color:var(--muted);font-size:15px}
+.mobile-hint{display:none!important}
+kbd{
+  display:inline-block;
+  min-width:28px;padding:2px 7px;
+  border:1px solid var(--border);
+  border-bottom-width:2px;
+  border-radius:6px;background:#fff;
+  color:var(--text);font-weight:800;text-align:center;
+}
+.touch-controls{display:grid;grid-template-columns:repeat(4,54px);gap:8px}
+.touch-btn{
+  width:54px;height:48px;border-radius:11px;
+  background:var(--dark2);color:#fff;font-size:23px;font-weight:800;
+  touch-action:none;user-select:none;-webkit-user-select:none;
+}
+.touch-btn.gas{background:var(--green)}
+.touch-btn.brake{background:var(--danger)}
+.touch-btn.rotate{background:var(--brand)}
+.content{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:44px
+}
+.content article,.related{
+  background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px
+}
+.content article:last-child{grid-column:1/-1}
+.content p,.content li,.related p{color:var(--muted)}
+.content ul{margin:10px 0 0;padding-left:22px}
+details{border-top:1px solid var(--border);padding:14px 0}
+details:last-child{border-bottom:1px solid var(--border)}
+summary{cursor:pointer;font-weight:800}
+details p{margin:9px 0 0}
+.related{margin-top:20px}
+.related p{margin:0 0 16px}
+@media(max-width:760px){
+  body{font-size:16px}
+  .site-header{height:64px}
+  .page{padding:22px 14px 60px}
+  h1{font-size:40px}
+  h2{font-size:27px}
+  .hud{grid-template-columns:repeat(2,1fr)}
+  .hud>div{min-height:64px}
+  .hud strong{font-size:20px}
+  .game-shell{padding:10px;border-radius:16px}
+  .canvas-wrap{border-radius:12px}
+  .controls{flex-wrap:wrap;gap:12px}
+  .control-copy{flex-basis:100%}
+  .control-copy p:first-of-type{display:none}
+  .mobile-hint{display:block!important}
+  .touch-controls{order:2;grid-template-columns:repeat(4,1fr);width:100%}
+  .touch-btn{width:100%;height:52px}
+  .controls>.secondary-btn{order:3;width:100%}
+  .content{grid-template-columns:1fr;margin-top:28px}
+  .content article:last-child{grid-column:auto}
+  .content article,.related{padding:20px}
+}
+@media(max-width:430px){
+  .home-link{font-size:14px}
+  .overlay-card{padding:24px 18px}
+  .overlay-card h2{font-size:28px}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">Games Hub</a>
+      <a class="home-link" href="../../index.html">More Games</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../index.html">Games Hub</a><span aria-hidden="true">›</span><span>Stunt Game</span>
+    </nav>
+
+    <section class="intro">
+      <p class="eyebrow">Arcade Racing</p>
+      <h1>Stunt Game</h1>
+      <p>Take control of a stunt bike, launch off ramps, perform flips, collect stars, and land safely. Play directly in your browser with no download.</p>
+    </section>
+
+    <section class="game-shell" aria-label="Stunt game">
+      <div class="hud">
+        <div><span>Score</span><strong id="score">0</strong></div>
+        <div><span>Best</span><strong id="best">0</strong></div>
+        <div><span>Distance</span><strong id="distance">0 m</strong></div>
+        <div><span>Status</span><strong id="status">Ready</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="1100" height="620" aria-label="Stunt bike game area"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card">
+            <p class="overlay-kicker">STUNT</p>
+            <h2 id="overlayTitle">Ready to Ride?</h2>
+            <p id="overlayText">Build speed, use the ramps, and land on both wheels. Chain flips for a higher score.</p>
+            <button id="startBtn" class="primary-btn">Start Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls" aria-label="Game controls">
+        <div class="control-copy">
+          <h2>Controls</h2>
+          <p><kbd>→</kbd> Accelerate &nbsp; <kbd>←</kbd> Brake &nbsp; <kbd>↑</kbd>/<kbd>↓</kbd> Rotate in air</p>
+          <p class="mobile-hint">On mobile, use the large touch buttons below. Hold a button for continuous control.</p>
+        </div>
+        <div class="touch-controls">
+          <button class="touch-btn brake" data-key="ArrowLeft" aria-label="Brake">←</button>
+          <button class="touch-btn rotate" data-key="ArrowUp" aria-label="Rotate backward">↶</button>
+          <button class="touch-btn rotate" data-key="ArrowDown" aria-label="Rotate forward">↷</button>
+          <button class="touch-btn gas" data-key="ArrowRight" aria-label="Accelerate">→</button>
+        </div>
+        <button id="restartBtn" class="secondary-btn">Restart</button>
+      </div>
+    </section>
+
+    <section class="content">
+      <article>
+        <h2>How to Play Stunt Game</h2>
+        <p>Accelerate across the hilly track and use ramps to get airborne. While your bike is in the air, use the rotation controls to complete flips. A clean landing keeps your run alive and adds stunt points.</p>
+        <ul>
+          <li>Use <strong>Right Arrow</strong> to build speed.</li>
+          <li>Use <strong>Left Arrow</strong> to slow down before difficult landings.</li>
+          <li>Use <strong>Up</strong> and <strong>Down</strong> to rotate the bike while airborne.</li>
+          <li>Collect stars for bonus points.</li>
+          <li>Land with the bike aligned to the slope. A bad landing ends the run.</li>
+        </ul>
+      </article>
+
+      <article>
+        <h2>Stunt Game Scoring</h2>
+        <p>Your score combines distance, collected stars, and successful flips. Longer runs and controlled stunt combinations produce higher scores. Your best score is saved locally in your browser, so you can try to beat it on your next run.</p>
+      </article>
+
+      <article>
+        <h2>Tips for Better Stunts</h2>
+        <ul>
+          <li>Do not hold rotation constantly; release it once your bike is lined up for landing.</li>
+          <li>Approach large ramps with enough speed to clear the gap.</li>
+          <li>Brake slightly before a steep landing to reduce impact.</li>
+          <li>Watch the bike angle rather than only the front wheel.</li>
+        </ul>
+      </article>
+
+      <article>
+        <h2>About This Stunt Game</h2>
+        <p>This lightweight browser stunt game uses HTML5 Canvas and vanilla JavaScript. It is designed for quick desktop and mobile play, with keyboard and touch controls and no account or download required.</p>
+      </article>
+
+      <article>
+        <h2>FAQ</h2>
+        <details>
+          <summary>Is Stunt Game free to play?</summary>
+          <p>Yes. The game runs directly in a modern web browser and does not require a download.</p>
+        </details>
+        <details>
+          <summary>Can I play Stunt Game on mobile?</summary>
+          <p>Yes. Touch controls are included for acceleration, braking, and mid-air rotation.</p>
+        </details>
+        <details>
+          <summary>How do I get a higher score?</summary>
+          <p>Travel farther, collect stars, and complete clean flips before landing safely.</p>
+        </details>
+      </article>
+    </section>
+
+    <section class="related">
+      <h2>More Games</h2>
+      <p>Use your Games Hub navigation to discover more browser games.</p>
+      <a href="../../index.html" class="secondary-btn">Back to Games Hub</a>
+    </section>
+  </main>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const scoreEl = document.getElementById("score");
+  const bestEl = document.getElementById("best");
+  const distanceEl = document.getElementById("distance");
+  const statusEl = document.getElementById("status");
+  const overlay = document.getElementById("overlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+
+  const W = canvas.width;
+  const H = canvas.height;
+  const GROUND = 505;
+  const GRAVITY = 1450;
+  const MAX_SPEED = 470;
+  const ACCEL = 290;
+  const BRAKE = 520;
+  const AIR_ROTATE = 3.25;
+  const TAU = Math.PI * 2;
+
+  let keys = Object.create(null);
+  let state = "ready";
+  let lastTime = 0;
+  let elapsed = 0;
+  let score = 0;
+  let distance = 0;
+  let best = Number(localStorage.getItem("stunt-best") || 0);
+  let cameraX = 0;
+  let spawnX = 0;
+  let nextRamp = 760;
+  let terrain = [];
+  let stars = [];
+  let particles = [];
+  let bike;
+  let lastGroundAngle = 0;
+  let stuntRotation = 0;
+  let stuntTurns = 0;
+  let stuntAirTime = 0;
+  let flash = 0;
+
+  bestEl.textContent = best;
+
+  function resetWorld() {
+    terrain = [
+      {x:0,y:GROUND},
+      {x:360,y:GROUND},
+      {x:520,y:470},
+      {x:690,y:GROUND},
+      {x:840,y:GROUND}
+    ];
+    stars = [];
+    particles = [];
+    spawnX = 840;
+    nextRamp = 940;
+    cameraX = 0;
+    score = 0;
+    distance = 0;
+    elapsed = 0;
+    flash = 0;
+    stuntRotation = 0;
+    stuntTurns = 0;
+    stuntAirTime = 0;
+    lastGroundAngle = 0;
+
+    bike = {
+      x: 170, y: GROUND - 29,
+      vx: 0, vy: 0,
+      angle: 0,
+      angularVelocity: 0,
+      grounded: true,
+      wheelBase: 58,
+      wheelR: 15,
+      radius: 26
+    };
+
+    for (let x = 520; x < 5200; x += 230 + Math.random() * 210) {
+      stars.push({x, y: 0, r: 10, collected:false, bob:Math.random()*TAU});
+    }
+    ensureWorld(6000);
+    updateStarHeights();
+    updateHUD();
+  }
+
+  function ensureWorld(limitX) {
+    while (spawnX < limitX) {
+      const gap = 150 + Math.random() * 190;
+      const rampLen = 110 + Math.random() * 70;
+      const rampRise = 65 + Math.random() * 80;
+      const baseY = GROUND - Math.random() * 55;
+      terrain.push({x:spawnX, y:baseY});
+      terrain.push({x:spawnX + rampLen, y:baseY - rampRise});
+      terrain.push({x:spawnX + rampLen + gap, y:baseY + 15});
+      terrain.push({x:spawnX + rampLen + gap + 140, y:GROUND - Math.random()*35});
+      spawnX += rampLen + gap + 280;
+    }
+    for (const s of stars) {
+      if (s.x > stars[stars.length-1].x - 250) {
+        const last = stars[stars.length-1];
+        stars.push({x:last.x + 240 + Math.random()*180,y:0,r:10,collected:false,bob:Math.random()*TAU});
+      }
+    }
+  }
+
+  function terrainY(x) {
+    if (x <= terrain[0].x) return terrain[0].y;
+    for (let i=1;i<terrain.length;i++) {
+      const a = terrain[i-1], b = terrain[i];
+      if (x <= b.x) {
+        const t = (x-a.x)/(b.x-a.x);
+        return a.y + (b.y-a.y)*t;
+      }
+    }
+    return terrain[terrain.length-1].y;
+  }
+
+  function terrainAngle(x) {
+    const d = 5;
+    return Math.atan2(terrainY(x+d)-terrainY(x-d), d*2);
+  }
+
+  function updateStarHeights() {
+    for (const s of stars) s.y = terrainY(s.x) - 85;
+  }
+
+  function startGame() {
+    resetWorld();
+    state = "playing";
+    overlay.classList.add("hidden");
+    statusEl.textContent = "Riding";
+    lastTime = performance.now();
+    requestAnimationFrame(loop);
+  }
+
+  function endGame(reason) {
+    if (state !== "playing") return;
+    state = "gameover";
+    const finalScore = Math.max(0, Math.floor(score));
+    if (finalScore > best) {
+      best = finalScore;
+      localStorage.setItem("stunt-best", String(best));
+      bestEl.textContent = best;
+    }
+    statusEl.textContent = "Game Over";
+    overlayTitle.textContent = "Run Over";
+    overlayText.textContent = `${reason} Final score: ${finalScore}. Try again and beat your best.`;
+    startBtn.textContent = "Play Again";
+    overlay.classList.remove("hidden");
+  }
+
+  function addParticles(x,y,count=8) {
+    for(let i=0;i<count;i++){
+      particles.push({
+        x,y,
+        vx:(Math.random()-.5)*170,
+        vy:-Math.random()*180,
+        life:.4+Math.random()*.5
+      });
+    }
+  }
+
+  function collectStars() {
+    for (const s of stars) {
+      if (s.collected) continue;
+      const dx = s.x - bike.x;
+      const dy = s.y - bike.y;
+      if (dx*dx + dy*dy < 42*42) {
+        s.collected = true;
+        score += 250;
+        flash = .22;
+        addParticles(s.x,s.y,12);
+      }
+    }
+  }
+
+  function update(dt) {
+    elapsed += dt;
+    ensureWorld(bike.x + 3500);
+    updateStarHeights();
+
+    const accelerating = keys.ArrowRight;
+    const braking = keys.ArrowLeft;
+    const rotatingBack = keys.ArrowUp;
+    const rotatingForward = keys.ArrowDown;
+
+    if (accelerating) bike.vx += ACCEL * dt;
+    if (braking) bike.vx -= BRAKE * dt;
+    bike.vx *= Math.pow(.992, dt*60);
+    bike.vx = Math.max(70, Math.min(MAX_SPEED, bike.vx));
+
+    if (bike.grounded) {
+      const ground = terrainY(bike.x);
+      const targetAngle = terrainAngle(bike.x);
+      bike.angle += (targetAngle - bike.angle) * Math.min(1, dt*12);
+      bike.angularVelocity = 0;
+      bike.y = ground - bike.wheelR - 13;
+      lastGroundAngle = targetAngle;
+      bike.vy = 0;
+
+      if (Math.abs(bike.angle-targetAngle) > .7) {
+        endGame("You hit the slope at a bad angle.");
+        return;
+      }
+      if (bike.x > 350 && Math.abs(terrainY(bike.x+28)-terrainY(bike.x-28)) > 35) {
+        bike.grounded = false;
+        bike.vy = -390;
+        stuntRotation = 0;
+        stuntTurns = 0;
+        stuntAirTime = 0;
+      }
+    } else {
+      stuntAirTime += dt;
+      bike.vy += GRAVITY * dt;
+      if (rotatingBack) bike.angularVelocity -= AIR_ROTATE * dt;
+      if (rotatingForward) bike.angularVelocity += AIR_ROTATE * dt;
+      bike.angularVelocity *= Math.pow(.97, dt*60);
+      bike.angle += bike.angularVelocity * dt;
+      stuntRotation += bike.angularVelocity * dt;
+      const fullTurns = Math.floor(Math.abs(stuntRotation) / TAU);
+      if (fullTurns > stuntTurns) {
+        stuntTurns = fullTurns;
+        score += 400 * stuntTurns;
+        flash = .15;
+      }
+      bike.y += bike.vy * dt;
+      if (bike.y > terrainY(bike.x) - bike.wheelR - 13) {
+        bike.y = terrainY(bike.x) - bike.wheelR - 13;
+        const landingAngle = terrainAngle(bike.x);
+        const normalized = normalizeAngle(bike.angle - landingAngle);
+        if (Math.abs(normalized) > .62 || Math.abs(bike.vy) > 760) {
+          endGame("The landing was too hard.");
+          return;
+        }
+        if (stuntTurns > 0) {
+          score += stuntTurns * 500;
+          addParticles(bike.x, bike.y+18, 16);
+        }
+        bike.grounded = true;
+        bike.angle = landingAngle;
+        bike.angularVelocity = 0;
+        stuntRotation = 0;
+        stuntTurns = 0;
+        stuntAirTime = 0;
+      }
+    }
+
+    bike.x += bike.vx * dt;
+    distance = Math.max(distance, bike.x / 10);
+    score += bike.vx * dt * .07;
+    collectStars();
+
+    if (bike.y > H + 150) {
+      endGame("You missed the track.");
+      return;
+    }
+
+    for (const p of particles) {
+      p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 500*dt; p.life -= dt;
+    }
+    particles = particles.filter(p=>p.life>0);
+
+    cameraX += ((bike.x - 260) - cameraX) * Math.min(1, dt*5);
+    flash = Math.max(0, flash-dt);
+    updateHUD();
+  }
+
+  function normalizeAngle(a) {
+    while(a > Math.PI) a -= TAU;
+    while(a < -Math.PI) a += TAU;
+    return a;
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = Math.floor(score);
+    distanceEl.textContent = `${Math.floor(distance)} m`;
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    drawSky();
+    drawTerrain();
+    drawStars();
+    drawBike();
+    drawParticles();
+    if (flash > 0) {
+      ctx.fillStyle = `rgba(255,184,77,${Math.min(.18,flash)})`;
+      ctx.fillRect(0,0,W,H);
+    }
+  }
+
+  function drawSky() {
+    ctx.fillStyle = "#111827";
+    ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = "#1f2937";
+    for(let i=0;i<8;i++){
+      const x = (i*210 - cameraX*.18)%1200;
+      ctx.beginPath();
+      ctx.moveTo(x-180,GROUND+20);
+      ctx.lineTo(x+20,260);
+      ctx.lineTo(x+230,GROUND+20);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.fillStyle = "#334155";
+    for(let i=0;i<6;i++){
+      const x=(i*270-cameraX*.35)%1250;
+      ctx.beginPath();
+      ctx.arc(x,105+(i%2)*35,34,0,TAU);
+      ctx.fill();
+    }
+    ctx.fillStyle="#FFB84D";
+    ctx.beginPath();ctx.arc(900-cameraX*.06,95,34,0,TAU);ctx.fill();
+  }
+
+  function drawTerrain() {
+    ctx.save();
+    ctx.translate(-cameraX,0);
+    const start = Math.max(0,cameraX-80);
+    const end = cameraX+W+100;
+    ctx.beginPath();
+    ctx.moveTo(start,GROUND+80);
+    for(let x=start;x<=end;x+=8) ctx.lineTo(x,terrainY(x));
+    ctx.lineTo(end,GROUND+100);
+    ctx.closePath();
+    ctx.fillStyle="#263244";
+    ctx.fill();
+
+    ctx.beginPath();
+    for(let x=start;x<=end;x+=8){
+      if(x===start) ctx.moveTo(x,terrainY(x));
+      else ctx.lineTo(x,terrainY(x));
+    }
+    ctx.strokeStyle="#16B8C4";
+    ctx.lineWidth=5;
+    ctx.stroke();
+
+    for(let x=Math.floor(start/80)*80;x<end;x+=80){
+      const y=terrainY(x);
+      ctx.fillStyle="#1f2937";
+      ctx.fillRect(x,y+12,3,45);
+    }
+    ctx.restore();
+  }
+
+  function drawStars() {
+    ctx.save();
+    ctx.translate(-cameraX,0);
+    for(const s of stars){
+      if(s.collected || s.x<cameraX-50 || s.x>cameraX+W+50) continue;
+      const y=s.y + Math.sin(elapsed*3+s.bob)*5;
+      ctx.save();
+      ctx.translate(s.x,y);
+      ctx.rotate(elapsed*1.5+s.bob);
+      ctx.fillStyle="#FFB84D";
+      ctx.beginPath();
+      for(let i=0;i<10;i++){
+        const r=i%2===0?s.r:s.r*.42;
+        const a=-Math.PI/2+i*Math.PI/5;
+        ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+      }
+      ctx.closePath();ctx.fill();
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+
+  function drawBike() {
+    const sx=bike.x-cameraX, sy=bike.y;
+    ctx.save();
+    ctx.translate(sx,sy);
+    ctx.rotate(bike.angle);
+
+    // shadow
+    if(bike.grounded){
+      ctx.save();ctx.rotate(-bike.angle);
+      ctx.fillStyle="rgba(0,0,0,.22)";
+      ctx.beginPath();ctx.ellipse(0,35,48,8,0,0,TAU);ctx.fill();
+      ctx.restore();
+    }
+
+    // wheels
+    for(const wx of [-bike.wheelBase/2,bike.wheelBase/2]){
+      ctx.fillStyle="#0b0f18";ctx.beginPath();ctx.arc(wx,16,bike.wheelR,0,TAU);ctx.fill();
+      ctx.strokeStyle="#94a3b8";ctx.lineWidth=3;ctx.stroke();
+      ctx.fillStyle="#475569";ctx.beginPath();ctx.arc(wx,16,5,0,TAU);ctx.fill();
+    }
+
+    // frame
+    ctx.strokeStyle="#FFB84D";ctx.lineWidth=7;ctx.lineCap="round";
+    ctx.beginPath();
+    ctx.moveTo(-29,10);ctx.lineTo(-8,-15);ctx.lineTo(27,10);ctx.lineTo(-29,10);
+    ctx.moveTo(-8,-15);ctx.lineTo(4,10);ctx.stroke();
+
+    // seat and handlebar
+    ctx.strokeStyle="#f8fafc";ctx.lineWidth=5;
+    ctx.beginPath();ctx.moveTo(-16,-20);ctx.lineTo(-2,-20);ctx.moveTo(25,10);ctx.lineTo(36,-9);ctx.lineTo(29,-14);ctx.stroke();
+
+    // rider
+    ctx.fillStyle="#5B5CE2";ctx.beginPath();ctx.arc(-1,-43,12,0,TAU);ctx.fill();
+    ctx.strokeStyle="#f8fafc";ctx.lineWidth=6;
+    ctx.beginPath();ctx.moveTo(-4,-31);ctx.lineTo(-8,-8);ctx.moveTo(-4,-27);ctx.lineTo(18,-15);ctx.moveTo(-7,-10);ctx.lineTo(-20,7);ctx.moveTo(-4,-10);ctx.lineTo(18,7);ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawParticles() {
+    ctx.save();
+    ctx.translate(-cameraX,0);
+    for(const p of particles){
+      ctx.globalAlpha=Math.max(0,p.life/.9);
+      ctx.fillStyle="#FFB84D";
+      ctx.fillRect(p.x,p.y,5,5);
+    }
+    ctx.restore();
+  }
+
+  function loop(now) {
+    if(state !== "playing") { draw(); return; }
+    const dt=Math.min(.032,(now-lastTime)/1000 || .016);
+    lastTime=now;
+    update(dt);
+    draw();
+    if(state==="playing") requestAnimationFrame(loop);
+  }
+
+  function setKey(key, value) {
+    keys[key]=value;
+  }
+
+  window.addEventListener("keydown", e => {
+    if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"," "].includes(e.key)) e.preventDefault();
+    if(e.key==="r" || e.key==="R"){
+      if(state!=="playing") startGame();
+      return;
+    }
+    setKey(e.key,true);
+  }, {passive:false});
+
+  window.addEventListener("keyup", e => setKey(e.key,false));
+
+  document.querySelectorAll(".touch-btn").forEach(btn=>{
+    const key=btn.dataset.key;
+    const press=e=>{e.preventDefault();setKey(key,true);};
+    const release=e=>{e.preventDefault();setKey(key,false);};
+    btn.addEventListener("pointerdown",press);
+    btn.addEventListener("pointerup",release);
+    btn.addEventListener("pointercancel",release);
+    btn.addEventListener("pointerleave",release);
+  });
+
+  startBtn.addEventListener("click",startGame);
+  restartBtn.addEventListener("click",startGame);
+
+  resetWorld();
+  draw();
+})();
+</script>
+</body>
+</html>

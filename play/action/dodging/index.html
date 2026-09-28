@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Dodging Game free online in your browser. Move quickly, avoid falling obstacles, survive as long as possible, and beat your high score.">
+  <title>Dodging Game - Play Free Online</title>
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --cyan: #16B8C4;
+  --orange: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game-2: #1F2937;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, a { font: inherit; }
+
+.site-header {
+  height: 72px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  width: min(1120px, calc(100% - 40px));
+  height: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header-tag {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.page {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.breadcrumb a { color: var(--primary); text-decoration: none; }
+
+.intro { max-width: 760px; margin-bottom: 28px; }
+
+h1 {
+  font-size: clamp(38px, 6vw, 58px);
+  line-height: 1.08;
+  margin: 0 0 14px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 1.15;
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+
+.intro p { color: var(--muted); margin: 0; max-width: 700px; }
+
+.game-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 12px 35px rgba(23, 27, 45, .07);
+}
+
+.game-topbar {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 2px 4px 15px;
+}
+
+.stat {
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.stat strong {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.status {
+  margin-left: auto;
+  color: var(--primary);
+  background: #F0F0FF;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 620px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--game);
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 24, 39, .72);
+  backdrop-filter: blur(3px);
+}
+
+.overlay.hidden { display: none; }
+
+.overlay-box {
+  width: min(430px, 100%);
+  padding: 28px;
+  border-radius: 18px;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .25);
+}
+
+.overlay-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #fff;
+  background: var(--primary);
+  font-size: 22px;
+}
+
+.overlay h2 { margin-bottom: 8px; }
+.overlay p { color: var(--muted); margin: 0 0 20px; }
+
+button {
+  border: 0;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+button:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, .35);
+  outline-offset: 3px;
+}
+
+button:hover { transform: translateY(-1px); }
+
+#startBtn, .restart-btn {
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 7px 18px rgba(91, 92, 226, .22);
+}
+
+#startBtn:hover, .restart-btn:hover { background: var(--primary-dark); }
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 0 10px;
+}
+
+.control-btn {
+  width: 64px;
+  height: 52px;
+  border-radius: 13px;
+  color: var(--text);
+  background: #EEF0F6;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.control-btn:hover { background: #E3E6F0; }
+
+.pause-btn { color: var(--primary); }
+
+.restart-btn {
+  display: block;
+  margin: 0 auto 2px;
+  background: var(--text);
+  box-shadow: none;
+}
+
+.content-section {
+  margin-top: 64px;
+  max-width: 820px;
+}
+
+.content-section p { color: var(--muted); }
+
+.instruction-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.instruction-grid div {
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.instruction-grid strong,
+.instruction-grid span {
+  display: block;
+}
+
+.instruction-grid strong { font-size: 15px; margin-bottom: 4px; }
+.instruction-grid span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+ul { padding-left: 22px; color: var(--muted); }
+
+.faq details {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 10px 0;
+  padding: 0 17px;
+}
+
+.faq summary {
+  cursor: pointer;
+  padding: 15px 0;
+  font-weight: 700;
+}
+
+.faq details p {
+  margin: 0 0 15px;
+  font-size: 16px;
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .site-header { height: 64px; }
+  .header-inner { width: min(100% - 24px, 1120px); }
+  .header-tag { display: none; }
+  .page { width: min(100% - 20px, 1000px); padding-top: 20px; }
+  .game-card { padding: 10px; border-radius: 16px; }
+  .game-topbar { gap: 12px; padding: 4px 3px 10px; }
+  .stat { min-width: 70px; }
+  .stat strong { font-size: 21px; }
+  .status { font-size: 12px; padding: 6px 9px; }
+  .canvas-wrap { border-radius: 12px; }
+  .instruction-grid { grid-template-columns: repeat(2, 1fr); }
+  .content-section { margin-top: 48px; }
+  h2 { font-size: 28px; }
+}
+
+@media (max-width: 430px) {
+  .breadcrumb { margin-bottom: 17px; }
+  h1 { font-size: 40px; }
+  .intro { margin-bottom: 20px; }
+  .overlay-box { padding: 22px 18px; }
+  .controls { gap: 10px; }
+  .control-btn { width: 76px; height: 54px; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">Games Hub</a>
+      <span class="header-tag">Free Online Games</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../index.html">Games Hub</a><span>›</span><span>Dodging Game</span>
+    </nav>
+
+    <section class="intro">
+      <h1>Dodging Game</h1>
+      <p>Move your player, dodge incoming obstacles, and survive as long as you can. The longer you stay alive, the faster the challenge becomes.</p>
+    </section>
+
+    <section class="game-card" aria-label="Dodging game">
+      <div class="game-topbar">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat"><span>Best</span><strong id="best">0</strong></div>
+        <div class="status" id="status" role="status" aria-live="polite">Ready</div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" aria-label="Dodging game board"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-box">
+            <div class="overlay-icon" aria-hidden="true">◆</div>
+            <h2 id="overlayTitle">Ready?</h2>
+            <p id="overlayText">Use the arrow keys, A/D, or the touch controls to move. Avoid every falling obstacle.</p>
+            <button id="startBtn" type="button">Start Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="control-btn" id="leftBtn" type="button" aria-label="Move left">←</button>
+        <button class="control-btn pause-btn" id="pauseBtn" type="button" aria-label="Pause game">Ⅱ</button>
+        <button class="control-btn" id="rightBtn" type="button" aria-label="Move right">→</button>
+      </div>
+      <button class="restart-btn" id="restartBtn" type="button">Restart Game</button>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Dodging Game</h2>
+      <p>Control the player at the bottom of the game area and move left or right to avoid the obstacles falling from above. Each obstacle you successfully avoid adds to your score.</p>
+      <div class="instruction-grid">
+        <div><strong>Desktop</strong><span>Arrow keys or A / D</span></div>
+        <div><strong>Mobile</strong><span>Use the left and right buttons</span></div>
+        <div><strong>Pause</strong><span>Press P or tap the pause button</span></div>
+        <div><strong>Goal</strong><span>Survive and set a new best score</span></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>About Dodging Game</h2>
+      <p>Dodging is a fast reaction game built around one simple idea: stay out of danger. Obstacles become more frequent and faster as your score increases, so careful movement matters as much as quick reactions.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Tips for a Higher Score</h2>
+      <ul>
+        <li>Watch the whole play area instead of focusing on one obstacle.</li>
+        <li>Keep some room around your player so you can change direction quickly.</li>
+        <li>Make small movements when the path is tight.</li>
+        <li>Stay calm as the obstacle speed increases.</li>
+      </ul>
+    </section>
+
+    <section class="content-section faq">
+      <h2>Dodging Game FAQ</h2>
+      <details>
+        <summary>Can I play Dodging Game on mobile?</summary>
+        <p>Yes. The game includes large touch controls for moving left and right.</p>
+      </details>
+      <details>
+        <summary>Is Dodging Game free to play?</summary>
+        <p>Yes. It runs directly in your browser with no download or account required.</p>
+      </details>
+      <details>
+        <summary>How is the score calculated?</summary>
+        <p>Your score increases whenever you successfully avoid an obstacle. The challenge also increases over time.</p>
+      </details>
+    </section>
+  </main>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const scoreEl = document.getElementById("score");
+  const bestEl = document.getElementById("best");
+  const statusEl = document.getElementById("status");
+  const overlay = document.getElementById("overlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const leftBtn = document.getElementById("leftBtn");
+  const rightBtn = document.getElementById("rightBtn");
+
+  let W = 900, H = 506, dpr = 1;
+  let animationId = 0;
+  let lastTime = 0;
+  let spawnTimer = 0;
+  let score = 0;
+  let best = Number(localStorage.getItem("dodgingBest") || 0);
+  let state = "ready";
+  let leftHeld = false;
+  let rightHeld = false;
+  let obstacles = [];
+
+  const player = {
+    x: 0, y: 0, width: 42, height: 42, speed: 430
+  };
+
+  bestEl.textContent = best;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(320, rect.width);
+    H = Math.max(220, rect.height);
+    canvas.width = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    player.width = Math.max(30, Math.min(44, W * 0.047));
+    player.height = player.width;
+    player.y = H - player.height - Math.max(20, H * 0.055);
+    player.x = Math.min(Math.max(player.x, 0), W - player.width);
+    draw();
+  }
+
+  function resetGame() {
+    cancelAnimationFrame(animationId);
+    score = 0;
+    spawnTimer = 0;
+    obstacles = [];
+    player.x = (W - player.width) / 2;
+    scoreEl.textContent = "0";
+    statusEl.textContent = "Ready";
+    state = "ready";
+    showOverlay("Ready?", "Use the arrow keys, A/D, or the touch controls to move. Avoid every falling obstacle.", "Start Game");
+    draw();
+  }
+
+  function startGame() {
+    cancelAnimationFrame(animationId);
+    score = 0;
+    spawnTimer = 0;
+    obstacles = [];
+    player.x = (W - player.width) / 2;
+    scoreEl.textContent = "0";
+    state = "playing";
+    statusEl.textContent = "Playing";
+    overlay.classList.add("hidden");
+    lastTime = performance.now();
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function pauseGame() {
+    if (state === "playing") {
+      state = "paused";
+      statusEl.textContent = "Paused";
+      showOverlay("Paused", "Take a breath. Continue when you're ready.", "Continue");
+      cancelAnimationFrame(animationId);
+    } else if (state === "paused") {
+      state = "playing";
+      statusEl.textContent = "Playing";
+      overlay.classList.add("hidden");
+      lastTime = performance.now();
+      animationId = requestAnimationFrame(loop);
+    }
+  }
+
+  function gameOver() {
+    state = "gameover";
+    cancelAnimationFrame(animationId);
+    if (score > best) {
+      best = score;
+      localStorage.setItem("dodgingBest", String(best));
+      bestEl.textContent = best;
+    }
+    statusEl.textContent = "Game Over";
+    showOverlay("Game Over", `You scored ${score}. Avoid the obstacles and try again.`, "Play Again");
+    draw();
+  }
+
+  function showOverlay(title, text, buttonText) {
+    overlayTitle.textContent = title;
+    overlayText.textContent = text;
+    startBtn.textContent = buttonText;
+    overlay.classList.remove("hidden");
+  }
+
+  function spawnObstacle() {
+    const size = Math.max(22, Math.min(46, W * (0.035 + Math.random() * 0.025)));
+    const margin = 12;
+    const x = margin + Math.random() * Math.max(1, W - size - margin * 2);
+    const difficulty = Math.min(score / 80, 1);
+    const speed = H * (0.42 + Math.random() * 0.24) + difficulty * H * 0.24;
+
+    obstacles.push({
+      x, y: -size - 10,
+      width: size,
+      height: size,
+      speed,
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 2.5
+    });
+  }
+
+  function update(dt) {
+    const move = (rightHeld ? 1 : 0) - (leftHeld ? 1 : 0);
+    player.x += move * player.speed * dt;
+    player.x = Math.max(0, Math.min(W - player.width, player.x));
+
+    const difficulty = Math.min(score / 100, 1);
+    const spawnEvery = Math.max(0.27, 0.72 - difficulty * 0.32);
+    spawnTimer += dt;
+    if (spawnTimer >= spawnEvery) {
+      spawnTimer = 0;
+      spawnObstacle();
+      if (Math.random() < 0.12 + difficulty * 0.12) spawnObstacle();
+    }
+
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+      const o = obstacles[i];
+      o.y += o.speed * dt;
+      o.rotation += o.spin * dt;
+
+      if (isColliding(player, o)) {
+        gameOver();
+        return;
+      }
+
+      if (o.y > H + o.height) {
+        obstacles.splice(i, 1);
+        score++;
+        scoreEl.textContent = score;
+        if (score > best) {
+          best = score;
+          bestEl.textContent = best;
+        }
+      }
+    }
+  }
+
+  function isColliding(a, b) {
+    const pad = 5;
+    return (
+      a.x + pad < b.x + b.width - pad &&
+      a.x + a.width - pad > b.x + pad &&
+      a.y + pad < b.y + b.height - pad &&
+      a.y + a.height - pad > b.y + pad
+    );
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, H);
+    gradient.addColorStop(0, "#111827");
+    gradient.addColorStop(1, "#1F2937");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle lanes
+    ctx.strokeStyle = "rgba(255,255,255,.055)";
+    ctx.lineWidth = 1;
+    const laneGap = Math.max(70, W / 8);
+    for (let x = laneGap; x < W; x += laneGap) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, H);
+      ctx.stroke();
+    }
+
+    // Falling obstacles
+    obstacles.forEach(o => {
+      ctx.save();
+      ctx.translate(o.x + o.width / 2, o.y + o.height / 2);
+      ctx.rotate(o.rotation);
+      ctx.fillStyle = "#EF5B5B";
+      ctx.beginPath();
+      ctx.roundRect(-o.width / 2, -o.height / 2, o.width, o.height, 8);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.22)";
+      ctx.fillRect(-o.width * .22, -o.height * .22, o.width * .44, o.height * .12);
+      ctx.restore();
+    });
+
+    // Player
+    ctx.save();
+    ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
+    ctx.fillStyle = "#16B8C4";
+    ctx.beginPath();
+    ctx.roundRect(-player.width / 2, -player.height / 2, player.width, player.height, 10);
+    ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(-player.width * .17, -player.height * .09, player.width * .07, 0, Math.PI * 2);
+    ctx.arc(player.width * .17, -player.height * .09, player.width * .07, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#111827";
+    ctx.beginPath();
+    ctx.arc(-player.width * .17, -player.height * .09, player.width * .035, 0, Math.PI * 2);
+    ctx.arc(player.width * .17, -player.height * .09, player.width * .035, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function loop(time) {
+    if (state !== "playing") return;
+    const dt = Math.min((time - lastTime) / 1000, 0.033);
+    lastTime = time;
+    update(dt);
+    draw();
+    if (state === "playing") animationId = requestAnimationFrame(loop);
+  }
+
+  function setDirection(button, down) {
+    if (button === "left") leftHeld = down;
+    if (button === "right") rightHeld = down;
+  }
+
+  function bindHold(el, direction) {
+    el.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      el.setPointerCapture?.(e.pointerId);
+      setDirection(direction, true);
+    });
+    ["pointerup", "pointercancel", "pointerleave"].forEach(type => {
+      el.addEventListener(type, () => setDirection(direction, false));
+    });
+  }
+
+  document.addEventListener("keydown", e => {
+    const key = e.key.toLowerCase();
+    if (["arrowleft", "arrowright", "a", "d", "p", " "].includes(key)) e.preventDefault();
+
+    if (key === "arrowleft" || key === "a") leftHeld = true;
+    if (key === "arrowright" || key === "d") rightHeld = true;
+    if (key === "p") pauseGame();
+
+    if (key === " " && (state === "ready" || state === "gameover")) startGame();
+    if (key === "enter" && (state === "ready" || state === "gameover")) startGame();
+  });
+
+  document.addEventListener("keyup", e => {
+    const key = e.key.toLowerCase();
+    if (key === "arrowleft" || key === "a") leftHeld = false;
+    if (key === "arrowright" || key === "d") rightHeld = false;
+  });
+
+  startBtn.addEventListener("click", () => {
+    if (state === "paused") pauseGame();
+    else startGame();
+  });
+  restartBtn.addEventListener("click", startGame);
+  pauseBtn.addEventListener("click", pauseGame);
+  bindHold(leftBtn, "left");
+  bindHold(rightBtn, "right");
+
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+  resetGame();
+})();
+</script>
+</body>
+</html>

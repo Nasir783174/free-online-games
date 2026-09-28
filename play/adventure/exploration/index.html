@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <meta name="description" content="Play Exploration, a free online adventure game. Search a mysterious island, recover lost relics, and reach the ancient temple in your browser—no download needed.">
+  <title>Exploration Game - Play a Free Adventure Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --teal: #16b8c4;
+  --gold: #ffb84d;
+  --ink: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --page: #f6f7fb;
+  --card: #fff;
+  --forest: #173f35;
+  --forest-dark: #0b2722;
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--page);
+  font-family: "Nunito Sans", ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, a { font: inherit; }
+button { touch-action: manipulation; }
+a { color: inherit; }
+
+.site-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 24px;
+  background: rgba(246, 247, 251, .94);
+}
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; text-decoration: none; font-size: 20px; }
+.brand-mark { display: grid; place-items: center; width: 38px; height: 38px; color: #fff; background: var(--brand); border-radius: 12px; }
+.all-games { color: var(--brand-dark); font-weight: 700; text-decoration: none; }
+.all-games:hover { text-decoration: underline; }
+
+main { max-width: 1200px; margin: auto; padding: 20px 24px 80px; }
+.breadcrumbs { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+.breadcrumbs a { text-decoration: none; }
+.breadcrumbs a:hover { color: var(--brand); }
+.hero { display: flex; justify-content: space-between; gap: 32px; align-items: flex-end; padding: 42px 0 34px; }
+.eyebrow, .section-label, .game-kicker, .overlay-kicker { margin: 0 0 8px; color: var(--brand); font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+h1 { margin: 0; font-size: clamp(42px, 6vw, 64px); line-height: 1.06; letter-spacing: -.04em; }
+.intro { max-width: 720px; margin: 18px 0 0; color: var(--muted); font-size: 18px; }
+.hero-badge { flex: 0 0 auto; display: grid; grid-template-columns: 44px auto; column-gap: 10px; padding: 14px 18px; background: #fff; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 12px 34px rgba(23,27,45,.06); }
+.hero-badge > span { grid-row: span 2; display: grid; place-items: center; width: 44px; height: 44px; color: #fff; background: var(--forest); border-radius: 12px; font-size: 24px; }
+.hero-badge strong { line-height: 1.4; }
+.hero-badge small { color: var(--muted); }
+
+.game-shell { overflow: hidden; background: #fff; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 22px 60px rgba(23,27,45,.09); }
+.game-topbar { min-height: 82px; display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid var(--border); }
+.game-topbar h2 { margin: 0; font-size: 24px; line-height: 1.1; }
+.game-kicker { margin-bottom: 4px; color: #378271; }
+.sound-button { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; padding: 0 14px; color: var(--ink); background: #f7f8fb; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.sound-button:hover { background: #eff1f7; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid rgba(255,255,255,.1); background: var(--forest-dark); color: #fff; }
+.stat { padding: 13px 20px; border-right: 1px solid rgba(255,255,255,.12); }
+.stat:last-child { border: 0; }
+.stat span:first-child { display: block; color: #a8c8bf; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.stat strong { display: block; margin-top: 1px; font-size: 22px; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.stat strong span { display: inline; color: inherit; font-size: inherit; letter-spacing: 0; text-transform: none; }
+.game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; padding: 18px; gap: 18px; background: #eef3ed; }
+.canvas-wrap { position: relative; overflow: hidden; min-width: 0; aspect-ratio: 4 / 3; background: #071b18; border-radius: 16px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+#gameCanvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.game-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(5, 23, 20, .78); backdrop-filter: blur(3px); transition: opacity .2s ease; }
+.game-overlay.hidden { opacity: 0; pointer-events: none; }
+.overlay-card { width: min(420px, 100%); padding: 28px; text-align: center; color: #fff; background: rgba(16, 48, 41, .95); border: 1px solid rgba(255,255,255,.17); border-radius: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+.overlay-icon { display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 14px; color: #173f35; background: var(--gold); border-radius: 50%; font-size: 30px; }
+.overlay-kicker { color: #8ed7c1; }
+.overlay-card h3 { margin: 0 0 10px; font-size: 30px; line-height: 1.15; }
+.overlay-card p:not(.overlay-kicker) { margin: 0 auto 20px; color: #d2e7df; font-size: 16px; }
+.primary-button, .secondary-button { min-height: 48px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+.primary-button { padding: 0 24px; color: #16231f; background: var(--gold); border: 0; box-shadow: 0 5px 0 #d28b22; }
+.primary-button:hover { background: #ffc567; transform: translateY(-1px); }
+.primary-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #d28b22; }
+.toast { position: absolute; left: 50%; bottom: 18px; z-index: 3; max-width: calc(100% - 28px); padding: 9px 15px; color: #fff; background: rgba(8,31,27,.92); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; font-size: 14px; font-weight: 700; text-align: center; opacity: 0; transform: translate(-50%, 8px); transition: .22s ease; pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.mission-panel { padding: 20px; color: #eaf5f1; background: var(--forest); border-radius: 16px; }
+.mission-heading { display: flex; align-items: center; gap: 12px; }
+.mission-heading > span { display: grid; place-items: center; width: 38px; height: 38px; color: var(--teal); background: rgba(255,255,255,.09); border-radius: 11px; }
+.mission-heading small { display: block; color: #a8c8bf; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+.mission-heading strong { font-size: 15px; }
+.progress-track { overflow: hidden; height: 7px; margin: 17px 0 22px; background: rgba(255,255,255,.13); border-radius: 10px; }
+.progress-track span { display: block; width: 0; height: 100%; background: var(--teal); transition: width .25s ease; }
+.legend { display: grid; gap: 9px; margin: 0; padding: 18px 0; list-style: none; border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); font-size: 14px; }
+.legend li { display: flex; align-items: center; gap: 10px; }
+.legend-symbol { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; font-size: 13px; }
+.player-symbol { color: #101e1a; background: #ffcf67; }.relic-symbol { color: #fff; background: #4cc3d1; }.berry-symbol { color: #fff; background: #4bb974; }.temple-symbol { color: #463314; background: #e8b64f; }
+.field-note { min-height: 104px; margin: 17px 0; color: #c5ddd5; font-size: 14px; line-height: 1.5; }
+.field-note strong { color: #fff; }
+.secondary-button { width: 100%; color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.3); }
+.secondary-button:hover { background: rgba(255,255,255,.08); }
+.controls { display: flex; min-height: 76px; align-items: center; justify-content: space-between; gap: 20px; padding: 12px 22px; border-top: 1px solid var(--border); }
+.keyboard-help { display: flex; gap: 16px; align-items: center; color: var(--muted); font-size: 15px; }
+.keyboard-help strong { color: var(--ink); }
+kbd { display: inline-grid; min-width: 29px; height: 29px; place-items: center; margin-right: 4px; color: var(--ink); background: #f5f6fa; border: 1px solid #d7dae4; border-bottom-width: 3px; border-radius: 7px; font-family: inherit; font-weight: 800; }
+.dpad { display: grid; grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(2, 40px); gap: 5px; }
+.dpad button { color: #fff; background: var(--brand); border: 0; border-radius: 9px; font-size: 15px; cursor: pointer; }
+.dpad button:hover { background: var(--brand-dark); }
+.dpad button:active { transform: scale(.94); }
+.dpad [data-direction="up"] { grid-column: 2; }.dpad [data-direction="left"] { grid-column: 1; grid-row: 2; }.dpad [data-direction="down"] { grid-column: 2; grid-row: 2; }.dpad [data-direction="right"] { grid-column: 3; grid-row: 2; }
+
+.content-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 24px; margin-top: 72px; }
+.content-card { padding: clamp(24px, 4vw, 40px); background: #fff; border: 1px solid var(--border); border-radius: var(--radius); }
+h2 { margin: 0 0 16px; font-size: clamp(28px, 4vw, 36px); line-height: 1.2; letter-spacing: -.025em; }
+.content-card > p:not(.section-label) { color: var(--muted); }
+.steps { display: grid; gap: 18px; margin: 28px 0 0; padding: 0; list-style: none; }
+.steps li { display: flex; gap: 16px; }
+.steps li > span { flex: 0 0 34px; display: grid; place-items: center; height: 34px; color: #fff; background: var(--brand); border-radius: 10px; font-weight: 800; }
+.steps strong { display: block; }
+.steps p { margin: 3px 0 0; color: var(--muted); font-size: 16px; }
+.tips-card { background: #f0f8f5; border-color: #d4e7df; }
+.check-list { display: grid; gap: 13px; margin: 24px 0 0; padding: 0; list-style: none; }
+.check-list li { position: relative; padding-left: 29px; }
+.check-list li::before { content: "✓"; position: absolute; left: 0; top: 1px; display: grid; width: 20px; height: 20px; place-items: center; color: #fff; background: #378271; border-radius: 50%; font-size: 12px; font-weight: 800; }
+.about-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; padding: 78px 0; border-bottom: 1px solid var(--border); }
+.about-copy p { margin: 0 0 16px; color: var(--muted); }
+.related-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+.section-heading { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; }
+.section-heading > span { color: var(--muted); font-size: 15px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 25px; }
+.related-card { display: flex; align-items: center; gap: 14px; padding: 14px; background: #fff; border: 1px solid var(--border); border-radius: 15px; }
+.related-art { display: grid; place-items: center; width: 72px; height: 64px; border-radius: 11px; font-size: 28px; }
+.art-one { color: #244b3f; background: #cde8d7; }.art-two { color: #574168; background: #eadcf2; }.art-three { color: #805c1b; background: #f5dfae; }
+.related-card strong { font-size: 17px; }.related-card p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.faq-section { max-width: 820px; padding: 72px 0 20px; }
+details { padding: 20px 2px; border-bottom: 1px solid var(--border); }
+summary { position: relative; padding-right: 34px; font-weight: 800; cursor: pointer; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; position: absolute; right: 6px; color: var(--brand); font-size: 22px; line-height: 1; }
+details[open] summary::after { content: "−"; }
+details p { margin: 12px 40px 0 0; color: var(--muted); }
+footer { display: flex; justify-content: space-between; gap: 20px; max-width: 1200px; margin: auto; padding: 30px 24px; color: var(--muted); border-top: 1px solid var(--border); font-size: 14px; }
+
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid rgba(91,92,226,.35); outline-offset: 3px; }
+
+@media (max-width: 900px) {
+  .game-layout { grid-template-columns: 1fr; }
+  .mission-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  .mission-heading, .progress-track, .legend { grid-column: 1; }
+  .field-note, .secondary-button { grid-column: 2; }
+  .field-note { grid-row: 1 / span 2; min-height: auto; margin-top: 0; }
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  body { font-size: 16px; }
+  .site-header { height: 64px; padding: 0 16px; }
+  .brand { font-size: 18px; }.brand-mark { width: 34px; height: 34px; }
+  main { padding: 14px 14px 56px; }
+  .breadcrumbs { font-size: 13px; }
+  .hero { display: block; padding: 32px 0 25px; }
+  h1 { font-size: clamp(38px, 12vw, 48px); }
+  .intro { font-size: 17px; }
+  .hero-badge { display: none; }
+  .game-shell { border-radius: 16px; }
+  .game-topbar { min-height: 70px; padding: 14px; }.game-topbar h2 { font-size: 21px; }.sound-button { width: 44px; justify-content: center; padding: 0; }.sound-button span:last-child { display: none; }
+  .stats { grid-template-columns: repeat(4, 1fr); }
+  .stat { padding: 10px 8px; text-align: center; }.stat strong { font-size: 18px; }.stat span:first-child { font-size: 10px; }
+  .game-layout { padding: 8px; gap: 8px; }
+  .canvas-wrap { border-radius: 12px; }
+  .overlay-card { padding: 21px 16px; }.overlay-card h3 { font-size: 25px; }.overlay-icon { width: 48px; height: 48px; font-size: 25px; }
+  .mission-panel { display: block; padding: 16px; }
+  .field-note { min-height: auto; }
+  .controls { justify-content: center; padding: 12px; }.keyboard-help { display: none; }
+  .dpad { grid-template-columns: repeat(3, 58px); grid-template-rows: repeat(2, 46px); }
+  .content-grid { margin-top: 50px; gap: 16px; }.content-card { padding: 24px 20px; }
+  .about-section { grid-template-columns: 1fr; gap: 10px; padding: 58px 0; }
+  .related-section { padding: 56px 0; }.section-heading > span { display: none; }
+  .related-grid { grid-template-columns: 1fr; }.related-art { width: 64px; height: 56px; }
+  .faq-section { padding-top: 56px; }
+  footer { display: block; padding: 24px 16px; } footer span { display: block; margin: 4px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+</style>
+  <script>"use strict";
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const ui = {
+  score: document.getElementById("score"), relics: document.getElementById("relics"),
+  energy: document.getElementById("energy"), time: document.getElementById("time"),
+  overlay: document.getElementById("gameOverlay"), overlayIcon: document.getElementById("overlayIcon"),
+  overlayKicker: document.getElementById("overlayKicker"), overlayTitle: document.getElementById("overlayTitle"),
+  overlayText: document.getElementById("overlayText"), start: document.getElementById("startButton"),
+  restart: document.getElementById("restartButton"), sound: document.getElementById("soundButton"),
+  soundIcon: document.getElementById("soundIcon"), soundLabel: document.getElementById("soundLabel"),
+  mission: document.getElementById("missionText"), progress: document.getElementById("progressBar"),
+  note: document.getElementById("fieldNote"), toast: document.getElementById("toast")
+};
+
+const COLS = 24, ROWS = 18, TOTAL_RELICS = 5, START_SECONDS = 180;
+const TILE = canvas.width / COLS;
+const terrainColors = { grass: "#4d8a59", light: "#68a765", jungle: "#286149", sand: "#c8b46d", water: "#27777b", rock: "#66766d" };
+let state = "ready", map = [], seen = [], entities = [], player = null;
+let score = 0, relics = 0, energy = 100, seconds = START_SECONDS, timerId = null;
+let muted = false, audioContext = null, toastTimer = null, lastMoveAt = 0;
+
+function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function key(x, y) { return `${x},${y}`; }
+function inBounds(x, y) { return x >= 0 && y >= 0 && x < COLS && y < ROWS; }
+function getEntity(x, y, type) { return entities.find(e => e.x === x && e.y === y && (!type || e.type === type)); }
+function walkable(x, y) { return inBounds(x, y) && !["water", "rock"].includes(map[y][x]); }
+
+function makeMap() {
+  map = Array.from({ length: ROWS }, (_, y) => Array.from({ length: COLS }, (_, x) => {
+    const edge = Math.min(x, y, COLS - 1 - x, ROWS - 1 - y);
+    if (edge === 0 || (edge === 1 && Math.random() < .6)) return "water";
+    if (edge <= 2 && Math.random() < .55) return "sand";
+    const r = Math.random();
+    return r < .19 ? "jungle" : r < .25 ? "light" : r < .29 ? "rock" : "grass";
+  }));
+
+  // Carve a guaranteed connected trail through the island.
+  let x = 2, y = ROWS - 3;
+  map[y][x] = "grass";
+  while (x < COLS - 3 || y > 2) {
+    if (x < COLS - 3 && (y <= 2 || Math.random() < .58)) x++; else y--;
+    map[y][x] = Math.random() < .28 ? "light" : "grass";
+    if (x + 1 < COLS - 1 && Math.random() < .35) map[y][x + 1] = "grass";
+    if (y + 1 < ROWS - 1 && Math.random() < .35) map[y + 1][x] = "grass";
+  }
+  map[ROWS - 3][2] = "grass";
+  map[2][COLS - 3] = "grass";
+}
+
+function openCells(excluded = new Set()) {
+  const cells = [];
+  for (let y = 2; y < ROWS - 2; y++) for (let x = 2; x < COLS - 2; x++) {
+    if (walkable(x, y) && !excluded.has(key(x, y))) cells.push({ x, y });
+  }
+  return cells;
+}
+
+function placeEntities() {
+  entities = [{ type: "camp", x: 2, y: ROWS - 3 }, { type: "temple", x: COLS - 3, y: 2 }];
+  const used = new Set(entities.map(e => key(e.x, e.y)));
+  const place = (type, count) => {
+    for (let i = 0; i < count; i++) {
+      let candidates = openCells(used);
+      if (type === "relic") candidates = candidates.filter(c => Math.abs(c.x - 2) + Math.abs(c.y - (ROWS - 3)) > 6);
+      if (!candidates.length) return;
+      const cell = candidates[randomInt(0, candidates.length - 1)];
+      entities.push({ type, ...cell, active: true }); used.add(key(cell.x, cell.y));
+    }
+  };
+  place("relic", TOTAL_RELICS); place("fruit", 7); place("thorns", 13); place("marker", 4);
+}
+
+function newGame(autoStart = false) {
+  clearInterval(timerId); timerId = null;
+  makeMap(); placeEntities();
+  player = { x: 2, y: ROWS - 3 };
+  score = 0; relics = 0; energy = 100; seconds = START_SECONDS;
+  seen = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+  reveal(); updateUI(); draw();
+  state = autoStart ? "playing" : "ready";
+  if (autoStart) {
+    ui.overlay.classList.add("hidden"); startTimer(); showToast("A new island awaits");
+  } else {
+    showOverlay("⌖", "Adventure awaits", "Explore the Lost Isle", "Find all five relics, then reach the temple gate. Watch your energy and the clock.", "Start Expedition");
+  }
+}
+
+function startGame() {
+  if (state === "won" || state === "lost") { newGame(true); return; }
+  if (state !== "playing") {
+    state = "playing"; ui.overlay.classList.add("hidden"); startTimer();
+    showToast("Expedition started — find the five relics");
+  }
+}
+
+function startTimer() {
+  clearInterval(timerId);
+  timerId = setInterval(() => {
+    if (state !== "playing") return;
+    seconds--;
+    if (seconds <= 0) { seconds = 0; updateUI(); endGame(false, "Night has fallen before you reached the temple."); }
+    else updateUI();
+  }, 1000);
+}
+
+function reveal() {
+  for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+    if (dx * dx + dy * dy <= 5 && inBounds(player.x + dx, player.y + dy)) seen[player.y + dy][player.x + dx] = true;
+  }
+}
+
+function move(dx, dy) {
+  if (state === "ready") startGame();
+  if (state !== "playing") return;
+  const now = performance.now();
+  if (now - lastMoveAt < 70) return;
+  lastMoveAt = now;
+  const nx = player.x + dx, ny = player.y + dy;
+  if (!walkable(nx, ny)) { sound(110, .06, "square"); showToast(map[ny]?.[nx] === "water" ? "Deep water blocks the path" : "The rocks are too steep"); return; }
+  player.x = nx; player.y = ny;
+  const terrainCost = map[ny][nx] === "jungle" ? 2 : 1;
+  energy = Math.max(0, energy - terrainCost);
+  score += map[ny][nx] === "jungle" ? 2 : 1;
+  resolveTile(); reveal(); updateUI(); draw();
+  if (energy <= 0 && state === "playing") endGame(false, "Your explorer ran out of energy in the wilderness.");
+}
+
+function resolveTile() {
+  const entity = getEntity(player.x, player.y);
+  if (!entity) return;
+  if (entity.type === "relic" && entity.active) {
+    entity.active = false; relics++; const bonus = 180 + Math.round(seconds / 3); score += bonus;
+    sound(680, .14, "sine"); setTimeout(() => sound(880, .12, "sine"), 90);
+    showToast(`Relic recovered! +${bonus} points`);
+    ui.note.innerHTML = `<strong>Discovery:</strong> Relic ${relics} of ${TOTAL_RELICS} hums with an ancient blue light.`;
+  } else if (entity.type === "fruit" && entity.active) {
+    entity.active = false; const restored = Math.min(18, 100 - energy); energy += restored; score += 25;
+    sound(510, .1, "triangle"); showToast(restored ? `Energy fruit: +${restored} energy` : "Energy full: +25 points");
+  } else if (entity.type === "thorns" && entity.active) {
+    entity.active = false; energy = Math.max(0, energy - 12); score = Math.max(0, score - 20);
+    sound(145, .16, "sawtooth"); showToast("Thorn trap! −12 energy");
+    ui.note.innerHTML = "<strong>Warning:</strong> Thorn patches are now visible after you step on them. Choose a safer route.";
+  } else if (entity.type === "marker" && entity.active) {
+    entity.active = false; score += 40; sound(420, .1, "triangle");
+    showToast("Ancient marker discovered: +40 points");
+    ui.note.innerHTML = "<strong>Inscription:</strong> ‘Five voices wake the gate where the morning sun first touches stone.’";
+  } else if (entity.type === "temple") {
+    if (relics === TOTAL_RELICS) {
+      score += seconds * 3 + energy * 5;
+      endGame(true, `The temple opens. Final score: ${score.toLocaleString()}.`);
+    } else {
+      sound(180, .12, "square"); showToast(`The gate needs ${TOTAL_RELICS - relics} more relic${TOTAL_RELICS - relics === 1 ? "" : "s"}`);
+    }
+  }
+}
+
+function updateUI() {
+  ui.score.textContent = score.toLocaleString(); ui.relics.textContent = relics;
+  ui.energy.textContent = energy; ui.time.textContent = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+  ui.progress.style.width = `${(relics / TOTAL_RELICS) * 100}%`;
+  ui.mission.textContent = relics === TOTAL_RELICS ? "Reach the golden temple" : `Recover ${TOTAL_RELICS - relics} lost relic${TOTAL_RELICS - relics === 1 ? "" : "s"}`;
+  ui.energy.style.color = energy <= 25 ? "#ff8b7f" : "";
+}
+
+function endGame(won, message) {
+  state = won ? "won" : "lost"; clearInterval(timerId); timerId = null;
+  sound(won ? 760 : 120, won ? .32 : .42, won ? "sine" : "sawtooth");
+  showOverlay(won ? "✦" : "×", won ? "Expedition complete" : "Expedition ended", won ? "The Temple Is Open" : "Lost to the Island", message, "Play New Map");
+  updateUI(); draw();
+}
+
+function showOverlay(icon, kicker, title, text, button) {
+  ui.overlayIcon.textContent = icon; ui.overlayKicker.textContent = kicker; ui.overlayTitle.textContent = title;
+  ui.overlayText.textContent = text; ui.start.textContent = button; ui.overlay.classList.remove("hidden");
+}
+
+function showToast(message) {
+  ui.toast.textContent = message; ui.toast.classList.add("show"); clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => ui.toast.classList.remove("show"), 1900);
+}
+
+function sound(frequency, duration, type) {
+  if (muted) return;
+  try {
+    audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator(), gain = audioContext.createGain();
+    oscillator.type = type; oscillator.frequency.value = frequency;
+    gain.gain.setValueAtTime(.055, audioContext.currentTime); gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
+    oscillator.connect(gain); gain.connect(audioContext.destination); oscillator.start(); oscillator.stop(audioContext.currentTime + duration);
+  } catch (_) { /* Audio is an optional enhancement. */ }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) drawTile(x, y);
+  entities.forEach(drawEntity);
+  drawPlayer();
+  drawVignette();
+}
+
+function drawTile(x, y) {
+  const px = x * TILE, py = y * TILE, type = map[y][x];
+  ctx.fillStyle = seen[y][x] ? terrainColors[type] : "#09231f";
+  ctx.fillRect(px, py, TILE + 1, TILE + 1);
+  if (!seen[y][x]) {
+    const haze = ((x * 7 + y * 11) % 5) * .01;
+    ctx.fillStyle = `rgba(150,190,177,${.025 + haze})`; ctx.beginPath(); ctx.arc(px + 12 + (x % 3) * 7, py + 15 + (y % 2) * 11, 8, 0, Math.PI * 2); ctx.fill();
+    return;
+  }
+  const seed = (x * 29 + y * 47) % 13;
+  if (type === "water") {
+    ctx.strokeStyle = "rgba(167,232,223,.24)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(px + 12 + seed, py + 20, 9, Math.PI, Math.PI * 2); ctx.stroke();
+  } else if (type === "jungle") {
+    ctx.fillStyle = "rgba(8,48,34,.42)"; ctx.beginPath(); ctx.arc(px + 12 + seed, py + 17, 9, 0, Math.PI * 2); ctx.arc(px + 25, py + 25, 8, 0, Math.PI * 2); ctx.fill();
+  } else if (type === "rock") {
+    ctx.fillStyle = "#7f8e85"; ctx.beginPath(); ctx.moveTo(px + 8, py + 31); ctx.lineTo(px + 18, py + 8); ctx.lineTo(px + 33, py + 31); ctx.closePath(); ctx.fill();
+  } else {
+    ctx.fillStyle = type === "sand" ? "rgba(91,73,35,.18)" : "rgba(19,74,47,.26)"; ctx.fillRect(px + 9 + seed, py + 29, 2, 5); ctx.fillRect(px + 12 + seed, py + 26, 2, 8);
+  }
+}
+
+function drawEntity(entity) {
+  if (!seen[entity.y][entity.x] || entity.active === false) return;
+  const cx = entity.x * TILE + TILE / 2, cy = entity.y * TILE + TILE / 2;
+  ctx.save(); ctx.translate(cx, cy);
+  if (entity.type === "relic") {
+    ctx.shadowColor = "#68ecff"; ctx.shadowBlur = 12; ctx.fillStyle = "#52d6e7";
+    ctx.beginPath(); ctx.moveTo(0, -12); ctx.lineTo(10, 0); ctx.lineTo(0, 13); ctx.lineTo(-10, 0); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#d3fbff"; ctx.beginPath(); ctx.moveTo(0, -8); ctx.lineTo(4, 0); ctx.lineTo(0, 4); ctx.closePath(); ctx.fill();
+  } else if (entity.type === "fruit") {
+    ctx.fillStyle = "#66d789"; ctx.beginPath(); ctx.arc(-4, 2, 7, 0, Math.PI * 2); ctx.arc(5, 2, 7, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#234a34"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, -2); ctx.quadraticCurveTo(2, -10, 8, -11); ctx.stroke();
+  } else if (entity.type === "thorns") {
+    ctx.strokeStyle = "#592e36"; ctx.lineWidth = 3; for (let i = 0; i < 5; i++) { ctx.rotate(1.25); ctx.beginPath(); ctx.moveTo(-10, 8); ctx.lineTo(10, -8); ctx.stroke(); }
+  } else if (entity.type === "temple") {
+    ctx.fillStyle = "#dfb752"; ctx.fillRect(-15, -12, 30, 25); ctx.fillStyle = "#775b25"; ctx.fillRect(-6, -3, 12, 16);
+    ctx.beginPath(); ctx.moveTo(-18, -12); ctx.lineTo(0, -22); ctx.lineTo(18, -12); ctx.closePath(); ctx.fillStyle = "#f0cc6a"; ctx.fill();
+  } else if (entity.type === "camp") {
+    ctx.fillStyle = "#f1e3bf"; ctx.beginPath(); ctx.moveTo(-14, 12); ctx.lineTo(0, -13); ctx.lineTo(14, 12); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = "#7b4b35"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-14, 13); ctx.lineTo(0, -13); ctx.lineTo(14, 13); ctx.stroke();
+  } else if (entity.type === "marker") {
+    ctx.fillStyle = "#978f78"; ctx.fillRect(-6, -15, 12, 29); ctx.fillStyle = "#d1c69f"; ctx.fillRect(-2, -9, 4, 8);
+  }
+  ctx.restore();
+}
+
+function drawPlayer() {
+  const cx = player.x * TILE + TILE / 2, cy = player.y * TILE + TILE / 2;
+  ctx.save(); ctx.translate(cx, cy); ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = 5; ctx.shadowOffsetY = 4;
+  ctx.fillStyle = "#ffc857"; ctx.beginPath(); ctx.arc(0, 1, 12, 0, Math.PI * 2); ctx.fill();
+  ctx.shadowColor = "transparent"; ctx.fillStyle = "#173f35"; ctx.beginPath(); ctx.arc(0, -3, 6, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(3, -4, 1.5, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+}
+
+function drawVignette() {
+  const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, canvas.height * .25, canvas.width / 2, canvas.height / 2, canvas.width * .62);
+  gradient.addColorStop(0, "rgba(0,0,0,0)"); gradient.addColorStop(1, "rgba(2,16,13,.32)");
+  ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+const directionMap = { ArrowUp: [0, -1], w: [0, -1], W: [0, -1], ArrowDown: [0, 1], s: [0, 1], S: [0, 1], ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0], ArrowRight: [1, 0], d: [1, 0], D: [1, 0] };
+document.addEventListener("keydown", event => {
+  const direction = directionMap[event.key];
+  if (direction) { event.preventDefault(); move(...direction); }
+});
+document.querySelectorAll("[data-direction]").forEach(button => button.addEventListener("pointerdown", event => {
+  event.preventDefault(); const directions = { up: [0,-1], down: [0,1], left: [-1,0], right: [1,0] }; move(...directions[button.dataset.direction]);
+}));
+ui.start.addEventListener("click", startGame);
+ui.restart.addEventListener("click", () => newGame(true));
+ui.sound.addEventListener("click", () => {
+  muted = !muted; ui.sound.setAttribute("aria-pressed", String(muted)); ui.sound.setAttribute("aria-label", muted ? "Turn game sounds on" : "Mute game sounds");
+  ui.soundIcon.textContent = muted ? "×" : "♪"; ui.soundLabel.textContent = muted ? "Sound off" : "Sound on";
+  if (!muted) sound(440, .08, "sine");
+});
+
+newGame(false);
+</script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../../index.html" aria-label="Games Hub home">
+      <span class="brand-mark" aria-hidden="true">G</span>
+      <span>Games Hub</span>
+    </a>
+    <a class="all-games" href="../../index.html">All Games</a>
+  </header>
+
+  <main>
+    <div class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span aria-hidden="true">/</span>
+      <a href="../../categories/adventure.html">Adventure Games</a><span aria-hidden="true">/</span>
+      <span aria-current="page">Exploration</span>
+    </div>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Free online adventure</p>
+        <h1>Exploration Game</h1>
+        <p class="intro">Enter the mist-covered Isle of Avara. Reveal the map, recover five lost relics, manage your energy, and unlock the ancient temple before time runs out.</p>
+      </div>
+      <div class="hero-badge" aria-label="No download required">
+        <span aria-hidden="true">⌁</span>
+        <strong>No download</strong>
+        <small>Play in your browser</small>
+      </div>
+    </section>
+
+    <section class="game-shell" aria-labelledby="game-title">
+      <div class="game-topbar">
+        <div>
+          <p class="game-kicker">Expedition</p>
+          <h2 id="game-title">The Lost Isle</h2>
+        </div>
+        <button class="sound-button" id="soundButton" type="button" aria-label="Mute game sounds" aria-pressed="false">
+          <span id="soundIcon" aria-hidden="true">♪</span>
+          <span id="soundLabel">Sound on</span>
+        </button>
+      </div>
+
+      <div class="stats" aria-label="Game status">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat"><span>Relics</span><strong><span id="relics">0</span>/5</strong></div>
+        <div class="stat"><span>Energy</span><strong id="energy">100</strong></div>
+        <div class="stat"><span>Time</span><strong id="time">03:00</strong></div>
+      </div>
+
+      <div class="game-layout">
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="gameCanvas" width="960" height="720" role="img" aria-label="Top-down island exploration game board"></canvas>
+          <div class="game-overlay" id="gameOverlay">
+            <div class="overlay-card">
+              <span class="overlay-icon" id="overlayIcon" aria-hidden="true">⌖</span>
+              <p class="overlay-kicker" id="overlayKicker">Adventure awaits</p>
+              <h3 id="overlayTitle">Explore the Lost Isle</h3>
+              <p id="overlayText">Find all five relics, then reach the temple gate. Watch your energy and the clock.</p>
+              <button class="primary-button" id="startButton" type="button">Start Expedition</button>
+            </div>
+          </div>
+          <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        </div>
+
+        <aside class="mission-panel" aria-label="Mission information">
+          <div class="mission-heading">
+            <span aria-hidden="true">◆</span>
+            <div><small>Current mission</small><strong id="missionText">Recover the lost relics</strong></div>
+          </div>
+          <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+          <ul class="legend" aria-label="Map legend">
+            <li><span class="legend-symbol player-symbol">●</span> Explorer</li>
+            <li><span class="legend-symbol relic-symbol">◆</span> Relic</li>
+            <li><span class="legend-symbol berry-symbol">✦</span> Energy fruit</li>
+            <li><span class="legend-symbol temple-symbol">▰</span> Temple</li>
+          </ul>
+          <p class="field-note" id="fieldNote"><strong>Field note:</strong> Unknown land is hidden by mist. Move closer to reveal it.</p>
+          <button class="secondary-button" id="restartButton" type="button">New Map</button>
+        </aside>
+      </div>
+
+      <div class="controls" aria-label="Game controls">
+        <div class="keyboard-help">
+          <strong>Move</strong>
+          <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrow keys</span>
+        </div>
+        <div class="dpad" aria-label="Touch movement controls">
+          <button type="button" data-direction="up" aria-label="Move up">▲</button>
+          <button type="button" data-direction="left" aria-label="Move left">◀</button>
+          <button type="button" data-direction="down" aria-label="Move down">▼</button>
+          <button type="button" data-direction="right" aria-label="Move right">▶</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article class="content-card">
+        <p class="section-label">Guide</p>
+        <h2>How to Play Exploration</h2>
+        <p>Move through the island one tile at a time and uncover the map around your explorer. Your goal is to collect five blue relics and return them to the golden temple in the northeast corner.</p>
+        <ol class="steps">
+          <li><span>1</span><div><strong>Reveal the island</strong><p>Walk through the mist to discover safe paths, ruins, fruit, and hazards.</p></div></li>
+          <li><span>2</span><div><strong>Recover five relics</strong><p>Each relic increases your score and moves you closer to opening the temple.</p></div></li>
+          <li><span>3</span><div><strong>Reach the temple</strong><p>Once every relic is found, enter the temple gate before your time or energy runs out.</p></div></li>
+        </ol>
+      </article>
+
+      <aside class="content-card tips-card">
+        <p class="section-label">Explorer's notes</p>
+        <h2>Controls & Strategy</h2>
+        <ul class="check-list">
+          <li>Use arrow keys or WASD on a computer.</li>
+          <li>Use the large direction buttons on phones and tablets.</li>
+          <li>Collect green fruit to restore 18 energy.</li>
+          <li>Avoid thorn patches; each hit costs extra energy.</li>
+          <li>Relics farther from camp are worth more points.</li>
+          <li>Open terrain costs less energy than dense jungle.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="about-section">
+      <div>
+        <p class="section-label">About the game</p>
+        <h2>What Is the Exploration Game?</h2>
+      </div>
+      <div class="about-copy">
+        <p>Exploration is a short browser adventure built around discovery and route planning. Each expedition creates a new island layout, so relic locations, jungle paths, hazards, and energy fruit change whenever you start a new map.</p>
+        <p>The game combines a fog-of-war map with light survival mechanics. There is no download or account: the complete adventure runs in your browser using HTML5.</p>
+      </div>
+    </section>
+
+    <section class="related-section" aria-labelledby="related-title">
+      <div class="section-heading"><div><p class="section-label">Keep playing</p><h2 id="related-title">Related Adventure Games</h2></div><span>More games coming soon</span></div>
+      <div class="related-grid">
+        <div class="related-card"><span class="related-art art-one" aria-hidden="true">⌂</span><div><strong>Island Quest</strong><p>Coming soon</p></div></div>
+        <div class="related-card"><span class="related-art art-two" aria-hidden="true">♜</span><div><strong>Dungeon Escape</strong><p>Coming soon</p></div></div>
+        <div class="related-card"><span class="related-art art-three" aria-hidden="true">☼</span><div><strong>Desert Trail</strong><p>Coming soon</p></div></div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <p class="section-label">Common questions</p>
+      <h2>Exploration Game FAQ</h2>
+      <details><summary>Is the Exploration game free to play?</summary><p>Yes. Exploration is a free online game that runs directly in a modern web browser.</p></details>
+      <details><summary>Can I play Exploration on a phone?</summary><p>Yes. The game includes responsive touch controls for phones and tablets, as well as keyboard controls for desktop players.</p></details>
+      <details><summary>How do I win the game?</summary><p>Collect all five relics and enter the golden temple before the three-minute timer ends or your explorer runs out of energy.</p></details>
+      <details><summary>Does each expedition use the same map?</summary><p>No. A fresh island is generated whenever you choose New Map or replay the game.</p></details>
+    </section>
+  </main>
+
+  <footer><span>© Games Hub</span><span>Free browser games. No download required.</span></footer>
+</body>
+</html>

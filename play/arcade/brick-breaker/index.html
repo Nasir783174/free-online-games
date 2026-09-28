@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Brick Breaker Game - Play Free Online</title>
+  <meta
+    name="description"
+    content="Play Brick Breaker online for free. Break every brick, control the paddle, score points, and clear levels directly in your browser with no download."
+  >
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#5B5CE2">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --secondary: #16B8C4;
+  --action: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+
+  --background: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+
+  --game-bg: #111827;
+  --game-secondary: #1F2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-header {
+  height: 72px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  width: min(100% - 40px, 1160px);
+  height: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  color: #fff;
+  background: var(--primary);
+  border-radius: 10px;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+nav a {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  color: var(--primary);
+}
+
+.page-container {
+  width: min(100% - 40px, 1160px);
+  margin: 0 auto;
+  padding: 32px 0 80px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 28px;
+
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: var(--primary);
+}
+
+.intro {
+  max-width: 780px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.intro h1 {
+  margin: 0 0 14px;
+
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -1.2px;
+}
+
+.intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.game-card {
+  max-width: 900px;
+  margin: 0 auto 64px;
+  padding: 20px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(23, 27, 45, 0.07);
+}
+
+.game-topbar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  margin-bottom: 16px;
+}
+
+.stat {
+  padding: 10px 16px;
+
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  text-align: center;
+}
+
+.stat span {
+  display: block;
+
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat strong {
+  display: block;
+  margin-top: 2px;
+
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.canvas-wrapper {
+  position: relative;
+
+  width: 100%;
+  overflow: hidden;
+
+  background: var(--game-bg);
+  border-radius: 16px;
+  border: 1px solid #293244;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+
+  touch-action: none;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background: rgba(17, 24, 39, 0.88);
+  text-align: center;
+
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.game-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlay-content {
+  width: min(100%, 430px);
+}
+
+.overlay-icon {
+  width: 54px;
+  height: 54px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 0 auto 14px;
+
+  color: #fff;
+  background: var(--primary);
+  border-radius: 14px;
+
+  font-size: 25px;
+}
+
+.overlay-content h2 {
+  margin: 0 0 8px;
+
+  color: #fff;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.overlay-content p {
+  margin: 0 0 22px;
+
+  color: #D1D5DB;
+  font-size: 16px;
+}
+
+.primary-button,
+.secondary-button,
+.control-button {
+  min-height: 46px;
+  padding: 10px 20px;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.primary-button {
+  color: #fff;
+  background: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.secondary-button {
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.primary-button:active,
+.secondary-button:active,
+.control-button:active {
+  transform: translateY(1px);
+}
+
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.control-button:focus-visible,
+nav a:focus-visible,
+.brand:focus-visible,
+.breadcrumb a:focus-visible,
+.related-link:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, 0.28);
+  outline-offset: 2px;
+}
+
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 16px;
+}
+
+.mobile-controls {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  margin-top: 12px;
+}
+
+.control-button {
+  min-height: 54px;
+
+  color: #fff;
+  background: var(--game-secondary);
+  border: 1px solid #374151;
+
+  font-size: 25px;
+  line-height: 1;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.control-button:hover,
+.control-button:focus-visible {
+  background: #293548;
+}
+
+.content-section {
+  max-width: 800px;
+  margin: 0 auto 52px;
+}
+
+.content-section h2 {
+  margin: 0 0 14px;
+
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.content-section h3 {
+  margin: 30px 0 8px;
+
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.content-section p {
+  margin: 0 0 16px;
+  color: #3F4758;
+}
+
+.faq-section details {
+  margin-bottom: 10px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.faq-section summary {
+  padding: 16px 18px;
+
+  cursor: pointer;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.faq-section details p {
+  margin: 0;
+  padding: 0 18px 17px;
+}
+
+.related-games {
+  max-width: 800px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 24px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.related-games h2 {
+  margin: 0 0 4px;
+
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.related-games p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.related-link {
+  flex-shrink: 0;
+}
+
+.site-footer {
+  padding: 28px 20px;
+
+  background: #fff;
+  border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+  width: min(100%, 1160px);
+  margin: 0 auto;
+}
+
+.site-footer p {
+  margin: 0;
+
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  body {
+    font-size: 16px;
+  }
+
+  .site-header {
+    height: 64px;
+  }
+
+  .header-inner {
+    width: min(100% - 28px, 1160px);
+  }
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
+  nav {
+    gap: 16px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+
+  .page-container {
+    width: min(100% - 28px, 1160px);
+    padding-top: 24px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 22px;
+  }
+
+  .intro {
+    margin-bottom: 26px;
+  }
+
+  .intro h1 {
+    font-size: 40px;
+  }
+
+  .intro p {
+    font-size: 16px;
+  }
+
+  .game-card {
+    padding: 12px;
+    margin-bottom: 48px;
+    border-radius: 16px;
+  }
+
+  .game-topbar {
+    gap: 7px;
+    margin-bottom: 10px;
+  }
+
+  .stat {
+    padding: 8px 5px;
+    border-radius: 9px;
+  }
+
+  .stat span {
+    font-size: 11px;
+  }
+
+  .stat strong {
+    font-size: 20px;
+  }
+
+  .canvas-wrapper {
+    border-radius: 12px;
+  }
+
+  .game-controls {
+    margin-top: 10px;
+  }
+
+  .game-controls .secondary-button {
+    flex: 1;
+  }
+
+  .mobile-controls {
+    display: grid;
+  }
+
+  .content-section {
+    margin-bottom: 42px;
+  }
+
+  .content-section h2 {
+    font-size: 28px;
+  }
+
+  .content-section h3 {
+    font-size: 20px;
+  }
+
+  .related-games {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+
+  .related-link {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-inner {
+    width: min(100% - 20px, 1160px);
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  .page-container {
+    width: min(100% - 20px, 1160px);
+  }
+
+  .intro h1 {
+    font-size: 36px;
+  }
+
+  .game-card {
+    padding: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Games Hub home">
+        <span class="brand-mark">G</span>
+        <span>Games Hub</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/games/">Games</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <div class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/games/">Games</a>
+      <span aria-hidden="true">/</span>
+      <span>Brick Breaker</span>
+    </div>
+
+    <section class="intro">
+      <h1>Brick Breaker Game</h1>
+      <p>
+        Play Brick Breaker online for free. Move the paddle, bounce the ball,
+        and break every brick to clear each level. No download is required.
+      </p>
+    </section>
+
+    <section class="game-card" aria-label="Brick Breaker game">
+      <div class="game-topbar">
+        <div class="stat">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+
+        <div class="stat">
+          <span>Level</span>
+          <strong id="level">1</strong>
+        </div>
+
+        <div class="stat">
+          <span>Lives</span>
+          <strong id="lives">3</strong>
+        </div>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas
+          id="gameCanvas"
+          aria-label="Brick Breaker game board"
+        ></canvas>
+
+        <div class="game-overlay" id="gameOverlay">
+          <div class="overlay-content">
+            <div class="overlay-icon" id="overlayIcon">◆</div>
+            <h2 id="overlayTitle">Brick Breaker</h2>
+            <p id="overlayMessage">
+              Break all the bricks and keep the ball in play.
+            </p>
+            <button id="startButton" class="primary-button">
+              Start Game
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-controls">
+        <button id="pauseButton" class="secondary-button" type="button">
+          Pause
+        </button>
+
+        <button id="restartButton" class="secondary-button" type="button">
+          Restart
+        </button>
+      </div>
+
+      <div class="mobile-controls" aria-label="Touch controls">
+        <button
+          id="leftButton"
+          class="control-button"
+          type="button"
+          aria-label="Move paddle left"
+        >
+          ←
+        </button>
+
+        <button
+          id="rightButton"
+          class="control-button"
+          type="button"
+          aria-label="Move paddle right"
+        >
+          →
+        </button>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Brick Breaker</h2>
+      <p>
+        Brick Breaker is a simple arcade game where you control a paddle at
+        the bottom of the screen. The ball bounces around the game board and
+        destroys bricks when it hits them. Your goal is to clear every brick
+        without losing all of your lives.
+      </p>
+
+      <h3>Controls</h3>
+      <p>
+        On desktop, use the Left and Right arrow keys or the A and D keys to
+        move the paddle. You can also use your mouse. On mobile devices, use
+        the large left and right buttons below the game board.
+      </p>
+
+      <h3>Scoring</h3>
+      <p>
+        Each brick you destroy gives you points. Clear a complete level to
+        advance to the next one. Higher levels contain more bricks and make
+        the ball move faster.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>Brick Breaker Tips and Strategy</h2>
+      <p>
+        Try to keep the paddle underneath the ball instead of moving too far
+        from side to side. Watch the ball's direction carefully and position
+        the paddle before it reaches the bottom of the board. Breaking bricks
+        near the sides can also create useful angles that help clear several
+        bricks in succession.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>About Brick Breaker</h2>
+      <p>
+        Brick Breaker is a classic arcade-style game built around a paddle,
+        bouncing ball, and rows of breakable blocks. The basic gameplay is
+        easy to understand, but later levels require faster reactions and
+        careful paddle control.
+      </p>
+      <p>
+        This browser version is designed for quick play on desktop and mobile
+        devices. The game runs entirely in your browser, so there is no account,
+        download, or server-side processing required.
+      </p>
+    </section>
+
+    <section class="content-section faq-section">
+      <h2>Brick Breaker FAQ</h2>
+
+      <details>
+        <summary>Can I play Brick Breaker online for free?</summary>
+        <p>
+          Yes. This Brick Breaker game can be played directly in your browser
+          without downloading additional software.
+        </p>
+      </details>
+
+      <details>
+        <summary>How do I move the paddle?</summary>
+        <p>
+          Use the Left and Right arrow keys, A and D keys, your mouse, or the
+          on-screen controls on supported mobile devices.
+        </p>
+      </details>
+
+      <details>
+        <summary>What happens when I lose the ball?</summary>
+        <p>
+          You lose one life. If you still have lives remaining, the ball is
+          reset and you can continue playing.
+        </p>
+      </details>
+
+      <details>
+        <summary>How do I reach the next level?</summary>
+        <p>
+          Destroy every brick on the current level. The next level then starts
+          with a larger brick layout and increased ball speed.
+        </p>
+      </details>
+    </section>
+
+    <section class="related-games">
+      <div>
+        <h2>More Games</h2>
+        <p>Explore more browser games from Games Hub.</p>
+      </div>
+
+      <a href="/games/" class="secondary-button related-link">
+        Browse Games
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 Games Hub. Play free online games in your browser.</p>
+    </div>
+  </footer>
+
+  <script>"use strict";
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const scoreElement = document.getElementById("score");
+const levelElement = document.getElementById("level");
+const livesElement = document.getElementById("lives");
+
+const overlay = document.getElementById("gameOverlay");
+const overlayIcon = document.getElementById("overlayIcon");
+const overlayTitle = document.getElementById("overlayTitle");
+const overlayMessage = document.getElementById("overlayMessage");
+
+const startButton = document.getElementById("startButton");
+const pauseButton = document.getElementById("pauseButton");
+const restartButton = document.getElementById("restartButton");
+
+const leftButton = document.getElementById("leftButton");
+const rightButton = document.getElementById("rightButton");
+
+const WORLD_WIDTH = 960;
+const WORLD_HEIGHT = 540;
+
+canvas.width = WORLD_WIDTH;
+canvas.height = WORLD_HEIGHT;
+
+const paddle = {
+  width: 145,
+  height: 15,
+  x: WORLD_WIDTH / 2 - 72.5,
+  y: WORLD_HEIGHT - 42,
+  speed: 680
+};
+
+const ball = {
+  radius: 9,
+  x: WORLD_WIDTH / 2,
+  y: WORLD_HEIGHT - 70,
+  vx: 310,
+  vy: -310,
+  speed: 438
+};
+
+const game = {
+  score: 0,
+  lives: 3,
+  level: 1,
+  running: false,
+  paused: false,
+  gameOver: false,
+  levelComplete: false,
+  lastTime: 0,
+  animationFrame: null
+};
+
+const input = {
+  left: false,
+  right: false,
+  mouseX: null
+};
+
+const brickSettings = {
+  rows: 5,
+  columns: 10,
+  width: 76,
+  height: 25,
+  gap: 8,
+  top: 58
+};
+
+let bricks = [];
+
+function createBricks() {
+  bricks = [];
+
+  const totalWidth =
+    brickSettings.columns * brickSettings.width +
+    (brickSettings.columns - 1) * brickSettings.gap;
+
+  const startX = (WORLD_WIDTH - totalWidth) / 2;
+
+  const colors = [
+    "#5B5CE2",
+    "#16B8C4",
+    "#FFB84D",
+    "#22C55E",
+    "#EF5B5B"
+  ];
+
+  const rowCount = Math.min(8, brickSettings.rows + game.level - 1);
+
+  for (let row = 0; row < rowCount; row++) {
+    for (let column = 0; column < brickSettings.columns; column++) {
+      bricks.push({
+        x: startX + column * (brickSettings.width + brickSettings.gap),
+        y: brickSettings.top + row * (brickSettings.height + brickSettings.gap),
+        width: brickSettings.width,
+        height: brickSettings.height,
+        alive: true,
+        color: colors[row % colors.length],
+        points: 10 + (row * 5)
+      });
+    }
+  }
+}
+
+function updateStats() {
+  scoreElement.textContent = game.score.toLocaleString();
+  levelElement.textContent = game.level;
+  livesElement.textContent = game.lives;
+}
+
+function resetPaddle() {
+  paddle.x = WORLD_WIDTH / 2 - paddle.width / 2;
+}
+
+function resetBall() {
+  ball.x = WORLD_WIDTH / 2;
+  ball.y = paddle.y - ball.radius - 3;
+
+  const direction = Math.random() < 0.5 ? -1 : 1;
+  const angle = (Math.random() * 0.8 + 0.35) * direction;
+
+  ball.speed = 438 + (game.level - 1) * 34;
+
+  ball.vx = Math.sin(angle) * ball.speed;
+  ball.vy = -Math.cos(angle) * ball.speed;
+}
+
+function resetLevelBall() {
+  resetPaddle();
+  resetBall();
+}
+
+function showOverlay(title, message, buttonText, icon = "◆") {
+  overlayIcon.textContent = icon;
+  overlayTitle.textContent = title;
+  overlayMessage.textContent = message;
+  startButton.textContent = buttonText;
+  overlay.classList.remove("hidden");
+}
+
+function hideOverlay() {
+  overlay.classList.add("hidden");
+}
+
+function startNewGame() {
+  cancelAnimationFrame(game.animationFrame);
+
+  game.score = 0;
+  game.lives = 3;
+  game.level = 1;
+  game.running = true;
+  game.paused = false;
+  game.gameOver = false;
+  game.levelComplete = false;
+  game.lastTime = performance.now();
+
+  createBricks();
+  resetLevelBall();
+  updateStats();
+
+  pauseButton.textContent = "Pause";
+  hideOverlay();
+
+  game.animationFrame = requestAnimationFrame(gameLoop);
+}
+
+function restartGame() {
+  startNewGame();
+}
+
+function pauseGame() {
+  if (!game.running || game.gameOver) {
+    return;
+  }
+
+  game.paused = !game.paused;
+
+  if (game.paused) {
+    pauseButton.textContent = "Resume";
+
+    showOverlay(
+      "Game Paused",
+      "Take a break and resume when you are ready.",
+      "Resume",
+      "Ⅱ"
+    );
+  } else {
+    pauseButton.textContent = "Pause";
+    hideOverlay();
+    game.lastTime = performance.now();
+  }
+}
+
+function handleOverlayButton() {
+  if (game.gameOver || game.levelComplete) {
+    startNewGame();
+    return;
+  }
+
+  if (game.paused) {
+    game.paused = false;
+    pauseButton.textContent = "Pause";
+    hideOverlay();
+    game.lastTime = performance.now();
+    return;
+  }
+
+  startNewGame();
+}
+
+function movePaddle(deltaX) {
+  paddle.x += deltaX;
+  clampPaddle();
+}
+
+function clampPaddle() {
+  paddle.x = Math.max(
+    0,
+    Math.min(WORLD_WIDTH - paddle.width, paddle.x)
+  );
+}
+
+function updatePaddle(dt) {
+  if (input.left) {
+    paddle.x -= paddle.speed * dt;
+  }
+
+  if (input.right) {
+    paddle.x += paddle.speed * dt;
+  }
+
+  if (input.mouseX !== null) {
+    paddle.x = input.mouseX - paddle.width / 2;
+  }
+
+  clampPaddle();
+}
+
+function circleIntersectsRect(circle, rect) {
+  const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.width));
+  const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.height));
+
+  const dx = circle.x - closestX;
+  const dy = circle.y - closestY;
+
+  return dx * dx + dy * dy <= circle.radius * circle.radius;
+}
+
+function bounceFromPaddle() {
+  const paddleCenter = paddle.x + paddle.width / 2;
+  const hitPosition = (ball.x - paddleCenter) / (paddle.width / 2);
+
+  const maxAngle = Math.PI * 0.38;
+  const angle = hitPosition * maxAngle;
+
+  const speed = Math.sqrt(
+    ball.vx * ball.vx + ball.vy * ball.vy
+  );
+
+  ball.vx = Math.sin(angle) * speed;
+  ball.vy = -Math.abs(Math.cos(angle) * speed);
+
+  ball.y = paddle.y - ball.radius - 1;
+}
+
+function handleBrickCollisions(previousX, previousY) {
+  for (const brick of bricks) {
+    if (!brick.alive) {
+      continue;
+    }
+
+    if (!circleIntersectsRect(ball, brick)) {
+      continue;
+    }
+
+    brick.alive = false;
+    game.score += brick.points;
+
+    const wasAbove = previousY + ball.radius <= brick.y;
+    const wasBelow = previousY - ball.radius >= brick.y + brick.height;
+    const wasLeft = previousX + ball.radius <= brick.x;
+    const wasRight = previousX - ball.radius >= brick.x + brick.width;
+
+    if (wasAbove || wasBelow) {
+      ball.vy *= -1;
+    } else if (wasLeft || wasRight) {
+      ball.vx *= -1;
+    } else {
+      ball.vy *= -1;
+    }
+
+    updateStats();
+    break;
+  }
+}
+
+function checkLevelComplete() {
+  if (bricks.some((brick) => brick.alive)) {
+    return;
+  }
+
+  game.levelComplete = true;
+  game.running = false;
+
+  showOverlay(
+    `Level ${game.level} Complete`,
+    `Great job! Your score is ${game.score.toLocaleString()}.`,
+    "Next Level",
+    "✓"
+  );
+}
+
+function loseLife() {
+  game.lives -= 1;
+  updateStats();
+
+  if (game.lives <= 0) {
+    endGame();
+    return;
+  }
+
+  game.running = false;
+
+  showOverlay(
+    "Ball Lost",
+    `${game.lives} ${game.lives === 1 ? "life" : "lives"} remaining.`,
+    "Continue",
+    "!"
+  );
+}
+
+function continueAfterLifeLost() {
+  if (game.lives <= 0) {
+    endGame();
+    return;
+  }
+
+  game.running = true;
+  game.paused = false;
+
+  resetLevelBall();
+  hideOverlay();
+
+  game.lastTime = performance.now();
+  game.animationFrame = requestAnimationFrame(gameLoop);
+}
+
+function endGame() {
+  game.running = false;
+  game.gameOver = true;
+
+  showOverlay(
+    "Game Over",
+    `Final score: ${game.score.toLocaleString()}.`,
+    "Play Again",
+    "×"
+  );
+}
+
+function nextLevel() {
+  if (!game.levelComplete) {
+    return;
+  }
+
+  game.level += 1;
+  game.levelComplete = false;
+  game.running = true;
+
+  createBricks();
+  resetLevelBall();
+  updateStats();
+
+  hideOverlay();
+  game.lastTime = performance.now();
+
+  game.animationFrame = requestAnimationFrame(gameLoop);
+}
+
+function updateBall(dt) {
+  const previousX = ball.x;
+  const previousY = ball.y;
+
+  ball.x += ball.vx * dt;
+  ball.y += ball.vy * dt;
+
+  if (ball.x - ball.radius <= 0) {
+    ball.x = ball.radius;
+    ball.vx = Math.abs(ball.vx);
+  }
+
+  if (ball.x + ball.radius >= WORLD_WIDTH) {
+    ball.x = WORLD_WIDTH - ball.radius;
+    ball.vx = -Math.abs(ball.vx);
+  }
+
+  if (ball.y - ball.radius <= 0) {
+    ball.y = ball.radius;
+    ball.vy = Math.abs(ball.vy);
+  }
+
+  if (
+    ball.vy > 0 &&
+    circleIntersectsRect(ball, paddle)
+  ) {
+    bounceFromPaddle();
+  }
+
+  handleBrickCollisions(previousX, previousY);
+
+  if (ball.y - ball.radius > WORLD_HEIGHT) {
+    loseLife();
+  }
+
+  checkLevelComplete();
+}
+
+function drawBackground() {
+  ctx.fillStyle = "#111827";
+  ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+  ctx.strokeStyle = "rgba(255,255,255,0.035)";
+  ctx.lineWidth = 1;
+
+  for (let x = 0; x <= WORLD_WIDTH; x += 48) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, WORLD_HEIGHT);
+    ctx.stroke();
+  }
+
+  for (let y = 0; y <= WORLD_HEIGHT; y += 48) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(WORLD_WIDTH, y);
+    ctx.stroke();
+  }
+}
+
+function drawBricks() {
+  for (const brick of bricks) {
+    if (!brick.alive) {
+      continue;
+    }
+
+    ctx.fillStyle = brick.color;
+
+    roundRect(
+      ctx,
+      brick.x,
+      brick.y,
+      brick.width,
+      brick.height,
+      6
+    );
+
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,255,255,0.2)";
+
+    roundRect(
+      ctx,
+      brick.x + 3,
+      brick.y + 3,
+      brick.width - 6,
+      5,
+      3
+    );
+
+    ctx.fill();
+  }
+}
+
+function drawPaddle() {
+  ctx.fillStyle = "#FFFFFF";
+
+  roundRect(
+    ctx,
+    paddle.x,
+    paddle.y,
+    paddle.width,
+    paddle.height,
+    8
+  );
+
+  ctx.fill();
+
+  ctx.fillStyle = "#5B5CE2";
+
+  roundRect(
+    ctx,
+    paddle.x + 7,
+    paddle.y + 4,
+    paddle.width - 14,
+    5,
+    3
+  );
+
+  ctx.fill();
+}
+
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+
+  ctx.fillStyle = "#FFB84D";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(
+    ball.x - 3,
+    ball.y - 3,
+    ball.radius * 0.3,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle = "rgba(255,255,255,0.75)";
+  ctx.fill();
+}
+
+function draw() {
+  drawBackground();
+  drawBricks();
+  drawPaddle();
+  drawBall();
+}
+
+function roundRect(context, x, y, width, height, radius) {
+  const r = Math.min(radius, width / 2, height / 2);
+
+  context.beginPath();
+  context.moveTo(x + r, y);
+  context.arcTo(x + width, y, x + width, y + height, r);
+  context.arcTo(x + width, y + height, x, y + height, r);
+  context.arcTo(x, y + height, x, y, r);
+  context.arcTo(x, y, x + width, y, r);
+  context.closePath();
+}
+
+function gameLoop(timestamp) {
+  if (!game.running) {
+    draw();
+    return;
+  }
+
+  if (game.paused) {
+    draw();
+    game.animationFrame = requestAnimationFrame(gameLoop);
+    return;
+  }
+
+  let dt = (timestamp - game.lastTime) / 1000;
+
+  game.lastTime = timestamp;
+
+  // Prevent a large physics jump if the browser tab was inactive.
+  dt = Math.min(dt, 0.025);
+
+  updatePaddle(dt);
+  updateBall(dt);
+  draw();
+
+  if (game.running) {
+    game.animationFrame = requestAnimationFrame(gameLoop);
+  }
+}
+
+function canvasPointerPosition(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  const scaleX = WORLD_WIDTH / rect.width;
+
+  return {
+    x: (event.clientX - rect.left) * scaleX
+  };
+}
+
+function handlePointerMove(event) {
+  const position = canvasPointerPosition(event);
+
+  input.mouseX = position.x;
+}
+
+function clearMouseControl() {
+  input.mouseX = null;
+}
+
+function pressLeft() {
+  input.left = true;
+}
+
+function releaseLeft() {
+  input.left = false;
+}
+
+function pressRight() {
+  input.right = true;
+}
+
+function releaseRight() {
+  input.right = false;
+}
+
+function bindHoldButton(button, press, release) {
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    press();
+  });
+
+  button.addEventListener("pointerup", (event) => {
+    event.preventDefault();
+    release();
+  });
+
+  button.addEventListener("pointercancel", release);
+  button.addEventListener("pointerleave", release);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "ArrowLeft" ||
+    event.key.toLowerCase() === "a"
+  ) {
+    event.preventDefault();
+    input.left = true;
+  }
+
+  if (
+    event.key === "ArrowRight" ||
+    event.key.toLowerCase() === "d"
+  ) {
+    event.preventDefault();
+    input.right = true;
+  }
+
+  if (event.key === " " || event.key === "Escape") {
+    event.preventDefault();
+
+    if (game.running || game.paused) {
+      pauseGame();
+    }
+  }
+
+  if (event.key === "Enter" && !game.running) {
+    if (game.gameOver) {
+      startNewGame();
+    } else if (game.levelComplete) {
+      nextLevel();
+    } else if (game.paused) {
+      pauseGame();
+    }
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  if (
+    event.key === "ArrowLeft" ||
+    event.key.toLowerCase() === "a"
+  ) {
+    input.left = false;
+  }
+
+  if (
+    event.key === "ArrowRight" ||
+    event.key.toLowerCase() === "d"
+  ) {
+    input.right = false;
+  }
+});
+
+canvas.addEventListener("pointermove", handlePointerMove);
+canvas.addEventListener("pointerleave", clearMouseControl);
+canvas.addEventListener("pointerdown", handlePointerMove);
+
+startButton.addEventListener("click", () => {
+  if (game.levelComplete) {
+    nextLevel();
+    return;
+  }
+
+  if (!game.running && !game.gameOver && game.lives < 3) {
+    continueAfterLifeLost();
+    return;
+  }
+
+  handleOverlayButton();
+});
+
+pauseButton.addEventListener("click", () => {
+  pauseGame();
+});
+
+restartButton.addEventListener("click", () => {
+  restartGame();
+});
+
+bindHoldButton(leftButton, pressLeft, releaseLeft);
+bindHoldButton(rightButton, pressRight, releaseRight);
+
+window.addEventListener("blur", () => {
+  input.left = false;
+  input.right = false;
+  input.mouseX = null;
+
+  if (game.running && !game.paused) {
+    pauseGame();
+  }
+});
+
+createBricks();
+resetLevelBall();
+updateStats();
+draw();</script>
+</body>
+</html>

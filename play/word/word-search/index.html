@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Search Game - Play Free Online</title>
+  <meta name="description" content="Play Word Search free online in your browser. Find hidden words in a responsive puzzle with keyboard, mouse, and touch controls. No download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <style>:root {
+  --brand: #5B5CE2;
+  --brand-dark: #4546B8;
+  --teal: #16B8C4;
+  --orange: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game-2: #1F2937;
+  --cell-size: min(52px, 7.1vw);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", "Trebuchet MS", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, a { font: inherit; }
+
+button { cursor: pointer; }
+
+.site-header {
+  height: 72px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.brand-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.page-shell {
+  width: min(1160px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.breadcrumb a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 7px;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+h1, h2, p { margin-top: 0; }
+
+h1 {
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-size: clamp(25px, 3vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+
+.intro {
+  max-width: 740px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.stat-card {
+  min-width: 102px;
+  padding: 13px 15px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.stat-label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 20px;
+  line-height: 1.25;
+  margin-top: 3px;
+}
+
+.game-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 8px 30px rgba(23, 27, 45, .05);
+}
+
+.game-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.game-toolbar h2 { margin-bottom: 4px; }
+
+.status {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.primary-btn {
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 800;
+  transition: transform .15s ease, background .15s ease;
+}
+
+.primary-btn:hover { background: var(--brand-dark); transform: translateY(-1px); }
+.primary-btn:focus-visible { outline: 3px solid rgba(91, 92, 226, .28); outline-offset: 3px; }
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 22px;
+  align-items: start;
+}
+
+.board-wrap {
+  position: relative;
+  min-width: 0;
+  padding: 22px;
+  border-radius: 18px;
+  background: var(--game);
+  overflow: hidden;
+}
+
+.word-grid {
+  width: min(100%, 650px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 5px;
+  user-select: none;
+  touch-action: none;
+}
+
+.cell {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 8px;
+  background: var(--game-2);
+  color: #F9FAFB;
+  display: grid;
+  place-items: center;
+  font-size: clamp(15px, 2.2vw, 24px);
+  font-weight: 800;
+  line-height: 1;
+  cursor: crosshair;
+  transition: background .12s ease, transform .12s ease, color .12s ease;
+}
+
+.cell:hover { background: #293548; }
+
+.cell.preview {
+  background: rgba(22, 184, 196, .75);
+  color: #fff;
+  transform: scale(.96);
+}
+
+.cell.found {
+  background: var(--success);
+  color: #fff;
+  border-color: transparent;
+}
+
+.cell.keyboard-active {
+  outline: 3px solid var(--orange);
+  outline-offset: -3px;
+}
+
+.cell.found::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 5px;
+}
+
+.selection-hint {
+  text-align: center;
+  color: rgba(255,255,255,.68);
+  font-size: 13px;
+  margin-top: 14px;
+}
+
+.word-panel {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  background: #FBFBFE;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.panel-heading h2 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: #ECECFF;
+  color: var(--brand-dark);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.word-item {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 9px;
+  background: #fff;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+  transition: .15s ease;
+}
+
+.word-item.found {
+  color: #15803D;
+  background: #ECFDF3;
+  border-color: #B7E7C7;
+  text-decoration: line-through;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.content-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 18px;
+}
+
+.info-grid .content-card { margin-top: 0; }
+
+.content-card h2 {
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+
+.content-card p:last-child,
+.content-card ul:last-child,
+.content-card ol:last-child { margin-bottom: 0; }
+
+.content-card ol, .content-card ul {
+  padding-left: 22px;
+}
+
+.control-list li, .content-card li { margin-bottom: 7px; }
+
+.faq-card details {
+  border-top: 1px solid var(--border);
+  padding: 14px 0;
+}
+
+.faq-card details:first-of-type { margin-top: 8px; }
+
+.faq-card summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(17, 24, 39, .6);
+}
+
+.modal[hidden] { display: none; }
+
+.modal-card {
+  width: min(430px, 100%);
+  background: #fff;
+  border-radius: 22px;
+  padding: 34px;
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(0,0,0,.25);
+}
+
+.success-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #DCFCE7;
+  color: #15803D;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.modal-card h2 { margin-bottom: 8px; }
+.modal-card p:not(.eyebrow) { color: var(--muted); margin-bottom: 22px; }
+
+@media (max-width: 900px) {
+  .hero { align-items: stretch; flex-direction: column; }
+  .stats { width: 100%; }
+  .stat-card { flex: 1; }
+  .game-layout { grid-template-columns: 1fr; }
+  .word-panel { order: 2; }
+  .word-list { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .site-header { height: 64px; }
+  .header-inner, .page-shell { width: min(100% - 24px, 1160px); }
+  .page-shell { padding-top: 20px; padding-bottom: 50px; }
+  .breadcrumb { margin-bottom: 20px; }
+  h1 { font-size: 40px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stat-card { min-width: 0; padding: 10px 11px; }
+  .stat-card strong { font-size: 17px; }
+  .game-card { padding: 12px; border-radius: 16px; }
+  .game-toolbar { align-items: stretch; flex-direction: column; }
+  .primary-btn { width: 100%; }
+  .board-wrap { padding: 10px; border-radius: 14px; }
+  .word-grid { gap: 3px; }
+  .cell { border-radius: 6px; }
+  .selection-hint { font-size: 12px; margin-top: 10px; }
+  .word-panel { padding: 14px; }
+  .word-list { grid-template-columns: repeat(2, 1fr); }
+  .content-card { padding: 20px; }
+}
+
+@media (max-width: 390px) {
+  h1 { font-size: 35px; }
+  .stats { gap: 6px; }
+  .stat-card { padding: 9px 8px; }
+  .stat-label { font-size: 10px; }
+  .stat-card strong { font-size: 15px; }
+  .word-item { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">Games Hub</a>
+      <span class="brand-dot" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games</a>
+      <span aria-hidden="true">/</span>
+      <span>Word Search</span>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">WORD PUZZLE</p>
+        <h1>Word Search Game</h1>
+        <p class="intro">Find every hidden word in the letter grid. Play a free Word Search puzzle directly in your browser with mouse, touch, or keyboard controls.</p>
+      </div>
+      <div class="stats" aria-label="Game statistics">
+        <div class="stat-card">
+          <span class="stat-label">Found</span>
+          <strong id="foundCount">0 / 12</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Time</span>
+          <strong id="timer">00:00</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-card" aria-labelledby="puzzle-heading">
+      <div class="game-toolbar">
+        <div>
+          <h2 id="puzzle-heading">Find the hidden words</h2>
+          <p id="statusText" class="status" aria-live="polite">Select a word by dragging across its letters.</p>
+        </div>
+        <button id="newGameBtn" class="primary-btn" type="button">New Game</button>
+      </div>
+
+      <div class="game-layout">
+        <div class="board-wrap">
+          <div id="grid" class="word-grid" role="grid" aria-label="Word Search letter grid"></div>
+          <div id="selectionHint" class="selection-hint">Drag from the first letter to the last.</div>
+        </div>
+
+        <aside class="word-panel" aria-labelledby="words-heading">
+          <div class="panel-heading">
+            <h2 id="words-heading">Words to find</h2>
+            <span id="remainingBadge" class="badge">12 left</span>
+          </div>
+          <ul id="wordList" class="word-list"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="info-grid">
+      <article class="content-card">
+        <h2>How to Play Word Search</h2>
+        <p>Look through the grid for each word in the list. Words can run horizontally, vertically, or diagonally, and they may appear forwards or backwards.</p>
+        <ol>
+          <li>Press or click the first letter of a word.</li>
+          <li>Drag or move to the final letter in a straight line.</li>
+          <li>Release to check your selection.</li>
+          <li>Find all 12 words to complete the puzzle.</li>
+        </ol>
+      </article>
+
+      <article class="content-card">
+        <h2>Word Search Controls</h2>
+        <ul class="control-list">
+          <li><strong>Mouse:</strong> click and drag across a word.</li>
+          <li><strong>Touch:</strong> press and drag across the letters.</li>
+          <li><strong>Keyboard:</strong> use arrow keys to move the active cell and Enter/Space to begin or finish a selection.</li>
+          <li><strong>New Game:</strong> starts a fresh puzzle with a new word placement.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="content-card about-card">
+      <h2>About Word Search</h2>
+      <p>Word Search is a classic word puzzle built around pattern recognition, spelling, and careful scanning. This browser version creates a fresh letter arrangement each time you start a new game, while keeping the word list readable and the controls comfortable on both desktop and mobile screens.</p>
+      <p>Each discovered word is highlighted on the board and marked in the list. Complete the entire puzzle to see your final score and time.</p>
+    </section>
+
+    <section class="content-card tips-card">
+      <h2>Word Search Tips</h2>
+      <p>Start with unusual letters or longer words, then scan in straight lines. If a word seems difficult, check diagonal lines and remember that hidden words can be reversed.</p>
+    </section>
+
+    <section class="content-card faq-card">
+      <h2>Word Search FAQ</h2>
+      <details>
+        <summary>Can I play Word Search on my phone?</summary>
+        <p>Yes. The puzzle supports touch dragging and adapts its grid to smaller screens.</p>
+      </details>
+      <details>
+        <summary>Are words always placed in straight lines?</summary>
+        <p>Yes. Each hidden word is placed horizontally, vertically, or diagonally in a straight line.</p>
+      </details>
+      <details>
+        <summary>Does the game need a download?</summary>
+        <p>No. The game runs in a modern browser using client-side HTML, CSS, and JavaScript.</p>
+      </details>
+    </section>
+  </main>
+
+  <div id="winModal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <p class="eyebrow">PUZZLE COMPLETE</p>
+      <h2 id="winTitle">You found every word!</h2>
+      <p id="finalSummary">Great work.</p>
+      <button id="playAgainBtn" class="primary-btn" type="button">Play Again</button>
+    </div>
+  </div>
+
+  <script>(() => {
+  "use strict";
+
+  const GRID_SIZE = 12;
+  const WORD_COUNT = 12;
+  const DIRECTIONS = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1],           [0, 1],
+    [1, -1],  [1, 0],  [1, 1]
+  ];
+
+  const WORD_BANK = [
+    "BROWSER", "PUZZLE", "LETTER", "SEARCH", "KEYBOARD", "TOUCH",
+    "CHALLENGE", "PATTERN", "SCORE", "SPEED", "DIAGONAL", "GRID",
+    "MOBILE", "WORD", "GAME", "CLUE", "TARGET", "SOLUTION"
+  ];
+
+  const gridEl = document.getElementById("grid");
+  const wordListEl = document.getElementById("wordList");
+  const foundCountEl = document.getElementById("foundCount");
+  const scoreEl = document.getElementById("score");
+  const timerEl = document.getElementById("timer");
+  const statusTextEl = document.getElementById("statusText");
+  const remainingBadgeEl = document.getElementById("remainingBadge");
+  const newGameBtn = document.getElementById("newGameBtn");
+  const winModal = document.getElementById("winModal");
+  const finalSummaryEl = document.getElementById("finalSummary");
+  const playAgainBtn = document.getElementById("playAgainBtn");
+
+  let board = [];
+  let placements = new Map();
+  let foundWords = new Set();
+  let selection = null;
+  let score = 0;
+  let elapsed = 0;
+  let timerId = null;
+  let gameActive = false;
+  let keyboardCursor = { row: 0, col: 0 };
+  let keyboardSelection = null;
+
+  const rand = (max) => Math.floor(Math.random() * max);
+
+  function shuffle(array) {
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = rand(i + 1);
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function formatTime(seconds) {
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(seconds % 60).padStart(2, "0");
+    return `${m}:${s}`;
+  }
+
+  function updateStats() {
+    foundCountEl.textContent = `${foundWords.size} / ${WORD_COUNT}`;
+    scoreEl.textContent = String(score);
+    timerEl.textContent = formatTime(elapsed);
+    const remaining = WORD_COUNT - foundWords.size;
+    remainingBadgeEl.textContent = `${remaining} left`;
+  }
+
+  function startTimer() {
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      if (!gameActive) return;
+      elapsed += 1;
+      timerEl.textContent = formatTime(elapsed);
+    }, 1000);
+  }
+
+  function emptyBoard() {
+    return Array.from({ length: GRID_SIZE }, () =>
+      Array.from({ length: GRID_SIZE }, () => "")
+    );
+  }
+
+  function canPlace(word, row, col, dr, dc) {
+    const endRow = row + dr * (word.length - 1);
+    const endCol = col + dc * (word.length - 1);
+    if (endRow < 0 || endRow >= GRID_SIZE || endCol < 0 || endCol >= GRID_SIZE) {
+      return false;
+    }
+    for (let i = 0; i < word.length; i++) {
+      const r = row + dr * i;
+      const c = col + dc * i;
+      const cell = board[r][c];
+      if (cell && cell !== word[i]) return false;
+    }
+    return true;
+  }
+
+  function placeWord(word) {
+    const directions = shuffle(DIRECTIONS);
+    for (let attempt = 0; attempt < 300; attempt++) {
+      const [dr, dc] = directions[attempt % directions.length];
+      const row = rand(GRID_SIZE);
+      const col = rand(GRID_SIZE);
+      if (!canPlace(word, row, col, dr, dc)) continue;
+
+      const cells = [];
+      for (let i = 0; i < word.length; i++) {
+        const r = row + dr * i;
+        const c = col + dc * i;
+        board[r][c] = word[i];
+        cells.push(`${r},${c}`);
+      }
+      placements.set(word, cells);
+      return true;
+    }
+    return false;
+  }
+
+  function buildPuzzle() {
+    for (let rebuild = 0; rebuild < 30; rebuild++) {
+      board = emptyBoard();
+      placements = new Map();
+      const words = shuffle(WORD_BANK).slice(0, WORD_COUNT).sort((a, b) => b.length - a.length);
+      let success = true;
+
+      for (const word of words) {
+        if (!placeWord(word)) {
+          success = false;
+          break;
+        }
+      }
+
+      if (success) {
+        for (let r = 0; r < GRID_SIZE; r++) {
+          for (let c = 0; c < GRID_SIZE; c++) {
+            if (!board[r][c]) board[r][c] = String.fromCharCode(65 + rand(26));
+          }
+        }
+        return words;
+      }
+    }
+
+    // Extremely unlikely fallback: use a simple horizontal placement.
+    board = emptyBoard();
+    placements = new Map();
+    const words = WORD_BANK.slice(0, WORD_COUNT);
+    words.forEach((word, index) => {
+      const row = index;
+      const col = 0;
+      const cells = [];
+      for (let i = 0; i < word.length && i < GRID_SIZE; i++) {
+        board[row][col + i] = word[i];
+        cells.push(`${row},${col + i}`);
+      }
+      placements.set(word, cells);
+    });
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (!board[r][c]) board[r][c] = String.fromCharCode(65 + rand(26));
+      }
+    }
+    return words;
+  }
+
+  let activeWords = [];
+
+  function renderGrid() {
+    gridEl.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "cell";
+        cell.dataset.row = String(r);
+        cell.dataset.col = String(c);
+        cell.textContent = board[r][c];
+        cell.setAttribute("role", "gridcell");
+        cell.setAttribute("aria-label", `Row ${r + 1}, column ${c + 1}, letter ${board[r][c]}`);
+        cell.addEventListener("pointerdown", onPointerDown);
+        cell.addEventListener("pointerenter", onPointerEnter);
+        cell.addEventListener("pointerup", onPointerUp);
+        fragment.appendChild(cell);
+      }
+    }
+    gridEl.appendChild(fragment);
+    updateKeyboardCursor();
+  }
+
+  function renderWordList() {
+    wordListEl.innerHTML = "";
+    activeWords.forEach((word) => {
+      const li = document.createElement("li");
+      li.className = "word-item";
+      li.dataset.word = word;
+      li.textContent = word;
+      if (foundWords.has(word)) li.classList.add("found");
+      wordListEl.appendChild(li);
+    });
+  }
+
+  function getCell(row, col) {
+    return gridEl.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+  }
+
+  function cellsForLine(start, end) {
+    const dr = Math.sign(end.row - start.row);
+    const dc = Math.sign(end.col - start.col);
+    const rowDiff = Math.abs(end.row - start.row);
+    const colDiff = Math.abs(end.col - start.col);
+
+    // Only straight lines are valid.
+    if (!(start.row === end.row || start.col === end.col || rowDiff === colDiff)) return [];
+
+    const length = Math.max(rowDiff, colDiff) + 1;
+    return Array.from({ length }, (_, i) => ({
+      row: start.row + dr * i,
+      col: start.col + dc * i
+    }));
+  }
+
+  function sameCells(a, b) {
+    if (a.length !== b.length) return false;
+    return a.every((cell, i) => cell.row === b[i].row && cell.col === b[i].col);
+  }
+
+  function wordForCells(cells) {
+    const letters = cells.map(({ row, col }) => board[row][col]).join("");
+    const reversed = letters.split("").reverse().join("");
+
+    for (const word of activeWords) {
+      if (foundWords.has(word)) continue;
+      if (word === letters || word === reversed) return word;
+    }
+    return null;
+  }
+
+  function clearPreview() {
+    gridEl.querySelectorAll(".cell.preview").forEach((el) => el.classList.remove("preview"));
+  }
+
+  function showPreview(cells) {
+    clearPreview();
+    cells.forEach(({ row, col }) => {
+      const cell = getCell(row, col);
+      if (cell) cell.classList.add("preview");
+    });
+  }
+
+  function markFound(word) {
+    const cells = placements.get(word) || [];
+    cells.forEach((key) => {
+      const [row, col] = key.split(",").map(Number);
+      const cell = getCell(row, col);
+      if (cell) cell.classList.add("found");
+    });
+
+    const item = wordListEl.querySelector(`[data-word="${word}"]`);
+    if (item) item.classList.add("found");
+  }
+
+  function processSelection(cells) {
+    const word = wordForCells(cells);
+    clearPreview();
+
+    if (!word) {
+      statusTextEl.textContent = "Not a hidden word. Try a straight horizontal, vertical, or diagonal line.";
+      return;
+    }
+
+    foundWords.add(word);
+    score += word.length * 10;
+    markFound(word);
+    updateStats();
+    statusTextEl.textContent = `Found ${word}! Keep going.`;
+
+    if (foundWords.size === WORD_COUNT) finishGame();
+  }
+
+  function pointToCell(event) {
+    const target = document.elementFromPoint(event.clientX, event.clientY);
+    const cell = target && target.closest(".cell");
+    if (!cell || !gridEl.contains(cell)) return null;
+    return { row: Number(cell.dataset.row), col: Number(cell.dataset.col) };
+  }
+
+  function onPointerDown(event) {
+    if (!gameActive) return;
+    const cell = event.currentTarget;
+    selection = {
+      pointerId: event.pointerId,
+      start: { row: Number(cell.dataset.row), col: Number(cell.dataset.col) },
+      current: { row: Number(cell.dataset.row), col: Number(cell.dataset.col) }
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    showPreview([selection.start]);
+    statusTextEl.textContent = "Keep dragging to the last letter.";
+    event.preventDefault();
+  }
+
+  function onPointerEnter(event) {
+    if (!selection || selection.pointerId !== event.pointerId) return;
+    const current = { row: Number(event.currentTarget.dataset.row), col: Number(event.currentTarget.dataset.col) };
+    selection.current = current;
+    const cells = cellsForLine(selection.start, current);
+    showPreview(cells);
+  }
+
+  function onPointerUp(event) {
+    if (!selection || selection.pointerId !== event.pointerId) return;
+    const end = pointToCell(event) || selection.current;
+    const cells = cellsForLine(selection.start, end);
+    selection = null;
+    if (cells.length) processSelection(cells);
+    else clearPreview();
+  }
+
+  function updateKeyboardCursor() {
+    gridEl.querySelectorAll(".cell.keyboard-active").forEach((el) => el.classList.remove("keyboard-active"));
+    const cell = getCell(keyboardCursor.row, keyboardCursor.col);
+    if (cell) cell.classList.add("keyboard-active");
+  }
+
+  function keyboardMove(dr, dc) {
+    keyboardCursor.row = Math.max(0, Math.min(GRID_SIZE - 1, keyboardCursor.row + dr));
+    keyboardCursor.col = Math.max(0, Math.min(GRID_SIZE - 1, keyboardCursor.col + dc));
+    updateKeyboardCursor();
+  }
+
+  function handleKeyboard(event) {
+    if (!gameActive) return;
+    const keys = {
+      ArrowUp: [-1, 0], ArrowDown: [1, 0],
+      ArrowLeft: [0, -1], ArrowRight: [0, 1]
+    };
+
+    if (keys[event.key]) {
+      event.preventDefault();
+      keyboardMove(...keys[event.key]);
+      if (keyboardSelection) {
+        keyboardSelection.current = { ...keyboardCursor };
+        showPreview(cellsForLine(keyboardSelection.start, keyboardSelection.current));
+      }
+      return;
+    }
+
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      if (!keyboardSelection) {
+        keyboardSelection = {
+          start: { ...keyboardCursor },
+          current: { ...keyboardCursor }
+        };
+        showPreview([keyboardCursor]);
+        statusTextEl.textContent = "Use the arrow keys to reach the last letter, then press Enter.";
+      } else {
+        const cells = cellsForLine(keyboardSelection.start, keyboardSelection.current);
+        keyboardSelection = null;
+        processSelection(cells);
+      }
+    }
+
+    if (event.key === "Escape") {
+      keyboardSelection = null;
+      clearPreview();
+      statusTextEl.textContent = "Selection cancelled.";
+    }
+  }
+
+  function finishGame() {
+    gameActive = false;
+    clearInterval(timerId);
+    statusTextEl.textContent = "Puzzle complete!";
+    finalSummaryEl.textContent = `You found all ${WORD_COUNT} words in ${formatTime(elapsed)} and scored ${score} points.`;
+    winModal.hidden = false;
+    playAgainBtn.focus();
+  }
+
+  function newGame() {
+    winModal.hidden = true;
+    clearInterval(timerId);
+    foundWords = new Set();
+    score = 0;
+    elapsed = 0;
+    selection = null;
+    keyboardSelection = null;
+    keyboardCursor = { row: 0, col: 0 };
+    activeWords = buildPuzzle();
+    gameActive = true;
+    renderGrid();
+    renderWordList();
+    updateStats();
+    statusTextEl.textContent = "Select a word by dragging across its letters.";
+    startTimer();
+  }
+
+  document.addEventListener("pointerup", (event) => {
+    if (selection && selection.pointerId === event.pointerId) {
+      const end = pointToCell(event) || selection.current;
+      const cells = cellsForLine(selection.start, end);
+      selection = null;
+      if (cells.length) processSelection(cells);
+      else clearPreview();
+    }
+  });
+
+  document.addEventListener("keydown", handleKeyboard);
+
+  newGameBtn.addEventListener("click", newGame);
+  playAgainBtn.addEventListener("click", newGame);
+
+  winModal.addEventListener("click", (event) => {
+    if (event.target === winModal) {
+      winModal.hidden = true;
+      newGameBtn.focus();
+    }
+  });
+
+  newGame();
+})();
+</script>
+</body>
+</html>

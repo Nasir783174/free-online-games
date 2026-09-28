@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Number Puzzle Game - Play Free Online</title>
+  <meta name="description" content="Play Number Puzzle free online in your browser. Slide numbered tiles into order, track moves and time, and solve the puzzle with no download required.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#5B5CE2">
+  <link rel="canonical" href="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root{
+  --primary:#5B5CE2;--primary-dark:#4546B8;--secondary:#16B8C4;--action:#FFB84D;
+  --success:#22C55E;--danger:#EF5B5B;--bg:#F6F7FB;--card:#FFFFFF;
+  --text:#171B2D;--muted:#667085;--border:#E5E7EF;--game:#111827;--game2:#1F2937;
+  --shadow:0 18px 45px rgba(23,27,45,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:17px;line-height:1.65}
+button,a{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(22,184,196,.4);outline-offset:3px}
+.shell{width:min(1160px,calc(100% - 36px));margin-inline:auto}
+.site-header{height:72px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);display:flex;align-items:center;position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800}
+.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--primary);color:#fff;font-size:20px}
+.all-games{font-size:15px;font-weight:700;color:var(--primary);text-decoration:none}
+.breadcrumb{display:flex;gap:9px;align-items:center;padding-top:26px;color:var(--muted);font-size:14px}
+.breadcrumb a{text-decoration:none;color:var(--primary-dark);font-weight:700}
+.hero{padding:42px 0 38px;max-width:830px}
+.eyebrow{text-transform:uppercase;letter-spacing:.11em;color:var(--primary);font-size:13px;font-weight:800;margin:0 0 8px}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(38px,6vw,62px);line-height:1.08;letter-spacing:-.035em;margin-bottom:18px;font-weight:800}
+h2{font-size:clamp(27px,4vw,35px);line-height:1.2;letter-spacing:-.02em;margin-bottom:16px}
+h3{font-size:22px;line-height:1.25}
+.intro{font-size:19px;color:var(--muted);max-width:760px;margin-bottom:0}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+.game-topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:20px}
+.game-topbar h2{font-size:28px;margin:2px 0 0}
+.game-label{font-size:13px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.difficulty{display:flex;gap:7px;padding:5px;background:var(--bg);border-radius:12px}
+.size-btn{border:0;background:transparent;color:var(--muted);font-weight:800;font-size:14px;min-width:58px;height:40px;border-radius:9px}
+.size-btn.active{background:#fff;color:var(--primary);box-shadow:0 3px 12px rgba(23,27,45,.08)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px 16px;text-align:center}
+.stat span{display:block;color:var(--muted);font-size:13px;font-weight:700}
+.stat strong{display:block;font-size:23px;line-height:1.3;margin-top:2px}
+.game-stage{position:relative;min-height:420px;background:var(--game);border-radius:18px;padding:24px;display:grid;place-items:center;overflow:hidden}
+.board{--size:3;display:grid;grid-template-columns:repeat(var(--size),1fr);gap:10px;width:min(100%,520px);aspect-ratio:1;background:var(--game2);padding:12px;border-radius:16px;touch-action:manipulation}
+.tile{border:0;border-radius:12px;background:#fff;color:var(--text);font-weight:800;font-size:clamp(20px,5vw,34px);display:grid;place-items:center;min-width:0;box-shadow:inset 0 -4px 0 rgba(23,27,45,.09);transition:transform .12s ease,background .12s ease}
+.tile:hover{background:#f1f2ff;transform:translateY(-1px)}
+.tile.correct{background:#eafbf0;color:#147a36}
+.tile.empty{background:rgba(255,255,255,.055);box-shadow:none;cursor:default}
+.tile.empty:hover{transform:none}
+.win-panel{position:absolute;inset:0;background:rgba(17,24,39,.93);color:#fff;display:grid;place-content:center;text-align:center;padding:28px}
+.win-panel[hidden]{display:none}
+.win-icon{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:var(--success);font-size:38px;font-weight:800;margin:0 auto 15px}
+.win-panel h3{font-size:30px;margin-bottom:8px}
+.win-panel p{color:#d1d5db}
+.status{text-align:center;color:var(--muted);font-size:15px;margin:14px 0 0}
+.game-actions{display:flex;justify-content:center;gap:10px;margin-top:18px}
+.primary-btn,.secondary-btn{height:48px;border-radius:12px;padding:0 20px;font-weight:800;font-size:16px}
+.primary-btn{border:1px solid var(--primary);background:var(--primary);color:#fff}
+.primary-btn:hover{background:var(--primary-dark)}
+.secondary-btn{border:1px solid var(--border);background:#fff;color:var(--text)}
+.secondary-btn:hover{background:var(--bg)}
+.mobile-controls{display:none;text-align:center;margin-top:20px;color:var(--muted);font-size:14px;font-weight:700}
+.dpad{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);justify-content:center;gap:7px;margin-top:9px}
+.dpad button{border:1px solid var(--border);background:#fff;border-radius:11px;font-size:22px;font-weight:800}
+.dpad button[data-direction=up]{grid-column:2}
+.dpad button[data-direction=left]{grid-column:1;grid-row:2}
+.dpad button[data-direction=down]{grid-column:2;grid-row:2}
+.dpad button[data-direction=right]{grid-column:3;grid-row:2}
+.content-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;margin-top:72px}
+.content-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:25px}
+.content-card h2{font-size:30px}
+.content-card li{margin:8px 0}
+.content-card ol,.content-card ul{padding-left:23px;margin-bottom:0}
+.tips{background:#f0fbfc;border-color:#d2f0f2}
+.about-section,.related-section,.faq-section{padding-top:72px}
+.about-section{max-width:900px}
+.about-section p{color:var(--muted)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:22px}
+.section-heading h2{margin-bottom:0}
+.section-heading>p{max-width:420px;color:var(--muted);font-size:15px;margin-bottom:4px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.related-card{display:flex;gap:15px;background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px}
+.related-card h3{margin-bottom:4px}
+.related-card p{font-size:15px;color:var(--muted);margin:0}
+.related-icon{flex:0 0 54px;height:54px;border-radius:14px;background:#eeeefe;color:var(--primary);display:grid;place-items:center;font-weight:800}
+.faq-section{padding-bottom:78px;max-width:900px}
+details{background:#fff;border:1px solid var(--border);border-radius:14px;margin:11px 0;overflow:hidden}
+summary{padding:18px 20px;font-weight:800;cursor:pointer}
+details p{padding:0 20px 18px;margin:0;color:var(--muted)}
+.site-footer{border-top:1px solid var(--border);background:#fff;padding:28px 0;color:var(--muted);font-size:14px}
+.site-footer p{margin:0}
+@media (max-width:760px){
+  body{font-size:16px}.shell{width:min(100% - 24px,1160px)}.hero{padding:32px 0}
+  .game-card{padding:14px;border-radius:17px}.game-topbar{align-items:flex-start;flex-direction:column;gap:13px}
+  .difficulty{width:100%}.size-btn{flex:1}.stats{gap:7px}.stat{padding:9px 6px}.stat strong{font-size:20px}
+  .game-stage{min-height:0;padding:12px}.board{gap:7px;padding:8px;border-radius:13px}.tile{border-radius:9px}
+  .game-actions{flex-direction:column}.game-actions button{width:100%}.mobile-controls{display:block}
+  .content-grid{grid-template-columns:1fr;margin-top:54px}.about-section,.related-section,.faq-section{padding-top:54px}
+  .section-heading{display:block}.section-heading>p{margin-top:10px}.related-grid{grid-template-columns:1fr}
+}
+@media (max-width:380px){
+  .site-header{height:64px}.brand-mark{width:34px;height:34px}.all-games{font-size:14px}
+  .stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}.board{gap:5px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"VideoGame",
+    "name":"Number Puzzle Game",
+    "description":"A free browser-based sliding number puzzle. Arrange the numbered tiles in ascending order by moving tiles into the empty space.",
+    "genre":["Puzzle","Number Puzzle","Sliding Puzzle"],
+    "playMode":"SinglePlayer",
+    "applicationCategory":"Game",
+    "operatingSystem":"Any modern web browser",
+    "isAccessibleForFree":true
+  }
+  </script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games" href="../../">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Games</a><span aria-hidden="true">/</span><span>Number Puzzle</span>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Free online puzzle</p>
+          <h1>Number Puzzle Game</h1>
+          <p class="intro">Slide the numbered tiles into ascending order. Choose a board size, plan each move, and try to solve the puzzle with fewer moves and a faster time.</p>
+        </div>
+      </section>
+
+      <section class="game-card" aria-labelledby="game-title">
+        <div class="game-topbar">
+          <div>
+            <span class="game-label">Current game</span>
+            <h2 id="game-title">Arrange the Numbers</h2>
+          </div>
+          <div class="difficulty" aria-label="Board size">
+            <button type="button" class="size-btn active" data-size="3" aria-pressed="true">3×3</button>
+            <button type="button" class="size-btn" data-size="4" aria-pressed="false">4×4</button>
+            <button type="button" class="size-btn" data-size="5" aria-pressed="false">5×5</button>
+          </div>
+        </div>
+
+        <div class="stats" aria-label="Game statistics">
+          <div class="stat"><span>Moves</span><strong id="moves">0</strong></div>
+          <div class="stat"><span>Time</span><strong id="timer">00:00</strong></div>
+          <div class="stat"><span>Best</span><strong id="best">—</strong></div>
+        </div>
+
+        <div class="game-stage">
+          <div id="board" class="board" role="grid" aria-label="Sliding number puzzle board"></div>
+
+          <div id="win-panel" class="win-panel" hidden aria-live="polite">
+            <div class="win-icon" aria-hidden="true">✓</div>
+            <h3>Puzzle solved!</h3>
+            <p id="win-summary">Great work.</p>
+            <button id="play-again" type="button" class="primary-btn">Play Again</button>
+          </div>
+        </div>
+
+        <p id="status" class="status" aria-live="polite">Select a tile next to the empty space to move it.</p>
+
+        <div class="game-actions">
+          <button id="new-game" type="button" class="primary-btn">New Game</button>
+          <button id="reset-game" type="button" class="secondary-btn">Reset Puzzle</button>
+        </div>
+
+        <div class="mobile-controls" aria-label="Touch controls">
+          <span>Move the empty space</span>
+          <div class="dpad">
+            <button type="button" data-direction="up" aria-label="Move empty space up">↑</button>
+            <button type="button" data-direction="left" aria-label="Move empty space left">←</button>
+            <button type="button" data-direction="down" aria-label="Move empty space down">↓</button>
+            <button type="button" data-direction="right" aria-label="Move empty space right">→</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="content-card">
+          <h2>How to Play Number Puzzle</h2>
+          <p>The board contains numbered tiles and one empty space. Move a tile into that space until every number is arranged from smallest to largest, with the empty space in the final position.</p>
+          <ol>
+            <li>Choose a 3×3, 4×4, or 5×5 board.</li>
+            <li>Click or tap a numbered tile beside the empty space.</li>
+            <li>On a keyboard, use the arrow keys to move the empty space.</li>
+            <li>Continue until the numbers are in ascending order.</li>
+          </ol>
+        </article>
+
+        <aside class="content-card tips">
+          <h2>Number Puzzle Tips</h2>
+          <ul>
+            <li>Build the first row before focusing on lower rows.</li>
+            <li>Avoid breaking tiles that are already correctly placed.</li>
+            <li>Think two or three moves ahead near the end.</li>
+            <li>Use a smaller board to learn the movement pattern.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="about-section">
+        <h2>About the Number Puzzle Game</h2>
+        <p>Number Puzzle is a classic sliding-tile puzzle built around ordering, spatial reasoning, and move planning. This browser version runs entirely on your device, so you can play the number puzzle online without installing an app or downloading game files.</p>
+        <p>The 3×3 board is a quick introduction, while 4×4 and 5×5 layouts add more possible positions and require longer sequences of moves. Every new game is generated from the solved board using valid moves, which keeps the shuffled puzzle solvable.</p>
+      </section>
+
+      <section class="related-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">Keep playing</p><h2>Related Games</h2></div>
+          <p>These placeholders are ready to connect when more game pages are added.</p>
+        </div>
+        <div class="related-grid">
+          <div class="related-card"><span class="related-icon">2048</span><div><h3>2048</h3><p>Merge matching numbers and build a high-value tile.</p></div></div>
+          <div class="related-card"><span class="related-icon">▦</span><div><h3>Sudoku</h3><p>Use logic to complete a number grid.</p></div></div>
+          <div class="related-card"><span class="related-icon">123</span><div><h3>Number Match</h3><p>Find number patterns and matching pairs.</p></div></div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2>Number Puzzle FAQ</h2>
+        <details>
+          <summary>Is this Number Puzzle free to play?</summary>
+          <p>Yes. The game runs free in a modern browser and does not require a download, account, or signup.</p>
+        </details>
+        <details>
+          <summary>How do I win the Number Puzzle?</summary>
+          <p>Arrange every numbered tile in ascending order from the top-left of the board, leaving the empty space in the bottom-right position.</p>
+        </details>
+        <details>
+          <summary>Can I play on a phone?</summary>
+          <p>Yes. Tap adjacent tiles or use the on-screen directional controls. The board automatically scales to fit smaller screens.</p>
+        </details>
+        <details>
+          <summary>Are the shuffled puzzles solvable?</summary>
+          <p>Yes. New puzzles are created by making legal moves from a solved board, so each generated position has a valid path back to the solution.</p>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell"><p>Games Hub · Fast, browser-based games.</p></div>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const boardEl = document.getElementById("board");
+  const movesEl = document.getElementById("moves");
+  const timerEl = document.getElementById("timer");
+  const bestEl = document.getElementById("best");
+  const statusEl = document.getElementById("status");
+  const winPanel = document.getElementById("win-panel");
+  const winSummary = document.getElementById("win-summary");
+  const newGameBtn = document.getElementById("new-game");
+  const resetBtn = document.getElementById("reset-game");
+  const playAgainBtn = document.getElementById("play-again");
+  const sizeButtons = [...document.querySelectorAll(".size-btn")];
+  const directionButtons = [...document.querySelectorAll("[data-direction]")];
+
+  let size = 3;
+  let tiles = [];
+  let startingTiles = [];
+  let moves = 0;
+  let seconds = 0;
+  let timerId = null;
+  let started = false;
+  let finished = false;
+
+  function solvedBoard() {
+    return [...Array(size * size - 1)].map((_, i) => i + 1).concat(0);
+  }
+
+  function neighbors(index) {
+    const row = Math.floor(index / size);
+    const col = index % size;
+    const result = [];
+    if (row > 0) result.push(index - size);
+    if (row < size - 1) result.push(index + size);
+    if (col > 0) result.push(index - 1);
+    if (col < size - 1) result.push(index + 1);
+    return result;
+  }
+
+  function shuffleSolvable() {
+    let arr = solvedBoard();
+    let empty = arr.length - 1;
+    let previousEmpty = -1;
+    const steps = Math.max(80, size * size * 18);
+
+    for (let i = 0; i < steps; i++) {
+      let choices = neighbors(empty).filter(n => n !== previousEmpty);
+      if (!choices.length) choices = neighbors(empty);
+      const chosen = choices[Math.floor(Math.random() * choices.length)];
+      [arr[empty], arr[chosen]] = [arr[chosen], arr[empty]];
+      previousEmpty = empty;
+      empty = chosen;
+    }
+
+    if (isSolved(arr)) return shuffleSolvable();
+    return arr;
+  }
+
+  function render() {
+    boardEl.style.setProperty("--size", size);
+    boardEl.innerHTML = "";
+
+    tiles.forEach((value, index) => {
+      const cell = document.createElement(value === 0 ? "div" : "button");
+      cell.className = value === 0 ? "tile empty" : "tile";
+      cell.setAttribute("role", "gridcell");
+
+      if (value === 0) {
+        cell.setAttribute("aria-label", "Empty space");
+      } else {
+        cell.type = "button";
+        cell.textContent = value;
+        cell.dataset.index = index;
+        cell.setAttribute("aria-label", `Tile ${value}`);
+        if (value === index + 1) cell.classList.add("correct");
+        cell.addEventListener("click", () => moveTile(index));
+      }
+      boardEl.appendChild(cell);
+    });
+  }
+
+  function moveTile(index) {
+    if (finished) return;
+    const empty = tiles.indexOf(0);
+    if (!neighbors(empty).includes(index)) {
+      statusEl.textContent = "That tile cannot move. Choose one beside the empty space.";
+      return;
+    }
+
+    if (!started) startTimer();
+    [tiles[empty], tiles[index]] = [tiles[index], tiles[empty]];
+    moves++;
+    movesEl.textContent = moves;
+    statusEl.textContent = "Good move. Keep arranging the tiles.";
+    render();
+
+    if (isSolved(tiles)) completeGame();
+  }
+
+  function moveEmpty(direction) {
+    if (finished) return;
+    const empty = tiles.indexOf(0);
+    const row = Math.floor(empty / size);
+    const col = empty % size;
+    let target = null;
+
+    if (direction === "up" && row > 0) target = empty - size;
+    if (direction === "down" && row < size - 1) target = empty + size;
+    if (direction === "left" && col > 0) target = empty - 1;
+    if (direction === "right" && col < size - 1) target = empty + 1;
+
+    if (target !== null) moveTile(target);
+  }
+
+  function isSolved(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (arr[i] !== i + 1) return false;
+    }
+    return arr[arr.length - 1] === 0;
+  }
+
+  function startTimer() {
+    if (timerId || finished) return;
+    started = true;
+    timerId = window.setInterval(() => {
+      seconds++;
+      timerEl.textContent = formatTime(seconds);
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerId) window.clearInterval(timerId);
+    timerId = null;
+  }
+
+  function formatTime(total) {
+    const mins = Math.floor(total / 60).toString().padStart(2, "0");
+    const secs = (total % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
+  }
+
+  function bestKey() {
+    return `numberPuzzleBest_${size}`;
+  }
+
+  function readBest() {
+    try {
+      const raw = localStorage.getItem(bestKey());
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return Number.isFinite(parsed.moves) && Number.isFinite(parsed.seconds) ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function updateBestDisplay() {
+    const best = readBest();
+    bestEl.textContent = best ? `${best.moves} moves` : "—";
+  }
+
+  function saveBest() {
+    const current = { moves, seconds };
+    const best = readBest();
+    const better = !best || moves < best.moves || (moves === best.moves && seconds < best.seconds);
+    if (better) {
+      try { localStorage.setItem(bestKey(), JSON.stringify(current)); } catch {}
+    }
+    updateBestDisplay();
+    return better;
+  }
+
+  function completeGame() {
+    finished = true;
+    stopTimer();
+    const newBest = saveBest();
+    winSummary.textContent = `Solved in ${moves} moves and ${formatTime(seconds)}${newBest ? " — a new best!" : "."}`;
+    winPanel.hidden = false;
+    statusEl.textContent = "Puzzle solved. Start a new game to play again.";
+  }
+
+  function setGameState(arr) {
+    stopTimer();
+    tiles = [...arr];
+    moves = 0;
+    seconds = 0;
+    started = false;
+    finished = false;
+    movesEl.textContent = "0";
+    timerEl.textContent = "00:00";
+    winPanel.hidden = true;
+    statusEl.textContent = "Select a tile next to the empty space to move it.";
+    updateBestDisplay();
+    render();
+  }
+
+  function newGame() {
+    const shuffled = shuffleSolvable();
+    startingTiles = [...shuffled];
+    setGameState(shuffled);
+  }
+
+  function resetGame() {
+    if (!startingTiles.length) return;
+    setGameState(startingTiles);
+    statusEl.textContent = "Puzzle reset to its starting position.";
+  }
+
+  function changeSize(newSize) {
+    size = newSize;
+    sizeButtons.forEach(btn => {
+      const active = Number(btn.dataset.size) === size;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", String(active));
+    });
+    newGame();
+  }
+
+  sizeButtons.forEach(btn => btn.addEventListener("click", () => changeSize(Number(btn.dataset.size))));
+  newGameBtn.addEventListener("click", newGame);
+  resetBtn.addEventListener("click", resetGame);
+  playAgainBtn.addEventListener("click", newGame);
+  directionButtons.forEach(btn => btn.addEventListener("click", () => moveEmpty(btn.dataset.direction)));
+
+  document.addEventListener("keydown", event => {
+    const map = { ArrowUp:"up", ArrowDown:"down", ArrowLeft:"left", ArrowRight:"right" };
+    if (!map[event.key]) return;
+    event.preventDefault();
+    moveEmpty(map[event.key]);
+  }, { passive:false });
+
+  newGame();
+})();
+</script>
+</body>
+</html>

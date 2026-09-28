@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memory Puzzle Game - Play Free Online</title>
+  <meta name="description" content="Play Memory Puzzle free online in your browser. Match every card pair, track moves and time, and restart anytime. No download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --secondary: #16B8C4;
+  --action: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game-secondary: #1F2937;
+  --shadow: 0 14px 40px rgba(23, 27, 45, .08);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, a { font: inherit; }
+a { color: var(--primary-dark); }
+button:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 3px solid rgba(22,184,196,.45);
+  outline-offset: 3px;
+}
+.container { width: min(1160px, calc(100% - 36px)); margin-inline: auto; }
+
+.site-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 800; }
+.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; background: var(--primary); color: white; }
+.header-note { color: var(--muted); font-size: 15px; font-weight: 700; }
+
+.breadcrumb { display: flex; gap: 9px; align-items: center; padding: 26px 0 8px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.breadcrumb a { text-decoration: none; }
+
+.hero { display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center; padding: 28px 0 42px; }
+.eyebrow { margin: 0 0 8px; color: var(--primary); text-transform: uppercase; letter-spacing: .09em; font-size: 14px; font-weight: 800; }
+h1 { margin: 0; font-size: clamp(42px, 6vw, 62px); line-height: 1.08; letter-spacing: -.035em; font-weight: 800; }
+.intro { max-width: 720px; margin: 18px 0 0; color: var(--muted); font-size: 18px; }
+.hero-badge {
+  width: 180px; height: 150px; padding: 20px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow);
+  transform: rotate(2deg);
+}
+.hero-badge span { display: grid; place-items: center; border-radius: 12px; background: #EEF0FF; color: var(--primary); font-size: 26px; font-weight: 800; }
+.hero-badge span:nth-child(2) { background: #FFF0F0; color: var(--danger); }
+.hero-badge span:nth-child(3) { background: #EAFBFC; color: var(--secondary); }
+.hero-badge span:nth-child(4) { background: #FFF7E8; color: #D98A12; }
+
+.game-shell { overflow: hidden; border-radius: 20px; background: var(--game); box-shadow: 0 22px 55px rgba(17,24,39,.18); }
+.game-toolbar { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 20px; background: var(--game-secondary); border-bottom: 1px solid rgba(255,255,255,.08); }
+.stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.stat { min-width: 92px; padding: 8px 13px; border-radius: 12px; background: rgba(255,255,255,.07); color: white; }
+.stat-label { display: block; margin-bottom: 1px; color: #AEB8C8; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.stat strong { font-size: 21px; line-height: 1.1; }
+.button { min-height: 46px; border: 0; border-radius: 12px; padding: 0 18px; cursor: pointer; font-weight: 800; transition: transform .16s ease, background .16s ease; }
+.button:hover { transform: translateY(-1px); }
+.button-light { background: white; color: var(--text); }
+.button-primary { width: 100%; background: var(--primary); color: white; }
+.button-primary:hover { background: var(--primary-dark); }
+
+.game-stage { padding: 22px 22px 28px; }
+.status { min-height: 27px; margin: 0 0 16px; text-align: center; color: #D5DCE7; font-weight: 700; }
+.memory-board {
+  width: min(680px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 13px;
+}
+.memory-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  perspective: 900px;
+  cursor: pointer;
+  border-radius: 16px;
+}
+.memory-card:disabled { cursor: default; }
+.card-inner {
+  position: absolute; inset: 0;
+  border-radius: 16px;
+  transform-style: preserve-3d;
+  transition: transform .38s cubic-bezier(.2,.75,.3,1);
+}
+.memory-card.is-flipped .card-inner,
+.memory-card.is-matched .card-inner { transform: rotateY(180deg); }
+.card-face {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  backface-visibility: hidden;
+  border-radius: 16px;
+}
+.card-back {
+  border: 2px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.09) 0 7%, transparent 8%),
+    linear-gradient(145deg, #6263EA, #4A4BC2);
+  color: white;
+}
+.card-back::after { content: "?"; font-size: clamp(28px, 6vw, 48px); font-weight: 800; opacity: .82; }
+.card-front {
+  transform: rotateY(180deg);
+  border: 2px solid rgba(255,255,255,.75);
+  background: white;
+  color: var(--symbol-color, var(--primary));
+  font-size: clamp(30px, 7vw, 56px);
+  font-weight: 800;
+  box-shadow: inset 0 0 0 5px var(--symbol-bg, #EEF0FF);
+}
+.memory-card:hover:not(.is-flipped):not(.is-matched) .card-inner { transform: translateY(-3px); }
+.memory-card.is-matched .card-front { box-shadow: inset 0 0 0 5px #DCFCE7; border-color: #86EFAC; }
+.memory-card.is-matched { animation: matched .36s ease; }
+@keyframes matched { 50% { transform: scale(1.045); } }
+
+.content-grid { display: grid; grid-template-columns: 1.35fr .85fr; gap: 22px; margin-top: 72px; }
+.content-card, .about-section, .related-section, .faq-section {
+  background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 26px; box-shadow: 0 8px 28px rgba(23,27,45,.04);
+}
+h2 { margin: 0 0 15px; font-size: clamp(28px, 4vw, 35px); line-height: 1.18; letter-spacing: -.02em; }
+.content-card p, .about-section p { color: var(--muted); }
+.content-card li { margin: 7px 0; }
+.tips-card { background: #F0F1FF; border-color: #DADCFD; }
+.about-section, .related-section, .faq-section { margin-top: 22px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.related-card { min-height: 118px; display: grid; align-content: center; justify-items: center; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg); text-align: center; }
+.related-card span { color: var(--primary); font-size: 26px; }
+.related-card strong { margin-top: 5px; }
+.related-card small { color: var(--muted); }
+.placeholder-note { margin-bottom: 0; color: var(--muted); font-size: 14px; }
+.faq-section { margin-bottom: 72px; }
+details { border-top: 1px solid var(--border); padding: 15px 0; }
+details:last-child { padding-bottom: 0; }
+summary { cursor: pointer; font-weight: 800; }
+details p { margin-bottom: 0; color: var(--muted); }
+
+.modal[hidden] { display: none; }
+.modal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(17,24,39,.72); backdrop-filter: blur(4px); }
+.modal-card { position: relative; width: min(410px, 100%); padding: 30px; border-radius: 20px; background: white; text-align: center; box-shadow: 0 25px 70px rgba(0,0,0,.25); }
+.win-icon { width: 64px; height: 64px; margin: 0 auto 14px; display: grid; place-items: center; border-radius: 50%; background: #FFF7E8; color: #D98A12; font-size: 30px; }
+.modal-card h2 { margin-bottom: 7px; }
+.modal-card p { margin-top: 0; color: var(--muted); }
+.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 22px 0; }
+.result-grid div { padding: 13px; border-radius: 12px; background: var(--bg); }
+.result-grid span { display: block; color: var(--muted); font-size: 13px; font-weight: 700; }
+.result-grid strong { font-size: 23px; }
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .container { width: min(100% - 24px, 1160px); }
+  .header-note { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 20px 0 30px; }
+  .hero-badge { display: none; }
+  .intro { font-size: 17px; }
+  .game-toolbar { align-items: stretch; flex-direction: column; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stat { min-width: 0; text-align: center; padding-inline: 7px; }
+  .button-light { width: 100%; }
+  .game-stage { padding: 16px 12px 20px; }
+  .memory-board { gap: 8px; }
+  .card-inner, .card-face, .memory-card { border-radius: 12px; }
+  .content-grid { grid-template-columns: 1fr; margin-top: 54px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .content-card, .about-section, .related-section, .faq-section { padding: 21px; }
+}
+@media (max-width: 390px) {
+  .container { width: min(100% - 18px, 1160px); }
+  .game-stage { padding-inline: 8px; }
+  .memory-board { gap: 6px; }
+  .stat strong { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-note">Free browser games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="#">Games</a><span aria-hidden="true">/</span><span aria-current="page">Memory Puzzle</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Matching Game</p>
+          <h1 id="page-title">Memory Puzzle Game</h1>
+          <p class="intro">Flip the cards, remember their positions, and match every pair. Finish the board in as few moves and as little time as possible.</p>
+        </div>
+        <div class="hero-badge" aria-hidden="true">
+          <span>★</span><span>♥</span><span>●</span><span>◆</span>
+        </div>
+      </section>
+
+      <section class="game-shell" aria-label="Memory Puzzle game">
+        <div class="game-toolbar">
+          <div class="stats" aria-live="polite">
+            <div class="stat"><span class="stat-label">Moves</span><strong id="moves">0</strong></div>
+            <div class="stat"><span class="stat-label">Pairs</span><strong><span id="pairs">0</span>/8</strong></div>
+            <div class="stat"><span class="stat-label">Time</span><strong id="timer">00:00</strong></div>
+          </div>
+          <button class="button button-light" id="restartBtn" type="button">New Game</button>
+        </div>
+
+        <div class="game-stage">
+          <div id="gameStatus" class="status" role="status">Choose any card to begin.</div>
+          <div id="gameBoard" class="memory-board" aria-label="Memory card board"></div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="content-card">
+          <h2>How to Play Memory Puzzle</h2>
+          <p>Select two cards to reveal their symbols. If the symbols match, the pair stays visible. If they do not match, the cards turn back over after a short pause.</p>
+          <ol>
+            <li>Flip one card, then choose a second card.</li>
+            <li>Remember where each symbol appears.</li>
+            <li>Match all 8 pairs to complete the puzzle.</li>
+            <li>Try to improve your move count and completion time.</li>
+          </ol>
+          <p><strong>Desktop:</strong> click cards or use Tab and Enter/Space. <strong>Mobile:</strong> tap cards directly.</p>
+        </article>
+
+        <aside class="content-card tips-card">
+          <h2>Memory Puzzle Tips</h2>
+          <ul>
+            <li>Scan the board methodically instead of choosing randomly.</li>
+            <li>When a card does not match, memorize both revealed positions.</li>
+            <li>Use known pairs immediately when one matching symbol reappears.</li>
+            <li>Replay to lower both your moves and your time.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="about-section">
+        <h2>About the Memory Puzzle Game</h2>
+        <p>This free online Memory Puzzle is a classic concentration-style matching game. The board contains 16 cards with 8 hidden pairs. Each new game shuffles the symbols, so the card positions change every time you play. The game runs entirely in your browser with no download or account required.</p>
+      </section>
+
+      <section class="related-section">
+        <h2>Related Games</h2>
+        <div class="related-grid">
+          <div class="related-card"><span aria-hidden="true">▦</span><strong>2048</strong><small>Number puzzle</small></div>
+          <div class="related-card"><span aria-hidden="true">✦</span><strong>Simon</strong><small>Pattern memory</small></div>
+          <div class="related-card"><span aria-hidden="true">▤</span><strong>Sliding Puzzle</strong><small>Tile puzzle</small></div>
+        </div>
+        <p class="placeholder-note">Related-game links are ready to connect when those pages exist.</p>
+      </section>
+
+      <section class="faq-section">
+        <h2>Memory Puzzle FAQ</h2>
+        <details>
+          <summary>Is this Memory Puzzle free to play?</summary>
+          <p>Yes. The game is free to play directly in a modern web browser.</p>
+        </details>
+        <details>
+          <summary>Does the Memory Puzzle work on mobile?</summary>
+          <p>Yes. The board is responsive and the cards support touch input on phones and tablets.</p>
+        </details>
+        <details>
+          <summary>How do I win the game?</summary>
+          <p>You win by finding all 8 matching pairs. Your final result records the number of moves and the time taken.</p>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal" id="winModal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <div class="win-icon" aria-hidden="true">★</div>
+      <h2 id="winTitle">Puzzle Complete!</h2>
+      <p>You matched all the pairs.</p>
+      <div class="result-grid">
+        <div><span>Moves</span><strong id="finalMoves">0</strong></div>
+        <div><span>Time</span><strong id="finalTime">00:00</strong></div>
+      </div>
+      <button class="button button-primary" id="playAgainBtn" type="button">Play Again</button>
+    </div>
+  </div>
+
+  <script>(() => {
+  "use strict";
+
+  const symbols = [
+    { icon: "★", color: "#5B5CE2", bg: "#EEF0FF", name: "star" },
+    { icon: "♥", color: "#EF5B5B", bg: "#FFF0F0", name: "heart" },
+    { icon: "●", color: "#16B8C4", bg: "#EAFBFC", name: "circle" },
+    { icon: "◆", color: "#D98A12", bg: "#FFF7E8", name: "diamond" },
+    { icon: "▲", color: "#22C55E", bg: "#ECFDF3", name: "triangle" },
+    { icon: "✿", color: "#B14FD1", bg: "#FAF0FF", name: "flower" },
+    { icon: "☀", color: "#E59B18", bg: "#FFF8DD", name: "sun" },
+    { icon: "✦", color: "#3D7AE8", bg: "#EDF4FF", name: "spark" }
+  ];
+
+  const board = document.getElementById("gameBoard");
+  const movesEl = document.getElementById("moves");
+  const pairsEl = document.getElementById("pairs");
+  const timerEl = document.getElementById("timer");
+  const statusEl = document.getElementById("gameStatus");
+  const restartBtn = document.getElementById("restartBtn");
+  const winModal = document.getElementById("winModal");
+  const playAgainBtn = document.getElementById("playAgainBtn");
+  const finalMoves = document.getElementById("finalMoves");
+  const finalTime = document.getElementById("finalTime");
+
+  let firstCard = null;
+  let secondCard = null;
+  let lockBoard = false;
+  let moves = 0;
+  let matchedPairs = 0;
+  let seconds = 0;
+  let timerId = null;
+  let started = false;
+  let flipBackTimeout = null;
+
+  function shuffle(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function formatTime(totalSeconds) {
+    const mins = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+    const secs = (totalSeconds % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
+  }
+
+  function startTimer() {
+    if (started) return;
+    started = true;
+    timerId = window.setInterval(() => {
+      seconds += 1;
+      timerEl.textContent = formatTime(seconds);
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  function createCard(item, index) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "memory-card";
+    card.dataset.pair = item.name;
+    card.setAttribute("aria-label", `Hidden memory card ${index + 1}`);
+
+    card.innerHTML = `
+      <span class="card-inner">
+        <span class="card-face card-back" aria-hidden="true"></span>
+        <span class="card-face card-front" style="--symbol-color:${item.color};--symbol-bg:${item.bg}" aria-hidden="true">${item.icon}</span>
+      </span>
+    `;
+
+    card.addEventListener("click", () => handleCard(card, item));
+    return card;
+  }
+
+  function handleCard(card, item) {
+    if (lockBoard || card === firstCard || card.classList.contains("is-matched")) return;
+
+    startTimer();
+    card.classList.add("is-flipped");
+    card.setAttribute("aria-label", `${item.name} card revealed`);
+
+    if (!firstCard) {
+      firstCard = card;
+      statusEl.textContent = "Now choose a second card.";
+      return;
+    }
+
+    secondCard = card;
+    moves += 1;
+    movesEl.textContent = moves;
+
+    if (firstCard.dataset.pair === secondCard.dataset.pair) {
+      matchCards();
+    } else {
+      hideCards();
+    }
+  }
+
+  function matchCards() {
+    firstCard.classList.add("is-matched");
+    secondCard.classList.add("is-matched");
+    firstCard.disabled = true;
+    secondCard.disabled = true;
+    matchedPairs += 1;
+    pairsEl.textContent = matchedPairs;
+    statusEl.textContent = matchedPairs === symbols.length ? "All pairs matched!" : "Match found! Keep going.";
+    resetTurn();
+
+    if (matchedPairs === symbols.length) {
+      stopTimer();
+      window.setTimeout(showWin, 450);
+    }
+  }
+
+  function hideCards() {
+    lockBoard = true;
+    statusEl.textContent = "Not a match. Remember those cards.";
+    flipBackTimeout = window.setTimeout(() => {
+      [firstCard, secondCard].forEach((card) => {
+        if (!card) return;
+        card.classList.remove("is-flipped");
+        const position = [...board.children].indexOf(card) + 1;
+        card.setAttribute("aria-label", `Hidden memory card ${position}`);
+      });
+      resetTurn();
+      lockBoard = false;
+      statusEl.textContent = "Choose another card.";
+      flipBackTimeout = null;
+    }, 800);
+  }
+
+  function resetTurn() {
+    firstCard = null;
+    secondCard = null;
+  }
+
+  function showWin() {
+    finalMoves.textContent = moves;
+    finalTime.textContent = formatTime(seconds);
+    winModal.hidden = false;
+    playAgainBtn.focus();
+  }
+
+  function closeWin() {
+    winModal.hidden = true;
+  }
+
+  function newGame() {
+    stopTimer();
+    if (flipBackTimeout !== null) {
+      clearTimeout(flipBackTimeout);
+      flipBackTimeout = null;
+    }
+
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+    moves = 0;
+    matchedPairs = 0;
+    seconds = 0;
+    started = false;
+
+    movesEl.textContent = "0";
+    pairsEl.textContent = "0";
+    timerEl.textContent = "00:00";
+    statusEl.textContent = "Choose any card to begin.";
+    closeWin();
+
+    const deck = shuffle([...symbols, ...symbols]);
+    board.replaceChildren(...deck.map(createCard));
+  }
+
+  restartBtn.addEventListener("click", newGame);
+  playAgainBtn.addEventListener("click", newGame);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !winModal.hidden) {
+      closeWin();
+      restartBtn.focus();
+    }
+  });
+
+  newGame();
+})();
+</script>
+</body>
+</html>

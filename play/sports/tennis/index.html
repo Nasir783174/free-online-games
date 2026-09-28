@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Play Tennis Game free online in your browser. Serve, return, score points and win the match with simple keyboard or touch controls.">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Tennis Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root{
+  --brand:#5B5CE2; --brand-dark:#4546B8; --cyan:#16B8C4; --action:#FFB84D;
+  --success:#22C55E; --danger:#EF5B5B; --bg:#F6F7FB; --card:#fff;
+  --text:#171B2D; --muted:#667085; --border:#E5E7EF;
+  --court:#111827; --court2:#1F2937;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito Sans",system-ui,sans-serif}
+button,a{font:inherit}
+button{cursor:pointer}
+.page{width:min(1160px,calc(100% - 32px));margin:0 auto;padding:30px 0 70px}
+.breadcrumb{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:26px}
+.breadcrumb a{color:var(--brand);text-decoration:none;font-weight:700}
+.intro{max-width:760px;margin-bottom:28px}
+.eyebrow{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--brand);margin:0 0 8px}
+h1{font-size:clamp(38px,5vw,58px);line-height:1.08;margin:0 0 12px;font-weight:800;letter-spacing:-.03em}
+.intro>p:last-child{font-size:18px;line-height:1.65;color:var(--muted);margin:0}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(23,27,45,.07)}
+.scorebar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:4px 8px 16px}
+.player{display:flex;align-items:baseline;gap:12px}
+.player strong{font-size:28px}
+.player-label{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--muted)}
+.opponent{justify-content:flex-end}
+.match-info{text-align:center;display:flex;flex-direction:column;gap:2px}
+.match-info span:first-child{font-weight:800}
+.match-info span:last-child{font-size:13px;color:var(--muted)}
+.court-wrap{position:relative;background:var(--court);border-radius:16px;overflow:hidden;aspect-ratio:16/9}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.overlay-message{position:absolute;inset:0;display:grid;place-items:center;background:rgba(17,24,39,.55);backdrop-filter:blur(3px)}
+.overlay-message.hidden{display:none}
+.message-box{width:min(360px,calc(100% - 32px));text-align:center;background:#fff;border-radius:16px;padding:28px 24px;box-shadow:0 16px 50px rgba(0,0,0,.22)}
+.message-box h2{margin:0 0 6px;font-size:28px}
+.message-box p{margin:0 0 18px;color:var(--muted)}
+.message-box button,.restart{border:0;border-radius:11px;background:var(--brand);color:#fff;font-weight:800;padding:12px 20px;min-height:46px}
+.message-box button:hover,.restart:hover{background:var(--brand-dark)}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 4px 2px}
+.control-copy{display:flex;align-items:center;gap:15px;color:var(--muted);font-size:14px;flex-wrap:wrap}
+.control-copy strong{color:var(--text)}
+.touch-controls{display:flex;gap:8px}
+.touch-controls button{height:46px;min-width:54px;border:1px solid var(--border);border-radius:11px;background:#fff;color:var(--text);font-weight:800}
+.touch-controls #hitBtn{background:var(--action);border-color:var(--action);min-width:64px}
+.touch-controls button:active{transform:translateY(1px)}
+.restart{background:#eef0ff;color:var(--brand-dark);border:1px solid #dfe1ff}
+.content{max-width:840px;margin:62px auto 0}
+.content h2{font-size:32px;margin:42px 0 10px}
+.content h3{font-size:22px;margin:26px 0 8px}
+.content p,.content li{font-size:17px;line-height:1.7;color:var(--muted)}
+.content ul{padding-left:24px}
+.related{display:flex;gap:12px;flex-wrap:wrap}
+.related a{padding:11px 16px;border:1px solid var(--border);background:#fff;border-radius:11px;text-decoration:none;color:var(--brand-dark);font-weight:800}
+details{border-top:1px solid var(--border);padding:16px 0}
+details:last-child{border-bottom:1px solid var(--border)}
+summary{cursor:pointer;font-weight:800;font-size:17px}
+details p{margin:10px 0 0}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(91,92,226,.35);outline-offset:3px}
+@media(max-width:700px){
+  .page{width:min(100% - 20px,1160px);padding-top:20px}
+  .intro>p:last-child{font-size:16px}
+  .game-card{padding:10px;border-radius:16px}
+  .scorebar{padding:5px 5px 11px}
+  .player{gap:7px}
+  .player strong{font-size:24px}
+  .match-info span:last-child{font-size:12px}
+  .controls{flex-wrap:wrap;justify-content:center}
+  .control-copy{justify-content:center;width:100%;gap:9px}
+  .touch-controls{order:2}
+  .restart{order:3;width:100%}
+  .content{margin-top:45px}
+  .content h2{font-size:28px;margin-top:34px}
+}
+@media(max-width:430px){
+  .court-wrap{aspect-ratio:4/3}
+  .control-copy span:nth-last-child(1){display:none}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../index.html">Games Hub</a><span aria-hidden="true">/</span><span>Tennis</span>
+    </nav>
+
+    <header class="intro">
+      <p class="eyebrow">SPORTS GAME</p>
+      <h1>Tennis Game</h1>
+      <p>Play a fast browser tennis match against the computer. Serve, move your racket, return the ball, and be the first player to win the match.</p>
+    </header>
+
+    <section class="game-card" aria-label="Tennis game">
+      <div class="scorebar">
+        <div class="player">
+          <span class="player-label">YOU</span>
+          <strong id="playerScore">0</strong>
+        </div>
+        <div class="match-info">
+          <span id="setStatus">Set 1</span>
+          <span id="gameStatus" aria-live="polite">Ready to serve</span>
+        </div>
+        <div class="player opponent">
+          <span class="player-label">CPU</span>
+          <strong id="cpuScore">0</strong>
+        </div>
+      </div>
+
+      <div class="court-wrap">
+        <canvas id="court" width="960" height="540" aria-label="Tennis court game area"></canvas>
+        <div id="message" class="overlay-message">
+          <div class="message-box">
+            <h2 id="messageTitle">Tennis</h2>
+            <p id="messageText">Serve to start the match.</p>
+            <button id="startBtn" type="button">Start Match</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="control-copy">
+          <strong>Controls</strong>
+          <span>Move: ← → / A D</span>
+          <span>Serve &amp; hit: Space</span>
+        </div>
+        <div class="touch-controls" aria-label="Touch controls">
+          <button id="leftBtn" type="button" aria-label="Move racket left">←</button>
+          <button id="hitBtn" type="button" aria-label="Serve or hit ball">HIT</button>
+          <button id="rightBtn" type="button" aria-label="Move racket right">→</button>
+        </div>
+        <button id="restartBtn" class="restart" type="button">New Match</button>
+      </div>
+    </section>
+
+    <section class="content">
+      <h2>How to Play Tennis</h2>
+      <p>Move your racket along the baseline and time your shots as the ball comes toward you. During a serve, press Space or HIT to send the ball into play. A return is automatically made when the ball reaches your racket at the right position.</p>
+      <h3>Controls</h3>
+      <ul>
+        <li><strong>Left / A:</strong> Move your racket left.</li>
+        <li><strong>Right / D:</strong> Move your racket right.</li>
+        <li><strong>Space / HIT:</strong> Serve and hit the ball.</li>
+        <li>On mobile, use the large touch buttons below the court.</li>
+      </ul>
+
+      <h2>About This Tennis Game</h2>
+      <p>This free online tennis game uses a simple arcade-style scoring system inspired by tennis. Win points by returning the ball successfully while keeping your racket in the ball's path. The computer opponent adjusts its position and shot direction automatically.</p>
+
+      <h2>Tips for Winning</h2>
+      <ul>
+        <li>Watch the ball rather than the opponent's racket.</li>
+        <li>Stay near the center until you see the return direction.</li>
+        <li>Use small movements to line up your racket for more consistent returns.</li>
+        <li>On mobile, tap HIT as the ball reaches your side.</li>
+      </ul>
+
+      <h2>Related Games</h2>
+      <div class="related" aria-label="Related games">
+        <a href="../2048/index.html">2048</a>
+        <a href="../snake/index.html">Snake</a>
+        <a href="../tetris/index.html">Tetris</a>
+      </div>
+
+      <h2>FAQ</h2>
+      <details><summary>Is this Tennis Game free to play?</summary><p>Yes. The game runs directly in your browser and does not require an account or download.</p></details>
+      <details><summary>Can I play Tennis on a phone?</summary><p>Yes. Touch controls are provided for moving the racket and hitting or serving the ball.</p></details>
+      <details><summary>How do I win the match?</summary><p>Win points by making successful returns and forcing the computer to miss. The first player to reach the match target wins.</p></details>
+    </section>
+  </main>
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("court");
+  const ctx = canvas.getContext("2d");
+  const playerScoreEl = document.getElementById("playerScore");
+  const cpuScoreEl = document.getElementById("cpuScore");
+  const setStatusEl = document.getElementById("setStatus");
+  const gameStatusEl = document.getElementById("gameStatus");
+  const overlay = document.getElementById("message");
+  const messageTitle = document.getElementById("messageTitle");
+  const messageText = document.getElementById("messageText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const leftBtn = document.getElementById("leftBtn");
+  const rightBtn = document.getElementById("rightBtn");
+  const hitBtn = document.getElementById("hitBtn");
+
+  const W = canvas.width, H = canvas.height;
+  const court = { left: 72, right: W - 72, top: 52, bottom: H - 48, netY: H / 2 };
+  const player = { x: W / 2, y: court.bottom - 34, w: 112, h: 13, speed: 560 };
+  const cpu = { x: W / 2, y: court.top + 34, w: 112, h: 13 };
+  const ball = { x: W / 2, y: player.y - 20, r: 8, vx: 0, vy: 0, active: false, lastHit: null };
+
+  let running = false;
+  let pointReady = true;
+  let playerPoints = 0, cpuPoints = 0;
+  let playerGames = 0, cpuGames = 0;
+  let playerSets = 0, cpuSets = 0;
+  let serveByPlayer = true;
+  let keys = { left:false, right:false };
+  let cpuTarget = W / 2;
+  let lastTime = performance.now();
+  let rallyHits = 0;
+
+  const pointNames = ["0", "15", "30", "40"];
+
+  function resetMatch() {
+    playerPoints = cpuPoints = 0;
+    playerGames = cpuGames = 0;
+    playerSets = cpuSets = 0;
+    serveByPlayer = true;
+    rallyHits = 0;
+    running = false;
+    pointReady = true;
+    resetBall();
+    updateScore();
+    showOverlay("Tennis", "Serve to start the match.", "Start Match");
+  }
+
+  function resetBall() {
+    ball.x = serveByPlayer ? player.x : cpu.x;
+    ball.y = serveByPlayer ? player.y - 20 : cpu.y + 20;
+    ball.vx = 0;
+    ball.vy = 0;
+    ball.active = false;
+    ball.lastHit = null;
+    pointReady = true;
+    rallyHits = 0;
+    gameStatusEl.textContent = serveByPlayer ? "Ready to serve" : "CPU serves";
+  }
+
+  function startMatch() {
+    overlay.classList.add("hidden");
+    running = true;
+    pointReady = true;
+    gameStatusEl.textContent = "Serve now";
+    lastTime = performance.now();
+  }
+
+  function serve() {
+    if (!running || !pointReady || !serveByPlayer) return;
+    pointReady = false;
+    ball.active = true;
+    ball.lastHit = "player";
+    ball.x = player.x;
+    ball.y = player.y - 18;
+    ball.vx = (Math.random() - .5) * 210;
+    ball.vy = -470;
+    rallyHits = 1;
+    gameStatusEl.textContent = "Rally!";
+  }
+
+  function playerHit() {
+    if (!running || !ball.active) return;
+    if (ball.vy <= 0 || ball.y < H / 2) return;
+    const near = Math.abs(ball.x - player.x) <= player.w / 2 + ball.r * 1.4;
+    if (!near) return;
+
+    ball.y = player.y - ball.r - 1;
+    ball.vy = -(430 + Math.min(rallyHits * 7, 130));
+    ball.vx = ((ball.x - player.x) / (player.w / 2)) * 300 + (Math.random() - .5) * 80;
+    ball.lastHit = "player";
+    rallyHits++;
+    gameStatusEl.textContent = "Rally!";
+  }
+
+  function cpuHit() {
+    if (!running || !ball.active || ball.vy >= 0 || ball.y > H / 2) return;
+    if (Math.abs(ball.x - cpu.x) > cpu.w / 2 + ball.r * 1.4) return;
+
+    ball.y = cpu.y + ball.r + 1;
+    const target = court.left + 45 + Math.random() * (court.right - court.left - 90);
+    ball.vx = (target - ball.x) * 0.95;
+    ball.vx = Math.max(-390, Math.min(390, ball.vx));
+    ball.vy = 430 + Math.min(rallyHits * 7, 130);
+    ball.lastHit = "cpu";
+    rallyHits++;
+    gameStatusEl.textContent = "Rally!";
+  }
+
+  function point(winner) {
+    if (!running) return;
+    ball.active = false;
+    if (winner === "player") playerPoints++;
+    else cpuPoints++;
+    updateScore();
+
+    const gameWinner = checkGame();
+    if (gameWinner) return;
+
+    serveByPlayer = winner === "cpu" ? true : false;
+    setTimeout(() => {
+      if (!running) return;
+      resetBall();
+      gameStatusEl.textContent = serveByPlayer ? "Your serve" : "CPU serve";
+    }, 700);
+  }
+
+  function checkGame() {
+    const p = playerPoints, c = cpuPoints;
+    const won = (p >= 4 && p - c >= 2);
+    const lost = (c >= 4 && c - p >= 2);
+    if (!won && !lost) return false;
+
+    if (won) playerGames++;
+    else cpuGames++;
+
+    playerPoints = cpuPoints = 0;
+
+    if (playerGames >= 6 && playerGames - cpuGames >= 2) {
+      playerSets++;
+      playerGames = cpuGames = 0;
+    } else if (cpuGames >= 6 && cpuGames - playerGames >= 2) {
+      cpuSets++;
+      playerGames = cpuGames = 0;
+    }
+
+    if (playerSets >= 2 || cpuSets >= 2) {
+      running = false;
+      updateScore();
+      const playerWon = playerSets >= 2;
+      showOverlay(playerWon ? "You Win!" : "Match Over", playerWon ? "Great rally. You won the tennis match." : "The computer won this match. Try again.", "Play Again");
+      return true;
+    }
+
+    serveByPlayer = lost;
+    updateScore();
+    resetBall();
+    return true;
+  }
+
+  function updateScore() {
+    const p = playerPoints >= 3 && cpuPoints >= 3
+      ? (playerPoints === cpuPoints ? "40" : playerPoints > cpuPoints ? "AD" : "40")
+      : pointNames[Math.min(playerPoints, 3)];
+    const c = cpuPoints >= 3 && playerPoints >= 3
+      ? (playerPoints === cpuPoints ? "40" : cpuPoints > playerPoints ? "AD" : "40")
+      : pointNames[Math.min(cpuPoints, 3)];
+    playerScoreEl.textContent = p;
+    cpuScoreEl.textContent = c;
+    setStatusEl.textContent = `Sets ${playerSets}-${cpuSets} · Games ${playerGames}-${cpuGames}`;
+  }
+
+  function showOverlay(title, text, buttonText) {
+    messageTitle.textContent = title;
+    messageText.textContent = text;
+    startBtn.textContent = buttonText;
+    overlay.classList.remove("hidden");
+  }
+
+  function movePlayer(dir, dt) {
+    player.x += dir * player.speed * dt;
+    player.x = Math.max(court.left + player.w / 2, Math.min(court.right - player.w / 2, player.x));
+    if (pointReady && serveByPlayer) ball.x = player.x;
+  }
+
+  function update(dt) {
+    if (!running) return;
+
+    const dir = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+    movePlayer(dir, dt);
+
+    if (ball.active) {
+      ball.x += ball.vx * dt;
+      ball.y += ball.vy * dt;
+
+      if (ball.x - ball.r <= court.left || ball.x + ball.r >= court.right) {
+        ball.x = Math.max(court.left + ball.r, Math.min(court.right - ball.r, ball.x));
+        ball.vx *= -1;
+      }
+
+      // Computer follows the ball with a controlled delay.
+      const desired = ball.x + ball.vx * 0.06;
+      cpuTarget += Math.max(-1, Math.min(1, desired - cpuTarget)) * 4.5;
+      cpu.x += Math.max(-1, Math.min(1, cpuTarget - cpu.x)) * 360 * dt;
+      cpu.x = Math.max(court.left + cpu.w / 2, Math.min(court.right - cpu.w / 2, cpu.x));
+
+      cpuHit();
+      playerHit();
+
+      if (ball.y < court.top - 18) {
+        point("player");
+      } else if (ball.y > court.bottom + 18) {
+        point("cpu");
+      }
+    }
+  }
+
+  function drawCourt() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "#111827";
+    ctx.fillRect(0, 0, W, H);
+
+    // Court surface
+    ctx.fillStyle = "#176B5B";
+    ctx.fillRect(court.left, court.top, court.right - court.left, court.bottom - court.top);
+
+    // Subtle court stripes
+    ctx.fillStyle = "rgba(255,255,255,.025)";
+    for (let x = court.left; x < court.right; x += 54) ctx.fillRect(x, court.top, 27, court.bottom - court.top);
+
+    ctx.strokeStyle = "rgba(255,255,255,.9)";
+    ctx.lineWidth = 5;
+    ctx.strokeRect(court.left, court.top, court.right - court.left, court.bottom - court.top);
+
+    ctx.lineWidth = 3;
+    const singlesL = court.left + 92, singlesR = court.right - 92;
+    const serviceTop = court.top + 125, serviceBottom = court.bottom - 125;
+
+    // Singles sidelines and service boxes
+    ctx.beginPath();
+    ctx.moveTo(singlesL, court.top); ctx.lineTo(singlesL, court.bottom);
+    ctx.moveTo(singlesR, court.top); ctx.lineTo(singlesR, court.bottom);
+    ctx.moveTo(singlesL, serviceTop); ctx.lineTo(singlesR, serviceTop);
+    ctx.moveTo(singlesL, serviceBottom); ctx.lineTo(singlesR, serviceBottom);
+    ctx.moveTo((singlesL + singlesR)/2, serviceTop); ctx.lineTo((singlesL + singlesR)/2, serviceBottom);
+    ctx.stroke();
+
+    // Net
+    ctx.strokeStyle = "#F8FAFC";
+    ctx.lineWidth = 8;
+    ctx.beginPath(); ctx.moveTo(court.left - 3, court.netY); ctx.lineTo(court.right + 3, court.netY); ctx.stroke();
+    ctx.strokeStyle = "rgba(17,24,39,.5)";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(court.left, court.netY + 5); ctx.lineTo(court.right, court.netY + 5); ctx.stroke();
+
+    // Rackets
+    drawRacket(cpu.x, cpu.y, "#FFB84D", false);
+    drawRacket(player.x, player.y, "#5B5CE2", true);
+
+    // Ball shadow
+    if (ball.active || pointReady) {
+      ctx.fillStyle = "rgba(0,0,0,.2)";
+      ctx.beginPath(); ctx.ellipse(ball.x + 3, ball.y + 7, ball.r + 1, 4, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#E8F85B";
+      ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "rgba(17,24,39,.5)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  function drawRacket(x, y, color, playerSide) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 7;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(0, playerSide ? 7 : -7);
+    ctx.lineTo(0, playerSide ? 27 : -27);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#F8FAFC";
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.ellipse(0, playerSide ? -2 : 2, 27, 19, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function loop(now) {
+    const dt = Math.min((now - lastTime) / 1000, 0.032);
+    lastTime = now;
+    update(dt);
+    drawCourt();
+    requestAnimationFrame(loop);
+  }
+
+  function setKey(dir, down) {
+    keys[dir] = down;
+  }
+
+  window.addEventListener("keydown", e => {
+    if (["ArrowLeft","ArrowRight","Space","KeyA","KeyD"].includes(e.code)) e.preventDefault();
+    if (e.code === "ArrowLeft" || e.code === "KeyA") setKey("left", true);
+    if (e.code === "ArrowRight" || e.code === "KeyD") setKey("right", true);
+    if (e.code === "Space") {
+      if (!running) startMatch();
+      else if (pointReady) serve();
+      else playerHit();
+    }
+  });
+  window.addEventListener("keyup", e => {
+    if (e.code === "ArrowLeft" || e.code === "KeyA") setKey("left", false);
+    if (e.code === "ArrowRight" || e.code === "KeyD") setKey("right", false);
+  });
+
+  function bindHold(btn, dir) {
+    const down = e => { e.preventDefault(); setKey(dir, true); };
+    const up = e => { e.preventDefault(); setKey(dir, false); };
+    ["pointerdown"].forEach(ev => btn.addEventListener(ev, down));
+    ["pointerup","pointercancel","pointerleave"].forEach(ev => btn.addEventListener(ev, up));
+  }
+  bindHold(leftBtn, "left");
+  bindHold(rightBtn, "right");
+
+  hitBtn.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    if (!running) startMatch();
+    else if (pointReady) serve();
+    else playerHit();
+  });
+
+  startBtn.addEventListener("click", () => {
+    if (startBtn.textContent === "Play Again") resetMatch();
+    startMatch();
+  });
+  restartBtn.addEventListener("click", resetMatch);
+
+  resetMatch();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Math Game - Play Free Online Mental Math Game</title>
+  <meta name="description" content="Play Math Game online for free. Solve fast mental math questions, build streaks, earn points, and improve your arithmetic skills with no download.">
+  <meta name="theme-color" content="#5B5CE2">
+  <meta property="og:title" content="Math Game - Play Free Online Mental Math Game">
+  <meta property="og:description" content="Challenge yourself with fast arithmetic questions and build your highest Math Game score directly in your browser.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root{--brand:#5B5CE2;--brand-dark:#4546B8;--cyan:#16B8C4;--orange:#FFB84D;--green:#22C55E;--red:#EF5B5B;--bg:#F6F7FB;--card:#fff;--text:#171B2D;--muted:#667085;--border:#E5E7EF;--game:#111827;--game2:#1F2937;--radius:18px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito Sans",sans-serif;font-size:17px;line-height:1.65}.site-header{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}.header-inner{width:min(1200px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between}.brand{font-size:21px;font-weight:800;color:var(--brand);text-decoration:none}.header-label{font-size:14px;font-weight:700;color:var(--muted)}.page-shell{width:min(1120px,calc(100% - 40px));margin:auto;padding:28px 0 72px}.breadcrumb{display:flex;gap:9px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:24px}.breadcrumb a{color:var(--brand);font-weight:700;text-decoration:none}.intro{max-width:760px;margin-bottom:30px}.intro h1{font-size:clamp(36px,6vw,56px);line-height:1.08;margin:0 0 12px;font-weight:800;letter-spacing:-1.2px}.intro p{margin:0;color:var(--muted);font-size:18px}.game-card{position:relative;background:var(--game);color:#fff;border-radius:20px;overflow:hidden;box-shadow:0 18px 50px rgba(17,24,39,.14);max-width:900px;margin:0 auto 68px}.game-topbar{display:grid;grid-template-columns:repeat(3,1fr) 1.2fr;background:var(--game2);border-bottom:1px solid rgba(255,255,255,.08)}.stat,.timer-wrap{padding:17px 20px}.stat span,.timer-wrap span{display:block;color:#AAB3C5;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.stat strong,.timer-wrap strong{display:block;font-size:24px;line-height:1.1;margin-top:2px}.timer-wrap{text-align:right;background:rgba(91,92,226,.16)}.timer-wrap strong{color:#FFCF78}.game-main{padding:30px 36px 28px}.difficulty-row{display:flex;justify-content:space-between;align-items:center;color:#AAB3C5;font-size:14px;font-weight:700}.difficulty{padding:5px 10px;border-radius:999px;background:rgba(22,184,196,.14);color:#63D8DF}.question-area{text-align:center;padding:24px 0 25px}.question-label{font-size:14px;text-transform:uppercase;letter-spacing:.09em;color:#98A2B3;font-weight:800}.question{font-size:clamp(42px,8vw,68px);font-weight:800;line-height:1.05;margin:7px 0 5px;letter-spacing:1px}.feedback{min-height:27px;font-size:15px;color:#AAB3C5}.feedback.correct{color:#6EE7A1}.feedback.wrong{color:#FF8C8C}.answers{display:grid;grid-template-columns:1fr 1fr;gap:13px}.answer-btn{border:2px solid #354052;background:#202938;color:#fff;border-radius:14px;min-height:68px;padding:12px 16px;font:800 20px "Nunito Sans",sans-serif;cursor:pointer;transition:transform .12s,border-color .12s,background .12s}.answer-btn:hover:not(:disabled),.answer-btn:focus-visible:not(:disabled){border-color:#7779EE;background:#2A3344;transform:translateY(-1px);outline:none}.answer-btn:disabled{cursor:default}.answer-btn.correct{background:rgba(34,197,94,.2);border-color:#4ADE80}.answer-btn.wrong{background:rgba(239,91,91,.2);border-color:#FB7185}.controls{display:flex;justify-content:center;gap:12px;margin-top:22px}.btn{height:48px;padding:0 23px;border-radius:12px;border:0;font:700 16px "Nunito Sans",sans-serif;cursor:pointer;transition:transform .12s,filter .12s}.btn:hover,.btn:focus-visible{transform:translateY(-1px);filter:brightness(1.03);outline:3px solid rgba(255,255,255,.18);outline-offset:2px}.btn-primary{background:var(--brand);color:#fff}.btn-secondary{background:#2B3545;color:#E7EAF0}.keyboard-hint{text-align:center;color:#7F8A9D;font-size:13px;margin:16px 0 0}.keyboard-hint kbd,.content-section kbd{font-family:inherit;font-weight:800;background:#2B3545;border:1px solid #465164;border-radius:5px;padding:1px 6px;color:#E7EAF0}.game-over{position:absolute;inset:0;background:rgba(17,24,39,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:3}.game-over[hidden]{display:none}.result-icon{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:rgba(34,197,94,.16);color:#6EE7A1;font-size:30px;font-weight:800}.game-over h2{font-size:34px;margin:13px 0 5px}.game-over p{color:#B5BDCB;margin:0 0 20px}.content-section,.related,.faq{max-width:900px;margin:0 auto 56px}.content-section h2,.related h2,.faq h2{font-size:32px;line-height:1.2;margin:0 0 15px}.content-section p{color:var(--muted);margin:0 0 14px}.content-section ul{color:var(--muted);padding-left:22px;margin:10px 0 0}.tip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tip-grid article{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px}.tip-grid h3{font-size:20px;margin:0 0 7px}.tip-grid p{font-size:15px;margin:0}.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.related-card{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:3px}.related-card strong{font-size:18px}.related-card span{font-size:14px;color:var(--muted)}.faq details{background:#fff;border:1px solid var(--border);border-radius:12px;margin:10px 0;padding:0 17px}.faq summary{cursor:pointer;font-weight:700;padding:15px 0}.faq details p{color:var(--muted);font-size:15px;margin:0 0 15px}.site-footer{text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding:28px 20px;background:#fff}@media(max-width:700px){body{font-size:16px}.site-header{height:64px}.header-inner,.page-shell{width:min(100% - 28px,1120px)}.header-label{display:none}.page-shell{padding-top:20px}.breadcrumb{font-size:13px;flex-wrap:wrap;margin-bottom:19px}.intro{margin-bottom:22px}.intro p{font-size:16px}.game-card{border-radius:16px;margin-bottom:48px}.game-topbar{grid-template-columns:repeat(3,1fr)}.timer-wrap{grid-column:1/-1;text-align:center;padding:10px 15px;border-top:1px solid rgba(255,255,255,.08)}.stat{padding:13px 10px;text-align:center}.stat strong{font-size:21px}.game-main{padding:22px 16px 21px}.question-area{padding:25px 0 22px}.question{font-size:48px}.answers{gap:9px}.answer-btn{min-height:62px;font-size:18px}.controls{flex-direction:column}.btn{width:100%}.keyboard-hint{display:none}.content-section,.related,.faq{margin-bottom:42px}.content-section h2,.related h2,.faq h2{font-size:27px}.tip-grid,.related-grid{grid-template-columns:1fr}.tip-grid article{padding:17px}}
+@media(max-width:390px){.question{font-size:42px}.answers{grid-template-columns:1fr}.answer-btn{min-height:56px}.stat span{font-size:11px}.stat strong{font-size:19px}}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">Games Hub</a>
+      <span class="header-label">Educational Games</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../">Games Hub</a><span aria-hidden="true">›</span><span>Educational Games</span><span aria-hidden="true">›</span><span>Math Game</span>
+    </nav>
+
+    <section class="intro">
+      <h1>Math Game</h1>
+      <p>Test your mental math skills with quick arithmetic questions. Choose the right answer before time runs out, build a streak, and see how high you can score.</p>
+    </section>
+
+    <section class="game-card" aria-label="Math Game">
+      <div class="game-topbar">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
+        <div class="stat"><span>Best</span><strong id="best">0</strong></div>
+        <div class="timer-wrap" aria-label="Time remaining">
+          <span>Time</span><strong id="timer">15</strong>
+        </div>
+      </div>
+
+      <div class="game-main">
+        <div class="difficulty-row">
+          <span id="round-label">Round 1</span>
+          <span id="difficulty-label" class="difficulty">Easy</span>
+        </div>
+
+        <div class="question-area">
+          <div class="question-label">Solve this</div>
+          <div id="question" class="question" aria-live="polite">Ready?</div>
+          <div id="feedback" class="feedback" aria-live="polite">Choose an answer to begin.</div>
+        </div>
+
+        <div id="answers" class="answers" role="group" aria-label="Answer choices"></div>
+
+        <div class="controls">
+          <button id="start-btn" class="btn btn-primary" type="button">Start Game</button>
+          <button id="restart-btn" class="btn btn-secondary" type="button">Restart</button>
+        </div>
+        <p class="keyboard-hint">Keyboard: press <kbd>1</kbd>–<kbd>4</kbd> to answer. Press <kbd>Enter</kbd> to start.</p>
+      </div>
+
+      <div id="game-over" class="game-over" hidden>
+        <div class="result-icon" aria-hidden="true">✓</div>
+        <h2>Time's up!</h2>
+        <p>Your score was <strong id="final-score">0</strong> with a best streak of <strong id="final-streak">0</strong>.</p>
+        <button id="play-again-btn" class="btn btn-primary" type="button">Play Again</button>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Math Game</h2>
+      <p>Start the game and solve each arithmetic problem as quickly as you can. Four answer choices appear below every question. Select the correct answer before the 15-second timer reaches zero.</p>
+      <ul>
+        <li>Correct answers increase your score and streak.</li>
+        <li>Faster answers earn more points.</li>
+        <li>Every five correct answers increases the difficulty.</li>
+        <li>A wrong answer breaks your streak and moves to the next problem.</li>
+        <li>The game ends when the timer reaches zero.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>Math Game Controls</h2>
+      <p>On desktop, click an answer or press <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd>, or <kbd>4</kbd>. On mobile, tap an answer button. The interface is designed for quick one-handed play on smaller screens.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>About Math Game</h2>
+      <p>This free online Math Game is a short mental-arithmetic challenge built around addition, subtraction, multiplication, and division. Questions become more challenging as your correct-answer streak grows, making each round useful for practicing speed and accuracy.</p>
+    </section>
+
+    <section class="content-section tips">
+      <h2>Math Game Tips</h2>
+      <div class="tip-grid">
+        <article><h3>Think before guessing</h3><p>Accuracy keeps your streak alive and gives you more opportunities to earn bonus points.</p></article>
+        <article><h3>Use the timer</h3><p>Fast correct answers receive a larger time-based bonus, so avoid spending too long on one problem.</p></article>
+        <article><h3>Watch the difficulty</h3><p>Problems gradually expand from simple arithmetic to larger multiplication and division questions.</p></article>
+      </div>
+    </section>
+
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title">Related Games</h2>
+      <div class="related-grid">
+        <a href="#" class="related-card"><strong>Number Puzzle</strong><span>Coming soon</span></a>
+        <a href="#" class="related-card"><strong>Memory Game</strong><span>Coming soon</span></a>
+        <a href="#" class="related-card"><strong>Word Game</strong><span>Coming soon</span></a>
+      </div>
+    </section>
+
+    <section class="faq">
+      <h2>Math Game FAQ</h2>
+      <details><summary>Is the Math Game free to play?</summary><p>Yes. The game runs directly in your browser and does not require a download, account, or signup.</p></details>
+      <details><summary>Can I play Math Game on a phone?</summary><p>Yes. Answer buttons are touch-friendly and the layout adapts to smaller screens.</p></details>
+      <details><summary>What math skills does the game practice?</summary><p>The questions practice mental addition, subtraction, multiplication, division, and quick arithmetic decision-making.</p></details>
+      <details><summary>Does Math Game save my score online?</summary><p>No. The game is client-side only. Your best score is saved locally in your browser on this device.</p></details>
+    </section>
+  </main>
+
+  <footer class="site-footer">Math Game · Part of the Games Hub</footer>
+  <script>(() => {
+  'use strict';
+
+  const els = {
+    score: document.getElementById('score'),
+    streak: document.getElementById('streak'),
+    best: document.getElementById('best'),
+    timer: document.getElementById('timer'),
+    round: document.getElementById('round-label'),
+    difficulty: document.getElementById('difficulty-label'),
+    question: document.getElementById('question'),
+    feedback: document.getElementById('feedback'),
+    answers: document.getElementById('answers'),
+    start: document.getElementById('start-btn'),
+    restart: document.getElementById('restart-btn'),
+    gameOver: document.getElementById('game-over'),
+    finalScore: document.getElementById('final-score'),
+    finalStreak: document.getElementById('final-streak'),
+    playAgain: document.getElementById('play-again-btn')
+  };
+
+  const BEST_KEY = 'math-game-best-score';
+  const ROUND_TIME = 15;
+  let state = {
+    running: false,
+    score: 0,
+    streak: 0,
+    bestStreak: 0,
+    round: 1,
+    time: ROUND_TIME,
+    answer: null,
+    locked: false,
+    timerId: null
+  };
+
+  let bestScore = Number.parseInt(localStorage.getItem(BEST_KEY) || '0', 10);
+  if (!Number.isFinite(bestScore)) bestScore = 0;
+  els.best.textContent = bestScore;
+
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function difficultyLevel() {
+    if (state.round >= 16) return { name: 'Expert', level: 4 };
+    if (state.round >= 11) return { name: 'Hard', level: 3 };
+    if (state.round >= 6) return { name: 'Medium', level: 2 };
+    return { name: 'Easy', level: 1 };
+  }
+
+  function makeQuestion() {
+    const { level } = difficultyLevel();
+    let a, b, answer, operator;
+
+    if (level === 1) {
+      operator = Math.random() < 0.5 ? '+' : '-';
+      a = randomInt(5, 30);
+      b = randomInt(2, 20);
+      if (operator === '-' && b > a) [a, b] = [b, a];
+      answer = operator === '+' ? a + b : a - b;
+    } else if (level === 2) {
+      const ops = ['+', '-', '×'];
+      operator = ops[randomInt(0, ops.length - 1)];
+      if (operator === '×') {
+        a = randomInt(3, 12); b = randomInt(2, 12); answer = a * b;
+      } else {
+        a = randomInt(12, 60); b = randomInt(5, 45);
+        if (operator === '-' && b > a) [a, b] = [b, a];
+        answer = operator === '+' ? a + b : a - b;
+      }
+    } else if (level === 3) {
+      const ops = ['+', '-', '×', '÷'];
+      operator = ops[randomInt(0, ops.length - 1)];
+      if (operator === '×') {
+        a = randomInt(7, 20); b = randomInt(3, 15); answer = a * b;
+      } else if (operator === '÷') {
+        b = randomInt(2, 12); answer = randomInt(3, 15); a = b * answer;
+      } else {
+        a = randomInt(30, 120); b = randomInt(10, 90);
+        if (operator === '-' && b > a) [a, b] = [b, a];
+        answer = operator === '+' ? a + b : a - b;
+      }
+    } else {
+      const ops = ['+', '-', '×', '÷'];
+      operator = ops[randomInt(0, 3)];
+      if (operator === '×') {
+        a = randomInt(12, 30); b = randomInt(6, 20); answer = a * b;
+      } else if (operator === '÷') {
+        b = randomInt(3, 15); answer = randomInt(5, 30); a = b * answer;
+      } else {
+        a = randomInt(80, 250); b = randomInt(20, 180);
+        if (operator === '-' && b > a) [a, b] = [b, a];
+        answer = operator === '+' ? a + b : a - b;
+      }
+    }
+
+    return { text: `${a} ${operator} ${b} = ?`, answer };
+  }
+
+  function makeChoices(answer) {
+    const choices = new Set([answer]);
+    const spread = Math.max(3, Math.floor(Math.abs(answer) * 0.18));
+    let attempts = 0;
+    while (choices.size < 4 && attempts < 100) {
+      attempts++;
+      const offset = randomInt(-spread, spread) || (Math.random() < 0.5 ? -1 : 1);
+      const candidate = answer + offset;
+      if (candidate >= 0) choices.add(candidate);
+    }
+    let fallback = 1;
+    while (choices.size < 4) {
+      const candidate = answer + fallback++;
+      if (candidate >= 0) choices.add(candidate);
+    }
+    return shuffle([...choices]);
+  }
+
+  function renderQuestion() {
+    const q = makeQuestion();
+    state.answer = q.answer;
+    state.locked = false;
+    const choices = makeChoices(q.answer);
+    const diff = difficultyLevel();
+
+    els.question.textContent = q.text;
+    els.round.textContent = `Round ${state.round}`;
+    els.difficulty.textContent = diff.name;
+    els.feedback.textContent = 'Choose an answer';
+    els.feedback.className = 'feedback';
+    els.answers.innerHTML = '';
+
+    choices.forEach((choice, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'answer-btn';
+      button.dataset.index = String(index + 1);
+      button.dataset.value = String(choice);
+      button.textContent = choice.toLocaleString();
+      button.setAttribute('aria-label', `Answer ${index + 1}: ${choice}`);
+      button.addEventListener('click', () => submitAnswer(choice, button));
+      els.answers.appendChild(button);
+    });
+  }
+
+  function updateStats() {
+    els.score.textContent = state.score;
+    els.streak.textContent = state.streak;
+    els.best.textContent = bestScore;
+    els.timer.textContent = state.time;
+  }
+
+  function startTimer() {
+    clearInterval(state.timerId);
+    state.timerId = setInterval(() => {
+      if (!state.running) return;
+      state.time -= 1;
+      updateStats();
+      if (state.time <= 0) endGame();
+    }, 1000);
+  }
+
+  function startGame() {
+    clearInterval(state.timerId);
+    state.running = true;
+    state.score = 0;
+    state.streak = 0;
+    state.bestStreak = 0;
+    state.round = 1;
+    state.time = ROUND_TIME;
+    els.start.textContent = 'Playing…';
+    els.start.disabled = true;
+    els.gameOver.hidden = true;
+    updateStats();
+    renderQuestion();
+    startTimer();
+  }
+
+  function scoreForAnswer() {
+    const speedBonus = Math.max(0, state.time - 5) * 2;
+    const streakBonus = Math.min(state.streak, 10) * 3;
+    return 10 + speedBonus + streakBonus;
+  }
+
+  function submitAnswer(value, selectedButton) {
+    if (!state.running || state.locked) return;
+    state.locked = true;
+    const buttons = [...els.answers.querySelectorAll('.answer-btn')];
+    buttons.forEach(button => { button.disabled = true; });
+
+    if (value === state.answer) {
+      state.streak += 1;
+      state.bestStreak = Math.max(state.bestStreak, state.streak);
+      const earned = scoreForAnswer();
+      state.score += earned;
+      if (state.score > bestScore) {
+        bestScore = state.score;
+        localStorage.setItem(BEST_KEY, String(bestScore));
+      }
+      selectedButton.classList.add('correct');
+      els.feedback.textContent = `Correct! +${earned} points`;
+      els.feedback.className = 'feedback correct';
+    } else {
+      state.streak = 0;
+      selectedButton.classList.add('wrong');
+      buttons.find(button => Number(button.dataset.value) === state.answer)?.classList.add('correct');
+      els.feedback.textContent = `Not quite. The answer is ${state.answer}.`;
+      els.feedback.className = 'feedback wrong';
+    }
+    updateStats();
+    window.setTimeout(() => {
+      if (!state.running) return;
+      state.round += 1;
+      renderQuestion();
+    }, 650);
+  }
+
+  function endGame() {
+    if (!state.running) return;
+    state.running = false;
+    clearInterval(state.timerId);
+    state.timerId = null;
+    state.time = 0;
+    updateStats();
+    els.start.textContent = 'Start Game';
+    els.start.disabled = false;
+    els.finalScore.textContent = state.score;
+    els.finalStreak.textContent = state.bestStreak;
+    els.gameOver.hidden = false;
+  }
+
+  els.start.addEventListener('click', startGame);
+  els.restart.addEventListener('click', startGame);
+  els.playAgain.addEventListener('click', startGame);
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !state.running) {
+      event.preventDefault();
+      startGame();
+      return;
+    }
+    if (!state.running || state.locked) return;
+    const number = Number(event.key);
+    if (number >= 1 && number <= 4) {
+      const button = els.answers.querySelector(`[data-index="${number}"]`);
+      if (button) {
+        event.preventDefault();
+        submitAnswer(Number(button.dataset.value), button);
+      }
+    }
+  });
+
+  updateStats();
+})();
+</script>
+</body>
+</html>

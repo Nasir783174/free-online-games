@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Block Puzzle Game - Play Free Online</title>
+  <meta name="description" content="Play Block Puzzle free online in your browser. Place block shapes, clear rows and columns, build combos, and chase a high score with no download.">
+  <meta name="robots" content="index,follow">
+  <style>*{box-sizing:border-box} :root{--brand:#5B5CE2;--brand-dark:#4546B8;--teal:#16B8C4;--action:#FFB84D;--success:#22C55E;--danger:#EF5B5B;--bg:#F6F7FB;--card:#fff;--text:#171B2D;--muted:#667085;--border:#E5E7EF;--game:#111827;--game2:#1F2937}
+html{font-family:"Nunito Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);scroll-behavior:smooth}
+body{margin:0;min-width:320px}.site-header{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100vw - 1180px)/2));position:relative;z-index:5}
+.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--text);font-weight:800;font-size:20px}.brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--brand);color:#fff}.header-note{font-size:14px;color:var(--muted);font-weight:700}
+.page{max-width:1180px;margin:auto;padding:28px 24px 80px}.breadcrumb{display:flex;gap:9px;align-items:center;font-size:14px;color:var(--muted);margin-bottom:28px}.breadcrumb a{color:var(--brand-dark);text-decoration:none;font-weight:700}
+.hero{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;margin-bottom:28px}.eyebrow{margin:0 0 7px;color:var(--brand);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px}.hero h1{font-size:clamp(38px,5vw,58px);line-height:1.08;margin:0 0 12px;letter-spacing:-.035em}.intro{font-size:18px;line-height:1.65;color:var(--muted);max-width:760px;margin:0}
+.stats{display:flex;background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px}.stats div{min-width:82px;text-align:center;padding:4px 13px;border-right:1px solid var(--border)}.stats div:last-child{border:0}.stats span{display:block;font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase}.stats strong{font-size:23px}
+.game-card{background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 12px 35px rgba(23,27,45,.07)}.game-toolbar{min-height:66px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--border)}.status{font-size:15px;color:var(--muted);font-weight:700}
+.btn{border:0;border-radius:12px;min-height:44px;padding:0 18px;font:700 15px inherit;cursor:pointer}.btn:focus-visible,.piece:focus-visible,.cell:focus-visible,summary:focus-visible{outline:3px solid rgba(91,92,226,.3);outline-offset:2px}.btn-secondary{background:#F0F1FF;color:var(--brand-dark)}.btn-primary{background:var(--brand);color:#fff}.btn:hover{filter:brightness(.97)}
+.game-shell{background:var(--game);padding:clamp(18px,4vw,38px);display:grid;grid-template-columns:minmax(300px,600px) minmax(260px,1fr);gap:clamp(24px,4vw,48px);align-items:center}.board{width:min(100%,600px);aspect-ratio:1;display:grid;grid-template-columns:repeat(10,1fr);gap:4px;background:#0B1220;padding:8px;border-radius:18px;touch-action:none;user-select:none}
+.cell{border:0;padding:0;border-radius:5px;background:#273449;min-width:0;transition:transform .12s,background .12s}.cell.filled{background:var(--cell-color,#5B5CE2);box-shadow:inset 0 -2px 0 rgba(0,0,0,.14)}.cell.preview-valid{background:#43506a;box-shadow:inset 0 0 0 2px rgba(255,255,255,.32)}.cell.preview-invalid{background:#5b303a}.cell.clearing{animation:clear .24s ease}
+@keyframes clear{50%{transform:scale(.55);filter:brightness(1.8)}}
+.tray-wrap{color:#fff}.tray-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px}.tray-heading strong{display:block;font-size:22px}.mini-label{display:block;color:#9CA3AF;font-size:12px;text-transform:uppercase;font-weight:800;letter-spacing:.08em}.tray-heading>span{color:#9CA3AF;font-size:14px}
+.tray{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.piece{height:118px;border:1px solid #374151;background:var(--game2);border-radius:14px;display:grid;place-items:center;cursor:grab;padding:10px;touch-action:none;transition:border-color .15s,transform .15s,background .15s}.piece:hover{border-color:#6B7280}.piece.selected{border-color:var(--action);background:#283345;transform:translateY(-2px)}.piece.used{opacity:.18;pointer-events:none}.shape{display:grid;gap:4px}.block{width:clamp(16px,2.1vw,25px);aspect-ratio:1;border-radius:4px;background:var(--piece-color);box-shadow:inset 0 -2px 0 rgba(0,0,0,.16)}.control-hint{font-size:14px;line-height:1.55;color:#9CA3AF;margin:18px 0 0}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:54px}.content-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:26px}.content-card h2{font-size:30px;line-height:1.2;margin:0 0 16px}.content-card h2:not(:first-child){margin-top:34px}.content-card p,.content-card li{font-size:17px;line-height:1.7;color:#4D5768}.content-card ol{padding-left:23px}.content-card li{margin:8px 0}.wide{margin-top:22px}.wide details{border-top:1px solid var(--border);padding:17px 0}.wide summary{cursor:pointer;font-size:17px;font-weight:800}.wide details p{margin-bottom:0}
+.modal{position:fixed;inset:0;background:rgba(11,18,32,.72);display:grid;place-items:center;padding:20px;z-index:20}.modal[hidden]{display:none}.modal-card{width:min(420px,100%);background:#fff;border-radius:20px;padding:34px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.28)}.modal-card h2{font-size:32px;margin:10px 0}.modal-card p{color:var(--muted);font-size:17px}.modal-icon{font-size:36px;color:var(--brand)}
+.drag-ghost{position:fixed;pointer-events:none;z-index:30;opacity:.9;transform:translate(-50%,-100%);background:rgba(31,41,55,.9);padding:10px;border-radius:12px}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.stats{justify-self:start}.game-shell{grid-template-columns:1fr}.board{margin:auto}.tray-wrap{max-width:600px;width:100%;margin:auto}.content-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.header-note{display:none}.page{padding:20px 14px 60px}.hero h1{font-size:40px}.intro{font-size:16px}.stats{width:100%}.stats div{flex:1;min-width:0;padding-inline:7px}.game-toolbar{align-items:flex-start}.status{max-width:65%}.game-shell{padding:14px;gap:20px}.board{gap:3px;padding:6px;border-radius:14px}.cell{border-radius:3px}.piece{height:92px;padding:6px}.block{width:18px}.content-grid{margin-top:38px}.content-card{padding:20px}.content-card h2{font-size:27px}.content-card p,.content-card li{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Games Hub home"><span class="brand-mark">G</span><span>Games Hub</span></a>
+  <span class="header-note">Free browser games</span>
+</header>
+
+<main class="page">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Games</a><span>›</span><span>Block Puzzle</span></nav>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Puzzle • Strategy</p>
+      <h1>Block Puzzle Game</h1>
+      <p class="intro">Place block shapes on the 10×10 board, complete full rows or columns, and keep space open for the next move. Clear multiple lines together to build bigger combos and a higher score.</p>
+    </div>
+    <div class="stats" aria-label="Game statistics">
+      <div><span>Score</span><strong id="score">0</strong></div>
+      <div><span>Best</span><strong id="best">0</strong></div>
+      <div><span>Combo</span><strong id="combo">×0</strong></div>
+    </div>
+  </section>
+
+  <section class="game-card" aria-label="Block Puzzle game">
+    <div class="game-toolbar">
+      <div id="status" class="status" role="status" aria-live="polite">Choose a shape, then place it on the board.</div>
+      <button id="newGame" class="btn btn-secondary" type="button">New Game</button>
+    </div>
+
+    <div class="game-shell">
+      <div id="board" class="board" role="grid" aria-label="10 by 10 Block Puzzle board"></div>
+      <div class="tray-wrap">
+        <div class="tray-heading">
+          <div><span class="mini-label">Available blocks</span><strong>Pick a shape</strong></div>
+          <span id="roundHint">3 shapes</span>
+        </div>
+        <div id="tray" class="tray" aria-label="Available block shapes"></div>
+        <p class="control-hint">Desktop: drag a shape onto the board. Mobile: tap a shape, then tap a highlighted board position.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-grid">
+    <article class="content-card">
+      <h2>How to Play Block Puzzle</h2>
+      <ol>
+        <li>Choose one of the three block shapes below the board.</li>
+        <li>Place the complete shape inside empty board cells.</li>
+        <li>Fill an entire horizontal row or vertical column to clear it.</li>
+        <li>Use all three shapes to receive a fresh set.</li>
+        <li>The game ends when none of the available shapes can fit.</li>
+      </ol>
+    </article>
+    <article class="content-card">
+      <h2>Block Puzzle Strategy</h2>
+      <p>Keep the center flexible and avoid creating isolated single-cell gaps. Large shapes become difficult to place when the board is fragmented, so preserve open areas instead of filling every convenient corner.</p>
+      <p>Clearing more than one line in a move earns a stronger line bonus. Consecutive clearing moves also increase your combo.</p>
+    </article>
+  </section>
+
+  <section class="content-card wide">
+    <h2>About Block Puzzle</h2>
+    <p>Block Puzzle is a grid-based spatial puzzle game built around shape placement and board management. Unlike falling-block games, there is no timer forcing each move. You can inspect the available pieces, plan where they fit, and decide which placement leaves the strongest board for later turns.</p>
+    <h2>Block Puzzle FAQ</h2>
+    <details><summary>Is this Block Puzzle game free?</summary><p>Yes. The game runs directly in your browser and does not require a download or account.</p></details>
+    <details><summary>How do I score more points?</summary><p>You score for every block placed and receive bonuses for completed rows and columns. Multi-line clears and consecutive clearing moves increase the reward.</p></details>
+    <details><summary>Does the game work on mobile?</summary><p>Yes. Tap a shape to select it, then tap a valid highlighted location on the board. The layout adapts to smaller screens.</p></details>
+  </section>
+</main>
+
+<div id="gameOver" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle">
+    <div class="modal-icon">◆</div>
+    <h2 id="gameOverTitle">No More Moves</h2>
+    <p>Your final score is <strong id="finalScore">0</strong>.</p>
+    <button id="playAgain" class="btn btn-primary" type="button">Play Again</button>
+  </div>
+</div>
+
+<script>"use strict";
+const SIZE=10;
+const boardEl=document.getElementById("board"), trayEl=document.getElementById("tray");
+const scoreEl=document.getElementById("score"),bestEl=document.getElementById("best"),comboEl=document.getElementById("combo");
+const statusEl=document.getElementById("status"),roundHint=document.getElementById("roundHint");
+const modal=document.getElementById("gameOver"),finalScore=document.getElementById("finalScore");
+const COLORS=["#5B5CE2","#16B8C4","#FFB84D","#22C55E","#EF5B5B","#A66CE8"];
+const SHAPES=[
+ [[0,0]],[[0,0],[1,0]],[[0,0],[1,0],[2,0]],[[0,0],[1,0],[2,0],[3,0]],[[0,0],[1,0],[2,0],[3,0],[4,0]],
+ [[0,0],[0,1]],[[0,0],[0,1],[0,2]],[[0,0],[0,1],[0,2],[0,3]],[[0,0],[0,1],[0,2],[0,3],[0,4]],
+ [[0,0],[1,0],[0,1],[1,1]],[[0,0],[1,0],[2,0],[0,1]],[[0,0],[1,0],[2,0],[2,1]],[[0,0],[0,1],[1,1],[2,1]],[[2,0],[0,1],[1,1],[2,1]],
+ [[0,0],[1,0],[0,1]],[[0,0],[1,0],[1,1]],[[0,0],[0,1],[1,1]],[[1,0],[0,1],[1,1]],
+ [[0,0],[1,0],[2,0],[1,1]],[[1,0],[0,1],[1,1],[2,1]],[[0,0],[0,1],[1,1],[0,2]],[[1,0],[0,1],[1,1],[1,2]],
+ [[0,0],[1,0],[1,1],[2,1]],[[1,0],[2,0],[0,1],[1,1]],[[0,0],[1,0],[2,0],[0,1],[1,1],[2,1]]
+];
+let grid,score,best,combo,pieces,selected=null,drag=null,cells=[];
+
+function init(){
+ grid=Array.from({length:SIZE},()=>Array(SIZE).fill(null)); score=0;combo=0;selected=null;
+ best=Number(localStorage.getItem("blockPuzzleBest")||0); modal.hidden=true; buildBoard(); newTray(); updateHUD(); renderBoard();
+ statusEl.textContent="Choose a shape, then place it on the board.";
+}
+function buildBoard(){
+ boardEl.innerHTML="";cells=[];
+ for(let r=0;r<SIZE;r++){cells[r]=[];for(let c=0;c<SIZE;c++){
+  const b=document.createElement("button");b.type="button";b.className="cell";b.dataset.r=r;b.dataset.c=c;b.setAttribute("role","gridcell");b.setAttribute("aria-label",`Row ${r+1}, column ${c+1}`);
+  b.addEventListener("click",()=>{if(selected!==null) tryPlace(selected,r,c)});
+  b.addEventListener("mouseenter",()=>{if(selected!==null) preview(selected,r,c)});
+  boardEl.appendChild(b);cells[r][c]=b;
+ }}
+ boardEl.addEventListener("mouseleave",clearPreview);
+}
+function randomShape(){return SHAPES[Math.floor(Math.random()*SHAPES.length)].map(p=>[...p])}
+function newTray(){
+ pieces=Array.from({length:3},(_,i)=>({shape:randomShape(),color:COLORS[Math.floor(Math.random()*COLORS.length)],used:false,id:i}));
+ renderTray();
+}
+function renderTray(){
+ trayEl.innerHTML="";
+ pieces.forEach((p,i)=>{
+  const btn=document.createElement("button");btn.type="button";btn.className="piece"+(p.used?" used":"")+(selected===i?" selected":"");btn.disabled=p.used;btn.setAttribute("aria-label",p.used?"Used block shape":"Select block shape");
+  const sh=document.createElement("span");sh.className="shape";const maxX=Math.max(...p.shape.map(x=>x[0])),maxY=Math.max(...p.shape.map(x=>x[1]));
+  sh.style.gridTemplateColumns=`repeat(${maxX+1},auto)`;sh.style.gridTemplateRows=`repeat(${maxY+1},auto)`;
+  p.shape.forEach(([x,y])=>{const q=document.createElement("i");q.className="block";q.style.gridColumn=x+1;q.style.gridRow=y+1;q.style.setProperty("--piece-color",p.color);sh.appendChild(q)});
+  btn.appendChild(sh);btn.addEventListener("click",()=>selectPiece(i));btn.addEventListener("pointerdown",e=>startDrag(e,i,sh));
+  trayEl.appendChild(btn);
+ });
+ roundHint.textContent=`${pieces.filter(p=>!p.used).length} shape${pieces.filter(p=>!p.used).length===1?"":"s"}`;
+}
+function selectPiece(i){if(pieces[i].used)return;selected=selected===i?null:i;renderTray();clearPreview();statusEl.textContent=selected===null?"Choose a shape.":"Selected. Tap a valid board position."}
+function validAt(shape,r,c){return shape.every(([x,y])=>r+y>=0&&r+y<SIZE&&c+x>=0&&c+x<SIZE&&!grid[r+y][c+x])}
+function preview(i,r,c){clearPreview();if(i===null||pieces[i].used)return;const p=pieces[i],ok=validAt(p.shape,r,c);p.shape.forEach(([x,y])=>{if(c+x>=0&&c+x<SIZE&&r+y>=0&&r+y<SIZE&&!grid[r+y][c+x])cells[r+y][c+x].classList.add(ok?"preview-valid":"preview-invalid")})}
+function clearPreview(){document.querySelectorAll(".preview-valid,.preview-invalid").forEach(x=>x.classList.remove("preview-valid","preview-invalid"))}
+function tryPlace(i,r,c){
+ const p=pieces[i];if(!p||p.used||!validAt(p.shape,r,c)){statusEl.textContent="That shape does not fit there.";return false}
+ p.shape.forEach(([x,y])=>grid[r+y][c+x]=p.color);p.used=true;score+=p.shape.length;selected=null;clearPreview();renderBoard();
+ const lines=findLines(); if(lines.rows.length||lines.cols.length){combo++;const n=lines.rows.length+lines.cols.length;score+=n*10+(n>1?(n-1)*15:0)+Math.max(0,combo-1)*5;animateAndClear(lines);statusEl.textContent=n>1?`${n} lines cleared! Combo ×${combo}.`:`Line cleared! Combo ×${combo}.`}
+ else{combo=0;statusEl.textContent="Nice placement. Keep the board open."}
+ if(pieces.every(x=>x.used)){newTray();statusEl.textContent="Fresh shapes! Plan your next three moves."}else renderTray();
+ updateHUD();setTimeout(checkGameOver,270);return true;
+}
+function findLines(){const rows=[],cols=[];for(let r=0;r<SIZE;r++)if(grid[r].every(Boolean))rows.push(r);for(let c=0;c<SIZE;c++)if(grid.every(row=>row[c]))cols.push(c);return{rows,cols}}
+function animateAndClear({rows,cols}){rows.forEach(r=>cells[r].forEach(x=>x.classList.add("clearing")));cols.forEach(c=>cells.forEach(row=>row[c].classList.add("clearing")));setTimeout(()=>{rows.forEach(r=>{for(let c=0;c<SIZE;c++)grid[r][c]=null});cols.forEach(c=>{for(let r=0;r<SIZE;r++)grid[r][c]=null});renderBoard()},210)}
+function renderBoard(){for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){const el=cells[r][c],v=grid[r][c];el.className="cell"+(v?" filled":"");if(v)el.style.setProperty("--cell-color",v);else el.style.removeProperty("--cell-color")}}
+function updateHUD(){if(score>best){best=score;localStorage.setItem("blockPuzzleBest",best)}scoreEl.textContent=score;bestEl.textContent=best;comboEl.textContent="×"+combo}
+function canFit(p){for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++)if(validAt(p.shape,r,c))return true;return false}
+function checkGameOver(){if(pieces.filter(p=>!p.used).some(canFit))return;finalScore.textContent=score;modal.hidden=false;statusEl.textContent="Game over. No available shape can fit."}
+function startDrag(e,i,shapeNode){
+ if(e.pointerType==="touch"||pieces[i].used)return;drag={i,ghost:shapeNode.cloneNode(true)};drag.ghost.classList.add("drag-ghost");document.body.appendChild(drag.ghost);moveDrag(e);window.addEventListener("pointermove",moveDrag);window.addEventListener("pointerup",endDrag,{once:true});
+}
+function moveDrag(e){if(!drag)return;drag.ghost.style.left=e.clientX+"px";drag.ghost.style.top=(e.clientY-8)+"px";const hit=document.elementFromPoint(e.clientX,e.clientY);const cell=hit&&hit.closest(".cell");if(cell)preview(drag.i,+cell.dataset.r,+cell.dataset.c);else clearPreview()}
+function endDrag(e){if(!drag)return;const hit=document.elementFromPoint(e.clientX,e.clientY),cell=hit&&hit.closest(".cell");if(cell)tryPlace(drag.i,+cell.dataset.r,+cell.dataset.c);drag.ghost.remove();drag=null;clearPreview();window.removeEventListener("pointermove",moveDrag)}
+document.getElementById("newGame").addEventListener("click",init);document.getElementById("playAgain").addEventListener("click",init);
+init();</script>
+</body>
+</html>

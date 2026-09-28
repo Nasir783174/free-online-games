@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Avoidance Games - Play Meteor Dodge Free Online</title>
+  <meta name="description" content="Play a free avoidance game online. Dodge meteors, collect stars, and chase a high score in your browser with no download required.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#5B5CE2">
+  <link rel="canonical" href="/games/avoidance-games/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5b5ce2;
+  --primary-dark: #4546b8;
+  --secondary: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --background: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --game-secondary: #1f2937;
+  --shadow: 0 18px 45px rgba(39, 45, 79, 0.1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, a { font: inherit; }
+a { color: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header {
+  height: 72px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+.header-inner, .footer-inner, .page-shell {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+.header-inner, .footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 800;
+}
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--primary);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+}
+.all-games-link, .section-heading > a {
+  color: var(--primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+.all-games-link:hover, .section-heading > a:hover { text-decoration: underline; }
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 28px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.breadcrumb a { color: var(--primary-dark); text-decoration: none; }
+
+.hero {
+  max-width: 830px;
+  padding: 50px 0 34px;
+}
+.eyebrow {
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+h1, h2, h3 { margin-top: 0; line-height: 1.15; }
+h1 {
+  margin-bottom: 20px;
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+h2 { font-size: clamp(27px, 3vw, 36px); font-weight: 700; }
+h3 { font-size: 21px; font-weight: 700; }
+.hero p {
+  max-width: 740px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 19px;
+}
+
+.game-card {
+  padding: 22px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+.game-toolbar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(85px, 1fr)) auto;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+}
+.stat {
+  min-height: 56px;
+  padding: 6px 14px;
+  border-left: 3px solid var(--border);
+}
+.stat:first-child { border-color: var(--primary); }
+.stat:nth-child(2) { border-color: var(--secondary); }
+.stat:nth-child(3) { border-color: var(--action); }
+.stat:nth-child(4) { border-color: var(--danger); }
+.stat-label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.stat strong { font-size: 23px; line-height: 1.3; }
+#lives { color: var(--danger); font-size: 17px; letter-spacing: 2px; }
+.toolbar-button {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toolbar-button:hover:not(:disabled) { border-color: var(--primary); color: var(--primary-dark); }
+.toolbar-button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 900 / 520;
+  overflow: hidden;
+  border-radius: 17px;
+  background: var(--game);
+  touch-action: none;
+}
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  color: #fff;
+  background: rgba(10, 17, 31, 0.74);
+  backdrop-filter: blur(4px);
+}
+.game-overlay[hidden] { display: none; }
+.overlay-panel { max-width: 450px; text-align: center; }
+.overlay-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #151b2d;
+  background: var(--action);
+  font-size: 28px;
+  transform: rotate(45deg);
+}
+.overlay-icon::first-letter { transform: rotate(-45deg); }
+.overlay-panel h2 { margin-bottom: 10px; font-size: clamp(30px, 5vw, 44px); }
+.overlay-panel > p { margin: 0 auto 22px; color: #dbe4f3; }
+.primary-button {
+  min-width: 160px;
+  min-height: 50px;
+  padding: 10px 24px;
+  border: 0;
+  border-radius: 13px;
+  color: #fff;
+  background: var(--primary);
+  box-shadow: 0 5px 0 var(--primary-dark);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.primary-button:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--primary-dark); }
+.primary-button:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--primary-dark); }
+.overlay-hint { margin-top: 18px !important; margin-bottom: 0 !important; font-size: 14px; }
+
+.mobile-controls {
+  display: none;
+  grid-template-columns: repeat(3, 58px);
+  grid-template-areas: ". up ." "left down right";
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 0 2px;
+}
+.control-button {
+  width: 58px;
+  height: 52px;
+  border: 1px solid #d4d7e4;
+  border-radius: 13px;
+  color: var(--primary-dark);
+  background: #f1f2ff;
+  font-size: 24px;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+.control-button:active, .control-button.active { color: #fff; background: var(--primary); }
+.control-button.up { grid-area: up; }
+.control-button.left { grid-area: left; }
+.control-button.down { grid-area: down; }
+.control-button.right { grid-area: right; }
+.game-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 26px;
+  padding-top: 17px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+.game-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.game-legend i { display: inline-block; width: 15px; height: 15px; }
+.legend-ship { background: var(--secondary); clip-path: polygon(50% 0, 100% 100%, 50% 75%, 0 100%); }
+.legend-meteor { border-radius: 50%; background: #f47b55; box-shadow: inset -3px -3px 0 #a83d32; }
+.legend-star { color: var(--action); font-style: normal; font-size: 18px; line-height: 1; }
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 0.8fr;
+  gap: 24px;
+  padding: 72px 0 0;
+}
+.content-card {
+  padding: 30px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+}
+.content-card h2 { margin-bottom: 18px; font-size: 30px; }
+.content-card p { color: var(--muted); }
+.steps { margin: 24px 0 0; padding-left: 22px; }
+.steps li { padding-left: 7px; margin-bottom: 13px; }
+.control-list { margin: 0; }
+.control-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.control-list dt { font-weight: 800; }
+.control-list dd { margin: 0; color: var(--muted); text-align: right; }
+.tip-box {
+  margin-top: 22px;
+  padding: 17px;
+  border-radius: 13px;
+  border-left: 4px solid var(--action);
+  background: #fff8e8;
+}
+.tip-box p { margin: 3px 0 0; font-size: 15px; }
+.text-section { padding-top: 72px; max-width: 900px; }
+.text-section h2, .faq-section h2 { margin-bottom: 18px; }
+.text-section > p { color: var(--muted); }
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1160px;
+}
+.tips-grid > div {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+.tips-grid span { color: var(--primary); font-size: 14px; font-weight: 800; }
+.tips-grid h3 { margin: 8px 0; }
+.tips-grid p { margin: 0; color: var(--muted); font-size: 16px; }
+.related-section { padding-top: 72px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 25px; }
+.section-heading h2 { margin: 6px 0 0; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px; }
+.related-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+.related-card:hover { transform: translateY(-3px); border-color: #bec0f4; }
+.related-icon { width: 54px; height: 54px; flex: 0 0 54px; display: grid; place-items: center; border-radius: 15px; color: #fff; font-size: 22px; font-weight: 800; }
+.related-icon.purple { background: var(--primary); }
+.related-icon.teal { background: var(--secondary); }
+.related-icon.orange { background: #ef8354; }
+.related-card h3 { margin: 0 0 3px; }
+.related-card p { margin: 0; color: var(--muted); font-size: 14px; }
+.faq-section { padding: 72px 0 80px; max-width: 900px; }
+.faq-section details { border-bottom: 1px solid var(--border); background: var(--card); }
+.faq-section details:first-of-type { border-radius: 15px 15px 0 0; }
+.faq-section details:last-of-type { border-radius: 0 0 15px 15px; border-bottom: 0; }
+.faq-section summary { padding: 19px 22px; font-weight: 800; cursor: pointer; }
+.faq-section details p { margin: 0; padding: 0 22px 20px; color: var(--muted); }
+footer { padding: 30px 0; border-top: 1px solid var(--border); background: #fff; }
+footer p { margin: 0; color: var(--muted); font-size: 15px; }
+
+button:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 780px) {
+  body { font-size: 16px; }
+  .header-inner, .footer-inner, .page-shell { width: min(100% - 24px, 1160px); }
+  .all-games-link { font-size: 15px; }
+  .hero { padding: 38px 0 28px; }
+  h1 { font-size: clamp(37px, 11vw, 44px); }
+  .hero p { font-size: 17px; }
+  .game-card { padding: 12px; border-radius: 17px; }
+  .game-toolbar { grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .stat { min-width: 0; min-height: 51px; padding: 5px 7px; }
+  .stat strong { font-size: 19px; }
+  #lives { font-size: 12px; letter-spacing: 0; }
+  .toolbar-button { grid-column: 1 / -1; width: 100%; min-height: 44px; margin-top: 4px; }
+  .canvas-wrap { aspect-ratio: 4 / 5; min-height: 420px; max-height: 620px; }
+  .overlay-panel h2 { font-size: 34px; }
+  .overlay-hint { display: none; }
+  .mobile-controls { display: grid; }
+  .game-legend { gap: 12px 18px; }
+  .content-grid { grid-template-columns: 1fr; padding-top: 56px; }
+  .content-card { padding: 23px; }
+  .content-card h2 { font-size: 27px; }
+  .text-section, .related-section, .faq-section { padding-top: 56px; }
+  .tips-grid, .related-grid { grid-template-columns: 1fr; }
+  .section-heading { align-items: start; }
+  .footer-inner { align-items: flex-start; gap: 18px; flex-direction: column; }
+}
+
+@media (max-width: 390px) {
+  .brand { font-size: 18px; }
+  .brand-mark { width: 34px; height: 34px; }
+  .all-games-link { font-size: 14px; }
+  .game-toolbar { grid-template-columns: repeat(2, 1fr); }
+  .toolbar-button { grid-column: 1 / -1; }
+  .canvas-wrap { min-height: 390px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../../index.html#games">Browse games</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a><span aria-hidden="true">/</span>
+        <a href="../../index.html#arcade">Arcade Games</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Avoidance Games</span>
+      </nav>
+
+      <section class="hero">
+        <span class="eyebrow">Free browser arcade game</span>
+        <h1>Avoidance Games: Meteor Dodge</h1>
+        <p>Guide your ship through a meteor storm, collect stars, and survive as long as you can. Play instantly with a keyboard, touchscreen, or on-screen controls.</p>
+      </section>
+
+      <section class="game-card" aria-labelledby="game-heading">
+        <h2 id="game-heading" class="sr-only">Play Meteor Dodge</h2>
+        <div class="game-toolbar" aria-label="Game statistics">
+          <div class="stat"><span class="stat-label">Score</span><strong id="score">0</strong></div>
+          <div class="stat"><span class="stat-label">Best</span><strong id="best-score">0</strong></div>
+          <div class="stat"><span class="stat-label">Level</span><strong id="level">1</strong></div>
+          <div class="stat lives-stat">
+            <span class="stat-label">Lives</span>
+            <strong id="lives" aria-label="3 lives">● ● ●</strong>
+          </div>
+          <button id="pause-button" class="toolbar-button" type="button" aria-label="Pause game" disabled>
+            <span aria-hidden="true">Ⅱ</span> Pause
+          </button>
+        </div>
+
+        <div id="canvas-wrap" class="canvas-wrap">
+          <canvas id="game-canvas" width="900" height="520" aria-label="Meteor Dodge game area"></canvas>
+          <div id="game-overlay" class="game-overlay">
+            <div class="overlay-panel">
+              <span id="overlay-icon" class="overlay-icon" aria-hidden="true">◆</span>
+              <h2 id="overlay-title">Meteor Dodge</h2>
+              <p id="overlay-message">Avoid the meteors, collect the stars, and keep moving.</p>
+              <button id="primary-button" class="primary-button" type="button">Start Game</button>
+              <p class="overlay-hint">Arrow keys, WASD, swipe, or touch controls</p>
+            </div>
+          </div>
+          <div id="status-announcer" class="sr-only" aria-live="polite"></div>
+        </div>
+
+        <div class="mobile-controls" aria-label="Touch controls">
+          <button class="control-button up" data-direction="up" type="button" aria-label="Move up">↑</button>
+          <button class="control-button left" data-direction="left" type="button" aria-label="Move left">←</button>
+          <button class="control-button down" data-direction="down" type="button" aria-label="Move down">↓</button>
+          <button class="control-button right" data-direction="right" type="button" aria-label="Move right">→</button>
+        </div>
+
+        <div class="game-legend" aria-label="Game object legend">
+          <span><i class="legend-ship" aria-hidden="true"></i>Your ship</span>
+          <span><i class="legend-meteor" aria-hidden="true"></i>Avoid</span>
+          <span><i class="legend-star" aria-hidden="true">★</i>Collect +100</span>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="content-card">
+          <h2>How to Play This Avoidance Game</h2>
+          <p>Move the blue ship around the game area and stay clear of every meteor. Your score rises while you survive. Gold stars are optional bonuses worth 100 points, while close escapes earn near-miss points.</p>
+          <ol class="steps">
+            <li><strong>Start moving.</strong> Use the arrow keys or WASD on desktop. On mobile, drag on the game area or use the direction buttons.</li>
+            <li><strong>Watch the whole field.</strong> Meteors enter from above and become faster as your level increases.</li>
+            <li><strong>Protect your lives.</strong> A collision removes one life and briefly makes your ship invulnerable. The run ends after three hits.</li>
+            <li><strong>Collect stars wisely.</strong> Stars improve your score, but chasing one through a crowded area may not be worth the risk.</li>
+          </ol>
+        </article>
+
+        <aside class="content-card controls-card">
+          <h2>Game Controls</h2>
+          <dl class="control-list">
+            <div><dt>Move</dt><dd>Arrow keys or WASD</dd></div>
+            <div><dt>Mobile</dt><dd>Drag, swipe, or direction buttons</dd></div>
+            <div><dt>Pause</dt><dd>P key or Pause button</dd></div>
+            <div><dt>Restart</dt><dd>Use Play Again after game over</dd></div>
+          </dl>
+          <div class="tip-box"><strong>Quick tip</strong><p>Stay near the lower-middle area so you have time to read incoming meteor paths.</p></div>
+        </aside>
+      </section>
+
+      <section class="text-section">
+        <h2>About Avoidance Games</h2>
+        <p>Avoidance games test reaction time, movement, and spatial awareness. The goal is simple: stay away from hazards for as long as possible. Meteor Dodge adds collectible stars, near-miss rewards, and steadily increasing difficulty to make each run different without adding complicated rules.</p>
+        <p>This free online avoidance game runs entirely in your browser. There is no download, account, or sign-up. Your best score is stored only in your current browser.</p>
+      </section>
+
+      <section class="text-section">
+        <h2>Tips for a Higher Score</h2>
+        <div class="tips-grid">
+          <div><span>01</span><h3>Use small movements</h3><p>Short adjustments are safer than sweeping across the entire board.</p></div>
+          <div><span>02</span><h3>Look ahead</h3><p>Track open space below the next group of meteors, not only the closest hazard.</p></div>
+          <div><span>03</span><h3>Skip risky stars</h3><p>Survival points grow continuously. A dangerous bonus is rarely essential.</p></div>
+        </div>
+      </section>
+
+      <section class="related-section">
+        <div class="section-heading">
+          <div><span class="eyebrow">Keep playing</span><h2>Related Free Online Games</h2></div>
+          <a href="../../index.html#games">View all games</a>
+        </div>
+        <div class="related-grid">
+          <!-- Replace these hub anchors with final game URLs when those pages are published. -->
+          <a href="../../index.html#games" class="related-card"><span class="related-icon purple">S</span><div><h3>Snake</h3><p>Classic arcade survival</p></div></a>
+          <a href="../../index.html#games" class="related-card"><span class="related-icon teal">B</span><div><h3>Block Dodger</h3><p>Fast obstacle challenge</p></div></a>
+          <a href="../../index.html#games" class="related-card"><span class="related-icon orange">A</span><div><h3>Asteroid Escape</h3><p>Space reflex game</p></div></a>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2>Avoidance Game FAQ</h2>
+        <details><summary>Is Meteor Dodge free to play?</summary><p>Yes. The game is free to play in a modern browser and does not require a download or account.</p></details>
+        <details><summary>Can I play this avoidance game on mobile?</summary><p>Yes. You can drag your finger on the game area, swipe, or use the large on-screen direction buttons.</p></details>
+        <details><summary>How does the score work?</summary><p>You earn points for survival time, 100 points for each star, and bonus points for passing close to a meteor without touching it.</p></details>
+        <details><summary>Does the game save my best score?</summary><p>Yes. The best score is stored locally in your browser. Clearing browser storage will reset it.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner"><a class="brand" href="../../index.html"><span class="brand-mark" aria-hidden="true">G</span><span>Games Hub</span></a><p>Fast, free games made for your browser.</p></div>
+  </footer>
+  <script>"use strict";
+
+(() => {
+  const canvas = document.getElementById("game-canvas");
+  const ctx = canvas.getContext("2d");
+  const canvasWrap = document.getElementById("canvas-wrap");
+  const scoreEl = document.getElementById("score");
+  const bestScoreEl = document.getElementById("best-score");
+  const levelEl = document.getElementById("level");
+  const livesEl = document.getElementById("lives");
+  const pauseButton = document.getElementById("pause-button");
+  const overlay = document.getElementById("game-overlay");
+  const overlayIcon = document.getElementById("overlay-icon");
+  const overlayTitle = document.getElementById("overlay-title");
+  const overlayMessage = document.getElementById("overlay-message");
+  const primaryButton = document.getElementById("primary-button");
+  const announcer = document.getElementById("status-announcer");
+  const controlButtons = [...document.querySelectorAll(".control-button")];
+
+  const WORLD = { width: 900, height: 520 };
+  const keys = { left: false, right: false, up: false, down: false };
+  const starPoints = 100;
+  const nearMissPoints = 35;
+  let state = "ready";
+  let score = 0;
+  let bestScore = readBestScore();
+  let level = 1;
+  let lives = 3;
+  let elapsed = 0;
+  let spawnTimer = 0;
+  let starTimer = 0;
+  let lastTime = 0;
+  let animationId = 0;
+  let meteors = [];
+  let stars = [];
+  let particles = [];
+  let touchTarget = null;
+  let touchPointerId = null;
+
+  const player = {
+    x: WORLD.width / 2,
+    y: WORLD.height - 72,
+    radius: 18,
+    speed: 330,
+    invulnerable: 0
+  };
+
+  bestScoreEl.textContent = bestScore.toLocaleString();
+  resizeCanvas();
+  drawScene();
+
+  function readBestScore() {
+    try {
+      const saved = Number.parseInt(localStorage.getItem("avoidanceMeteorBest"), 10);
+      return Number.isFinite(saved) && saved > 0 ? saved : 0;
+    } catch {
+      return 0;
+    }
+  }
+
+  function saveBestScore() {
+    try {
+      localStorage.setItem("avoidanceMeteorBest", String(bestScore));
+    } catch {
+      // The game remains fully playable when browser storage is unavailable.
+    }
+  }
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.round(rect.width * dpr));
+    canvas.height = Math.max(1, Math.round(rect.height * dpr));
+    ctx.setTransform(canvas.width / WORLD.width, 0, 0, canvas.height / WORLD.height, 0, 0);
+    if (state !== "running") drawScene();
+  }
+
+  function resetGame() {
+    score = 0;
+    level = 1;
+    lives = 3;
+    elapsed = 0;
+    spawnTimer = 0.45;
+    starTimer = 3.5;
+    meteors = [];
+    stars = [];
+    particles = [];
+    player.x = WORLD.width / 2;
+    player.y = WORLD.height - 72;
+    player.invulnerable = 0;
+    clearInputs();
+    updateHud();
+  }
+
+  function startGame() {
+    cancelAnimationFrame(animationId);
+    resetGame();
+    state = "running";
+    overlay.hidden = true;
+    pauseButton.disabled = false;
+    pauseButton.innerHTML = '<span aria-hidden="true">Ⅱ</span> Pause';
+    pauseButton.setAttribute("aria-label", "Pause game");
+    announcer.textContent = "Game started";
+    lastTime = performance.now();
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function loop(now) {
+    if (state !== "running") return;
+    const delta = Math.min((now - lastTime) / 1000, 0.034);
+    lastTime = now;
+    update(delta);
+    drawScene();
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function update(delta) {
+    elapsed += delta;
+    level = Math.min(12, Math.floor(elapsed / 13) + 1);
+    score += delta * (10 + level * 1.4);
+    player.invulnerable = Math.max(0, player.invulnerable - delta);
+
+    let dx = Number(keys.right) - Number(keys.left);
+    let dy = Number(keys.down) - Number(keys.up);
+    if (dx !== 0 && dy !== 0) {
+      dx *= Math.SQRT1_2;
+      dy *= Math.SQRT1_2;
+    }
+    if (touchTarget) {
+      const targetDx = touchTarget.x - player.x;
+      const targetDy = touchTarget.y - player.y;
+      const distance = Math.hypot(targetDx, targetDy);
+      if (distance > 4) {
+        dx = targetDx / distance;
+        dy = targetDy / distance;
+      }
+    }
+    player.x = clamp(player.x + dx * player.speed * delta, player.radius + 5, WORLD.width - player.radius - 5);
+    player.y = clamp(player.y + dy * player.speed * delta, player.radius + 5, WORLD.height - player.radius - 5);
+
+    spawnTimer -= delta;
+    if (spawnTimer <= 0) {
+      spawnMeteor();
+      const baseInterval = Math.max(0.23, 0.78 - level * 0.045);
+      spawnTimer = baseInterval * (0.78 + Math.random() * 0.44);
+    }
+
+    starTimer -= delta;
+    if (starTimer <= 0 && stars.length === 0) {
+      spawnStar();
+      starTimer = 5 + Math.random() * 4;
+    }
+
+    const meteorSpeedBoost = (level - 1) * 18;
+    for (let i = meteors.length - 1; i >= 0; i -= 1) {
+      const meteor = meteors[i];
+      meteor.y += (meteor.speed + meteorSpeedBoost) * delta;
+      meteor.x += Math.sin(elapsed * meteor.wobble + meteor.phase) * meteor.drift * delta;
+      meteor.rotation += meteor.spin * delta;
+
+      const distance = Math.hypot(player.x - meteor.x, player.y - meteor.y);
+      if (distance < player.radius + meteor.radius - 3 && player.invulnerable <= 0) {
+        hitPlayer(meteor);
+        meteors.splice(i, 1);
+        continue;
+      }
+      if (!meteor.nearMissed && meteor.y > player.y + meteor.radius && distance < player.radius + meteor.radius + 42) {
+        meteor.nearMissed = true;
+        score += nearMissPoints;
+        burst(player.x, player.y, "#16b8c4", 7);
+      }
+      if (meteor.y - meteor.radius > WORLD.height + 10 || meteor.x < -80 || meteor.x > WORLD.width + 80) {
+        meteors.splice(i, 1);
+      }
+    }
+
+    for (let i = stars.length - 1; i >= 0; i -= 1) {
+      const star = stars[i];
+      star.y += star.speed * delta;
+      star.rotation += delta * 2.5;
+      if (Math.hypot(player.x - star.x, player.y - star.y) < player.radius + star.radius) {
+        score += starPoints;
+        burst(star.x, star.y, "#ffcf5c", 14);
+        stars.splice(i, 1);
+        announcer.textContent = "Star collected. 100 bonus points.";
+      } else if (star.y - star.radius > WORLD.height) {
+        stars.splice(i, 1);
+      }
+    }
+
+    for (let i = particles.length - 1; i >= 0; i -= 1) {
+      const particle = particles[i];
+      particle.x += particle.vx * delta;
+      particle.y += particle.vy * delta;
+      particle.life -= delta;
+      particle.vx *= 0.98;
+      particle.vy *= 0.98;
+      if (particle.life <= 0) particles.splice(i, 1);
+    }
+    updateHud();
+  }
+
+  function spawnMeteor() {
+    const radius = 15 + Math.random() * 18;
+    meteors.push({
+      x: radius + Math.random() * (WORLD.width - radius * 2),
+      y: -radius - 8,
+      radius,
+      speed: 135 + Math.random() * 105,
+      drift: 8 + Math.random() * 28,
+      wobble: 1.1 + Math.random() * 1.8,
+      phase: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 2.8,
+      rotation: Math.random() * Math.PI,
+      craters: makeCraters(radius),
+      nearMissed: false
+    });
+  }
+
+  function makeCraters(radius) {
+    return Array.from({ length: radius > 24 ? 3 : 2 }, () => ({
+      x: (Math.random() - 0.5) * radius,
+      y: (Math.random() - 0.5) * radius,
+      r: Math.max(2.5, radius * (0.1 + Math.random() * 0.1))
+    }));
+  }
+
+  function spawnStar() {
+    stars.push({
+      x: 45 + Math.random() * (WORLD.width - 90),
+      y: -25,
+      radius: 14,
+      speed: 105 + level * 5,
+      rotation: 0
+    });
+  }
+
+  function hitPlayer(meteor) {
+    lives -= 1;
+    player.invulnerable = 1.65;
+    burst(meteor.x, meteor.y, "#ef5b5b", 18);
+    updateHud();
+    if (navigator.vibrate) navigator.vibrate(80);
+    announcer.textContent = lives > 0 ? `Collision. ${lives} ${lives === 1 ? "life" : "lives"} remaining.` : "Game over.";
+    if (lives <= 0) endGame();
+  }
+
+  function endGame() {
+    state = "gameover";
+    cancelAnimationFrame(animationId);
+    const finalScore = Math.floor(score);
+    const isNewBest = finalScore > bestScore;
+    if (isNewBest) {
+      bestScore = finalScore;
+      saveBestScore();
+    }
+    updateHud();
+    overlayIcon.textContent = isNewBest ? "★" : "◆";
+    overlayTitle.textContent = isNewBest ? "New Best Score!" : "Game Over";
+    overlayMessage.textContent = `You scored ${finalScore.toLocaleString()} points and reached level ${level}.`;
+    primaryButton.textContent = "Play Again";
+    overlay.hidden = false;
+    pauseButton.disabled = true;
+    primaryButton.focus();
+  }
+
+  function togglePause() {
+    if (state === "running") {
+      state = "paused";
+      cancelAnimationFrame(animationId);
+      clearInputs();
+      overlayIcon.textContent = "Ⅱ";
+      overlayTitle.textContent = "Game Paused";
+      overlayMessage.textContent = "Take a break. Your score and position are safe.";
+      primaryButton.textContent = "Resume Game";
+      overlay.hidden = false;
+      pauseButton.innerHTML = '<span aria-hidden="true">▶</span> Resume';
+      pauseButton.setAttribute("aria-label", "Resume game");
+      announcer.textContent = "Game paused";
+    } else if (state === "paused") {
+      resumeGame();
+    }
+  }
+
+  function resumeGame() {
+    state = "running";
+    overlay.hidden = true;
+    pauseButton.innerHTML = '<span aria-hidden="true">Ⅱ</span> Pause';
+    pauseButton.setAttribute("aria-label", "Pause game");
+    announcer.textContent = "Game resumed";
+    lastTime = performance.now();
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function updateHud() {
+    const displayScore = Math.floor(score);
+    scoreEl.textContent = displayScore.toLocaleString();
+    bestScoreEl.textContent = Math.max(bestScore, displayScore).toLocaleString();
+    levelEl.textContent = String(level);
+    livesEl.textContent = Array.from({ length: 3 }, (_, index) => index < lives ? "●" : "○").join(" ");
+    livesEl.setAttribute("aria-label", `${lives} ${lives === 1 ? "life" : "lives"} remaining`);
+  }
+
+  function drawScene() {
+    ctx.clearRect(0, 0, WORLD.width, WORLD.height);
+    const gradient = ctx.createLinearGradient(0, 0, 0, WORLD.height);
+    gradient.addColorStop(0, "#111827");
+    gradient.addColorStop(1, "#17233a");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, WORLD.width, WORLD.height);
+    drawBackgroundStars();
+    stars.forEach(drawCollectible);
+    meteors.forEach(drawMeteor);
+    particles.forEach(drawParticle);
+    drawPlayer();
+  }
+
+  function drawBackgroundStars() {
+    const timeOffset = state === "running" ? elapsed * 8 : 0;
+    ctx.fillStyle = "rgba(219, 230, 255, 0.48)";
+    for (let i = 0; i < 44; i += 1) {
+      const x = (i * 193 + 37) % WORLD.width;
+      const y = (i * 97 + timeOffset) % WORLD.height;
+      const size = i % 7 === 0 ? 1.8 : 1;
+      ctx.fillRect(x, y, size, size);
+    }
+    ctx.strokeStyle = "rgba(91, 92, 226, 0.13)";
+    ctx.lineWidth = 1;
+    for (let y = 65; y < WORLD.height; y += 65) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(WORLD.width, y);
+      ctx.stroke();
+    }
+  }
+
+  function drawPlayer() {
+    if (player.invulnerable > 0 && Math.floor(player.invulnerable * 10) % 2 === 0) return;
+    ctx.save();
+    ctx.translate(player.x, player.y);
+    ctx.shadowColor = "rgba(22, 184, 196, 0.65)";
+    ctx.shadowBlur = 16;
+    ctx.fillStyle = "#42d4de";
+    ctx.beginPath();
+    ctx.moveTo(0, -23);
+    ctx.lineTo(19, 19);
+    ctx.lineTo(0, 12);
+    ctx.lineTo(-19, 19);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "#eefcff";
+    ctx.beginPath();
+    ctx.moveTo(0, -12);
+    ctx.lineTo(7, 7);
+    ctx.lineTo(-7, 7);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = "#ffb84d";
+    ctx.beginPath();
+    ctx.moveTo(-6, 17);
+    ctx.lineTo(0, 30 + Math.random() * 4);
+    ctx.lineTo(6, 17);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawMeteor(meteor) {
+    ctx.save();
+    ctx.translate(meteor.x, meteor.y);
+    ctx.rotate(meteor.rotation);
+    ctx.shadowColor = "rgba(239, 91, 91, 0.28)";
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = "#d7654d";
+    ctx.beginPath();
+    const points = 10;
+    for (let i = 0; i < points; i += 1) {
+      const angle = (i / points) * Math.PI * 2;
+      const roughRadius = meteor.radius * (0.87 + ((i * 7) % 4) * 0.045);
+      const x = Math.cos(angle) * roughRadius;
+      const y = Math.sin(angle) * roughRadius;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "#9f4139";
+    meteor.craters.forEach(crater => {
+      ctx.beginPath();
+      ctx.arc(crater.x, crater.y, crater.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.restore();
+  }
+
+  function drawCollectible(star) {
+    ctx.save();
+    ctx.translate(star.x, star.y);
+    ctx.rotate(star.rotation);
+    ctx.shadowColor = "#ffcf5c";
+    ctx.shadowBlur = 14;
+    ctx.fillStyle = "#ffcf5c";
+    drawStarPath(0, 0, 5, star.radius, star.radius * 0.46);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawStarPath(x, y, points, outerRadius, innerRadius) {
+    ctx.beginPath();
+    for (let i = 0; i < points * 2; i += 1) {
+      const radius = i % 2 === 0 ? outerRadius : innerRadius;
+      const angle = -Math.PI / 2 + (i * Math.PI) / points;
+      const px = x + Math.cos(angle) * radius;
+      const py = y + Math.sin(angle) * radius;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+  }
+
+  function burst(x, y, color, count) {
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 45 + Math.random() * 115;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color,
+        radius: 2 + Math.random() * 3,
+        life: 0.35 + Math.random() * 0.45,
+        maxLife: 0.8
+      });
+    }
+  }
+
+  function drawParticle(particle) {
+    ctx.globalAlpha = Math.max(0, particle.life / particle.maxLife);
+    ctx.fillStyle = particle.color;
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  function setDirection(direction, active) {
+    if (Object.hasOwn(keys, direction)) keys[direction] = active;
+    if (active) touchTarget = null;
+  }
+
+  function clearInputs() {
+    Object.keys(keys).forEach(key => { keys[key] = false; });
+    touchTarget = null;
+    controlButtons.forEach(button => button.classList.remove("active"));
+  }
+
+  function pointerToWorld(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: ((event.clientX - rect.left) / rect.width) * WORLD.width,
+      y: ((event.clientY - rect.top) / rect.height) * WORLD.height
+    };
+  }
+
+  function handleKey(event, active) {
+    const mapping = {
+      ArrowLeft: "left", a: "left", A: "left",
+      ArrowRight: "right", d: "right", D: "right",
+      ArrowUp: "up", w: "up", W: "up",
+      ArrowDown: "down", s: "down", S: "down"
+    };
+    const direction = mapping[event.key];
+    if (direction) {
+      event.preventDefault();
+      setDirection(direction, active);
+    }
+    if (active && (event.key === "p" || event.key === "P") && (state === "running" || state === "paused")) {
+      event.preventDefault();
+      togglePause();
+    }
+    if (active && (event.key === "Enter" || event.key === " ") && !overlay.hidden) {
+      event.preventDefault();
+      if (state === "paused") resumeGame();
+      else startGame();
+    }
+  }
+
+  primaryButton.addEventListener("click", () => {
+    if (state === "paused") resumeGame();
+    else startGame();
+  });
+  pauseButton.addEventListener("click", togglePause);
+  window.addEventListener("keydown", event => handleKey(event, true), { passive: false });
+  window.addEventListener("keyup", event => handleKey(event, false), { passive: false });
+  window.addEventListener("blur", () => {
+    if (state === "running") togglePause();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && state === "running") togglePause();
+  });
+  window.addEventListener("resize", resizeCanvas);
+
+  canvas.addEventListener("pointerdown", event => {
+    if (state !== "running") return;
+    touchPointerId = event.pointerId;
+    canvas.setPointerCapture(event.pointerId);
+    touchTarget = pointerToWorld(event);
+  });
+  canvas.addEventListener("pointermove", event => {
+    if (state === "running" && event.pointerId === touchPointerId) touchTarget = pointerToWorld(event);
+  });
+  canvas.addEventListener("pointerup", event => {
+    if (event.pointerId === touchPointerId) {
+      touchPointerId = null;
+      touchTarget = null;
+    }
+  });
+  canvas.addEventListener("pointercancel", () => {
+    touchPointerId = null;
+    touchTarget = null;
+  });
+
+  controlButtons.forEach(button => {
+    const direction = button.dataset.direction;
+    const press = event => {
+      event.preventDefault();
+      button.setPointerCapture?.(event.pointerId);
+      button.classList.add("active");
+      setDirection(direction, true);
+    };
+    const release = event => {
+      event.preventDefault();
+      button.classList.remove("active");
+      setDirection(direction, false);
+    };
+    button.addEventListener("pointerdown", press);
+    button.addEventListener("pointerup", release);
+    button.addEventListener("pointercancel", release);
+    button.addEventListener("pointerleave", event => {
+      if (event.buttons === 1) release(event);
+    });
+  });
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+})();
+</script>
+</body>
+</html>

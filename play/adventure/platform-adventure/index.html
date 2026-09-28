@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Play Platform Adventure free online in your browser. Explore three colorful stages, collect relics, avoid enemies, and reach the final portal—no download required.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="./">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5b5ce2;
+  --primary-dark: #4546b8;
+  --secondary: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --background: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --radius: 18px;
+  --shadow: 0 16px 42px rgba(31, 41, 55, 0.10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--background);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+a { color: inherit; }
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  padding: 10px 16px;
+  color: #fff;
+  background: var(--primary-dark);
+  border-radius: 8px;
+  transform: translateY(-150%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.page-shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+
+.site-header {
+  height: 72px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  width: min(1160px, calc(100% - 40px));
+  height: 100%;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 12px;
+  font-size: 13px;
+  letter-spacing: -0.04em;
+}
+.all-games-link { color: var(--primary-dark); font-weight: 700; text-decoration: none; }
+.all-games-link:hover { text-decoration: underline; }
+
+.hero { padding-block: 34px 36px; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 14px; }
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--primary); }
+.hero-copy { max-width: 790px; padding-top: 34px; }
+.eyebrow, .overlay-kicker {
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+h1, h2, h3 { margin: 0; line-height: 1.12; }
+h1 { margin-top: 9px; font-size: clamp(40px, 6vw, 64px); font-weight: 800; letter-spacing: -0.035em; }
+h2 { font-size: clamp(28px, 4vw, 36px); font-weight: 700; letter-spacing: -0.02em; }
+h3 { font-size: 22px; font-weight: 700; }
+.hero p { max-width: 720px; margin: 18px 0 0; color: var(--muted); font-size: 19px; }
+
+.game-section { margin-bottom: 76px; }
+.game-card { overflow: hidden; background: var(--card); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow); }
+.game-toolbar {
+  min-height: 72px;
+  padding: 12px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.stat { min-width: 100px; padding-right: 18px; border-right: 1px solid var(--border); }
+.stat span { display: block; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.stat strong { display: block; min-height: 27px; font-size: 21px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+#lives { color: var(--danger); letter-spacing: 2px; }
+.icon-button {
+  width: 46px;
+  height: 46px;
+  margin-left: auto;
+  color: var(--text);
+  background: #f1f2f7;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+}
+.icon-button:hover { background: #e9eaf4; }
+
+.canvas-wrap { position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--game); touch-action: none; }
+canvas { display: block; width: 100%; height: 100%; }
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  padding: 20px;
+  place-items: center;
+  background: rgba(10, 18, 34, 0.68);
+  backdrop-filter: blur(5px);
+  transition: opacity 180ms ease;
+}
+.game-overlay.is-hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+.overlay-panel {
+  width: min(510px, 100%);
+  padding: 30px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 18px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+}
+.overlay-panel h2 { margin-top: 6px; font-size: clamp(27px, 5vw, 40px); }
+.overlay-panel p { margin: 13px auto 20px; color: var(--muted); }
+.overlay-panel small { display: block; margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+.primary-button, .secondary-button {
+  min-height: 46px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+}
+.primary-button { color: #fff; background: var(--primary); border: 1px solid var(--primary); box-shadow: 0 7px 18px rgba(91, 92, 226, 0.24); }
+.primary-button:hover { background: var(--primary-dark); }
+.secondary-button { color: var(--primary-dark); background: #fff; border: 1px solid #cfd1ea; }
+.secondary-button:hover { background: #f5f5ff; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
+
+.status-line { min-height: 31px; margin: 0; padding: 8px 20px; color: var(--muted); background: #f8f9fc; border-top: 1px solid rgba(255,255,255,.2); text-align: center; font-size: 14px; font-weight: 700; }
+.touch-controls { display: none; padding: 14px 16px 2px; align-items: center; justify-content: space-between; }
+.direction-controls { display: flex; gap: 12px; }
+.touch-button {
+  min-width: 64px;
+  height: 58px;
+  color: #fff;
+  background: #272f46;
+  border: 0;
+  border-bottom: 4px solid #151b2b;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 27px;
+  font-weight: 800;
+  touch-action: none;
+  user-select: none;
+}
+.touch-button.is-pressed { transform: translateY(2px); border-bottom-width: 2px; background: var(--primary); }
+.jump-button { min-width: 112px; background: var(--primary); border-bottom-color: var(--primary-dark); }
+.jump-button span { font-size: 14px; vertical-align: 3px; }
+.game-actions { display: flex; gap: 18px; align-items: center; padding: 16px 20px 20px; }
+.game-actions span { color: var(--muted); font-size: 14px; }
+
+.content { padding-bottom: 80px; }
+.content > section { margin-top: 72px; }
+.content > section:first-child { margin-top: 0; }
+.content section > p { max-width: 820px; color: #4b5565; }
+.instructions-grid, .tips-grid, .related-games { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.info-card, .tips-grid > div, .related-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; }
+.info-card { padding: 24px; }
+.info-card ul { margin: 16px 0 0; padding-left: 21px; color: #4b5565; }
+.info-card li + li { margin-top: 8px; }
+kbd { display: inline-block; min-width: 28px; padding: 1px 7px; text-align: center; background: #f2f3f8; border: 1px solid #d8dae4; border-bottom-width: 2px; border-radius: 6px; font-family: inherit; font-weight: 700; }
+.tips-grid { grid-template-columns: repeat(2, 1fr); margin-top: 24px; }
+.tips-grid > div { padding: 22px; }
+.tips-grid strong { color: var(--primary-dark); font-size: 19px; }
+.tips-grid p { margin: 7px 0 0; color: var(--muted); }
+.related-games { margin-top: 24px; }
+.related-card { display: grid; min-height: 148px; padding: 20px; place-items: center; align-content: center; text-align: center; }
+.related-card span { font-size: 32px; }
+.related-card strong { margin-top: 5px; }
+.related-card small { color: var(--muted); }
+.faq-section details { max-width: 880px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.faq-section details:first-of-type { margin-top: 20px; border-top: 1px solid var(--border); }
+.faq-section summary { cursor: pointer; font-size: 18px; font-weight: 700; }
+.faq-section details p { margin-bottom: 0; }
+
+footer { color: var(--muted); background: #fff; border-top: 1px solid var(--border); }
+.footer-inner { min-height: 90px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+
+@media (pointer: coarse), (max-width: 820px) {
+  .touch-controls { display: flex; }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .page-shell, .header-inner { width: min(100% - 28px, 1160px); }
+  .site-header { height: 64px; }
+  .brand { font-size: 17px; }
+  .brand-mark { width: 34px; height: 34px; }
+  .hero { padding-block: 24px 28px; }
+  .hero-copy { padding-top: 24px; }
+  h1 { font-size: clamp(36px, 11vw, 42px); }
+  .hero p { font-size: 17px; }
+  .game-section { width: 100%; margin-bottom: 58px; }
+  .game-card { border-radius: 0; border-inline: 0; }
+  .game-toolbar { min-height: 63px; padding: 9px 12px; gap: 7px; }
+  .stat { min-width: 0; flex: 1; padding-right: 7px; }
+  .stat span { font-size: 10px; }
+  .stat strong { font-size: 16px; }
+  .icon-button { width: 42px; height: 42px; flex: 0 0 auto; }
+  .overlay-panel { padding: 22px 18px; }
+  .overlay-panel p { font-size: 14px; line-height: 1.45; }
+  .overlay-panel small { display: none; }
+  .game-actions { justify-content: space-between; padding-inline: 16px; }
+  .game-actions span { display: none; }
+  .instructions-grid, .related-games { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .content > section { margin-top: 56px; }
+  .footer-inner { padding-block: 24px; gap: 8px; flex-direction: column; justify-content: center; }
+}
+
+@media (max-width: 420px) {
+  .all-games-link { font-size: 14px; }
+  .game-toolbar { gap: 5px; }
+  .stat { padding-right: 4px; }
+  .stat strong { font-size: 14px; }
+  .touch-button { min-width: 60px; height: 54px; }
+  .jump-button { min-width: 102px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+  <title>Platform Adventure Game - Play Free Online</title>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">GH</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../../">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero page-shell" aria-labelledby="page-title">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Home</a><span aria-hidden="true">/</span>
+        <a href="../">Adventure Games</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Platform Adventure</span>
+      </nav>
+      <div class="hero-copy">
+        <span class="eyebrow">Free browser game</span>
+        <h1 id="page-title">Platform Adventure Game</h1>
+        <p>Run, jump, and explore three handcrafted stages. Collect every crystal relic, outsmart the forest guardians, and unlock the portal home.</p>
+      </div>
+    </section>
+
+    <section class="game-section page-shell" id="game" aria-label="Platform Adventure game">
+      <div class="game-card">
+        <div class="game-toolbar" aria-label="Game statistics">
+          <div class="stat"><span>Score</span><strong id="score">0000</strong></div>
+          <div class="stat"><span>Relics</span><strong id="relics">0 / 0</strong></div>
+          <div class="stat"><span>Lives</span><strong id="lives" aria-label="3 lives">♥ ♥ ♥</strong></div>
+          <div class="stat"><span>Stage</span><strong id="level">1 / 3</strong></div>
+          <button class="icon-button" id="pauseButton" type="button" aria-label="Pause game" title="Pause game">
+            <span aria-hidden="true">Ⅱ</span>
+          </button>
+        </div>
+
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="gameCanvas" width="960" height="540" aria-label="Platform Adventure play area">
+            Your browser does not support HTML5 canvas. Please use a modern browser to play.
+          </canvas>
+
+          <div class="game-overlay" id="startOverlay">
+            <div class="overlay-panel">
+              <span class="overlay-kicker">The Sunstone Trail</span>
+              <h2>Ready for an adventure?</h2>
+              <p>Find the relics in each stage, then enter the glowing portal. Watch out for guardians and deep water.</p>
+              <button class="primary-button" id="startButton" type="button">Start Adventure</button>
+              <small>Arrow keys or A/D to move · Space, W, or ↑ to jump</small>
+            </div>
+          </div>
+
+          <div class="game-overlay is-hidden" id="messageOverlay" aria-live="polite">
+            <div class="overlay-panel">
+              <span class="overlay-kicker" id="overlayKicker">Stage complete</span>
+              <h2 id="overlayTitle">Trail cleared!</h2>
+              <p id="overlayMessage">The next path is open.</p>
+              <button class="primary-button" id="overlayButton" type="button">Continue</button>
+            </div>
+          </div>
+        </div>
+
+        <p class="status-line" id="statusText" aria-live="polite">Press Start Adventure to begin.</p>
+
+        <div class="touch-controls" aria-label="Touch controls">
+          <div class="direction-controls">
+            <button class="touch-button" id="leftButton" type="button" aria-label="Move left">←</button>
+            <button class="touch-button" id="rightButton" type="button" aria-label="Move right">→</button>
+          </div>
+          <button class="touch-button jump-button" id="jumpButton" type="button" aria-label="Jump">↑ <span>Jump</span></button>
+        </div>
+
+        <div class="game-actions">
+          <button class="secondary-button" id="restartButton" type="button">Restart Game</button>
+          <span>Collect all relics before entering the portal.</span>
+        </div>
+      </div>
+    </section>
+
+    <article class="content page-shell">
+      <section>
+        <h2>How to Play Platform Adventure</h2>
+        <p>Guide your explorer across floating ledges, forest ruins, and mountain paths. Each stage contains golden coins and crystal relics. Coins increase your score, while every relic in the stage must be collected before the exit portal will open.</p>
+        <p>Jump on a guardian to defeat it, or avoid the guardian entirely. Falling into water, touching spikes, or colliding with a guardian from the side costs one life. Activated checkpoints let you continue from a safer point in the stage.</p>
+      </section>
+
+      <section class="instructions-grid" aria-label="Game controls and objectives">
+        <div class="info-card">
+          <h3>Desktop Controls</h3>
+          <ul>
+            <li><kbd>A</kbd> <kbd>D</kbd> or arrow keys to move</li>
+            <li><kbd>W</kbd>, <kbd>↑</kbd>, or <kbd>Space</kbd> to jump</li>
+            <li><kbd>P</kbd> or <kbd>Esc</kbd> to pause</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>Mobile Controls</h3>
+          <ul>
+            <li>Hold the left or right button to run</li>
+            <li>Tap Jump to leap</li>
+            <li>Use the pause button above the game</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>Your Objective</h3>
+          <ul>
+            <li>Collect every crystal relic</li>
+            <li>Find coins for bonus points</li>
+            <li>Reach the portal with lives remaining</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>About Platform Adventure</h2>
+        <p>Platform Adventure is a free online platform game built for quick browser play. The journey spans three increasingly challenging stages, each with a distinct route, moving hazards, hidden pickups, and a checkpoint. No download or account is needed, and your best score is saved on your device.</p>
+      </section>
+
+      <section>
+        <h2>Tips for a Higher Score</h2>
+        <div class="tips-grid">
+          <div><strong>Keep moving</strong><p>Finishing quickly adds a time bonus at the end of each stage.</p></div>
+          <div><strong>Explore high paths</strong><p>Some coins and relics sit above the most obvious route.</p></div>
+          <div><strong>Time your jumps</strong><p>Watch enemy patrols and moving platforms before committing.</p></div>
+          <div><strong>Use checkpoints</strong><p>Touch the trail flag so a missed jump does not send you far back.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>More Free Online Games</h2>
+        <div class="related-games">
+          <div class="related-card"><span aria-hidden="true">🧩</span><strong>Puzzle Games</strong><small>Coming soon</small></div>
+          <div class="related-card"><span aria-hidden="true">🏁</span><strong>Racing Games</strong><small>Coming soon</small></div>
+          <div class="related-card"><span aria-hidden="true">🎯</span><strong>Arcade Games</strong><small>Coming soon</small></div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2>Platform Adventure FAQ</h2>
+        <details>
+          <summary>Is Platform Adventure free to play?</summary>
+          <p>Yes. Platform Adventure is a free browser game with no download, login, or purchase required.</p>
+        </details>
+        <details>
+          <summary>Can I play Platform Adventure on mobile?</summary>
+          <p>Yes. The game includes responsive scaling and large touch controls for compatible phones and tablets.</p>
+        </details>
+        <details>
+          <summary>How do I open the exit portal?</summary>
+          <p>Collect every crystal relic in the current stage. The portal changes from dim to glowing when it is ready.</p>
+        </details>
+        <details>
+          <summary>Does the game save my progress?</summary>
+          <p>Your best score is stored locally in your browser. A new session begins at stage one.</p>
+        </details>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="page-shell footer-inner">
+      <span>© <span id="currentYear"></span> Games Hub</span>
+      <span>Free games. No downloads.</span>
+    </div>
+  </footer>
+
+  <script>"use strict";
+
+(() => {
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const scoreEl = document.getElementById("score");
+  const relicsEl = document.getElementById("relics");
+  const livesEl = document.getElementById("lives");
+  const levelEl = document.getElementById("level");
+  const statusEl = document.getElementById("statusText");
+  const startOverlay = document.getElementById("startOverlay");
+  const messageOverlay = document.getElementById("messageOverlay");
+  const overlayKicker = document.getElementById("overlayKicker");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayMessage = document.getElementById("overlayMessage");
+  const overlayButton = document.getElementById("overlayButton");
+  const startButton = document.getElementById("startButton");
+  const pauseButton = document.getElementById("pauseButton");
+  const restartButton = document.getElementById("restartButton");
+
+  const WIDTH = 960;
+  const HEIGHT = 540;
+  const GRAVITY = 0.72;
+  const MOVE_SPEED = 5.25;
+  const JUMP_SPEED = 14.2;
+  const MAX_FALL = 16;
+  const keys = { left: false, right: false, jump: false };
+
+  const state = {
+    mode: "ready",
+    levelIndex: 0,
+    score: 0,
+    lives: 3,
+    relics: 0,
+    totalRelics: 0,
+    elapsed: 0,
+    checkpoint: null,
+    lastTime: 0,
+    accumulator: 0,
+    shake: 0,
+    best: Number(localStorage.getItem("platformAdventureBest") || 0)
+  };
+
+  const player = {
+    x: 70, y: 350, w: 32, h: 45, vx: 0, vy: 0,
+    grounded: false, facing: 1, jumpHeld: false,
+    invincible: 0, spawnX: 70, spawnY: 350
+  };
+
+  const levelBlueprints = [
+    {
+      name: "Emerald Trail",
+      sky: ["#86d8ef", "#d8f2df"],
+      ground: "#365d3d", top: "#78b95b", width: 2050,
+      spawn: [70, 390], portal: [1940, 379], checkpoint: [1035, 362],
+      platforms: [
+        [0, 465, 310, 75], [365, 430, 235, 110], [650, 480, 285, 60],
+        [985, 430, 255, 110], [1290, 475, 255, 65], [1595, 425, 455, 115],
+        [210, 350, 120, 18], [480, 305, 135, 18], [760, 355, 130, 18],
+        [1130, 300, 125, 18], [1410, 350, 135, 18], [1690, 285, 125, 18]
+      ],
+      moving: [[900, 275, 105, 17, 100, 1.25, "x"], [1510, 250, 105, 17, 85, 1.05, "y"]],
+      coins: [[245,315],[420,390],[520,270],[695,440],[810,320],[1040,390],[1180,265],[1350,435],[1475,315],[1670,385],[1745,250],[1860,385]],
+      relics: [[570,260],[1210,255],[1775,240]],
+      enemies: [[470,392,100],[1075,392,110],[1375,437,120],[1740,387,125]],
+      spikes: [[820,462,58],[1460,457,58]]
+    },
+    {
+      name: "Sunset Ruins",
+      sky: ["#f5aa78", "#f9dfaa"],
+      ground: "#79533a", top: "#d89b55", width: 2300,
+      spawn: [65, 390], portal: [2195, 355], checkpoint: [1170, 322],
+      platforms: [
+        [0,465,260,75],[320,420,220,120],[590,475,200,65],[850,400,255,140],
+        [1160,390,190,150],[1410,465,285,75],[1750,410,220,130],[2030,440,270,100],
+        [170,335,110,18],[430,285,125,18],[690,330,120,18],[960,260,130,18],
+        [1260,240,120,18],[1510,330,120,18],[1835,275,130,18],[2070,300,120,18]
+      ],
+      moving: [[555,245,110,17,105,1.3,"x"],[1375,300,105,17,90,1.2,"y"],[1700,250,105,17,120,1.4,"x"]],
+      coins: [[205,300],[370,380],[475,250],[625,435],[735,295],[905,360],[1020,225],[1210,350],[1320,205],[1470,425],[1570,295],[1800,370],[1895,240],[2080,265],[2180,400]],
+      relics: [[505,240],[1320,195],[1900,230]],
+      enemies: [[385,382,100],[900,362,120],[1200,352,95],[1500,427,130],[1800,372,105],[2110,402,100]],
+      spikes: [[680,457,58],[1000,382,58],[1560,447,58],[2100,422,58]]
+    },
+    {
+      name: "Crystal Summit",
+      sky: ["#7187cf", "#d6dff5"],
+      ground: "#39445d", top: "#8fa5c8", width: 2550,
+      spawn: [60, 385], portal: [2445, 315], checkpoint: [1290, 292],
+      platforms: [
+        [0,465,240,75],[300,405,190,135],[550,465,175,75],[785,375,210,165],
+        [1060,440,180,100],[1300,360,210,180],[1570,460,180,80],[1810,370,200,170],
+        [2070,435,175,105],[2300,400,250,140],[150,325,100,18],[420,270,105,18],
+        [650,300,105,18],[900,230,110,18],[1140,285,100,18],[1430,215,105,18],
+        [1660,300,100,18],[1930,220,105,18],[2180,280,100,18],[2390,250,105,18]
+      ],
+      moving: [[500,210,100,17,110,1.5,"x"],[1010,245,100,17,95,1.35,"y"],[1515,255,100,17,100,1.45,"x"],[2030,250,100,17,90,1.3,"y"]],
+      coins: [[180,290],[350,365],[455,235],[590,425],[685,265],[830,335],[945,195],[1100,400],[1190,250],[1340,320],[1470,180],[1620,420],[1695,265],[1850,330],[1970,185],[2110,395],[2205,245],[2350,360],[2435,215]],
+      relics: [[460,225],[1475,170],[1975,175],[2440,205]],
+      enemies: [[340,367,90],[825,337,115],[1090,402,90],[1360,322,105],[1610,422,95],[1860,332,110],[2110,397,90],[2350,362,105]],
+      spikes: [[620,447,58],[900,357,58],[1140,422,58],[1660,442,58],[2140,417,58]]
+    }
+  ];
+
+  let level = null;
+  let cameraX = 0;
+
+  function cloneLevel(index) {
+    const b = levelBlueprints[index];
+    return {
+      ...b,
+      platforms: b.platforms.map(([x,y,w,h]) => ({x,y,w,h})),
+      moving: b.moving.map(([x,y,w,h,range,speed,axis]) => ({x,y,w,h,startX:x,startY:y,range,speed,axis,prevX:x,prevY:y})),
+      coins: b.coins.map(([x,y]) => ({x,y,r:8,collected:false,bob:Math.random()*6})),
+      relics: b.relics.map(([x,y]) => ({x,y,r:12,collected:false,bob:Math.random()*6})),
+      enemies: b.enemies.map(([x,y,range]) => ({x,y,w:34,h:34,startX:x,range,vx:1.2,alive:true})),
+      spikes: b.spikes.map(([x,y,w]) => ({x,y,w,h:18})),
+      portal: {x:b.portal[0],y:b.portal[1],w:48,h:70},
+      checkpointObj: {x:b.checkpoint[0],y:b.checkpoint[1],w:24,h:68,active:false}
+    };
+  }
+
+  function loadLevel(index, resetCheckpoint = true) {
+    state.levelIndex = index;
+    level = cloneLevel(index);
+    state.relics = 0;
+    state.totalRelics = level.relics.length;
+    state.elapsed = 0;
+    if (resetCheckpoint) state.checkpoint = null;
+    player.spawnX = level.spawn[0];
+    player.spawnY = level.spawn[1];
+    respawnPlayer(false);
+    cameraX = 0;
+    updateHud();
+    setStatus(`${level.name}: collect ${state.totalRelics} relics to open the portal.`);
+  }
+
+  function beginGame() {
+    state.score = 0;
+    state.lives = 3;
+    state.mode = "playing";
+    startOverlay.classList.add("is-hidden");
+    messageOverlay.classList.add("is-hidden");
+    loadLevel(0);
+  }
+
+  function restartGame() {
+    clearInputs();
+    beginGame();
+    canvas.focus?.();
+  }
+
+  function respawnPlayer(useCheckpoint = true) {
+    const spawn = useCheckpoint && state.checkpoint ? state.checkpoint : {x:player.spawnX,y:player.spawnY};
+    player.x = spawn.x;
+    player.y = spawn.y;
+    player.vx = 0;
+    player.vy = 0;
+    player.invincible = 90;
+  }
+
+  function loseLife(reason) {
+    if (player.invincible > 0 || state.mode !== "playing") return;
+    state.lives -= 1;
+    state.shake = 12;
+    updateHud();
+    if (state.lives <= 0) {
+      state.mode = "gameover";
+      showMessage("Adventure over", "Out of lives", `Final score: ${state.score}. Your best score is ${Math.max(state.best, state.score)}.`, "Try Again", restartGame);
+      saveBest();
+      setStatus("Game over. Start a new adventure to try again.");
+    } else {
+      setStatus(`${reason} You have ${state.lives} ${state.lives === 1 ? "life" : "lives"} left.`);
+      respawnPlayer(true);
+    }
+  }
+
+  function completeLevel() {
+    if (state.mode !== "playing") return;
+    state.mode = "transition";
+    const timeBonus = Math.max(0, 1200 - Math.floor(state.elapsed * 8));
+    state.score += timeBonus;
+    updateHud();
+    if (state.levelIndex === levelBlueprints.length - 1) {
+      state.score += state.lives * 500;
+      saveBest();
+      showMessage("Quest complete", "The Sunstone is restored!", `You cleared all three stages with ${state.score} points. Best score: ${state.best}.`, "Play Again", restartGame);
+      setStatus("Adventure complete! The mountain portal is open.");
+    } else {
+      const next = state.levelIndex + 1;
+      showMessage("Stage complete", `${level.name} cleared!`, `Time bonus: ${timeBonus} points. The path to ${levelBlueprints[next].name} is open.`, "Next Stage", () => {
+        messageOverlay.classList.add("is-hidden");
+        state.mode = "playing";
+        loadLevel(next);
+      });
+      setStatus(`${level.name} complete. Continue to the next stage.`);
+    }
+  }
+
+  function saveBest() {
+    if (state.score > state.best) {
+      state.best = state.score;
+      localStorage.setItem("platformAdventureBest", String(state.best));
+    }
+  }
+
+  function showMessage(kicker, title, message, buttonText, action) {
+    overlayKicker.textContent = kicker;
+    overlayTitle.textContent = title;
+    overlayMessage.textContent = message;
+    overlayButton.textContent = buttonText;
+    overlayButton.onclick = action;
+    messageOverlay.classList.remove("is-hidden");
+  }
+
+  function togglePause() {
+    if (state.mode === "playing") {
+      state.mode = "paused";
+      pauseButton.innerHTML = '<span aria-hidden="true">▶</span>';
+      pauseButton.setAttribute("aria-label", "Resume game");
+      showMessage("Game paused", "Take a breather", "Your adventure is waiting when you are ready.", "Resume", togglePause);
+      setStatus("Game paused.");
+    } else if (state.mode === "paused") {
+      state.mode = "playing";
+      pauseButton.innerHTML = '<span aria-hidden="true">Ⅱ</span>';
+      pauseButton.setAttribute("aria-label", "Pause game");
+      messageOverlay.classList.add("is-hidden");
+      setStatus(`${level.name}: keep exploring.`);
+    }
+  }
+
+  function updateHud() {
+    scoreEl.textContent = String(state.score).padStart(4, "0");
+    relicsEl.textContent = `${state.relics} / ${state.totalRelics}`;
+    livesEl.textContent = state.lives > 0 ? "♥ ".repeat(state.lives).trim() : "0";
+    livesEl.setAttribute("aria-label", `${state.lives} ${state.lives === 1 ? "life" : "lives"}`);
+    levelEl.textContent = `${state.levelIndex + 1} / ${levelBlueprints.length}`;
+  }
+
+  function setStatus(text) { statusEl.textContent = text; }
+
+  function intersects(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+
+  function circleHit(rect, circle) {
+    const cx = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
+    const cy = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
+    const dx = circle.x - cx;
+    const dy = circle.y - cy;
+    return dx * dx + dy * dy < circle.r * circle.r;
+  }
+
+  function update() {
+    if (state.mode !== "playing") return;
+    state.elapsed += 1 / 60;
+    if (player.invincible > 0) player.invincible--;
+    if (state.shake > 0) state.shake--;
+
+    const acceleration = player.grounded ? 0.78 : 0.5;
+    if (keys.left) { player.vx -= acceleration; player.facing = -1; }
+    if (keys.right) { player.vx += acceleration; player.facing = 1; }
+    if (!keys.left && !keys.right) player.vx *= player.grounded ? 0.76 : 0.94;
+    player.vx = Math.max(-MOVE_SPEED, Math.min(MOVE_SPEED, player.vx));
+
+    if (keys.jump && player.grounded && !player.jumpHeld) {
+      player.vy = -JUMP_SPEED;
+      player.grounded = false;
+      player.jumpHeld = true;
+    }
+    if (!keys.jump) player.jumpHeld = false;
+    if (!keys.jump && player.vy < -5) player.vy *= 0.88;
+
+    player.vy = Math.min(MAX_FALL, player.vy + GRAVITY);
+
+    const allPlatforms = level.platforms.concat(level.moving);
+    updateMovingPlatforms();
+
+    player.x += player.vx;
+    for (const p of allPlatforms) {
+      if (!intersects(player, p)) continue;
+      if (player.vx > 0) player.x = p.x - player.w;
+      else if (player.vx < 0) player.x = p.x + p.w;
+      player.vx = 0;
+    }
+
+    const oldBottom = player.y + player.h;
+    player.y += player.vy;
+    player.grounded = false;
+    for (const p of allPlatforms) {
+      if (!intersects(player, p)) continue;
+      if (player.vy >= 0 && oldBottom <= p.y + 10) {
+        player.y = p.y - player.h;
+        player.vy = 0;
+        player.grounded = true;
+        if (p.axis) player.x += p.x - p.prevX;
+      } else if (player.vy < 0) {
+        player.y = p.y + p.h;
+        player.vy = 0;
+      }
+    }
+
+    player.x = Math.max(0, Math.min(level.width - player.w, player.x));
+    if (player.y > HEIGHT + 80) loseLife("You fell off the trail.");
+
+    collectItems();
+    updateEnemies();
+    checkHazards();
+    checkCheckpoint();
+    checkPortal();
+
+    const targetCamera = Math.max(0, Math.min(level.width - WIDTH, player.x - WIDTH * 0.42));
+    cameraX += (targetCamera - cameraX) * 0.1;
+  }
+
+  function updateMovingPlatforms() {
+    for (const p of level.moving) {
+      p.prevX = p.x;
+      p.prevY = p.y;
+      const offset = Math.sin(state.elapsed * p.speed) * p.range;
+      if (p.axis === "x") p.x = p.startX + offset;
+      else p.y = p.startY + offset;
+    }
+  }
+
+  function collectItems() {
+    for (const coin of level.coins) {
+      if (!coin.collected && circleHit(player, coin)) {
+        coin.collected = true;
+        state.score += 100;
+        updateHud();
+      }
+    }
+    for (const relic of level.relics) {
+      if (!relic.collected && circleHit(player, relic)) {
+        relic.collected = true;
+        state.relics++;
+        state.score += 350;
+        updateHud();
+        if (state.relics === state.totalRelics) setStatus("All relics found! The portal is now open.");
+        else setStatus(`Relic found! ${state.totalRelics - state.relics} remaining.`);
+      }
+    }
+  }
+
+  function updateEnemies() {
+    for (const enemy of level.enemies) {
+      if (!enemy.alive) continue;
+      enemy.x += enemy.vx;
+      if (enemy.x < enemy.startX - enemy.range / 2 || enemy.x > enemy.startX + enemy.range / 2) enemy.vx *= -1;
+      if (intersects(player, enemy)) {
+        const playerBottom = player.y + player.h;
+        if (player.vy > 2 && playerBottom < enemy.y + enemy.h * 0.62) {
+          enemy.alive = false;
+          player.vy = -9;
+          state.score += 200;
+          updateHud();
+          setStatus("Guardian defeated! +200 points.");
+        } else {
+          loseLife("A guardian caught you.");
+        }
+      }
+    }
+  }
+
+  function checkHazards() {
+    for (const spike of level.spikes) {
+      const hitbox = {x:spike.x + 4, y:spike.y + 5, w:spike.w - 8, h:spike.h - 5};
+      if (intersects(player, hitbox)) { loseLife("The spikes stopped you."); return; }
+    }
+  }
+
+  function checkCheckpoint() {
+    const cp = level.checkpointObj;
+    if (!cp.active && intersects(player, cp)) {
+      cp.active = true;
+      state.checkpoint = {x: cp.x - 8, y: cp.y - 8};
+      state.score += 150;
+      updateHud();
+      setStatus("Checkpoint activated! +150 points.");
+    }
+  }
+
+  function checkPortal() {
+    if (intersects(player, level.portal)) {
+      if (state.relics === state.totalRelics) completeLevel();
+      else setStatus(`The portal needs ${state.totalRelics - state.relics} more ${state.totalRelics - state.relics === 1 ? "relic" : "relics"}.`);
+    }
+  }
+
+  function draw() {
+    if (!level) level = cloneLevel(0);
+    const shakeX = state.shake ? (Math.random() - 0.5) * state.shake : 0;
+    const shakeY = state.shake ? (Math.random() - 0.5) * state.shake : 0;
+    ctx.save();
+    ctx.translate(shakeX, shakeY);
+    drawBackground();
+    ctx.save();
+    ctx.translate(-cameraX, 0);
+    drawWorld();
+    ctx.restore();
+    drawMiniPrompt();
+    ctx.restore();
+  }
+
+  function drawBackground() {
+    const gradient = ctx.createLinearGradient(0, 0, 0, HEIGHT);
+    gradient.addColorStop(0, level.sky[0]);
+    gradient.addColorStop(1, level.sky[1]);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    ctx.fillStyle = "rgba(255,255,255,.45)";
+    const cloudShift = (cameraX * 0.12) % 330;
+    for (let i = -1; i < 4; i++) {
+      const x = i * 330 - cloudShift + 80;
+      const y = 70 + (i % 2) * 45;
+      ctx.beginPath();
+      ctx.ellipse(x, y, 58, 20, 0, 0, Math.PI * 2);
+      ctx.ellipse(x + 42, y + 3, 40, 16, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    drawMountainLayer(390, "rgba(60,83,115,.16)", 0.18, 150);
+    drawMountainLayer(440, "rgba(45,70,82,.22)", 0.28, 110);
+  }
+
+  function drawMountainLayer(baseY, color, parallax, peakHeight) {
+    const shift = (cameraX * parallax) % 300;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(0, HEIGHT);
+    ctx.lineTo(0, baseY);
+    for (let x = -300 - shift; x < WIDTH + 300; x += 300) {
+      ctx.lineTo(x + 150, baseY - peakHeight);
+      ctx.lineTo(x + 300, baseY);
+    }
+    ctx.lineTo(WIDTH, HEIGHT);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawWorld() {
+    for (const p of level.platforms) drawPlatform(p);
+    for (const p of level.moving) drawMovingPlatform(p);
+    for (const spike of level.spikes) drawSpikes(spike);
+    for (const coin of level.coins) if (!coin.collected) drawCoin(coin);
+    for (const relic of level.relics) if (!relic.collected) drawRelic(relic);
+    drawCheckpoint(level.checkpointObj);
+    drawPortal(level.portal, state.relics === state.totalRelics);
+    for (const enemy of level.enemies) if (enemy.alive) drawEnemy(enemy);
+    drawPlayer();
+  }
+
+  function drawPlatform(p) {
+    ctx.fillStyle = level.ground;
+    ctx.fillRect(p.x, p.y, p.w, p.h);
+    ctx.fillStyle = level.top;
+    ctx.fillRect(p.x, p.y, p.w, Math.min(12, p.h));
+    ctx.fillStyle = "rgba(255,255,255,.13)";
+    ctx.fillRect(p.x, p.y, p.w, 3);
+    if (p.h > 30) {
+      ctx.fillStyle = "rgba(0,0,0,.08)";
+      for (let x = p.x + 20; x < p.x + p.w; x += 42) ctx.fillRect(x, p.y + 30, 13, 4);
+    }
+  }
+
+  function drawMovingPlatform(p) {
+    ctx.fillStyle = "#554b69";
+    roundRect(p.x, p.y, p.w, p.h, 7, true);
+    ctx.fillStyle = "#c6b6df";
+    ctx.fillRect(p.x + 8, p.y + 3, p.w - 16, 4);
+  }
+
+  function drawSpikes(s) {
+    ctx.fillStyle = "#dce4ee";
+    const count = Math.floor(s.w / 14);
+    for (let i = 0; i < count; i++) {
+      const x = s.x + i * (s.w / count);
+      ctx.beginPath();
+      ctx.moveTo(x, s.y + s.h);
+      ctx.lineTo(x + s.w / count / 2, s.y);
+      ctx.lineTo(x + s.w / count, s.y + s.h);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  function drawCoin(c) {
+    const y = c.y + Math.sin(state.elapsed * 4 + c.bob) * 4;
+    const squash = 0.45 + Math.abs(Math.sin(state.elapsed * 5 + c.bob)) * 0.55;
+    ctx.save();
+    ctx.translate(c.x, y);
+    ctx.scale(squash, 1);
+    ctx.fillStyle = "#ffd05a";
+    ctx.beginPath(); ctx.arc(0, 0, c.r, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#bc7b21"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawRelic(r) {
+    const y = r.y + Math.sin(state.elapsed * 3 + r.bob) * 5;
+    ctx.save(); ctx.translate(r.x, y); ctx.rotate(Math.PI / 4);
+    ctx.shadowColor = "#67e8f9"; ctx.shadowBlur = 16;
+    ctx.fillStyle = "#35d1e3"; ctx.fillRect(-9, -9, 18, 18);
+    ctx.fillStyle = "rgba(255,255,255,.7)"; ctx.fillRect(-6, -6, 6, 6);
+    ctx.restore();
+  }
+
+  function drawCheckpoint(cp) {
+    ctx.fillStyle = "#503b2b"; ctx.fillRect(cp.x, cp.y, 5, cp.h);
+    ctx.fillStyle = cp.active ? "#22c55e" : "#ffb84d";
+    ctx.beginPath(); ctx.moveTo(cp.x + 5, cp.y + 5); ctx.lineTo(cp.x + 38, cp.y + 15); ctx.lineTo(cp.x + 5, cp.y + 27); ctx.closePath(); ctx.fill();
+  }
+
+  function drawPortal(p, open) {
+    ctx.save();
+    ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+    ctx.globalAlpha = open ? 0.95 : 0.48;
+    ctx.shadowColor = open ? "#fde047" : "#94a3b8";
+    ctx.shadowBlur = open ? 24 + Math.sin(state.elapsed * 4) * 5 : 7;
+    ctx.strokeStyle = open ? "#f9c74f" : "#8b94a7";
+    ctx.lineWidth = 9;
+    ctx.beginPath(); ctx.ellipse(0, 0, 20, 31, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = open ? "rgba(123,92,226,.7)" : "rgba(60,70,88,.55)";
+    ctx.beginPath(); ctx.ellipse(0, 0, 15, 26, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawEnemy(e) {
+    ctx.save(); ctx.translate(e.x, e.y);
+    ctx.fillStyle = "#654a37"; roundRect(0, 4, e.w, e.h - 4, 11, true);
+    ctx.fillStyle = "#ef5b5b"; ctx.fillRect(7, 13, 6, 5); ctx.fillRect(21, 13, 6, 5);
+    ctx.fillStyle = "#2e251f"; ctx.fillRect(e.vx > 0 ? 22 : 6, 24, 7, 3);
+    ctx.restore();
+  }
+
+  function drawPlayer() {
+    if (player.invincible > 0 && Math.floor(player.invincible / 5) % 2 === 0) return;
+    ctx.save();
+    ctx.translate(player.x + player.w / 2, player.y + player.h / 2);
+    ctx.scale(player.facing, 1);
+    const run = player.grounded ? Math.sin(state.elapsed * 16 * Math.max(0.35, Math.abs(player.vx) / MOVE_SPEED)) * 3 : 0;
+    ctx.fillStyle = "#28314b";
+    ctx.fillRect(-10, 14, 8, 11 + run); ctx.fillRect(3, 14, 8, 11 - run);
+    ctx.fillStyle = "#5b5ce2"; roundRect(-14, -10, 28, 29, 7, true);
+    ctx.fillStyle = "#ffcf9e"; ctx.beginPath(); ctx.arc(0, -14, 11, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#3b2c26"; ctx.beginPath(); ctx.arc(-2, -17, 11, Math.PI, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#171b2d"; ctx.fillRect(4, -14, 3, 3);
+    ctx.fillStyle = "#ffb84d"; ctx.fillRect(-16, -8, 5, 18);
+    ctx.restore();
+  }
+
+  function drawMiniPrompt() {
+    if (state.mode !== "playing") return;
+    ctx.fillStyle = "rgba(17,24,39,.68)";
+    roundRect(16, 16, 175, 36, 10, true);
+    ctx.fillStyle = "#fff";
+    ctx.font = "700 14px 'Nunito Sans', sans-serif";
+    ctx.fillText(level.name, 30, 39);
+  }
+
+  function roundRect(x, y, w, h, r, fill) {
+    const radius = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + w, y, x + w, y + h, radius);
+    ctx.arcTo(x + w, y + h, x, y + h, radius);
+    ctx.arcTo(x, y + h, x, y, radius);
+    ctx.arcTo(x, y, x + w, y, radius);
+    ctx.closePath();
+    if (fill) ctx.fill();
+  }
+
+  function loop(timestamp) {
+    const delta = Math.min(50, timestamp - (state.lastTime || timestamp));
+    state.lastTime = timestamp;
+    state.accumulator += delta;
+    while (state.accumulator >= 1000 / 60) {
+      update();
+      state.accumulator -= 1000 / 60;
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  function setKey(code, down) {
+    if (["ArrowLeft", "KeyA"].includes(code)) keys.left = down;
+    if (["ArrowRight", "KeyD"].includes(code)) keys.right = down;
+    if (["ArrowUp", "KeyW", "Space"].includes(code)) keys.jump = down;
+  }
+
+  function clearInputs() {
+    keys.left = keys.right = keys.jump = false;
+    document.querySelectorAll(".touch-button").forEach(btn => btn.classList.remove("is-pressed"));
+  }
+
+  window.addEventListener("keydown", event => {
+    if (["ArrowLeft", "ArrowRight", "ArrowUp", "Space"].includes(event.code)) event.preventDefault();
+    if ((event.code === "KeyP" || event.code === "Escape") && !event.repeat) togglePause();
+    setKey(event.code, true);
+  }, {passive:false});
+  window.addEventListener("keyup", event => setKey(event.code, false));
+  window.addEventListener("blur", () => {
+    clearInputs();
+    if (state.mode === "playing") togglePause();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && state.mode === "playing") togglePause();
+  });
+
+  function bindTouch(buttonId, keyName) {
+    const button = document.getElementById(buttonId);
+    const press = event => {
+      event.preventDefault();
+      if (state.mode === "ready") beginGame();
+      keys[keyName] = true;
+      button.classList.add("is-pressed");
+      if (button.setPointerCapture && event.pointerId !== undefined) button.setPointerCapture(event.pointerId);
+    };
+    const release = event => {
+      event.preventDefault();
+      keys[keyName] = false;
+      button.classList.remove("is-pressed");
+    };
+    button.addEventListener("pointerdown", press);
+    button.addEventListener("pointerup", release);
+    button.addEventListener("pointercancel", release);
+    button.addEventListener("lostpointercapture", release);
+  }
+
+  bindTouch("leftButton", "left");
+  bindTouch("rightButton", "right");
+  bindTouch("jumpButton", "jump");
+  startButton.addEventListener("click", beginGame);
+  restartButton.addEventListener("click", restartGame);
+  pauseButton.addEventListener("click", togglePause);
+  document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+  loadLevel(0);
+  state.mode = "ready";
+  player.invincible = 0;
+  updateHud();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

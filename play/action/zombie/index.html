@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Play Zombie Game free online in your browser. Survive waves of zombies, protect the base, and chase a high score with no download.">
+  <meta name="theme-color" content="#F6F7FB">
+  <title>Zombie Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --cyan: #16B8C4;
+  --orange: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game2: #1F2937;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, a { font: inherit; }
+button { cursor: pointer; }
+.site-header {
+  height: 72px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1160px;
+  height: 100%;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-weight: 800;
+}
+.brand-mark {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+}
+.header-tag { color: var(--muted); font-size: 14px; font-weight: 700; }
+.page { max-width: 1160px; margin: auto; padding: 28px 20px 70px; }
+.breadcrumb { display: flex; gap: 9px; color: var(--muted); font-size: 14px; margin-bottom: 35px; }
+.breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 700; }
+.intro { max-width: 760px; margin-bottom: 28px; }
+.eyebrow { margin: 0 0 7px; color: var(--primary); font-weight: 800; font-size: 13px; letter-spacing: .08em; }
+h1 { font-size: 56px; line-height: 1.08; margin: 0 0 15px; font-weight: 800; letter-spacing: -1.2px; }
+.intro p:last-child { margin: 0; color: var(--muted); font-size: 18px; }
+.game-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 8px 28px rgba(23,27,45,.06);
+}
+.hud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.hud-stat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 9px 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hud-stat span { color: var(--muted); font-size: 13px; font-weight: 700; }
+.hud-stat strong { font-size: 20px; line-height: 1.2; }
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 15px;
+  background: var(--game);
+}
+canvas { display: block; width: 100%; height: auto; touch-action: none; }
+.game-overlay {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  background: rgba(17,24,39,.76);
+  padding: 20px;
+}
+.game-overlay.hidden { display: none; }
+.overlay-panel {
+  max-width: 430px;
+  text-align: center;
+  background: #fff;
+  border-radius: 18px;
+  padding: 30px 28px;
+  box-shadow: 0 15px 45px rgba(0,0,0,.25);
+}
+.skull { font-size: 46px; line-height: 1; margin-bottom: 10px; }
+.overlay-panel h2 { margin: 0 0 8px; font-size: 30px; }
+.overlay-panel p { color: var(--muted); margin: 0 0 20px; }
+.primary-btn, .secondary-btn, .fire-btn, .touch-btn {
+  border: 0;
+  font-weight: 800;
+}
+.primary-btn {
+  min-height: 48px; padding: 0 24px; border-radius: 12px;
+  background: var(--primary); color: #fff;
+}
+.primary-btn:hover { background: var(--primary-dark); }
+.controls-panel {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; padding: 16px 4px 2px;
+}
+.control-copy { display: grid; gap: 2px; }
+.control-copy strong { font-size: 15px; }
+.control-copy span { color: var(--muted); font-size: 14px; }
+.secondary-btn {
+  min-height: 44px; padding: 0 19px; border-radius: 10px;
+  background: #fff; color: var(--text); border: 1px solid var(--border);
+}
+.secondary-btn:hover { border-color: var(--primary); color: var(--primary); }
+.mobile-controls { display: none; }
+.content-section { margin-top: 60px; max-width: 850px; }
+.content-section h2 { font-size: 34px; line-height: 1.2; margin: 0 0 15px; }
+.content-section p { color: var(--muted); }
+.content-section li { margin: 7px 0; }
+.tips-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.tips-grid article {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+}
+.tips-grid h3 { margin: 0 0 6px; font-size: 21px; }
+.tips-grid p { margin: 0; font-size: 15px; }
+.faq details { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin: 10px 0; padding: 14px 17px; }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq details p { margin: 9px 0 0; }
+.site-footer { border-top: 1px solid var(--border); padding: 26px 20px; text-align: center; color: var(--muted); font-size: 14px; }
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+  .page { padding: 20px 14px 55px; }
+  .site-header { height: 62px; }
+  .header-inner { padding: 0 14px; }
+  .header-tag { display: none; }
+  .breadcrumb { margin-bottom: 24px; }
+  h1 { font-size: 40px; }
+  .intro p:last-child { font-size: 16px; }
+  .game-card { padding: 10px; border-radius: 15px; }
+  .hud { grid-template-columns: repeat(2,1fr); }
+  .hud-stat strong { font-size: 18px; }
+  .controls-panel { align-items: flex-start; }
+  .control-copy span { font-size: 12px; }
+  .controls-panel .secondary-btn { flex: 0 0 auto; }
+  .mobile-controls {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 8px 4px; gap: 20px;
+  }
+  .dpad {
+    width: 150px; height: 120px; position: relative;
+  }
+  .touch-btn {
+    position: absolute; width: 48px; height: 48px;
+    border-radius: 12px; background: var(--game2); color: #fff;
+    border: 1px solid #374151; touch-action: none;
+  }
+  .touch-btn:active { background: var(--primary); }
+  .touch-btn.up { left: 51px; top: 0; }
+  .touch-btn.left { left: 0; top: 54px; }
+  .touch-btn.down { left: 51px; top: 54px; }
+  .touch-btn.right { right: 0; top: 54px; }
+  .fire-btn {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: var(--danger); color: #fff;
+    box-shadow: 0 5px 0 #c84343;
+  }
+  .fire-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #c84343; }
+  .content-section { margin-top: 45px; }
+  .content-section h2 { font-size: 28px; }
+  .tips-grid { grid-template-columns: 1fr; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">
+        <span class="brand-mark">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Free Browser Game</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games</a><span aria-hidden="true">/</span><span>Zombie Game</span>
+    </nav>
+
+    <section class="intro">
+      <p class="eyebrow">SURVIVAL ACTION</p>
+      <h1>Zombie Game</h1>
+      <p>Survive the incoming zombie waves, defend your base, and stay alive as long as you can. Play directly in your browser with keyboard or touch controls.</p>
+    </section>
+
+    <section class="game-card" aria-label="Zombie game">
+      <div class="hud">
+        <div class="hud-stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="hud-stat"><span>Wave</span><strong id="wave">1</strong></div>
+        <div class="hud-stat"><span>Base</span><strong id="baseHealth">100%</strong></div>
+        <div class="hud-stat"><span>High Score</span><strong id="highScore">0</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" aria-label="Zombie survival game area"></canvas>
+        <div class="game-overlay" id="overlay">
+          <div class="overlay-panel">
+            <div class="skull" aria-hidden="true">☠</div>
+            <h2 id="overlayTitle">Defend the Base</h2>
+            <p id="overlayText">Move, aim, and shoot the zombies before they reach your base.</p>
+            <button id="startBtn" class="primary-btn">Start Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <div class="control-copy">
+          <strong>Controls</strong>
+          <span>Desktop: WASD / Arrow keys to move · Mouse to aim · Click to shoot</span>
+          <span>Mobile: use the movement pad · drag/tap the aim area to shoot</span>
+        </div>
+        <button id="restartBtn" class="secondary-btn" type="button">Restart</button>
+      </div>
+
+      <div class="mobile-controls" aria-label="Mobile controls">
+        <div class="dpad">
+          <button class="touch-btn up" data-key="ArrowUp" aria-label="Move up">▲</button>
+          <button class="touch-btn left" data-key="ArrowLeft" aria-label="Move left">◀</button>
+          <button class="touch-btn down" data-key="ArrowDown" aria-label="Move down">▼</button>
+          <button class="touch-btn right" data-key="ArrowRight" aria-label="Move right">▶</button>
+        </div>
+        <button id="fireBtn" class="fire-btn" aria-label="Shoot">FIRE</button>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Zombie Game</h2>
+      <p>Your character starts near the center while the base sits behind you. Zombies enter from the edges of the arena and move toward the base. Move around the play area, aim toward the threat, and shoot before zombies get close.</p>
+      <ul>
+        <li>Use <strong>WASD</strong> or the arrow keys to move.</li>
+        <li>Use your <strong>mouse</strong> to aim and click to fire on desktop.</li>
+        <li>On mobile, use the movement pad and the <strong>FIRE</strong> button.</li>
+        <li>Keep zombies away from the base. If its health reaches zero, the game ends.</li>
+        <li>Each defeated zombie adds to your score. Surviving longer increases the wave difficulty.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>Zombie Game Tips</h2>
+      <div class="tips-grid">
+        <article><h3>Keep Moving</h3><p>Standing still makes it easier for groups of zombies to surround you.</p></article>
+        <article><h3>Protect the Base</h3><p>Prioritize zombies that are closest to the base when several enemies approach together.</p></article>
+        <article><h3>Watch the Wave</h3><p>Later waves send tougher and faster zombies, so keep your position flexible.</p></article>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>About This Zombie Game</h2>
+      <p>This is a lightweight browser-based zombie survival game built with HTML5, CSS, and JavaScript. It runs entirely on the client side, so you can play without an account, database, backend, or download.</p>
+    </section>
+
+    <section class="faq content-section">
+      <h2>Zombie Game FAQ</h2>
+      <details><summary>Can I play the Zombie Game for free?</summary><p>Yes. The game is designed for free browser play with no download required.</p></details>
+      <details><summary>Can I play on a phone?</summary><p>Yes. Touch movement and a dedicated fire button are included for mobile play.</p></details>
+      <details><summary>How do I get a higher score?</summary><p>Defeat zombies efficiently, protect the base, and survive as many waves as possible.</p></details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Games Hub · Play free online games in your browser.</p>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const scoreEl = document.getElementById("score");
+  const waveEl = document.getElementById("wave");
+  const baseHealthEl = document.getElementById("baseHealth");
+  const highScoreEl = document.getElementById("highScore");
+  const overlay = document.getElementById("overlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const fireBtn = document.getElementById("fireBtn");
+
+  const WORLD = { w: 900, h: 560 };
+  const keys = new Set();
+  const mouse = { x: WORLD.w / 2 + 140, y: WORLD.h / 2, active: false };
+  let animationId = 0;
+  let lastTime = 0;
+  let spawnTimer = 0;
+  let waveTimer = 0;
+  let shotTimer = 0;
+  let running = false;
+  let gameOver = false;
+  let score = 0;
+  let wave = 1;
+  let baseHealth = 100;
+  let highScore = Number(localStorage.getItem("zombieHighScore") || 0);
+  let zombies = [];
+  let bullets = [];
+  let particles = [];
+
+  const player = {
+    x: 290, y: WORLD.h / 2, r: 17, speed: 235,
+    angle: 0, fireCooldown: 0
+  };
+  const base = { x: 105, y: WORLD.h / 2, r: 54 };
+
+  highScoreEl.textContent = highScore;
+
+  function resizeCanvas() {
+    const width = Math.min(canvas.parentElement.clientWidth, WORLD.w);
+    canvas.width = WORLD.w;
+    canvas.height = WORLD.h;
+    canvas.style.width = "100%";
+  }
+
+  function resetGame() {
+    score = 0; wave = 1; baseHealth = 100;
+    zombies = []; bullets = []; particles = [];
+    player.x = 290; player.y = WORLD.h / 2; player.angle = 0;
+    spawnTimer = 0.4; waveTimer = 0; shotTimer = 0;
+    updateHUD();
+  }
+
+  function startGame() {
+    resetGame();
+    running = true;
+    gameOver = false;
+    overlay.classList.add("hidden");
+    lastTime = performance.now();
+    cancelAnimationFrame(animationId);
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function endGame() {
+    running = false;
+    gameOver = true;
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("zombieHighScore", String(highScore));
+    }
+    highScoreEl.textContent = highScore;
+    overlayTitle.textContent = "Base Overrun";
+    overlayText.textContent = `You survived to wave ${wave} with ${score} points. Ready for another run?`;
+    startBtn.textContent = "Play Again";
+    overlay.classList.remove("hidden");
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score;
+    waveEl.textContent = wave;
+    baseHealthEl.textContent = `${Math.max(0, Math.round(baseHealth))}%`;
+  }
+
+  function setKey(key, down) {
+    if (down) keys.add(key);
+    else keys.delete(key);
+  }
+
+  window.addEventListener("keydown", e => {
+    if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," ","w","a","s","d","W","A","S","D"].includes(e.key)) {
+      e.preventDefault();
+    }
+    setKey(e.key, true);
+    if (e.key === " " && !running && !gameOver) startGame();
+    if (e.key === "Enter" && !running) startGame();
+  });
+  window.addEventListener("keyup", e => setKey(e.key, false));
+
+  function pointerPosition(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left) * WORLD.w / rect.width,
+      y: (e.clientY - rect.top) * WORLD.h / rect.height
+    };
+  }
+
+  canvas.addEventListener("pointermove", e => {
+    const p = pointerPosition(e);
+    mouse.x = p.x; mouse.y = p.y; mouse.active = true;
+    if (e.pointerType === "touch" && running) shoot();
+  });
+  canvas.addEventListener("pointerdown", e => {
+    const p = pointerPosition(e);
+    mouse.x = p.x; mouse.y = p.y; mouse.active = true;
+    if (running) shoot();
+  });
+
+  function touchButton(button) {
+    const key = button.dataset.key;
+    const down = e => { e.preventDefault(); setKey(key, true); };
+    const up = e => { e.preventDefault(); setKey(key, false); };
+    button.addEventListener("pointerdown", down);
+    button.addEventListener("pointerup", up);
+    button.addEventListener("pointercancel", up);
+    button.addEventListener("pointerleave", up);
+  }
+  document.querySelectorAll(".touch-btn").forEach(touchButton);
+  fireBtn.addEventListener("pointerdown", e => { e.preventDefault(); shoot(); });
+
+  startBtn.addEventListener("click", startGame);
+  restartBtn.addEventListener("click", startGame);
+
+  function shoot() {
+    if (!running || player.fireCooldown > 0) return;
+    let angle = player.angle;
+    if (mouse.active) angle = Math.atan2(mouse.y - player.y, mouse.x - player.x);
+    bullets.push({
+      x: player.x + Math.cos(angle) * 23,
+      y: player.y + Math.sin(angle) * 23,
+      vx: Math.cos(angle) * 620,
+      vy: Math.sin(angle) * 620,
+      life: 1.0
+    });
+    player.fireCooldown = 0.16;
+    for (let i = 0; i < 3; i++) {
+      particles.push({
+        x: player.x + Math.cos(angle) * 25,
+        y: player.y + Math.sin(angle) * 25,
+        vx: (Math.random()-.5)*80,
+        vy: (Math.random()-.5)*80,
+        life: .15,
+        max: .15,
+        size: 3
+      });
+    }
+  }
+
+  function spawnZombie() {
+    const side = Math.floor(Math.random() * 4);
+    let x, y;
+    if (side === 0) { x = -30; y = Math.random() * WORLD.h; }
+    else if (side === 1) { x = WORLD.w + 30; y = Math.random() * WORLD.h; }
+    else if (side === 2) { x = Math.random() * WORLD.w; y = -30; }
+    else { x = Math.random() * WORLD.w; y = WORLD.h + 30; }
+
+    const tough = Math.random() < Math.min(0.18 + wave * 0.025, .48);
+    zombies.push({
+      x, y,
+      r: tough ? 19 : 15,
+      speed: (tough ? 46 : 58) + wave * 4 + Math.random() * 18,
+      hp: tough ? 3 : 1,
+      maxHp: tough ? 3 : 1,
+      damage: tough ? 10 : 6,
+      hitFlash: 0
+    });
+  }
+
+  function update(dt) {
+    waveTimer += dt;
+    if (waveTimer >= 24) {
+      wave++;
+      waveTimer = 0;
+      for (let i = 0; i < 2 + Math.floor(wave / 3); i++) spawnZombie();
+    }
+
+    spawnTimer -= dt;
+    const interval = Math.max(.32, 1.15 - wave * .075);
+    if (spawnTimer <= 0) {
+      spawnZombie();
+      spawnTimer = interval * (.7 + Math.random() * .55);
+    }
+
+    let dx = 0, dy = 0;
+    if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A")) dx--;
+    if (keys.has("ArrowRight") || keys.has("d") || keys.has("D")) dx++;
+    if (keys.has("ArrowUp") || keys.has("w") || keys.has("W")) dy--;
+    if (keys.has("ArrowDown") || keys.has("s") || keys.has("S")) dy++;
+    if (dx || dy) {
+      const len = Math.hypot(dx, dy);
+      player.x += dx / len * player.speed * dt;
+      player.y += dy / len * player.speed * dt;
+    }
+    player.x = Math.max(40, Math.min(WORLD.w - 40, player.x));
+    player.y = Math.max(40, Math.min(WORLD.h - 40, player.y));
+
+    if (mouse.active) player.angle = Math.atan2(mouse.y - player.y, mouse.x - player.x);
+    player.fireCooldown = Math.max(0, player.fireCooldown - dt);
+
+    for (let i = bullets.length - 1; i >= 0; i--) {
+      const b = bullets[i];
+      b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt;
+      if (b.life <= 0 || b.x < -20 || b.x > WORLD.w+20 || b.y < -20 || b.y > WORLD.h+20) {
+        bullets.splice(i, 1); continue;
+      }
+      for (let j = zombies.length - 1; j >= 0; j--) {
+        const z = zombies[j];
+        if (Math.hypot(b.x-z.x, b.y-z.y) < z.r + 5) {
+          z.hp--; z.hitFlash = .08; bullets.splice(i, 1);
+          if (z.hp <= 0) {
+            score += z.maxHp === 3 ? 30 : 10;
+            burst(z.x, z.y, z.maxHp === 3 ? 12 : 7);
+            zombies.splice(j, 1);
+          }
+          break;
+        }
+      }
+    }
+
+    for (let i = zombies.length - 1; i >= 0; i--) {
+      const z = zombies[i];
+      z.hitFlash = Math.max(0, z.hitFlash - dt);
+      const angle = Math.atan2(base.y - z.y, base.x - z.x);
+      const distBase = Math.hypot(base.x-z.x, base.y-z.y);
+      if (distBase > base.r + z.r - 3) {
+        z.x += Math.cos(angle) * z.speed * dt;
+        z.y += Math.sin(angle) * z.speed * dt;
+      } else {
+        baseHealth -= z.damage * dt;
+        if (baseHealth <= 0) {
+          baseHealth = 0; updateHUD(); endGame(); return;
+        }
+      }
+      const pd = Math.hypot(player.x-z.x, player.y-z.y);
+      if (pd < player.r + z.r) {
+        const push = (player.r + z.r - pd + 1);
+        const a = Math.atan2(player.y-z.y, player.x-z.x);
+        player.x += Math.cos(a) * push;
+        player.y += Math.sin(a) * push;
+      }
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt;
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+    updateHUD();
+  }
+
+  function burst(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const s = 30 + Math.random() * 130;
+      particles.push({ x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: .35 + Math.random()*.35, max: .7, size: 2+Math.random()*3 });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,WORLD.w,WORLD.h);
+    ctx.fillStyle = "#111827";
+    ctx.fillRect(0,0,WORLD.w,WORLD.h);
+
+    // Subtle arena grid.
+    ctx.strokeStyle = "rgba(255,255,255,.045)";
+    ctx.lineWidth = 1;
+    for (let x=0; x<WORLD.w; x+=45) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,WORLD.h); ctx.stroke(); }
+    for (let y=0; y<WORLD.h; y+=45) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(WORLD.w,y); ctx.stroke(); }
+
+    // Base.
+    ctx.beginPath(); ctx.arc(base.x, base.y, base.r+8, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(22,184,196,.12)"; ctx.fill();
+    ctx.beginPath(); ctx.arc(base.x, base.y, base.r, 0, Math.PI*2);
+    ctx.fillStyle = "#1F2937"; ctx.fill();
+    ctx.strokeStyle = "#16B8C4"; ctx.lineWidth = 4; ctx.stroke();
+    ctx.fillStyle = "#16B8C4"; ctx.fillRect(base.x-23, base.y-23, 46, 46);
+    ctx.fillStyle = "#111827"; ctx.fillRect(base.x-6, base.y-18, 12, 36);
+    ctx.fillRect(base.x-18, base.y-6, 36, 12);
+    ctx.fillStyle = "#fff"; ctx.font = "700 13px Nunito Sans, sans-serif"; ctx.textAlign="center";
+    ctx.fillText("BASE", base.x, base.y+82);
+
+    // Health bar.
+    ctx.fillStyle = "rgba(255,255,255,.12)"; ctx.fillRect(base.x-55, base.y-82, 110, 8);
+    ctx.fillStyle = "#22C55E"; ctx.fillRect(base.x-55, base.y-82, 110*(baseHealth/100), 8);
+
+    // Bullets.
+    bullets.forEach(b => {
+      ctx.beginPath(); ctx.arc(b.x,b.y,4,0,Math.PI*2);
+      ctx.fillStyle="#FFB84D"; ctx.fill();
+    });
+
+    // Zombies.
+    zombies.forEach(z => {
+      const a = Math.atan2(player.y-z.y, player.x-z.x);
+      ctx.save(); ctx.translate(z.x,z.y);
+      ctx.fillStyle = z.hitFlash > 0 ? "#fff" : (z.maxHp === 3 ? "#9A7BCB" : "#65A87B");
+      ctx.beginPath(); ctx.arc(0,0,z.r,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#172033";
+      ctx.beginPath(); ctx.arc(-5,-3,3,0,Math.PI*2); ctx.arc(5,-3,3,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle="#172033"; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(-6,7); ctx.lineTo(6,7); ctx.stroke();
+      if (z.maxHp === 3) {
+        ctx.fillStyle="rgba(255,255,255,.2)"; ctx.fillRect(-18,-27,36,4);
+        ctx.fillStyle="#EF5B5B"; ctx.fillRect(-18,-27,36*(z.hp/z.maxHp),4);
+      }
+      ctx.restore();
+    });
+
+    // Player.
+    ctx.save(); ctx.translate(player.x,player.y); ctx.rotate(player.angle);
+    ctx.fillStyle="rgba(91,92,226,.22)"; ctx.beginPath(); ctx.arc(0,0,25,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#5B5CE2"; ctx.beginPath(); ctx.arc(0,0,player.r,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(5,-5,4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#D8D9FF"; ctx.fillRect(9,-5,24,10);
+    ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(-3,-5,3,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    particles.forEach(p => {
+      ctx.globalAlpha = Math.max(0,p.life/p.max);
+      ctx.fillStyle="#FFB84D"; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha=1;
+    });
+
+    // Wave timer.
+    ctx.fillStyle="rgba(255,255,255,.08)";
+    ctx.fillRect(WORLD.w-190,18,160,7);
+    ctx.fillStyle="#5B5CE2";
+    ctx.fillRect(WORLD.w-190,18,160*Math.min(1,waveTimer/24),7);
+    ctx.fillStyle="rgba(255,255,255,.65)";
+    ctx.font="600 12px Nunito Sans, sans-serif"; ctx.textAlign="right";
+    ctx.fillText(`Next wave`, WORLD.w-30, 42);
+  }
+
+  function loop(now) {
+    if (!running) return;
+    const dt = Math.min(.033, (now-lastTime)/1000);
+    lastTime = now;
+    update(dt);
+    draw();
+    animationId = requestAnimationFrame(loop);
+  }
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+  draw();
+})();
+</script>
+</body>
+</html>

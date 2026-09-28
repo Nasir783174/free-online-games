@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Boss Fight Game - Play Free Online</title>
+  <meta name="description" content="Play Boss Fight free online in your browser. Dodge attacks, defeat the boss, build your score, and survive the battle with no download required.">
+  <meta name="robots" content="index,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>*{box-sizing:border-box}
+:root{font-family:"Nunito Sans",system-ui,sans-serif;color:#171B2D;background:#F6F7FB}
+body{margin:0;background:#F6F7FB}
+.site-header{height:72px;background:#fff;border-bottom:1px solid #E5E7EF}
+.header-inner{max-width:1200px;height:100%;margin:auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:22px;font-weight:800;color:#5B5CE2;text-decoration:none}
+.back-link{font-size:15px;font-weight:700;color:#4546B8;text-decoration:none}
+.page-shell{max-width:1160px;margin:0 auto;padding:28px 24px 72px}
+.breadcrumbs{display:flex;gap:10px;align-items:center;color:#667085;font-size:14px;margin-bottom:28px}
+.breadcrumbs a{color:#4546B8;text-decoration:none;font-weight:700}
+.intro{max-width:820px;margin-bottom:28px}
+h1{font-size:clamp(38px,5vw,58px);line-height:1.08;margin:0 0 12px;font-weight:800;letter-spacing:-1px}
+h2{font-size:30px;line-height:1.2;margin:0 0 14px;font-weight:700}
+.intro p,.content-grid p,.info-section p,.faq p{font-size:17px;line-height:1.65;color:#667085;margin:0}
+.game-card{background:#fff;border:1px solid #E5E7EF;border-radius:20px;padding:18px;box-shadow:0 12px 30px rgba(23,27,45,.06)}
+.game-topbar{display:grid;grid-template-columns:130px 1fr 130px;gap:18px;align-items:center;margin-bottom:14px}
+.stat,.boss-stat{background:#F6F7FB;border:1px solid #E5E7EF;border-radius:12px;padding:10px 13px}
+.stat span,.boss-stat>span{display:block;color:#667085;font-size:13px;font-weight:700}
+.stat strong{font-size:23px;line-height:1.2}
+.boss-stat{text-align:center}
+.health-track{height:11px;background:#E5E7EF;border-radius:99px;overflow:hidden;margin:7px 0 3px}
+.health-fill{height:100%;width:100%;background:#EF5B5B;border-radius:inherit;transition:width .12s linear}
+.boss-stat strong{font-size:13px}
+.canvas-wrap{position:relative;background:#111827;border-radius:16px;overflow:hidden;width:100%;aspect-ratio:16/9}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(17,24,39,.72);padding:20px}
+.overlay.hidden{display:none}
+.overlay-panel{width:min(440px,100%);text-align:center;background:#fff;border-radius:18px;padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.overlay-icon{font-size:38px;margin-bottom:4px}
+.overlay-panel h2{margin-bottom:8px}
+.overlay-panel p{color:#667085;font-size:16px;line-height:1.55;margin:0 0 20px}
+.primary-btn,.secondary-btn,.fire-btn,.dpad button{font-family:inherit;font-weight:800;border:0;cursor:pointer;touch-action:none}
+.primary-btn{height:48px;padding:0 24px;border-radius:10px;background:#5B5CE2;color:#fff;font-size:16px}
+.primary-btn:hover{background:#4546B8}
+.game-controls{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 2px 2px}
+.control-copy{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;color:#667085;font-size:14px}
+.control-copy strong{color:#171B2D;font-size:15px}
+kbd{font-family:inherit;background:#F6F7FB;border:1px solid #D9DCE7;border-bottom-width:2px;border-radius:6px;padding:2px 7px;color:#171B2D;font-weight:800}
+.secondary-btn{height:44px;padding:0 18px;border-radius:10px;background:#fff;border:1px solid #E5E7EF;color:#4546B8;font-size:15px}
+.secondary-btn:hover{background:#F6F7FB}
+.touch-controls{display:none;justify-content:center;align-items:center;gap:38px;margin-top:16px}
+.dpad{display:grid;grid-template-columns:52px 52px 52px;grid-template-rows:52px 52px;gap:6px}
+.dpad button{background:#1F2937;color:#fff;border-radius:10px;font-size:19px;border:1px solid #374151}
+.dpad button:first-child{grid-column:2}.dpad button:nth-child(2){grid-column:1;grid-row:2}.dpad button:nth-child(3){grid-column:2;grid-row:2}.dpad button:nth-child(4){grid-column:3;grid-row:2}
+.fire-btn{width:112px;height:112px;border-radius:50%;background:#FFB84D;color:#171B2D;font-size:17px;border:6px solid #fff;box-shadow:0 5px 0 #D99735}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:54px}
+.content-grid article,.info-section,.related,.faq{background:#fff;border:1px solid #E5E7EF;border-radius:16px;padding:26px}
+.content-grid ul{padding-left:20px;color:#667085;font-size:16px;line-height:1.7}
+.info-section,.related,.faq{margin-top:24px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-grid a{padding:18px;border:1px solid #E5E7EF;border-radius:12px;text-decoration:none;color:#171B2D;background:#fff}
+.related-grid a:hover{border-color:#BFC2F2}
+.related-grid strong,.related-grid span{display:block}
+.related-grid span{color:#667085;font-size:14px;margin-top:4px}
+.related-note{color:#98A2B3;font-size:13px;margin:14px 0 0}
+details{border-top:1px solid #E5E7EF;padding:15px 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:700;font-size:16px}
+.faq p{font-size:15px;margin-top:9px}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(91,92,226,.35);outline-offset:3px}
+@media(max-width:760px){
+ .header-inner{padding:0 16px}.page-shell{padding:22px 14px 52px}.breadcrumbs{margin-bottom:20px}
+ .intro p,.content-grid p,.info-section p,.faq p{font-size:16px}
+ .game-card{padding:12px;border-radius:16px}.game-topbar{grid-template-columns:1fr 1.5fr 1fr;gap:7px}
+ .stat,.boss-stat{padding:8px 7px}.stat strong{font-size:19px}.stat span,.boss-stat>span{font-size:11px}
+ .canvas-wrap{border-radius:12px}.game-controls{align-items:flex-start}.control-copy{gap:7px 10px}.control-copy span:nth-child(4){width:100%}
+ .touch-controls{display:flex}.content-grid{grid-template-columns:1fr;margin-top:38px}.related-grid{grid-template-columns:1fr}
+ .content-grid article,.info-section,.related,.faq{padding:21px}
+ h2{font-size:26px}
+}
+@media(max-width:430px){
+ .back-link{font-size:13px}.game-controls{display:block}.secondary-btn{margin-top:12px;width:100%}
+ .touch-controls{gap:20px}.dpad{grid-template-columns:48px 48px 48px;grid-template-rows:48px 48px}.fire-btn{width:100px;height:100px}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">Games Hub</a>
+      <a class="back-link" href="../../index.html">← All Games</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Games Hub</a><span>›</span><span>Boss Fight</span>
+    </nav>
+
+    <section class="intro">
+      <h1>Boss Fight Game</h1>
+      <p>Take on a powerful arena boss in this fast browser battle. Move, dodge incoming attacks, and fire back until the boss falls. Play free online with keyboard or touch controls.</p>
+    </section>
+
+    <section class="game-card" aria-label="Boss Fight game">
+      <div class="game-topbar">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="boss-stat">
+          <span>Boss Health</span>
+          <div class="health-track" aria-label="Boss health"><div id="bossHealth" class="health-fill"></div></div>
+          <strong id="bossHealthText">100%</strong>
+        </div>
+        <div class="stat"><span>Best</span><strong id="best">0</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="960" height="540" aria-label="Boss Fight game arena"></canvas>
+        <div id="overlay" class="overlay">
+          <div class="overlay-panel">
+            <div id="overlayIcon" class="overlay-icon">⚔</div>
+            <h2 id="overlayTitle">Boss Fight</h2>
+            <p id="overlayText">Defeat the boss. Move to dodge attacks and hold fire to deal damage.</p>
+            <button id="startBtn" class="primary-btn">Start Battle</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-controls">
+        <div class="control-copy">
+          <strong>Controls</strong>
+          <span><kbd>WASD</kbd> / <kbd>Arrow Keys</kbd> Move</span>
+          <span><kbd>Space</kbd> / <kbd>J</kbd> Fire</span>
+          <span>On mobile: use the buttons below</span>
+        </div>
+        <button id="restartBtn" class="secondary-btn">Restart</button>
+      </div>
+
+      <div class="touch-controls" aria-label="Touch controls">
+        <div class="dpad">
+          <button data-key="up" aria-label="Move up">▲</button>
+          <button data-key="left" aria-label="Move left">◀</button>
+          <button data-key="down" aria-label="Move down">▼</button>
+          <button data-key="right" aria-label="Move right">▶</button>
+        </div>
+        <button id="fireBtn" class="fire-btn" aria-label="Fire">FIRE</button>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article>
+        <h2>How to Play Boss Fight</h2>
+        <p>Control the hero inside the arena and reduce the boss's health to zero. Your shots travel toward the boss, while the boss sends projectiles across the arena. Keep moving so you are not hit.</p>
+        <ul>
+          <li>Move with WASD or the arrow keys.</li>
+          <li>Press Space or J to fire.</li>
+          <li>On touch devices, use the movement pad and FIRE button.</li>
+          <li>Defeat the boss before your three lives run out.</li>
+        </ul>
+      </article>
+      <article>
+        <h2>Boss Fight Strategy</h2>
+        <p>Movement is your main defense. Stay away from the boss's projectiles and keep firing whenever you have a clear line. The boss becomes more aggressive as its health drops, so save your lives and keep a steady rhythm.</p>
+      </article>
+    </section>
+
+    <section class="info-section">
+      <h2>About Boss Fight</h2>
+      <p>Boss Fight is a compact action game built for quick browser sessions. Each battle combines movement, shooting, enemy patterns, health management, and score chasing without requiring a download or account.</p>
+    </section>
+
+    <section class="related">
+      <h2>Related Games</h2>
+      <div class="related-grid">
+        <a href="../snake/index.html"><strong>Snake</strong><span>Classic arcade survival</span></a>
+        <a href="../2048/index.html"><strong>2048</strong><span>Quick number puzzle</span></a>
+        <a href="../tetris/index.html"><strong>Tetris</strong><span>Stack and clear blocks</span></a>
+      </div>
+      <p class="related-note">Replace these links with the matching game folders when those pages are added to your Games Hub.</p>
+    </section>
+
+    <section class="faq">
+      <h2>Boss Fight FAQ</h2>
+      <details><summary>Is Boss Fight free to play?</summary><p>Yes. This browser game is designed to be played for free without a download, login, or backend account.</p></details>
+      <details><summary>Can I play Boss Fight on mobile?</summary><p>Yes. Touch movement and a touch fire button are included for modern mobile browsers.</p></details>
+      <details><summary>How do I get a higher Boss Fight score?</summary><p>Finish the battle quickly, avoid losing lives, and keep landing shots. The remaining lives and time contribute to your final score.</p></details>
+    </section>
+  </main>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const overlay = document.getElementById("overlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const overlayIcon = document.getElementById("overlayIcon");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const scoreEl = document.getElementById("score");
+  const bestEl = document.getElementById("best");
+  const bossHealthEl = document.getElementById("bossHealth");
+  const bossHealthText = document.getElementById("bossHealthText");
+  const fireBtn = document.getElementById("fireBtn");
+
+  const W = canvas.width, H = canvas.height;
+  const keys = Object.create(null);
+  const touch = { up:false, down:false, left:false, right:false, fire:false };
+
+  let state = "ready";
+  let last = 0;
+  let elapsed = 0;
+  let score = 0;
+  let best = Number(localStorage.getItem("bossFightBest") || 0);
+  let player, boss, bullets, enemyBullets, particles, stars, spawnTimer, shotTimer, hitFlash;
+
+  bestEl.textContent = best;
+
+  function resetGame() {
+    player = { x:130, y:H/2, r:17, speed:270, hp:3, inv:0 };
+    boss = { x:W-155, y:H/2, r:62, hp:100, maxHp:100, phase:0, attackTimer:1.0 };
+    bullets = [];
+    enemyBullets = [];
+    particles = [];
+    stars = Array.from({length:70}, () => ({x:Math.random()*W,y:Math.random()*H,s:Math.random()*2+0.4,a:Math.random()*.7+.2}));
+    spawnTimer = 0;
+    shotTimer = 0;
+    hitFlash = 0;
+    elapsed = 0;
+    score = 0;
+    updateUI();
+  }
+
+  function startGame() {
+    resetGame();
+    state = "playing";
+    overlay.classList.add("hidden");
+    last = performance.now();
+    requestAnimationFrame(loop);
+  }
+
+  function endGame(won) {
+    state = won ? "won" : "lost";
+    const timeBonus = won ? Math.max(0, Math.floor(600 - elapsed * 12)) : 0;
+    score += won ? 1000 + timeBonus + player.hp * 250 : 0;
+    if (score > best) {
+      best = score;
+      localStorage.setItem("bossFightBest", String(best));
+    }
+    updateUI();
+    overlayIcon.textContent = won ? "🏆" : "💥";
+    overlayTitle.textContent = won ? "Boss Defeated!" : "Battle Over";
+    overlayText.textContent = won
+      ? `Final score: ${score}. You defeated the boss in ${elapsed.toFixed(1)} seconds.`
+      : `Final score: ${score}. The boss still had ${Math.ceil(boss.hp)}% health.`;
+    startBtn.textContent = "Play Again";
+    overlay.classList.remove("hidden");
+    draw();
+  }
+
+  function updateUI() {
+    scoreEl.textContent = score;
+    bestEl.textContent = best;
+    const hp = Math.max(0, boss ? boss.hp : 100);
+    bossHealthEl.style.width = hp + "%";
+    bossHealthText.textContent = Math.ceil(hp) + "%";
+  }
+
+  function fire() {
+    if (state !== "playing" || shotTimer > 0) return;
+    const dx = boss.x - player.x, dy = boss.y - player.y;
+    const len = Math.hypot(dx, dy) || 1;
+    bullets.push({x:player.x+dx/len*20,y:player.y+dy/len*20,vx:dx/len*520,vy:dy/len*520,r:5});
+    shotTimer = .16;
+  }
+
+  function enemyFire() {
+    const count = boss.hp < 50 ? 5 : 3;
+    const base = Math.atan2(player.y-boss.y, player.x-boss.x);
+    const spread = boss.hp < 50 ? 0.72 : 0.5;
+    for (let i=0;i<count;i++) {
+      const t = count === 1 ? 0 : i/(count-1)-0.5;
+      const a = base + t*spread;
+      const speed = 180 + (100-boss.hp)*1.05;
+      enemyBullets.push({x:boss.x,y:boss.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:8});
+    }
+    boss.attackTimer = Math.max(.42, 1.05 - (100-boss.hp)*.005);
+  }
+
+  function addParticles(x,y,n,life=0.5) {
+    for(let i=0;i<n;i++){
+      const a=Math.random()*Math.PI*2, s=Math.random()*170+40;
+      particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life,max:life,r:Math.random()*3+1});
+    }
+  }
+
+  function update(dt) {
+    elapsed += dt;
+    shotTimer = Math.max(0, shotTimer-dt);
+    hitFlash = Math.max(0, hitFlash-dt);
+    player.inv = Math.max(0, player.inv-dt);
+
+    let dx=(keys.ArrowRight||keys.d||touch.right?1:0)-(keys.ArrowLeft||keys.a||touch.left?1:0);
+    let dy=(keys.ArrowDown||keys.s||touch.down?1:0)-(keys.ArrowUp||keys.w||touch.up?1:0);
+    const len=Math.hypot(dx,dy)||1;
+    if(dx||dy){player.x += dx/len*player.speed*dt; player.y += dy/len*player.speed*dt;}
+    player.x=Math.max(28,Math.min(W-28,player.x));
+    player.y=Math.max(28,Math.min(H-28,player.y));
+
+    if(keys[" "]||keys.j||touch.fire) fire();
+
+    boss.phase += dt;
+    boss.y = H/2 + Math.sin(boss.phase*1.25)*150;
+    boss.x = W-150 + Math.cos(boss.phase*.7)*18;
+    boss.attackTimer -= dt;
+    if(boss.attackTimer<=0) enemyFire();
+
+    for(const b of bullets){b.x+=b.vx*dt;b.y+=b.vy*dt;}
+    bullets=bullets.filter(b=>b.x>-20&&b.x<W+20&&b.y>-20&&b.y<H+20);
+
+    for(const b of enemyBullets){b.x+=b.vx*dt;b.y+=b.vy*dt;}
+    enemyBullets=enemyBullets.filter(b=>b.x>-30&&b.x<W+30&&b.y>-30&&b.y<H+30);
+
+    for(let i=bullets.length-1;i>=0;i--){
+      const b=bullets[i];
+      if(Math.hypot(b.x-boss.x,b.y-boss.y)<b.r+boss.r){
+        bullets.splice(i,1);
+        boss.hp=Math.max(0,boss.hp-2);
+        score+=10;
+        addParticles(b.x,b.y,5,.25);
+        if(boss.hp<=0){ addParticles(boss.x,boss.y,60,1); endGame(true); return; }
+      }
+    }
+
+    for(let i=enemyBullets.length-1;i>=0;i--){
+      const b=enemyBullets[i];
+      if(Math.hypot(b.x-player.x,b.y-player.y)<b.r+player.r){
+        enemyBullets.splice(i,1);
+        if(player.inv<=0){
+          player.hp--;
+          player.inv=1.1;
+          hitFlash=.18;
+          addParticles(player.x,player.y,14,.45);
+          if(player.hp<=0){ endGame(false); return; }
+        }
+      }
+    }
+
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i]; p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.97;p.vy*=.97;p.life-=dt;
+      if(p.life<=0) particles.splice(i,1);
+    }
+    updateUI();
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#111827";ctx.fillRect(0,0,W,H);
+
+    for(const s of stars){
+      ctx.globalAlpha=s.a;
+      ctx.fillStyle="#94A3B8";ctx.fillRect(s.x,s.y,s.s,s.s);
+    }
+    ctx.globalAlpha=1;
+
+    ctx.strokeStyle="rgba(148,163,184,.10)";ctx.lineWidth=1;
+    for(let x=40;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=40;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    // Arena boundary
+    ctx.strokeStyle="#374151";ctx.lineWidth=3;ctx.strokeRect(18,18,W-36,H-36);
+
+    // Boss
+    const pulse=1+Math.sin(boss.phase*5)*.035;
+    ctx.save();ctx.translate(boss.x,boss.y);ctx.scale(pulse,pulse);
+    ctx.fillStyle="rgba(239,91,91,.16)";ctx.beginPath();ctx.arc(0,0,boss.r+18,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#EF5B5B";ctx.beginPath();ctx.arc(0,0,boss.r,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#7F1D1D";ctx.beginPath();ctx.arc(0,0,boss.r*.7,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(-21,-12,9,0,Math.PI*2);ctx.arc(21,-12,9,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#171B2D";ctx.beginPath();ctx.arc(-21,-12,4,0,Math.PI*2);ctx.arc(21,-12,4,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#fff";ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,9,27,.15,Math.PI-.15);ctx.stroke();
+    ctx.restore();
+
+    // Projectiles
+    for(const b of enemyBullets){
+      ctx.fillStyle="#FFB84D";ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="rgba(255,184,77,.18)";ctx.beginPath();ctx.arc(b.x,b.y,b.r+8,0,Math.PI*2);ctx.fill();
+    }
+    for(const b of bullets){
+      ctx.fillStyle="#16B8C4";ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();
+    }
+
+    // Player
+    if(player.inv===0 || Math.floor(player.inv*12)%2===0){
+      ctx.save();ctx.translate(player.x,player.y);
+      ctx.fillStyle="#5B5CE2";ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(5,-5,4,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#16B8C4";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,18);ctx.lineTo(0,27);ctx.stroke();
+      ctx.restore();
+    }
+
+    // Player lives
+    ctx.font="800 17px 'Nunito Sans', sans-serif";ctx.fillStyle="#fff";ctx.fillText("Lives: "+player.hp,32,45);
+
+    for(const p of particles){
+      ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle="#FFE658";ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    if(hitFlash>0){ctx.fillStyle="rgba(239,91,91,.2)";ctx.fillRect(0,0,W,H);}
+  }
+
+  function loop(now){
+    if(state!=="playing") return;
+    const dt=Math.min(.033,(now-last)/1000); last=now;
+    update(dt); draw();
+    if(state==="playing") requestAnimationFrame(loop);
+  }
+
+  window.addEventListener("keydown",e=>{
+    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," ","w","a","s","d","j"].includes(e.key)) e.preventDefault();
+    keys[e.key]=true;
+    if(state==="ready" && e.key==="Enter") startGame();
+  });
+  window.addEventListener("keyup",e=>{keys[e.key]=false;});
+
+  document.querySelectorAll("[data-key]").forEach(btn=>{
+    const k=btn.dataset.key;
+    const on=ev=>{ev.preventDefault();touch[k]=true;};
+    const off=ev=>{ev.preventDefault();touch[k]=false;};
+    btn.addEventListener("pointerdown",on);
+    btn.addEventListener("pointerup",off);
+    btn.addEventListener("pointercancel",off);
+    btn.addEventListener("pointerleave",off);
+  });
+  ["pointerdown","touchstart"].forEach(ev=>fireBtn.addEventListener(ev,e=>{e.preventDefault();touch.fire=true;}));
+  ["pointerup","pointercancel","pointerleave","touchend"].forEach(ev=>fireBtn.addEventListener(ev,e=>{e.preventDefault();touch.fire=false;}));
+
+  startBtn.addEventListener("click",startGame);
+  restartBtn.addEventListener("click",startGame);
+
+  resetGame();
+  draw();
+})();
+</script>
+</body>
+</html>

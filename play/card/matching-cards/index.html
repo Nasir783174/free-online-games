@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Matching Cards online for free in your browser. Flip cards, find matching pairs, track your moves and time, and replay instantly with no download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Matching Cards Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5B5CE2;
+  --brand-dark: #4546B8;
+  --secondary: #16B8C4;
+  --action: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --background: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game-bg: #111827;
+  --game-bg-secondary: #1F2937;
+  --shadow: 0 18px 48px rgba(23, 27, 45, 0.10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  color: var(--text);
+  background: var(--background);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, 0.28);
+  outline-offset: 3px;
+}
+
+.container {
+  width: min(1160px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.site-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.header-label {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.hero {
+  padding: 56px 0 38px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.breadcrumb a {
+  color: var(--brand-dark);
+  text-decoration: none;
+}
+
+.hero-copy {
+  max-width: 840px;
+}
+
+.eyebrow,
+.game-kicker {
+  margin: 0 0 8px;
+  color: var(--brand-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: clamp(42px, 6vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+
+h2 {
+  margin-bottom: 16px;
+  font-size: clamp(28px, 4vw, 35px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+.intro {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 18px;
+  max-width: 800px;
+}
+
+.game-section {
+  padding: 24px 0 76px;
+}
+
+.game-shell {
+  display: flex;
+  justify-content: center;
+}
+
+.game-panel {
+  width: 100%;
+  max-width: 980px;
+  padding: 28px;
+  border-radius: 20px;
+  background: var(--game-bg);
+  box-shadow: var(--shadow);
+  color: #F9FAFB;
+}
+
+.game-topbar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.game-topbar h2 {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 30px;
+}
+
+.game-kicker {
+  color: #A5B4FC;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.stat-card {
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: var(--game-bg-secondary);
+}
+
+.stat-label {
+  display: block;
+  margin-bottom: 2px;
+  color: #AAB2C0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stat-value {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.status-message {
+  min-height: 28px;
+  margin-bottom: 16px;
+  color: #D1D5DB;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.memory-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  perspective: 900px;
+  border-radius: 16px;
+  touch-action: manipulation;
+}
+
+.card-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.38s ease;
+}
+
+.memory-card.is-flipped .card-inner,
+.memory-card.is-matched .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-front {
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: #2A3342;
+  color: #C7D2FE;
+}
+
+.card-front::before {
+  content: "?";
+  display: grid;
+  place-items: center;
+  width: 42%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: rgba(91, 92, 226, 0.18);
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 800;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: #F8FAFC;
+  color: #111827;
+  font-size: clamp(30px, 6vw, 48px);
+}
+
+.memory-card:not(.is-matched):hover .card-front {
+  border-color: rgba(165, 180, 252, 0.55);
+  background: #323C4E;
+}
+
+.memory-card.is-matched .card-back {
+  border-color: rgba(34, 197, 94, 0.75);
+  box-shadow: inset 0 0 0 3px rgba(34, 197, 94, 0.14);
+}
+
+.memory-card:disabled {
+  cursor: default;
+}
+
+.memory-card:focus-visible {
+  outline: 3px solid var(--action);
+  outline-offset: 4px;
+}
+
+.game-actions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.control-hint {
+  margin: 0;
+  color: #AAB2C0;
+  font-size: 14px;
+  text-align: right;
+}
+
+.button {
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button-primary {
+  background: var(--brand);
+  color: #FFFFFF;
+}
+
+.button-primary:hover {
+  background: var(--brand-dark);
+}
+
+.button-secondary {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.content-section {
+  padding: 0 0 72px;
+}
+
+.content-section-alt {
+  padding: 72px 0;
+  background: #FFFFFF;
+  margin-bottom: 72px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.content-card {
+  padding: 26px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.content-card p,
+.content-card li {
+  color: #4B5563;
+}
+
+.content-card ol,
+.content-card ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.content-card li + li {
+  margin-top: 8px;
+}
+
+.wide-card {
+  width: 100%;
+}
+
+.related-placeholder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.related-placeholder span {
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: #EEF0FF;
+  color: var(--brand-dark);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.faq-section details {
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+}
+
+.faq-section details:first-of-type {
+  margin-top: 8px;
+}
+
+.faq-section summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.faq-section details p {
+  margin: 10px 0 0;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal.is-open {
+  display: flex;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.68);
+  backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  position: relative;
+  width: min(500px, 100%);
+  padding: 30px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  box-shadow: 0 30px 90px rgba(17, 24, 39, 0.30);
+  text-align: center;
+}
+
+.win-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #FEF3C7;
+  color: #D97706;
+  font-size: 30px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.result-grid div {
+  padding: 14px 10px;
+  border-radius: 14px;
+  background: var(--background);
+}
+
+.result-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.result-grid strong {
+  font-size: 22px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal .button-secondary {
+  border-color: var(--border);
+  background: #FFFFFF;
+  color: var(--text);
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 16px;
+  }
+
+  .container {
+    width: min(100% - 28px, 1160px);
+  }
+
+  .hero {
+    padding: 40px 0 26px;
+  }
+
+  .intro {
+    font-size: 17px;
+  }
+
+  .game-section {
+    padding-bottom: 58px;
+  }
+
+  .game-panel {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .game-topbar {
+    align-items: flex-start;
+  }
+
+  .game-topbar h2 {
+    font-size: 26px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .game-board {
+    gap: 9px;
+  }
+
+  .card-face {
+    border-radius: 12px;
+  }
+
+  .memory-card {
+    border-radius: 12px;
+  }
+
+  .game-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .control-hint {
+    text-align: left;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-section,
+  .content-section-alt {
+    padding-bottom: 56px;
+  }
+
+  .content-section-alt {
+    padding-top: 56px;
+    margin-bottom: 56px;
+  }
+}
+
+@media (max-width: 460px) {
+  .site-header {
+    height: 66px;
+  }
+
+  .header-label {
+    display: none;
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+
+  .game-topbar {
+    flex-direction: column;
+  }
+
+  .game-topbar .button {
+    width: 100%;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  .game-board {
+    gap: 7px;
+  }
+
+  .card-front::before {
+    font-size: 24px;
+  }
+
+  .card-back {
+    font-size: 30px;
+  }
+
+  .content-card {
+    padding: 20px;
+  }
+
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="Games Hub home">Games Hub</a>
+      <span class="header-label">Board Games</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container" aria-labelledby="page-title">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Matching Cards</span>
+      </nav>
+
+      <div class="hero-copy">
+        <div>
+          <p class="eyebrow">Free Online Memory Game</p>
+          <h1 id="page-title">Matching Cards Game</h1>
+          <p class="intro">Flip two cards at a time and find every matching pair. This browser-based Matching Cards game tracks your moves, elapsed time, streaks, and score while keeping the rules simple enough for quick play on desktop or mobile.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-section" aria-labelledby="game-heading">
+      <div class="container game-shell">
+        <div class="game-panel">
+          <div class="game-topbar">
+            <div>
+              <p class="game-kicker">Memory challenge</p>
+              <h2 id="game-heading">Find All 8 Pairs</h2>
+            </div>
+            <button id="newGameBtn" class="button button-secondary" type="button">New Game</button>
+          </div>
+
+          <div class="stats-grid" aria-label="Game statistics">
+            <div class="stat-card">
+              <span class="stat-label">Score</span>
+              <strong id="score" class="stat-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Moves</span>
+              <strong id="moves" class="stat-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Time</span>
+              <strong id="timer" class="stat-value">00:00</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Pairs</span>
+              <strong id="pairs" class="stat-value">0/8</strong>
+            </div>
+          </div>
+
+          <div id="statusMessage" class="status-message" role="status" aria-live="polite">Choose any card to begin.</div>
+
+          <div id="gameBoard" class="game-board" role="grid" aria-label="Matching Cards game board"></div>
+
+          <div class="game-actions">
+            <button id="restartBtn" class="button button-primary" type="button">Restart Game</button>
+            <p class="control-hint">Tap or click cards. Keyboard: Tab to a card, then press Enter or Space.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section container">
+      <div class="content-grid">
+        <article class="content-card">
+          <h2>How to Play Matching Cards</h2>
+          <p>The goal is to uncover every pair on the board using as few moves as possible. A move is counted whenever you reveal a second card.</p>
+          <ol>
+            <li>Select one face-down card to reveal its symbol.</li>
+            <li>Select a second card and compare the two symbols.</li>
+            <li>If they match, both cards remain face up.</li>
+            <li>If they do not match, they flip back after a short pause.</li>
+            <li>Continue until all eight pairs are matched.</li>
+          </ol>
+        </article>
+
+        <article class="content-card">
+          <h2>Matching Cards Controls</h2>
+          <p>On desktop, use your mouse or keyboard. On phones and tablets, simply tap the cards. The board automatically resizes to fit smaller screens without requiring horizontal scrolling.</p>
+          <ul>
+            <li><strong>Mouse:</strong> Click a card to flip it.</li>
+            <li><strong>Touch:</strong> Tap a card to flip it.</li>
+            <li><strong>Keyboard:</strong> Use Tab to focus cards and Enter or Space to flip.</li>
+            <li><strong>Restart Game:</strong> Resets the current arrangement.</li>
+            <li><strong>New Game:</strong> Shuffles the cards into a fresh layout.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section content-section-alt">
+      <div class="container content-grid">
+        <article class="content-card">
+          <h2>About the Matching Cards Game</h2>
+          <p>Matching Cards is a classic memory board game built around visual recall and concentration. Each symbol appears exactly twice. The challenge is remembering where previously revealed cards are located and pairing them efficiently.</p>
+          <p>This version runs entirely in your browser with HTML, CSS, and JavaScript. There is no account, download, backend, or server-side gameplay required.</p>
+        </article>
+
+        <article class="content-card">
+          <h2>Tips for a Better Score</h2>
+          <ul>
+            <li>Focus on card positions instead of flipping randomly.</li>
+            <li>When you reveal a symbol you have seen before, remember its earlier location.</li>
+            <li>Matching consecutive pairs builds a streak and awards a larger score bonus.</li>
+            <li>Fewer moves and faster completion produce a stronger final score.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section container">
+      <div class="content-card wide-card">
+        <h2>Related Games</h2>
+        <p>Matching Cards fits naturally alongside other board, puzzle, and memory games. Related game links can be added here as your Games Hub grows.</p>
+        <div class="related-placeholder" aria-label="Related games placeholders">
+          <span>Memory Puzzles</span>
+          <span>Board Games</span>
+          <span>Number Puzzles</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section container faq-section">
+      <div class="content-card wide-card">
+        <h2>Matching Cards FAQ</h2>
+        <details>
+          <summary>Is Matching Cards free to play?</summary>
+          <p>Yes. This Matching Cards game is free to play directly in a modern web browser.</p>
+        </details>
+        <details>
+          <summary>Do I need to download anything?</summary>
+          <p>No. The game runs in the browser and does not require an app, plugin, or game download.</p>
+        </details>
+        <details>
+          <summary>Does the game work on mobile?</summary>
+          <p>Yes. The board supports touch controls and adapts to common phone and tablet screen sizes.</p>
+        </details>
+        <details>
+          <summary>How is the score calculated?</summary>
+          <p>You earn points for matching pairs, receive streak bonuses for consecutive matches, and lose a small number of points for incorrect pairs. Your move count and completion time remain visible so you can compare attempts.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <div id="winModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal="true"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="winTitle" aria-describedby="winSummary">
+      <div class="win-icon" aria-hidden="true">★</div>
+      <p class="eyebrow">Board cleared</p>
+      <h2 id="winTitle">You Matched Every Pair!</h2>
+      <p id="winSummary">Great memory. Your results are below.</p>
+      <div class="result-grid">
+        <div><span>Score</span><strong id="finalScore">0</strong></div>
+        <div><span>Moves</span><strong id="finalMoves">0</strong></div>
+        <div><span>Time</span><strong id="finalTime">00:00</strong></div>
+      </div>
+      <div class="modal-actions">
+        <button id="playAgainBtn" class="button button-primary" type="button">Play Again</button>
+        <button id="closeModalBtn" class="button button-secondary" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>'use strict';
+
+const symbols = ['◆', '●', '★', '▲', '♥', '☀', '☁', '♣'];
+const totalPairs = symbols.length;
+
+const board = document.getElementById('gameBoard');
+const scoreEl = document.getElementById('score');
+const movesEl = document.getElementById('moves');
+const timerEl = document.getElementById('timer');
+const pairsEl = document.getElementById('pairs');
+const statusMessage = document.getElementById('statusMessage');
+const restartBtn = document.getElementById('restartBtn');
+const newGameBtn = document.getElementById('newGameBtn');
+const winModal = document.getElementById('winModal');
+const finalScore = document.getElementById('finalScore');
+const finalMoves = document.getElementById('finalMoves');
+const finalTime = document.getElementById('finalTime');
+const playAgainBtn = document.getElementById('playAgainBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+let deck = [];
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
+let moves = 0;
+let matchedPairs = 0;
+let score = 0;
+let streak = 0;
+let secondsElapsed = 0;
+let timerId = null;
+let gameStarted = false;
+let gameFinished = false;
+let currentSeedDeck = [];
+let lastFocusedElement = null;
+
+function shuffle(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function createDeck() {
+  return shuffle([...symbols, ...symbols].map((symbol, index) => ({
+    id: `${symbol}-${index}-${Math.random().toString(36).slice(2, 8)}`,
+    symbol
+  })));
+}
+
+function resetState() {
+  stopTimer();
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+  moves = 0;
+  matchedPairs = 0;
+  score = 0;
+  streak = 0;
+  secondsElapsed = 0;
+  gameStarted = false;
+  gameFinished = false;
+  updateStats();
+  timerEl.textContent = '00:00';
+  statusMessage.textContent = 'Choose any card to begin.';
+}
+
+function startNewGame(useExistingLayout = false) {
+  closeWinModal(false);
+  resetState();
+
+  if (!useExistingLayout || currentSeedDeck.length === 0) {
+    currentSeedDeck = createDeck();
+  }
+
+  deck = currentSeedDeck.map(card => ({ ...card, matched: false }));
+  renderBoard();
+}
+
+function renderBoard() {
+  board.innerHTML = '';
+
+  deck.forEach((card, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'memory-card';
+    button.dataset.id = card.id;
+    button.dataset.symbol = card.symbol;
+    button.setAttribute('role', 'gridcell');
+    button.setAttribute('aria-label', `Card ${index + 1}, face down`);
+    button.setAttribute('aria-pressed', 'false');
+
+    button.innerHTML = `
+      <span class="card-inner" aria-hidden="true">
+        <span class="card-face card-front"></span>
+        <span class="card-face card-back">${card.symbol}</span>
+      </span>
+    `;
+
+    button.addEventListener('click', () => flipCard(button));
+    button.addEventListener('keydown', handleCardKeydown);
+    board.appendChild(button);
+  });
+}
+
+function handleCardKeydown(event) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    flipCard(event.currentTarget);
+  }
+}
+
+function flipCard(cardEl) {
+  if (lockBoard || gameFinished) return;
+  if (cardEl === firstCard) return;
+  if (cardEl.classList.contains('is-matched') || cardEl.classList.contains('is-flipped')) return;
+
+  if (!gameStarted) {
+    gameStarted = true;
+    startTimer();
+    statusMessage.textContent = 'Game started. Find the matching symbol.';
+  }
+
+  revealCard(cardEl);
+
+  if (!firstCard) {
+    firstCard = cardEl;
+    statusMessage.textContent = 'Now choose a second card.';
+    return;
+  }
+
+  secondCard = cardEl;
+  moves += 1;
+  updateStats();
+  checkForMatch();
+}
+
+function revealCard(cardEl) {
+  cardEl.classList.add('is-flipped');
+  cardEl.setAttribute('aria-pressed', 'true');
+  cardEl.setAttribute('aria-label', `Revealed card: ${spokenSymbol(cardEl.dataset.symbol)}`);
+}
+
+function concealCard(cardEl) {
+  cardEl.classList.remove('is-flipped');
+  cardEl.setAttribute('aria-pressed', 'false');
+  const cardIndex = [...board.children].indexOf(cardEl) + 1;
+  cardEl.setAttribute('aria-label', `Card ${cardIndex}, face down`);
+}
+
+function checkForMatch() {
+  const isMatch = firstCard.dataset.symbol === secondCard.dataset.symbol;
+
+  if (isMatch) {
+    handleMatch();
+  } else {
+    handleMismatch();
+  }
+}
+
+function handleMatch() {
+  lockBoard = true;
+  matchedPairs += 1;
+  streak += 1;
+
+  const streakBonus = Math.min((streak - 1) * 15, 60);
+  score += 100 + streakBonus;
+
+  firstCard.classList.add('is-matched');
+  secondCard.classList.add('is-matched');
+  firstCard.disabled = true;
+  secondCard.disabled = true;
+
+  firstCard.setAttribute('aria-label', `Matched ${spokenSymbol(firstCard.dataset.symbol)} card`);
+  secondCard.setAttribute('aria-label', `Matched ${spokenSymbol(secondCard.dataset.symbol)} card`);
+
+  statusMessage.textContent = streak > 1
+    ? `Match! ${streak} matches in a row — streak bonus earned.`
+    : 'Match! Keep going.';
+
+  updateStats();
+
+  window.setTimeout(() => {
+    resetTurn();
+    if (matchedPairs === totalPairs) finishGame();
+  }, 360);
+}
+
+function handleMismatch() {
+  lockBoard = true;
+  streak = 0;
+  score = Math.max(0, score - 10);
+  statusMessage.textContent = 'No match. Remember those positions.';
+  updateStats();
+
+  window.setTimeout(() => {
+    concealCard(firstCard);
+    concealCard(secondCard);
+    resetTurn();
+    statusMessage.textContent = 'Try another pair.';
+  }, 820);
+}
+
+function resetTurn() {
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+}
+
+function updateStats() {
+  scoreEl.textContent = score;
+  movesEl.textContent = moves;
+  pairsEl.textContent = `${matchedPairs}/${totalPairs}`;
+}
+
+function startTimer() {
+  if (timerId) return;
+  timerId = window.setInterval(() => {
+    secondsElapsed += 1;
+    timerEl.textContent = formatTime(secondsElapsed);
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId) {
+    window.clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
+function finishGame() {
+  gameFinished = true;
+  stopTimer();
+
+  const efficiencyBonus = Math.max(0, 220 - Math.max(0, moves - totalPairs) * 12);
+  const speedBonus = Math.max(0, 180 - secondsElapsed * 2);
+  score += efficiencyBonus + speedBonus;
+  updateStats();
+
+  statusMessage.textContent = `Complete! You found all ${totalPairs} pairs in ${moves} moves.`;
+
+  window.setTimeout(openWinModal, 450);
+}
+
+function openWinModal() {
+  lastFocusedElement = document.activeElement;
+  finalScore.textContent = score;
+  finalMoves.textContent = moves;
+  finalTime.textContent = formatTime(secondsElapsed);
+  winModal.classList.add('is-open');
+  winModal.setAttribute('aria-hidden', 'false');
+  playAgainBtn.focus();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeWinModal(restoreFocus = true) {
+  if (!winModal.classList.contains('is-open')) return;
+  winModal.classList.remove('is-open');
+  winModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+
+  if (restoreFocus && lastFocusedElement instanceof HTMLElement) {
+    lastFocusedElement.focus();
+  }
+}
+
+function spokenSymbol(symbol) {
+  const names = {
+    '◆': 'diamond',
+    '●': 'circle',
+    '★': 'star',
+    '▲': 'triangle',
+    '♥': 'heart',
+    '☀': 'sun',
+    '☁': 'cloud',
+    '♣': 'club'
+  };
+  return names[symbol] || 'symbol';
+}
+
+restartBtn.addEventListener('click', () => startNewGame(true));
+newGameBtn.addEventListener('click', () => startNewGame(false));
+playAgainBtn.addEventListener('click', () => startNewGame(false));
+closeModalBtn.addEventListener('click', () => closeWinModal());
+
+winModal.addEventListener('click', event => {
+  if (event.target.dataset.closeModal === 'true') closeWinModal();
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && winModal.classList.contains('is-open')) {
+    closeWinModal();
+  }
+});
+
+startNewGame(false);
+</script>
+</body>
+</html>

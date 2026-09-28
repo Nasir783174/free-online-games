@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soccer Game - Play Free Online</title>
+  <meta name="description" content="Play a fast, free Soccer Game online in your browser. Shoot past the goalkeeper, score goals, and beat your high score with no download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>* { box-sizing: border-box; }
+
+:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --cyan: #16B8C4;
+  --orange: #FFB84D;
+  --green: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --dark: #111827;
+  --dark-2: #1F2937;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, input { font: inherit; }
+
+.site-header {
+  height: 72px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1160px;
+  height: 100%;
+  margin: auto;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
+}
+.header-label { color: var(--muted); font-size: 14px; font-weight: 700; }
+
+.page { max-width: 1160px; margin: auto; padding: 28px 22px 70px; }
+.breadcrumb {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  color: var(--muted); font-size: 14px; margin-bottom: 20px;
+}
+.breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 700; }
+
+.intro { margin-bottom: 26px; }
+h1 { font-size: clamp(38px, 6vw, 58px); line-height: 1.08; margin: 0 0 12px; font-weight: 800; letter-spacing: -1.2px; }
+h2 { font-size: 28px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+.intro p { max-width: 760px; margin: 0; color: var(--muted); }
+
+.game-card, .content-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(23, 27, 45, .06);
+}
+.game-card { overflow: hidden; }
+
+.scorebar {
+  display: grid;
+  grid-template-columns: 150px 1fr 150px;
+  align-items: center;
+  min-height: 78px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.stat { display: flex; flex-direction: column; }
+.stat.right { align-items: flex-end; }
+.stat-label { color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.stat strong { font-size: 25px; line-height: 1.15; }
+.status { text-align: center; font-weight: 800; color: var(--primary); }
+
+.game-wrap {
+  position: relative;
+  background: var(--dark);
+  width: 100%;
+  aspect-ratio: 16 / 8.7;
+  min-height: 330px;
+  touch-action: none;
+  overflow: hidden;
+}
+canvas { width: 100%; height: 100%; display: block; cursor: crosshair; }
+.game-overlay {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: rgba(17, 24, 39, .56);
+  padding: 20px;
+}
+.game-overlay.hidden { display: none; }
+.overlay-panel {
+  max-width: 390px; width: 100%; text-align: center;
+  background: rgba(255,255,255,.97);
+  padding: 28px 26px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+.ball-icon { font-size: 44px; line-height: 1; margin-bottom: 8px; }
+.overlay-panel h2 { margin-bottom: 5px; }
+.overlay-panel p { color: var(--muted); margin: 0 0 20px; }
+
+.primary-btn, .shoot-btn, .secondary-btn {
+  border: 0; min-height: 48px; padding: 0 20px; border-radius: 12px;
+  font-weight: 800; cursor: pointer; transition: transform .15s, filter .15s, opacity .15s;
+}
+.primary-btn, .shoot-btn { color: #fff; background: var(--primary); }
+.primary-btn:hover, .shoot-btn:hover, .secondary-btn:hover { filter: brightness(.96); transform: translateY(-1px); }
+.primary-btn:focus-visible, .shoot-btn:focus-visible, .secondary-btn:focus-visible, input:focus-visible {
+  outline: 3px solid rgba(91,92,226,.3); outline-offset: 2px;
+}
+.shoot-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+.controls-panel {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr auto auto;
+  gap: 18px;
+  align-items: end;
+  border-top: 1px solid var(--border);
+}
+.control-copy p { color: var(--muted); margin: 0; font-size: 15px; }
+.power-area label { display: flex; justify-content: space-between; margin-bottom: 7px; font-weight: 700; font-size: 14px; }
+input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+.secondary-btn { background: #fff; color: var(--text); border: 1px solid var(--border); }
+
+.content-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; margin-top: 24px; }
+.content-card { padding: 26px; margin-top: 20px; }
+.content-grid .content-card { margin-top: 0; }
+.content-card p { color: var(--muted); }
+.content-card ul { margin: 12px 0 0; padding-left: 22px; }
+.content-card li + li { margin-top: 7px; }
+.about { margin-top: 20px; }
+.faq { margin-top: 20px; }
+details { border-top: 1px solid var(--border); padding: 15px 0; }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { cursor: pointer; font-weight: 700; }
+details p { margin: 8px 0 0; }
+kbd { border: 1px solid var(--border); background: var(--bg); border-radius: 5px; padding: 1px 6px; font-size: .85em; }
+.site-footer { text-align: center; color: var(--muted); padding: 28px 20px 42px; font-size: 14px; }
+
+@media (max-width: 800px) {
+  .header-label { display: none; }
+  .page { padding-top: 22px; }
+  .scorebar { grid-template-columns: 100px 1fr 100px; }
+  .game-wrap { min-height: 260px; }
+  .controls-panel { grid-template-columns: 1fr 1fr; }
+  .control-copy { grid-column: 1 / -1; }
+  .power-area { grid-column: 1 / -1; }
+  .shoot-btn, .secondary-btn { width: 100%; }
+  .content-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 500px) {
+  body { font-size: 16px; }
+  .page { padding-left: 14px; padding-right: 14px; }
+  .site-header .header-inner { padding: 0 14px; }
+  .scorebar { grid-template-columns: 75px 1fr 85px; padding: 10px 12px; min-height: 68px; }
+  .stat strong { font-size: 21px; }
+  .status { font-size: 14px; }
+  .game-wrap { min-height: 235px; aspect-ratio: 1.45; }
+  .controls-panel, .content-card { padding: 18px; }
+  .overlay-panel { padding: 22px 18px; }
+}</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">
+        <span class="brand-mark">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-label">Free Online Games</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Home</a><span aria-hidden="true">›</span><span>Sports</span><span aria-hidden="true">›</span><strong>Soccer Game</strong>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <h1>Soccer Game</h1>
+        <p>Take your shot and beat the goalkeeper. Aim carefully, choose your power, and score as many goals as you can before your chances run out.</p>
+      </div>
+    </section>
+
+    <section class="game-card" aria-label="Soccer game">
+      <div class="scorebar">
+        <div class="stat"><span class="stat-label">Goals</span><strong id="score">0</strong></div>
+        <div class="status" id="status" aria-live="polite">Ready to play</div>
+        <div class="stat right"><span class="stat-label">Shots Left</span><strong id="shots">10</strong></div>
+      </div>
+
+      <div class="game-wrap">
+        <canvas id="gameCanvas" aria-label="Soccer field game area"></canvas>
+        <div class="game-overlay" id="gameOverlay">
+          <div class="overlay-panel">
+            <div class="ball-icon" aria-hidden="true">⚽</div>
+            <h2 id="overlayTitle">Ready?</h2>
+            <p id="overlayText">Aim at the goal and take your first shot.</p>
+            <button id="startBtn" class="primary-btn">Start Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <div class="control-copy">
+          <h2>Game Controls</h2>
+          <p>Move your pointer or finger to aim. Hold and release to control shot power, or tap/click for a quick shot.</p>
+        </div>
+        <div class="power-area">
+          <label for="powerRange">Shot Power <output id="powerValue" for="powerRange">70%</output></label>
+          <input id="powerRange" type="range" min="30" max="100" value="70" aria-label="Shot power">
+        </div>
+        <button id="shootBtn" class="shoot-btn" disabled>Shoot</button>
+        <button id="restartBtn" class="secondary-btn">Restart</button>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article class="content-card">
+        <h2>How to Play Soccer Game</h2>
+        <p>Your objective is simple: score goals by shooting the ball past the goalkeeper. Aim inside the goal, set a comfortable shot power, and press Shoot. You have 10 shots in each game.</p>
+        <ul>
+          <li>Move the pointer or finger across the field to aim.</li>
+          <li>Use the Shot Power slider to change the strength of your kick.</li>
+          <li>Click, tap, or press <kbd>Space</kbd> to shoot.</li>
+          <li>Score as many goals as possible before all 10 shots are used.</li>
+        </ul>
+      </article>
+
+      <article class="content-card">
+        <h2>Soccer Game Tips</h2>
+        <ul>
+          <li>Aim toward the corners to make saves harder.</li>
+          <li>Moderate power gives you more control than maximum power.</li>
+          <li>Watch the goalkeeper's position before every shot.</li>
+          <li>Use the full width of the goal instead of repeating the same target.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="content-card about">
+      <h2>About This Soccer Game</h2>
+      <p>This browser soccer game is a lightweight, client-side sports game built with HTML, CSS, and JavaScript. It requires no account, download, database, or server-side game processing. Your score is kept in the current game session.</p>
+    </section>
+
+    <section class="content-card faq">
+      <h2>Soccer Game FAQ</h2>
+      <details>
+        <summary>Can I play this Soccer Game on mobile?</summary>
+        <p>Yes. The field supports touch aiming and touch shooting, with a responsive layout for smaller screens.</p>
+      </details>
+      <details>
+        <summary>How many shots do I get?</summary>
+        <p>Each round gives you 10 shots. Your final score is the number of goals you score.</p>
+      </details>
+      <details>
+        <summary>Do I need to download anything?</summary>
+        <p>No. The game is designed to run directly in a modern browser.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">Play fast. Score more. &copy; Games Hub</footer>
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const overlay = document.getElementById("gameOverlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const startBtn = document.getElementById("startBtn");
+  const shootBtn = document.getElementById("shootBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const scoreEl = document.getElementById("score");
+  const shotsEl = document.getElementById("shots");
+  const statusEl = document.getElementById("status");
+  const powerRange = document.getElementById("powerRange");
+  const powerValue = document.getElementById("powerValue");
+
+  let W = 900, H = 490, dpr = 1;
+  let running = false, shooting = false;
+  let score = 0, shots = 10;
+  let aimX = 0.5, aimY = 0.35;
+  let keeperX = 0.5, keeperTarget = 0.5;
+  let keeperDir = 1;
+  let ball = null;
+  let lastTime = 0;
+  let messageTimer = 0;
+  let particles = [];
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(320, rect.width);
+    H = Math.max(230, rect.height);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (!shooting) draw();
+  }
+
+  function updateHud() {
+    scoreEl.textContent = score;
+    shotsEl.textContent = shots;
+  }
+
+  function setMessage(text, temporary = false) {
+    statusEl.textContent = text;
+    if (temporary) messageTimer = 1.3;
+  }
+
+  function resetGame(showOverlay = true) {
+    running = false;
+    shooting = false;
+    score = 0;
+    shots = 10;
+    aimX = 0.5;
+    aimY = 0.35;
+    keeperX = 0.5;
+    keeperTarget = 0.5;
+    keeperDir = 1;
+    ball = null;
+    particles = [];
+    updateHud();
+    setMessage("Ready to play");
+    shootBtn.disabled = true;
+    overlay.classList.toggle("hidden", !showOverlay);
+    if (showOverlay) {
+      overlayTitle.textContent = "Ready?";
+      overlayText.textContent = "Aim at the goal and take your first shot.";
+      startBtn.textContent = "Start Game";
+    }
+    draw();
+  }
+
+  function startGame() {
+    running = true;
+    shooting = false;
+    score = 0;
+    shots = 10;
+    keeperX = 0.5;
+    keeperTarget = 0.5;
+    ball = null;
+    particles = [];
+    updateHud();
+    overlay.classList.add("hidden");
+    shootBtn.disabled = false;
+    setMessage("Aim and shoot");
+    lastTime = performance.now();
+    requestAnimationFrame(loop);
+  }
+
+  function finishGame() {
+    running = false;
+    shooting = false;
+    shootBtn.disabled = true;
+    overlay.classList.remove("hidden");
+    overlayTitle.textContent = score >= 7 ? "Great Shooting!" : score >= 4 ? "Nice Game!" : "Final Score";
+    overlayText.textContent = `You scored ${score} goal${score === 1 ? "" : "s"} out of 10 shots.`;
+    startBtn.textContent = "Play Again";
+    setMessage("Game complete");
+  }
+
+  function fieldGeometry() {
+    const goalW = W * 0.52;
+    const goalH = Math.min(H * 0.27, 135);
+    const goalX = (W - goalW) / 2;
+    const goalY = H * 0.085;
+    const spotX = W / 2;
+    const spotY = H * 0.79;
+    return { goalW, goalH, goalX, goalY, spotX, spotY };
+  }
+
+  function setAim(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    const x = (clientX - rect.left) / rect.width;
+    const y = (clientY - rect.top) / rect.height;
+    aimX = Math.max(0.08, Math.min(0.92, x));
+    aimY = Math.max(0.08, Math.min(0.62, y));
+    if (!shooting && running) draw();
+  }
+
+  function randomizeKeeper() {
+    keeperTarget = 0.2 + Math.random() * 0.6;
+  }
+
+  function shoot() {
+    if (!running || shooting || shots <= 0) return;
+
+    const g = fieldGeometry();
+    const power = Number(powerRange.value) / 100;
+    const targetX = aimX * W;
+    const targetY = g.goalY + Math.max(18, aimY * g.goalH * 1.2);
+    const startX = g.spotX;
+    const startY = g.spotY;
+    const endX = targetX;
+    const endY = Math.min(g.goalY + g.goalH - 10, Math.max(g.goalY + 12, targetY));
+
+    shots--;
+    updateHud();
+    shooting = true;
+    setMessage("Shot in progress...");
+
+    const dx = endX - startX;
+    const dy = endY - startY;
+    ball = {
+      x: startX, y: startY, r: Math.max(8, W * 0.012),
+      sx: startX, sy: startY, ex: endX, ey: endY,
+      t: 0, duration: 0.62 - power * 0.18,
+      power, saved: false
+    };
+
+    randomizeKeeper();
+    requestAnimationFrame(loop);
+  }
+
+  function createBurst(x, y, success) {
+    for (let i = 0; i < 18; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const speed = 35 + Math.random() * 100;
+      particles.push({
+        x, y, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed,
+        life: .7 + Math.random() * .5, max: 1.2,
+        success
+      });
+    }
+  }
+
+  function resolveShot() {
+    const g = fieldGeometry();
+    const goalLeft = g.goalX + 7;
+    const goalRight = g.goalX + g.goalW - 7;
+    const goalTop = g.goalY + 8;
+    const goalBottom = g.goalY + g.goalH - 8;
+    const inside = ball.ex > goalLeft && ball.ex < goalRight && ball.ey > goalTop && ball.ey < goalBottom;
+
+    const keeperCenter = g.goalX + keeperX * g.goalW;
+    const keeperW = g.goalW * 0.18;
+    const keeperY = g.goalY + g.goalH * 0.47;
+    const keeperH = g.goalH * 0.34;
+    const nearKeeper = Math.abs(ball.ex - keeperCenter) < keeperW / 2 + ball.r &&
+                        ball.ey > keeperY - keeperH / 2 && ball.ey < keeperY + keeperH / 2;
+
+    const difficulty = 0.10 + (1 - ball.power) * 0.05;
+    const saved = nearKeeper || (inside && Math.random() < difficulty);
+
+    if (inside && !saved) {
+      score++;
+      createBurst(ball.ex, ball.ey, true);
+      setMessage("GOAL! ⚽", true);
+    } else {
+      createBurst(ball.ex, ball.ey, false);
+      setMessage(saved ? "Saved by the goalkeeper!" : "Missed the goal!", true);
+    }
+
+    updateHud();
+    shooting = false;
+    ball = null;
+
+    if (shots <= 0) {
+      setTimeout(finishGame, 700);
+    } else {
+      setTimeout(() => {
+        if (running) {
+          setMessage("Aim and shoot");
+          draw();
+        }
+      }, 450);
+    }
+  }
+
+  function update(dt) {
+    if (messageTimer > 0) {
+      messageTimer -= dt;
+      if (messageTimer <= 0 && running && !shooting) setMessage(shots > 0 ? "Aim and shoot" : "Game complete");
+    }
+
+    if (running && !shooting) {
+      keeperX += keeperDir * dt * 0.17;
+      if (keeperX > 0.76) { keeperX = 0.76; keeperDir = -1; }
+      if (keeperX < 0.24) { keeperX = 0.24; keeperDir = 1; }
+    }
+
+    particles = particles.filter(p => {
+      p.life -= dt;
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.vy += 75 * dt;
+      return p.life > 0;
+    });
+
+    if (ball) {
+      ball.t += dt / ball.duration;
+      const t = Math.min(1, ball.t);
+      const ease = 1 - Math.pow(1 - t, 3);
+      ball.x = ball.sx + (ball.ex - ball.sx) * ease;
+      ball.y = ball.sy + (ball.ey - ball.sy) * ease - Math.sin(t * Math.PI) * H * 0.13 * ball.power;
+      ball.r = Math.max(5, W * 0.012 * (1 - t * .25));
+      if (t >= 1) resolveShot();
+    }
+  }
+
+  function roundedRect(x, y, w, h, r) {
+    const rr = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rr, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rr);
+    ctx.arcTo(x + w, y + h, x, y + h, rr);
+    ctx.arcTo(x, y + h, x, y, rr);
+    ctx.arcTo(x, y, x + w, y, rr);
+    ctx.closePath();
+  }
+
+  function drawField() {
+    const g = fieldGeometry();
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "#1b7a43";
+    ctx.fillRect(0, 0, W, H);
+
+    for (let i = 0; i < 8; i++) {
+      ctx.fillStyle = i % 2 ? "rgba(255,255,255,.035)" : "rgba(0,0,0,.025)";
+      ctx.fillRect(i * W / 8, 0, W / 8, H);
+    }
+
+    ctx.strokeStyle = "rgba(255,255,255,.7)";
+    ctx.lineWidth = Math.max(2, W * .003);
+    ctx.strokeRect(W * .035, H * .035, W * .93, H * .93);
+
+    const boxW = W * .62, boxH = H * .48;
+    const boxX = (W - boxW) / 2, boxY = H * .52;
+    ctx.strokeRect(boxX, boxY, boxW, boxH);
+    ctx.beginPath();
+    ctx.arc(W / 2, H * .52, W * .10, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(W / 2, H * .79, Math.max(3, W * .006), 0, Math.PI * 2);
+    ctx.fill();
+
+    // Goal frame and net.
+    ctx.fillStyle = "rgba(255,255,255,.10)";
+    ctx.fillRect(g.goalX, g.goalY, g.goalW, g.goalH);
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = Math.max(4, W * .008);
+    ctx.strokeRect(g.goalX, g.goalY, g.goalW, g.goalH);
+
+    ctx.strokeStyle = "rgba(255,255,255,.25)";
+    ctx.lineWidth = 1;
+    for (let x = g.goalX; x <= g.goalX + g.goalW; x += Math.max(12, g.goalW / 16)) {
+      ctx.beginPath(); ctx.moveTo(x, g.goalY); ctx.lineTo(x, g.goalY + g.goalH); ctx.stroke();
+    }
+    for (let y = g.goalY; y <= g.goalY + g.goalH; y += Math.max(10, g.goalH / 7)) {
+      ctx.beginPath(); ctx.moveTo(g.goalX, y); ctx.lineTo(g.goalX + g.goalW, y); ctx.stroke();
+    }
+  }
+
+  function drawKeeper() {
+    const g = fieldGeometry();
+    const cx = g.goalX + keeperX * g.goalW;
+    const bodyW = g.goalW * .12;
+    const bodyH = g.goalH * .32;
+    const bodyY = g.goalY + g.goalH * .48;
+
+    ctx.save();
+    ctx.fillStyle = "#EF5B5B";
+    roundedRect(cx - bodyW / 2, bodyY - bodyH / 2, bodyW, bodyH, bodyW * .18);
+    ctx.fill();
+
+    ctx.fillStyle = "#F5C7A9";
+    ctx.beginPath();
+    ctx.arc(cx, bodyY - bodyH * .65, bodyW * .28, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "#F5C7A9";
+    ctx.lineWidth = Math.max(5, bodyW * .13);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(cx - bodyW * .38, bodyY - bodyH * .25);
+    ctx.lineTo(cx - bodyW * .78, bodyY - bodyH * .48);
+    ctx.moveTo(cx + bodyW * .38, bodyY - bodyH * .25);
+    ctx.lineTo(cx + bodyW * .78, bodyY - bodyH * .48);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawAim() {
+    if (!running || shooting) return;
+    const g = fieldGeometry();
+    const x = aimX * W;
+    const y = g.goalY + aimY * g.goalH;
+
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,255,255,.78)";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([7, 7]);
+    ctx.beginPath();
+    ctx.moveTo(g.spotX, g.spotY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = "#FFB84D";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(x, y, Math.max(10, W * .017), 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x - 15, y); ctx.lineTo(x + 15, y);
+    ctx.moveTo(x, y - 15); ctx.lineTo(x, y + 15);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawBall() {
+    if (!ball) {
+      const g = fieldGeometry();
+      drawSoccerBall(g.spotX, g.spotY, Math.max(10, W * .015));
+      return;
+    }
+    drawSoccerBall(ball.x, ball.y, ball.r);
+  }
+
+  function drawSoccerBall(x, y, r) {
+    ctx.save();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0,0,0,.3)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = "#171B2D";
+    ctx.beginPath();
+    ctx.arc(x, y, r * .27, 0, Math.PI * 2);
+    ctx.fill();
+
+    for (let i = 0; i < 5; i++) {
+      const a = i * Math.PI * 2 / 5;
+      ctx.beginPath();
+      ctx.arc(x + Math.cos(a) * r * .58, y + Math.sin(a) * r * .58, r * .11, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawParticles() {
+    particles.forEach(p => {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.life / p.max);
+      ctx.fillStyle = p.success ? "#FFB84D" : "#fff";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function draw() {
+    drawField();
+    drawKeeper();
+    drawAim();
+    drawBall();
+    drawParticles();
+  }
+
+  function loop(now) {
+    if (!running && !shooting && particles.length === 0) {
+      draw();
+      return;
+    }
+    const dt = Math.min(.035, (now - lastTime) / 1000 || .016);
+    lastTime = now;
+    update(dt);
+    draw();
+    if (running || shooting || particles.length) requestAnimationFrame(loop);
+  }
+
+  canvas.addEventListener("pointermove", e => setAim(e.clientX, e.clientY));
+  canvas.addEventListener("pointerdown", e => {
+    setAim(e.clientX, e.clientY);
+    if (running && !shooting) shoot();
+  });
+  shootBtn.addEventListener("click", shoot);
+  startBtn.addEventListener("click", startGame);
+  restartBtn.addEventListener("click", () => resetGame(true));
+  powerRange.addEventListener("input", () => {
+    powerValue.textContent = `${powerRange.value}%`;
+  });
+  window.addEventListener("resize", resize);
+  window.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+      e.preventDefault();
+      if (!running) startGame();
+      else shoot();
+    }
+    if (e.code === "ArrowLeft") aimX = Math.max(.08, aimX - .035);
+    if (e.code === "ArrowRight") aimX = Math.min(.92, aimX + .035);
+    if (e.code === "ArrowUp") aimY = Math.max(.08, aimY - .035);
+    if (e.code === "ArrowDown") aimY = Math.min(.62, aimY + .035);
+    if (running && !shooting && e.code.startsWith("Arrow")) draw();
+  });
+
+  resize();
+  resetGame(true);
+})();</script>
+</body>
+</html>

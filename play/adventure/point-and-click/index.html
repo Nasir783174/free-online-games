@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="Play The Clockwork Study, a free point-and-click adventure game online. Search rooms, collect clues, solve puzzles, and escape in your browser—no download required.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Point & Click Adventure Game - Play Free Online">
+  <meta property="og:description" content="Explore a mysterious study, uncover clues, and solve a complete browser-based escape adventure.">
+  <meta property="og:type" content="website">
+  <title>Point & Click Adventure Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5b5ce2;
+  --primary-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --bg: #f6f7fb;
+  --card: #fff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --game-2: #1f2937;
+  --shadow: 0 18px 50px rgba(23, 27, 45, .09);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Nunito Sans", system-ui, sans-serif; font-size: 17px; line-height: 1.65; }
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+a { color: var(--primary-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+.skip-link { position: fixed; left: 12px; top: -60px; z-index: 100; padding: 10px 14px; background: #fff; color: var(--text); border-radius: 8px; }
+.skip-link:focus { top: 12px; }
+
+.site-header { height: 72px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,.92); display: flex; align-items: center; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; font-size: 20px; }
+.brand:hover { text-decoration: none; }
+.brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--primary); color: #fff; }
+.header-tag { color: var(--muted); font-size: 15px; font-weight: 700; }
+.breadcrumb { display: flex; gap: 10px; align-items: center; padding-top: 22px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.breadcrumb a { color: var(--muted); }
+.hero { max-width: 800px; padding: 54px 0 38px; }
+.eyebrow, .modal-eyebrow, .game-kicker { margin: 0 0 8px; color: var(--primary); font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.hero h1 { margin: 0 0 18px; max-width: 780px; font-size: clamp(38px, 6vw, 62px); line-height: 1.06; letter-spacing: -.035em; }
+.hero p { margin: 0; max-width: 720px; color: var(--muted); font-size: 19px; }
+
+.game-card { overflow: hidden; border: 1px solid var(--border); border-radius: 22px; background: var(--card); box-shadow: var(--shadow); }
+.game-topbar { display: flex; justify-content: space-between; gap: 24px; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+.game-topbar h2 { margin: 0; font-size: 26px; line-height: 1.2; }
+.game-kicker { margin-bottom: 4px; font-size: 11px; }
+.stats { display: flex; gap: 30px; align-items: center; }
+.stats div { min-width: 58px; }
+.stats span { display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.stats strong { font-size: 21px; line-height: 1.2; }
+.game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; min-height: 590px; background: #202a3a; }
+.stage-wrap { position: relative; min-width: 0; display: grid; grid-template-rows: 1fr auto; }
+
+.scene { position: relative; overflow: hidden; isolation: isolate; min-height: 508px; background: var(--game); }
+.scene::after { content: ""; position: absolute; inset: 0; z-index: 20; pointer-events: none; box-shadow: inset 0 0 70px rgba(0,0,0,.42); }
+.scene-study { background: linear-gradient(#28354d 0 68%, #17202f 68%); }
+.scene-study::before { content: ""; position: absolute; inset: 68% 0 0; background: repeating-linear-gradient(100deg, transparent 0 80px, rgba(255,255,255,.025) 82px 84px), #181f2b; transform: perspective(500px) rotateX(18deg); transform-origin: top; }
+.room-label { position: absolute; z-index: 30; left: 18px; top: 16px; padding: 7px 11px; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(10,16,26,.64); color: #eef2ff; font-size: 13px; font-weight: 800; pointer-events: none; }
+.hotspot { position: absolute; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.hotspot::after { content: ""; position: absolute; inset: -6px; border: 2px solid transparent; border-radius: 10px; transition: border-color .2s, background .2s; }
+.hotspot:hover::after, .hotspot:focus-visible::after { border-color: var(--action); background: rgba(255,184,77,.08); }
+.hotspot:focus-visible { outline: 0; }
+.hotspot-label { position: absolute; z-index: 50; left: 50%; bottom: -33px; transform: translate(-50%, 5px); white-space: nowrap; opacity: 0; padding: 4px 9px; border-radius: 7px; background: #fff; color: var(--text); font-size: 12px; font-weight: 800; pointer-events: none; transition: .2s; }
+.hotspot:hover .hotspot-label, .hotspot:focus-visible .hotspot-label { opacity: 1; transform: translate(-50%, 0); }
+
+.clock { left: 12%; top: 9%; width: 90px; height: 188px; border-radius: 48px 48px 12px 12px; background: #6d452d; box-shadow: inset 0 0 0 7px #4a2d20, 0 10px 20px rgba(0,0,0,.28); }
+.clock::before { content: ""; position: absolute; left: 33px; top: 100px; width: 24px; height: 60px; border-radius: 50%; background: #f2bd53; transform-origin: 50% 0; animation: pendulum 2s ease-in-out infinite paused; }
+.clock.repaired::before { animation-play-state: running; }
+@keyframes pendulum { 0%,100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+.clock-face { position: absolute; left: 15px; top: 15px; width: 60px; height: 60px; border: 5px solid #c79043; border-radius: 50%; background: #f3ead3; box-shadow: inset 0 0 0 2px #403025; }
+.clock-face::before { content: "12\A\A\A6"; white-space: pre; position: absolute; inset: 1px; color: #403025; font-size: 8px; line-height: 23px; text-align: center; }
+.clock-face i, .clock-face b { position: absolute; left: 27px; top: 26px; width: 2px; height: 18px; background: #403025; transform-origin: 50% 1px; }
+.clock-face i { transform: rotate(0deg); }
+.clock-face b { height: 22px; transform: rotate(90deg); }
+
+.portrait { left: 36%; top: 11%; width: 150px; height: 180px; border: 10px solid #a06c35; border-style: ridge; background: #202a43; box-shadow: 0 10px 20px rgba(0,0,0,.25); }
+.portrait-art { position: absolute; inset: 9px; overflow: hidden; border-radius: 50% 50% 45% 45%; background: radial-gradient(circle at 50% 32%, #d49a75 0 14%, transparent 15%), linear-gradient(145deg, #48566f, #131a2b); }
+.portrait-art::after { content: ""; position: absolute; width: 70px; height: 90px; left: 30px; top: 48px; border-radius: 30px 30px 8px 8px; background: #343c5b; }
+.portrait-art i, .portrait-art b, .portrait-art em { display: none; position: absolute; z-index: 2; bottom: 7px; color: #ffda78; font-size: 17px; font-style: normal; text-shadow: 0 0 8px #ffda78; }
+.portrait.revealed .portrait-art i, .portrait.revealed .portrait-art b, .portrait.revealed .portrait-art em { display: block; }
+.portrait-art i { left: 18px; }.portrait-art b { left: 55px; }.portrait-art em { left: 90px; }
+
+.desk { left: 24%; bottom: 15%; width: 300px; height: 107px; border-radius: 4px; background: #785039; box-shadow: inset 0 7px #9c6c49, 0 15px 20px rgba(0,0,0,.24); }
+.desk::before, .desk::after { content: ""; position: absolute; bottom: -74px; width: 24px; height: 75px; background: #533525; }
+.desk::before { left: 24px; }.desk::after { right: 24px; }
+.desk-lamp { position: absolute; left: 35px; top: -76px; width: 64px; height: 50px; border-radius: 50% 50% 8px 8px; background: #d5a442; box-shadow: 0 0 35px rgba(255,199,85,.22); }
+.desk-lamp::after { content: ""; position: absolute; left: 29px; top: 45px; width: 7px; height: 36px; background: #b07e32; }
+.drawer { left: calc(24% + 164px); bottom: calc(15% + 42px); z-index: 4; width: 105px; height: 42px; border: 2px solid #5c3927; border-radius: 2px; }
+.keyhole { position: absolute; left: 49px; top: 14px; width: 7px; height: 10px; border-radius: 50% 50% 2px 2px; background: #261b18; }
+.drawer.open { transform: translateY(16px); background: #40281f; }
+.rug { left: 15%; bottom: 2%; width: 360px; height: 66px; transform: skewX(-16deg); border: 6px solid #a24f41; background: #d48d52; box-shadow: 0 5px 15px rgba(0,0,0,.35); }
+.rug-pattern { position: absolute; inset: 8px; border: 3px solid #623b4c; background: repeating-linear-gradient(45deg, transparent 0 22px, rgba(102,57,69,.38) 23px 28px); }
+.rug.lifted { transform: skewX(-16deg) rotate(-3deg) translateY(-12px); transform-origin: 0 100%; }
+.door { border: 7px solid #182234; }
+.greenhouse-door { right: 7%; bottom: 12%; width: 112px; height: 266px; background: linear-gradient(90deg, #21626a, #17464e); box-shadow: inset 0 0 0 3px #3b8990; }
+.door-window { position: absolute; left: 18px; top: 18px; width: 62px; height: 90px; border: 5px solid #276c73; background: linear-gradient(150deg, rgba(255,255,255,.2), transparent), #7eb8ac; }
+.door-knob { position: absolute; left: 17px; top: 150px; width: 12px; height: 12px; border-radius: 50%; background: #f0bd5c; }
+.observatory-door { right: 23%; top: 19%; width: 100px; height: 250px; border: 8px solid #3a485c; border-radius: 46px 46px 4px 4px; background: #171f31; box-shadow: inset 0 0 0 4px #222e44; }
+.gear-slot { position: absolute; display: grid; place-items: center; left: 25px; top: 94px; width: 36px; height: 36px; border: 3px solid #79859b; border-radius: 50%; color: #8793a8; font-size: 25px; }
+.observatory-door.unlocked { background: linear-gradient(135deg, #263b58, #121b2c); box-shadow: inset 0 0 30px rgba(255,205,93,.28); }
+.observatory-door.unlocked .gear-slot { color: #ffcc5c; border-color: #ffcc5c; transform: rotate(25deg); }
+.token { z-index: 8; width: 24px; height: 24px; border: 2px solid #f4c55a; border-radius: 50%; background: #a66e27; color: #ffe48f; font-size: 11px; box-shadow: 0 0 10px rgba(255,209,89,.35); }
+.study-token { left: 7%; bottom: 6%; }
+.token.collected { display: none; }
+
+.scene-greenhouse { background: linear-gradient(#183e49 0 69%, #202c2e 69%); }
+.scene-greenhouse::before { content: ""; position: absolute; inset: 0; opacity: .55; background: linear-gradient(75deg, transparent 47%, #98b9ac 48% 49%, transparent 50%), linear-gradient(-75deg, transparent 47%, #98b9ac 48% 49%, transparent 50%), linear-gradient(90deg, transparent 32%, #98b9ac 33% 34%, transparent 35% 65%, #98b9ac 66% 67%, transparent 68%); }
+.greenhouse-floor { position: absolute; inset: 69% 0 0; background: repeating-linear-gradient(90deg, #283536 0 70px, #1d2829 71px 75px); }
+.plant { position: absolute; left: 9%; bottom: 17%; width: 155px; height: 210px; }
+.plant::before { content: ""; position: absolute; left: 67px; bottom: 40px; width: 10px; height: 130px; background: #41784a; transform: rotate(-5deg); }
+.plant::after { content: ""; position: absolute; left: 28px; bottom: 0; width: 100px; height: 70px; border-radius: 4px 4px 30px 30px; background: #9a5f3d; box-shadow: inset 0 8px #68402f; }
+.flower-shape { position: absolute; z-index: 2; left: 42px; top: 2px; width: 72px; height: 72px; border-radius: 50%; background: #f4bd49; clip-path: polygon(50% 0,63% 30%,98% 20%,72% 50%,98% 80%,63% 70%,50% 100%,37% 70%,2% 80%,28% 50%,2% 20%,37% 30%); }
+.flower-shape::after { content: ""; position: absolute; left: 27px; top: 27px; width: 18px; height: 18px; border-radius: 50%; background: #754728; }
+.mosaic { left: 36%; top: 12%; width: 210px; height: 136px; border: 10px solid #92714c; background: #193344; box-shadow: inset 0 0 0 3px #d9b96f; }
+.moon-phases { display: flex; align-items: center; justify-content: space-around; position: absolute; inset: 20px 13px; }
+.moon-phases span { width: 30px; height: 30px; border-radius: 50%; background: #ecd887; }
+.moon-phases span:nth-child(1) { background: #ecd887; }
+.moon-phases span:nth-child(2) { background: linear-gradient(90deg,#193344 50%,#ecd887 50%); }
+.moon-phases span:nth-child(3) { background: #193344; box-shadow: inset -8px 0 #ecd887; }
+.moon-phases span:nth-child(4) { background: linear-gradient(90deg,#ecd887 50%,#193344 50%); }
+.star-vane { right: 15%; top: 11%; width: 115px; height: 160px; }
+.star-vane::after { content: ""; position: absolute; left: 54px; top: 60px; width: 7px; height: 100px; background: #845f3e; }
+.star-shape { position: absolute; z-index: 2; left: 14px; top: 0; width: 88px; height: 88px; background: #f1bf53; clip-path: polygon(50% 0,61% 32%,85% 15%,68% 39%,100% 50%,68% 61%,85% 85%,61% 68%,50% 100%,39% 68%,15% 85%,32% 61%,0 50%,32% 39%,15% 15%,39% 32%); }
+.chest { left: 39%; bottom: 12%; width: 190px; height: 105px; border: 6px solid #4a2e24; border-radius: 36px 36px 7px 7px; background: linear-gradient(#845031 0 45%, #603925 46%); box-shadow: inset 0 0 0 3px #ac7243, 0 13px 20px rgba(0,0,0,.3); }
+.chest::before { content: ""; position: absolute; left: 75px; top: 42px; width: 30px; height: 32px; border: 4px solid #d5a943; border-radius: 5px; background: #3e2920; }
+.chest.open { transform: translateY(5px); background: #33251f; }
+.greenhouse-token { right: 5%; bottom: 6%; }
+.back-door { left: 4%; top: 23%; width: 80px; height: 220px; background: #34424a; border-color: #253038; }
+.back-door::before { content: "←"; display: grid; place-items: center; position: absolute; inset: 50px 14px 90px; border: 2px solid #687781; color: #d7e0e5; font-weight: 800; }
+
+.message-box { min-height: 82px; display: grid; grid-template-columns: 82px 1fr; gap: 12px; align-items: center; padding: 13px 20px; border-top: 1px solid rgba(255,255,255,.1); background: #111827; color: #e8edf6; }
+.message-box .speaker { color: #f6c765; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.message-box p { margin: 0; font-size: 15px; line-height: 1.45; }
+.message-box.flash { animation: messageFlash .35s ease; }
+@keyframes messageFlash { 50% { background: #26344c; } }
+
+.side-panel { display: flex; flex-direction: column; background: #fff; color: var(--text); }
+.panel-section { padding: 22px 18px; border-bottom: 1px solid var(--border); }
+.panel-heading { display: flex; align-items: center; justify-content: space-between; }
+.panel-heading span { color: var(--muted); font-size: 13px; font-weight: 800; }
+.panel-section h3 { margin: 0 0 14px; font-size: 18px; }
+.panel-heading h3 { margin-bottom: 0; }
+.inventory { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-top: 15px; min-height: 132px; }
+.empty-state { grid-column: 1 / -1; margin: 10px 0 0; color: var(--muted); font-size: 14px; text-align: center; }
+.inventory-item { display: grid; place-items: center; gap: 4px; min-height: 62px; padding: 6px; border: 1px solid var(--border); border-radius: 11px; background: #f9fafc; color: var(--text); cursor: pointer; }
+.inventory-item:hover, .inventory-item:focus-visible { border-color: var(--primary); }
+.inventory-item.selected { border: 2px solid var(--primary); background: #efefff; }
+.inventory-item.used { opacity: .5; }
+.item-icon { font-size: 23px; line-height: 1; }
+.item-name { font-size: 11px; font-weight: 800; line-height: 1.15; }
+.objective-section { flex: 1; background: #fafbfe; }
+.objective-section p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.panel-actions { display: grid; gap: 9px; padding: 18px; }
+.button { min-height: 46px; padding: 10px 17px; border: 0; border-radius: 11px; font-weight: 800; cursor: pointer; transition: transform .15s, background .15s; }
+.button:hover { transform: translateY(-1px); }
+.button:focus-visible, .room-nav:focus-visible, summary:focus-visible { outline: 3px solid rgba(91,92,226,.28); outline-offset: 2px; }
+.button-primary { background: var(--primary); color: #fff; }
+.button-primary:hover { background: var(--primary-dark); }
+.button-secondary { background: #ececff; color: var(--primary-dark); }
+.button-quiet { border: 1px solid var(--border); background: #fff; color: var(--muted); }
+.mobile-room-nav { display: none; }
+
+.content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; padding: 70px 0 22px; }
+.content-card { padding: 28px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+.content-card h2, .text-section h2, .related-section h2, .faq-section h2 { margin: 0 0 16px; font-size: 32px; line-height: 1.2; }
+.content-card > p { color: var(--muted); }
+.instruction-list { display: grid; gap: 16px; margin: 25px 0 0; padding: 0; list-style: none; }
+.instruction-list li { display: grid; grid-template-columns: 42px 1fr; gap: 13px; }
+.instruction-list li > span { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 10px; background: #efefff; color: var(--primary); font-weight: 800; }
+.instruction-list strong { font-size: 17px; }
+.instruction-list p { margin: 1px 0 0; color: var(--muted); font-size: 15px; }
+.controls-list { margin: 0; }
+.controls-list div { display: flex; justify-content: space-between; gap: 15px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.controls-list dt { font-weight: 800; }.controls-list dd { margin: 0; color: var(--muted); text-align: right; }
+.best-score { margin: 22px 0 0; padding: 12px; border-radius: 10px; background: #f7f7fb; font-size: 15px; }
+.text-section { max-width: 840px; padding: 58px 0 25px; }
+.text-section h2 { margin-top: 34px; }
+.text-section p { color: var(--muted); }
+.related-section { padding: 48px 0; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.related-grid article { padding: 23px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+.related-grid h3 { margin: 12px 0 5px; font-size: 20px; }
+.related-grid p { margin: 0 0 16px; color: var(--muted); font-size: 15px; }
+.related-icon { display: grid; place-items: center; width: 43px; height: 43px; border-radius: 11px; background: #e8f8f9; color: #087b83; font-size: 24px; }
+.coming-soon { color: var(--primary); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+.faq-section { max-width: 850px; padding: 38px 0 80px; }
+details { border-bottom: 1px solid var(--border); }
+summary { padding: 18px 2px; font-weight: 800; cursor: pointer; }
+details p { margin: -4px 0 20px; color: var(--muted); }
+.site-footer { padding: 28px 0; border-top: 1px solid var(--border); background: #fff; }
+.site-footer .shell { display: flex; justify-content: space-between; color: var(--muted); font-size: 14px; }
+.site-footer .shell span:first-child { color: var(--text); font-weight: 800; }
+
+.modal-backdrop { position: fixed; inset: 0; z-index: 1000; display: none; place-items: center; padding: 20px; background: rgba(13,18,30,.78); backdrop-filter: blur(5px); }
+.modal-backdrop.open { display: grid; }
+.modal { position: relative; width: min(520px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; padding: 34px; border-radius: 19px; background: #fff; box-shadow: 0 25px 80px rgba(0,0,0,.35); }
+.modal h2 { margin: 0 0 13px; font-size: 32px; line-height: 1.16; }
+.modal p { color: var(--muted); }
+.modal .button-primary { width: 100%; margin-top: 12px; }
+.modal-close { position: absolute; right: 15px; top: 12px; width: 38px; height: 38px; border: 0; border-radius: 50%; background: #f1f2f6; color: var(--text); font-size: 25px; cursor: pointer; }
+.code-form { display: grid; gap: 15px; margin-top: 20px; }
+.code-input { width: 100%; height: 64px; border: 2px solid var(--border); border-radius: 12px; background: #f8f9fc; color: var(--text); font-size: 28px; font-weight: 800; letter-spacing: .3em; text-align: center; }
+.code-input:focus { border-color: var(--primary); outline: 3px solid rgba(91,92,226,.15); }
+.puzzle-help { margin: 0; font-size: 15px; }
+.puzzle-error { min-height: 22px; margin: 0; color: var(--danger) !important; font-size: 14px; font-weight: 700; }
+.dial-row { display: flex; justify-content: center; gap: 12px; margin: 22px 0; }
+.dial { display: grid; gap: 6px; }
+.dial button { width: 58px; height: 42px; border: 0; border-radius: 9px; background: #ececff; color: var(--primary-dark); font-weight: 800; cursor: pointer; }
+.dial output { display: grid; place-items: center; width: 58px; height: 62px; border-radius: 10px; background: #1b2535; color: #ffdb79; font-size: 28px; font-weight: 800; }
+.win-modal { text-align: center; }
+.win-emblem { display: grid; place-items: center; width: 70px; height: 70px; margin: 0 auto 17px; border-radius: 50%; background: #fff2cc; color: #b77a00; font-size: 34px; }
+.final-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 22px 0 5px; }
+.final-stats div { padding: 12px 5px; border-radius: 10px; background: #f7f7fb; }
+.final-stats span { display: block; color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.final-stats strong { font-size: 20px; }
+
+@media (max-width: 900px) {
+  .game-layout { grid-template-columns: 1fr; }
+  .side-panel { display: grid; grid-template-columns: 1.15fr 1fr; }
+  .panel-actions { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
+  .objective-section { border-left: 1px solid var(--border); }
+  .game-layout { min-height: auto; }
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  body { font-size: 16px; }
+  .shell { width: min(100% - 24px, 1160px); }
+  .site-header { height: 64px; }
+  .header-tag { display: none; }
+  .hero { padding: 38px 0 28px; }
+  .hero h1 { font-size: clamp(36px, 11vw, 44px); }
+  .hero p { font-size: 17px; }
+  .game-card { margin-inline: -12px; border-radius: 0; border-left: 0; border-right: 0; }
+  .game-topbar { align-items: flex-start; padding: 16px; }
+  .game-topbar h2 { font-size: 21px; }
+  .stats { gap: 13px; }
+  .stats strong { font-size: 17px; }
+  .stats span { font-size: 9px; }
+  .scene { min-height: 430px; transform: translateZ(0); }
+  .clock { left: 5%; transform: scale(.75); transform-origin: top left; }
+  .portrait { left: 32%; transform: scale(.75); transform-origin: top left; }
+  .desk { left: 13%; bottom: 16%; transform: scale(.78); transform-origin: bottom left; }
+  .drawer { left: calc(13% + 128px); bottom: calc(16% + 34px); transform: scale(.78); transform-origin: bottom left; }
+  .rug { left: 10%; width: 270px; }
+  .greenhouse-door { right: 2%; bottom: 13%; transform: scale(.75); transform-origin: bottom right; }
+  .observatory-door { right: 25%; top: 18%; transform: scale(.75); transform-origin: top right; }
+  .plant { left: 1%; transform: scale(.75); transform-origin: bottom left; }
+  .mosaic { left: 28%; transform: scale(.68); transform-origin: top left; }
+  .star-vane { right: 2%; transform: scale(.75); transform-origin: top right; }
+  .chest { left: 32%; transform: scale(.8); transform-origin: bottom left; }
+  .back-door { left: 1%; transform: scale(.75); transform-origin: top left; }
+  .message-box { grid-template-columns: 1fr; gap: 2px; min-height: 92px; padding: 11px 15px; }
+  .message-box p { font-size: 14px; }
+  .side-panel { display: block; }
+  .inventory { grid-template-columns: repeat(4, 1fr); min-height: 70px; }
+  .inventory-item { min-height: 64px; }
+  .objective-section { border-left: 0; }
+  .panel-actions { grid-template-columns: 1fr 1fr; }
+  .mobile-room-nav { display: grid; grid-template-columns: 1fr 1fr; padding: 10px; border-top: 1px solid var(--border); background: #fff; }
+  .room-nav { min-height: 42px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); font-weight: 800; }
+  .room-nav.active { background: #ececff; color: var(--primary-dark); }
+  .content-grid { padding-top: 48px; }
+  .content-card { padding: 22px; }
+  .content-card h2, .text-section h2, .related-section h2, .faq-section h2 { font-size: 27px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .modal { padding: 27px 22px; }
+  .modal h2 { font-size: 27px; }
+  .site-footer .shell { display: grid; gap: 2px; }
+}
+
+@media (max-width: 410px) {
+  .stats { gap: 8px; }
+  .game-topbar { gap: 8px; }
+  .game-topbar h2 { font-size: 18px; }
+  .scene { min-height: 400px; }
+  .panel-actions { grid-template-columns: 1fr; }
+  .inventory { grid-template-columns: repeat(2, 1fr); }
+  .final-stats { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "The Clockwork Study",
+    "description": "A free point-and-click browser adventure about exploring rooms, collecting objects, and solving an escape-room mystery.",
+    "genre": ["Adventure", "Point-and-click", "Puzzle"],
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "operatingSystem": "Any modern web browser",
+    "isAccessibleForFree": true
+  }
+  </script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Free browser games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Games</a><span aria-hidden="true">/</span><a href="../">Adventure</a><span aria-hidden="true">/</span><span aria-current="page">Point &amp; Click</span>
+      </nav>
+
+      <section class="hero">
+        <p class="eyebrow">Mystery adventure</p>
+        <h1>Point &amp; Click Adventure Game</h1>
+        <p>Enter The Clockwork Study, examine a curious inventor’s rooms, collect useful objects, and solve the mechanism before the tower seals at midnight.</p>
+      </section>
+
+      <section id="game" class="game-card" aria-labelledby="game-title">
+        <div class="game-topbar">
+          <div>
+            <p class="game-kicker">Case 01</p>
+            <h2 id="game-title">The Clockwork Study</h2>
+          </div>
+          <div class="stats" aria-label="Game statistics">
+            <div><span>Score</span><strong id="score">1000</strong></div>
+            <div><span>Time</span><strong id="timer">00:00</strong></div>
+            <div><span>Clues</span><strong id="clue-count">0/8</strong></div>
+          </div>
+        </div>
+
+        <div class="game-layout">
+          <div class="stage-wrap">
+            <div id="scene" class="scene scene-study" role="group" aria-label="The inventor's study. Explore the visible objects.">
+              <div class="room-label" id="room-label">Inventor's Study</div>
+
+              <button class="hotspot clock" data-action="clock" aria-label="Examine the stopped clock"><span class="clock-face"><i></i><b></b></span><span class="hotspot-label">Clock</span></button>
+              <button class="hotspot portrait" data-action="portrait" aria-label="Examine the strange portrait"><span class="portrait-art"><i>✦</i><b>☾</b><em>☀</em></span><span class="hotspot-label">Portrait</span></button>
+              <button class="hotspot desk" data-action="desk" aria-label="Examine the writing desk"><span class="desk-lamp"></span><span class="hotspot-label">Desk</span></button>
+              <button class="hotspot drawer" data-action="drawer" aria-label="Open the locked desk drawer"><span class="keyhole"></span><span class="hotspot-label">Drawer</span></button>
+              <button class="hotspot rug" data-action="rug" aria-label="Lift the corner of the rug"><span class="rug-pattern"></span><span class="hotspot-label">Rug</span></button>
+              <button class="hotspot study-token token" data-action="token-study" aria-label="Pick up a hidden brass token"><span>✦</span></button>
+              <button class="hotspot door greenhouse-door" data-action="greenhouse" aria-label="Go to the greenhouse"><span class="door-window"></span><span class="door-knob"></span><span class="hotspot-label">Greenhouse</span></button>
+              <button class="hotspot observatory-door" data-action="observatory" aria-label="Examine the observatory door"><span class="gear-slot">✣</span><span class="hotspot-label">Observatory</span></button>
+            </div>
+
+            <div id="message" class="message-box" role="status" aria-live="polite">
+              <span class="speaker">Narrator</span>
+              <p>Every object may hide part of the inventor’s secret. Look closely.</p>
+            </div>
+          </div>
+
+          <aside class="side-panel" aria-label="Game tools">
+            <div class="panel-section">
+              <div class="panel-heading">
+                <h3>Inventory</h3>
+                <span id="inventory-count">0/4</span>
+              </div>
+              <div id="inventory" class="inventory" aria-label="Collected items">
+                <p class="empty-state">Items you collect appear here.</p>
+              </div>
+            </div>
+
+            <div class="panel-section objective-section">
+              <h3>Current objective</h3>
+              <p id="objective">Search the study for clues and useful objects.</p>
+            </div>
+
+            <div class="panel-actions">
+              <button id="hint-button" class="button button-secondary" type="button">Get a hint <span id="hint-cost">−25</span></button>
+              <button id="restart-button" class="button button-quiet" type="button">Restart game</button>
+            </div>
+          </aside>
+        </div>
+
+        <div class="mobile-room-nav" aria-label="Room navigation">
+          <button class="room-nav active" data-room="study" type="button">Study</button>
+          <button class="room-nav" data-room="greenhouse" type="button">Greenhouse</button>
+        </div>
+      </section>
+
+      <section class="content-grid" aria-label="Game guide">
+        <article class="content-card">
+          <h2>How to Play This Point &amp; Click Game</h2>
+          <p>Click or tap objects in the room to inspect them. Some discoveries become inventory items. Select an item, then choose the object where you want to use it. Follow clues, enter the correct code, and open the observatory to finish the adventure.</p>
+          <ul class="instruction-list">
+            <li><span>01</span><div><strong>Explore</strong><p>Move between rooms and inspect anything that looks important.</p></div></li>
+            <li><span>02</span><div><strong>Collect</strong><p>Pick up keys, tools, and clues stored in your inventory.</p></div></li>
+            <li><span>03</span><div><strong>Combine clues</strong><p>Notice symbols, counts, and written hints before solving locks.</p></div></li>
+          </ul>
+        </article>
+
+        <article class="content-card controls-card">
+          <h2>Controls</h2>
+          <dl class="controls-list">
+            <div><dt>Mouse / Touch</dt><dd>Inspect objects and move</dd></div>
+            <div><dt>Tab + Enter</dt><dd>Keyboard navigation</dd></div>
+            <div><dt>Esc</dt><dd>Close a puzzle window</dd></div>
+            <div><dt>H</dt><dd>Request a hint</dd></div>
+          </dl>
+          <p class="best-score">Best local score: <strong id="best-score">—</strong></p>
+        </article>
+      </section>
+
+      <section class="text-section">
+        <h2>About The Clockwork Study</h2>
+        <p>The Clockwork Study is a short, complete point-and-click adventure inspired by classic room-escape games. Instead of fast reactions, it rewards observation and connecting clues. Your score begins at 1,000 points, with bonuses for hidden tokens and small penalties for hints or incorrect puzzle attempts.</p>
+
+        <h2>Point &amp; Click Adventure Tips</h2>
+        <p>Examine a clue more than once if its meaning is not immediately clear. Inventory items are only useful in logical places, and the symbol order matters as much as the numbers you discover. If you are stuck, check whether a selected item is highlighted before clicking its target.</p>
+      </section>
+
+      <section class="related-section">
+        <h2>More Adventure Games</h2>
+        <div class="related-grid">
+          <article><span class="related-icon">⌁</span><h3>Hidden Object</h3><p>Search detailed scenes for a list of concealed items.</p><span class="coming-soon">Coming soon</span></article>
+          <article><span class="related-icon">◇</span><h3>Escape Room</h3><p>Crack locks and solve connected puzzles before time runs out.</p><span class="coming-soon">Coming soon</span></article>
+          <article><span class="related-icon">♜</span><h3>Mystery Manor</h3><p>Follow evidence through a house filled with secrets.</p><span class="coming-soon">Coming soon</span></article>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2>Point &amp; Click Game FAQ</h2>
+        <details><summary>Is this point-and-click game free?</summary><p>Yes. The full adventure is free to play in your browser, with no account or download required.</p></details>
+        <details><summary>Can I play on a phone or tablet?</summary><p>Yes. Every interactive object uses touch-friendly controls, and the game layout adapts to smaller screens.</p></details>
+        <details><summary>How long does the adventure take?</summary><p>A first playthrough usually takes about 10–20 minutes, depending on how quickly you connect the clues.</p></details>
+        <details><summary>Does the game save progress?</summary><p>Your current run is kept in the same browser, so an accidental refresh will not erase your progress. Restart clears the active run.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell"><span>Games Hub</span><span>Fast, free browser games.</span></div>
+  </footer>
+
+  <div id="start-modal" class="modal-backdrop open" role="dialog" aria-modal="true" aria-labelledby="start-title">
+    <div class="modal story-modal">
+      <p class="modal-eyebrow">A new mystery</p>
+      <h2 id="start-title">The tower closes at midnight.</h2>
+      <p>Professor Orin vanished, leaving his study untouched and the observatory sealed. His final note claims the tower holds “a message meant for the patient eye.” Find it before the mechanism locks for another century.</p>
+      <button id="start-button" class="button button-primary" type="button">Begin the adventure</button>
+    </div>
+  </div>
+
+  <div id="puzzle-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="puzzle-title" aria-hidden="true">
+    <div class="modal puzzle-modal">
+      <button class="modal-close" id="puzzle-close" type="button" aria-label="Close puzzle">×</button>
+      <p class="modal-eyebrow" id="puzzle-eyebrow">Puzzle</p>
+      <h2 id="puzzle-title">Puzzle title</h2>
+      <div id="puzzle-body"></div>
+    </div>
+  </div>
+
+  <div id="win-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="win-title" aria-hidden="true">
+    <div class="modal win-modal">
+      <div class="win-emblem" aria-hidden="true">✦</div>
+      <p class="modal-eyebrow">Mystery solved</p>
+      <h2 id="win-title">The observatory awakens.</h2>
+      <p>Gears turn beneath the floor. The dome opens to reveal Orin’s message among the stars: “Curiosity is the key that never rusts.”</p>
+      <div class="final-stats">
+        <div><span>Final score</span><strong id="final-score">0</strong></div>
+        <div><span>Time</span><strong id="final-time">00:00</strong></div>
+        <div><span>Tokens</span><strong id="final-tokens">0/3</strong></div>
+      </div>
+      <button id="play-again" class="button button-primary" type="button">Play again</button>
+    </div>
+  </div>
+
+  <script>"use strict";
+
+const SAVE_KEY = "clockwork-study-save-v1";
+const BEST_KEY = "clockwork-study-best-v1";
+
+const freshState = () => ({
+  started: false,
+  finished: false,
+  room: "study",
+  startTime: 0,
+  elapsedBeforeLoad: 0,
+  score: 1000,
+  clues: [],
+  inventory: [],
+  selectedItem: null,
+  flags: {
+    rugLifted: false,
+    drawerOpen: false,
+    portraitRevealed: false,
+    chestOpen: false,
+    clockRepaired: false,
+    observatoryUnlocked: false
+  },
+  tokens: [],
+  hintsUsed: 0,
+  wrongAttempts: 0
+});
+
+let state = freshState();
+let timerId = null;
+let lastFocusedElement = null;
+
+const elements = {
+  scene: document.getElementById("scene"),
+  message: document.getElementById("message"),
+  score: document.getElementById("score"),
+  timer: document.getElementById("timer"),
+  clueCount: document.getElementById("clue-count"),
+  inventory: document.getElementById("inventory"),
+  inventoryCount: document.getElementById("inventory-count"),
+  objective: document.getElementById("objective"),
+  roomLabel: document.getElementById("room-label"),
+  hintButton: document.getElementById("hint-button"),
+  restartButton: document.getElementById("restart-button"),
+  startModal: document.getElementById("start-modal"),
+  startButton: document.getElementById("start-button"),
+  puzzleModal: document.getElementById("puzzle-modal"),
+  puzzleTitle: document.getElementById("puzzle-title"),
+  puzzleEyebrow: document.getElementById("puzzle-eyebrow"),
+  puzzleBody: document.getElementById("puzzle-body"),
+  puzzleClose: document.getElementById("puzzle-close"),
+  winModal: document.getElementById("win-modal"),
+  finalScore: document.getElementById("final-score"),
+  finalTime: document.getElementById("final-time"),
+  finalTokens: document.getElementById("final-tokens"),
+  playAgain: document.getElementById("play-again"),
+  bestScore: document.getElementById("best-score")
+};
+
+const itemData = {
+  brassKey: { name: "Brass key", icon: "⚿", description: "A small key found beneath the rug." },
+  lens: { name: "Blue lens", icon: "◉", description: "A tinted glass lens from the locked drawer." },
+  clockKey: { name: "Clock key", icon: "♢", description: "A winding key recovered from the greenhouse chest." },
+  gear: { name: "Silver gear", icon: "✣", description: "The clock released this precisely cut gear." }
+};
+
+function elapsedSeconds() {
+  if (!state.started) return state.elapsedBeforeLoad || 0;
+  return state.elapsedBeforeLoad + Math.floor((Date.now() - state.startTime) / 1000);
+}
+
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
+function calculatedScore() {
+  const timePenalty = Math.min(300, Math.floor(elapsedSeconds() / 10));
+  return Math.max(100, state.score - timePenalty + state.tokens.length * 100);
+}
+
+function saveGame() {
+  if (!state.started || state.finished) return;
+  const snapshot = { ...state, elapsedBeforeLoad: elapsedSeconds(), startTime: 0 };
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(snapshot)); } catch (_) { /* Storage can be unavailable in private mode. */ }
+}
+
+function loadGame() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return false;
+    const parsed = JSON.parse(raw);
+    if (!parsed || parsed.finished) return false;
+    state = { ...freshState(), ...parsed, flags: { ...freshState().flags, ...(parsed.flags || {}) } };
+    state.startTime = Date.now();
+    state.started = true;
+    return true;
+  } catch (_) {
+    state = freshState();
+    return false;
+  }
+}
+
+function showMessage(speaker, text) {
+  const speakerEl = elements.message.querySelector(".speaker");
+  const textEl = elements.message.querySelector("p");
+  speakerEl.textContent = speaker;
+  textEl.textContent = text;
+  elements.message.classList.remove("flash");
+  void elements.message.offsetWidth;
+  elements.message.classList.add("flash");
+}
+
+function addClue(clue) {
+  if (!state.clues.includes(clue)) state.clues.push(clue);
+}
+
+function addItem(item) {
+  if (!state.inventory.includes(item)) state.inventory.push(item);
+}
+
+function removeItem(item) {
+  state.inventory = state.inventory.filter(current => current !== item);
+  if (state.selectedItem === item) state.selectedItem = null;
+}
+
+function setObjective() {
+  let objective = "Search the study for clues and useful objects.";
+  if (!state.flags.drawerOpen && state.inventory.includes("brassKey")) objective = "Find where the small brass key fits.";
+  if (state.flags.drawerOpen && !state.flags.portraitRevealed) objective = "Try the blue lens on something that hides details.";
+  if (state.flags.portraitRevealed && !state.flags.chestOpen) objective = "Use the portrait's symbol order to open the greenhouse chest.";
+  if (state.flags.chestOpen && !state.flags.clockRepaired) objective = "Use the winding key on the stopped clock.";
+  if (state.flags.clockRepaired && !state.flags.observatoryUnlocked) objective = "Fit the silver gear into the observatory door.";
+  if (state.flags.observatoryUnlocked && !state.finished) objective = "Solve the observatory's final alignment lock.";
+  if (state.finished) objective = "Adventure complete.";
+  elements.objective.textContent = objective;
+}
+
+function renderInventory() {
+  elements.inventory.innerHTML = "";
+  elements.inventoryCount.textContent = `${state.inventory.length}/4`;
+  if (!state.inventory.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "Items you collect appear here.";
+    elements.inventory.appendChild(empty);
+    return;
+  }
+
+  state.inventory.forEach(item => {
+    const data = itemData[item];
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `inventory-item${state.selectedItem === item ? " selected" : ""}`;
+    button.dataset.item = item;
+    button.setAttribute("aria-pressed", state.selectedItem === item ? "true" : "false");
+    button.setAttribute("aria-label", `${data.name}. ${data.description}`);
+    button.innerHTML = `<span class="item-icon" aria-hidden="true">${data.icon}</span><span class="item-name">${data.name}</span>`;
+    elements.inventory.appendChild(button);
+  });
+}
+
+function updateStats() {
+  elements.timer.textContent = formatTime(elapsedSeconds());
+  elements.score.textContent = calculatedScore();
+  elements.clueCount.textContent = `${state.clues.length}/8`;
+  let best = 0;
+  try { best = Number(localStorage.getItem(BEST_KEY) || 0); } catch (_) { /* Storage is optional. */ }
+  elements.bestScore.textContent = best ? best.toString() : "—";
+}
+
+function renderRoom() {
+  if (state.room === "study") renderStudy(); else renderGreenhouse();
+  document.querySelectorAll(".room-nav").forEach(button => button.classList.toggle("active", button.dataset.room === state.room));
+}
+
+function renderStudy() {
+  elements.scene.className = "scene scene-study";
+  elements.scene.setAttribute("aria-label", "The inventor's study. Explore the visible objects.");
+  elements.scene.innerHTML = `
+    <div class="room-label" id="room-label">Inventor's Study</div>
+    <button class="hotspot clock${state.flags.clockRepaired ? " repaired" : ""}" data-action="clock" aria-label="Examine the stopped clock"><span class="clock-face"><i></i><b></b></span><span class="hotspot-label">Clock</span></button>
+    <button class="hotspot portrait${state.flags.portraitRevealed ? " revealed" : ""}" data-action="portrait" aria-label="Examine the strange portrait"><span class="portrait-art"><i>✦</i><b>☾</b><em>☀</em></span><span class="hotspot-label">Portrait</span></button>
+    <button class="hotspot desk" data-action="desk" aria-label="Examine the writing desk"><span class="desk-lamp"></span><span class="hotspot-label">Desk</span></button>
+    <button class="hotspot drawer${state.flags.drawerOpen ? " open" : ""}" data-action="drawer" aria-label="Open the desk drawer"><span class="keyhole"></span><span class="hotspot-label">Drawer</span></button>
+    <button class="hotspot rug${state.flags.rugLifted ? " lifted" : ""}" data-action="rug" aria-label="Lift the corner of the rug"><span class="rug-pattern"></span><span class="hotspot-label">Rug</span></button>
+    <button class="hotspot study-token token${state.tokens.includes("study") ? " collected" : ""}" data-action="token-study" aria-label="Pick up a hidden brass token"><span>✦</span></button>
+    <button class="hotspot door greenhouse-door" data-action="greenhouse" aria-label="Go to the greenhouse"><span class="door-window"></span><span class="door-knob"></span><span class="hotspot-label">Greenhouse</span></button>
+    <button class="hotspot observatory-door${state.flags.observatoryUnlocked ? " unlocked" : ""}" data-action="observatory" aria-label="Examine the observatory door"><span class="gear-slot">✣</span><span class="hotspot-label">Observatory</span></button>`;
+}
+
+function renderGreenhouse() {
+  elements.scene.className = "scene scene-greenhouse";
+  elements.scene.setAttribute("aria-label", "The glass greenhouse. Explore the flower, moon mosaic, weather vane, and chest.");
+  elements.scene.innerHTML = `
+    <div class="room-label" id="room-label">Glass Greenhouse</div>
+    <div class="greenhouse-floor" aria-hidden="true"></div>
+    <button class="hotspot plant" data-action="flower" aria-label="Examine the golden flower"><span class="flower-shape"></span><span class="hotspot-label">Golden flower</span></button>
+    <button class="hotspot mosaic" data-action="mosaic" aria-label="Examine the moon phase mosaic"><span class="moon-phases"><span></span><span></span><span></span><span></span></span><span class="hotspot-label">Moon mosaic</span></button>
+    <button class="hotspot star-vane" data-action="star" aria-label="Examine the star weather vane"><span class="star-shape"></span><span class="hotspot-label">Star vane</span></button>
+    <button class="hotspot chest${state.flags.chestOpen ? " open" : ""}" data-action="chest" aria-label="Examine the coded chest"><span class="hotspot-label">Coded chest</span></button>
+    <button class="hotspot greenhouse-token token${state.tokens.includes("greenhouse") ? " collected" : ""}" data-action="token-greenhouse" aria-label="Pick up a hidden brass token"><span>✦</span></button>
+    <button class="hotspot back-door door" data-action="study" aria-label="Return to the study"><span class="hotspot-label">Study</span></button>`;
+}
+
+function render() {
+  renderRoom();
+  renderInventory();
+  setObjective();
+  updateStats();
+  saveGame();
+}
+
+function moveTo(room) {
+  state.room = room;
+  state.selectedItem = null;
+  render();
+  showMessage("Narrator", room === "study" ? "You return to the quiet study." : "Moist air and moonlight fill the greenhouse.");
+}
+
+function collectToken(location) {
+  if (state.tokens.includes(location)) return;
+  state.tokens.push(location);
+  showMessage("Discovery", "A hidden inventor’s token! It adds 100 bonus points.");
+  render();
+}
+
+function useSelected(requiredItem, success) {
+  if (state.selectedItem !== requiredItem) return false;
+  success();
+  return true;
+}
+
+function handleAction(action) {
+  if (!state.started || state.finished) return;
+  switch (action) {
+    case "rug":
+      if (!state.flags.rugLifted) {
+        state.flags.rugLifted = true;
+        addItem("brassKey");
+        addClue("hidden-key");
+        showMessage("Discovery", "Beneath the rug is a small brass key. It looks like a desk key.");
+      } else showMessage("Narrator", "Only dust remains beneath the lifted rug.");
+      render();
+      break;
+    case "desk":
+      addClue("time-note");
+      showMessage("Professor Orin's note", "‘When the long hand finds four and the short hand passes seven, the heart may turn again.’");
+      render();
+      break;
+    case "drawer":
+      if (state.flags.drawerOpen) {
+        showMessage("Narrator", "The drawer is empty; you already took the blue lens.");
+      } else if (useSelected("brassKey", () => {
+        state.flags.drawerOpen = true;
+        removeItem("brassKey");
+        addItem("lens");
+        showMessage("Discovery", "The key turns. Inside rests a blue glass lens in a velvet sleeve.");
+      })) render();
+      else showMessage("Narrator", "The drawer is locked with a very small brass keyhole.");
+      break;
+    case "portrait":
+      if (state.flags.portraitRevealed) {
+        showMessage("Hidden inscription", "The symbols read from left to right: STAR, MOON, SUN.");
+      } else if (useSelected("lens", () => {
+        state.flags.portraitRevealed = true;
+        addClue("symbol-order");
+        removeItem("lens");
+        showMessage("Hidden inscription", "Through the blue lens, three symbols glow beneath the portrait: STAR, MOON, SUN.");
+      })) render();
+      else showMessage("Narrator", "The portrait’s varnish has an odd blue shimmer. Your eyes cannot make out what lies beneath it.");
+      break;
+    case "greenhouse": moveTo("greenhouse"); break;
+    case "study": moveTo("study"); break;
+    case "flower":
+      addClue("sun-five");
+      showMessage("Observation", "The golden flower is shaped like a sun. It has five broad petals.");
+      render();
+      break;
+    case "mosaic":
+      addClue("moon-four");
+      showMessage("Observation", "The mosaic displays four distinct phases of the moon.");
+      render();
+      break;
+    case "star":
+      addClue("star-eight");
+      showMessage("Observation", "The brass star has eight carefully cut points.");
+      render();
+      break;
+    case "chest":
+      if (state.flags.chestOpen) showMessage("Narrator", "The open chest is empty.");
+      else openCodePuzzle();
+      break;
+    case "clock":
+      if (state.flags.clockRepaired) showMessage("Clock", "Tick. Tock. The restored hands still point to 7:20.");
+      else if (useSelected("clockKey", () => openClockPuzzle())) { /* Puzzle opens. */ }
+      else showMessage("Narrator", "The clock is stopped. A square winding socket sits below its face.");
+      break;
+    case "observatory":
+      if (state.flags.observatoryUnlocked) openFinalPuzzle();
+      else if (useSelected("gear", () => {
+        state.flags.observatoryUnlocked = true;
+        removeItem("gear");
+        showMessage("Mechanism", "The silver gear fits. Three star dials wake behind the door.");
+        render();
+        openFinalPuzzle();
+      })) { /* Final puzzle opens. */ }
+      else showMessage("Narrator", "A gear-shaped gap interrupts the observatory door’s mechanism.");
+      break;
+    case "token-study": collectToken("study"); break;
+    case "token-greenhouse": collectToken("greenhouse"); break;
+    default: break;
+  }
+}
+
+function openModal(title, eyebrow, html) {
+  lastFocusedElement = document.activeElement;
+  elements.puzzleTitle.textContent = title;
+  elements.puzzleEyebrow.textContent = eyebrow;
+  elements.puzzleBody.innerHTML = html;
+  elements.puzzleModal.classList.add("open");
+  elements.puzzleModal.setAttribute("aria-hidden", "false");
+  const focusTarget = elements.puzzleBody.querySelector("input, button") || elements.puzzleClose;
+  requestAnimationFrame(() => focusTarget.focus());
+}
+
+function closePuzzle() {
+  elements.puzzleModal.classList.remove("open");
+  elements.puzzleModal.setAttribute("aria-hidden", "true");
+  elements.puzzleBody.innerHTML = "";
+  if (lastFocusedElement && document.contains(lastFocusedElement)) lastFocusedElement.focus();
+}
+
+function penalize(amount) {
+  state.score = Math.max(100, state.score - amount);
+  state.wrongAttempts += 1;
+  updateStats();
+  saveGame();
+}
+
+function openCodePuzzle() {
+  openModal("The Greenhouse Chest", "Three-digit lock", `
+    <p class="puzzle-help">Three engraved slots sit beneath the same symbols found in the portrait. Enter the values in the correct order.</p>
+    <form id="code-form" class="code-form">
+      <label for="chest-code">STAR · MOON · SUN</label>
+      <input id="chest-code" class="code-input" type="text" inputmode="numeric" autocomplete="off" maxlength="3" pattern="[0-9]{3}" aria-describedby="code-error">
+      <p id="code-error" class="puzzle-error" aria-live="polite"></p>
+      <button class="button button-primary" type="submit">Try the combination</button>
+    </form>`);
+  document.getElementById("code-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const input = document.getElementById("chest-code");
+    if (input.value === "845") {
+      state.flags.chestOpen = true;
+      addItem("clockKey");
+      addClue("chest-open");
+      closePuzzle();
+      render();
+      showMessage("Discovery", "The chest clicks open. Inside is a square clock-winding key.");
+    } else {
+      penalize(15);
+      document.getElementById("code-error").textContent = "The lock rejects that sequence. Check both the order and each count. −15 points";
+      input.select();
+    }
+  });
+}
+
+function openClockPuzzle() {
+  openModal("Set the Stopped Clock", "Mechanical puzzle", `
+    <p class="puzzle-help">The winding key fits, but the hands must match Orin’s written clue before the mechanism will start.</p>
+    <form id="clock-form" class="code-form">
+      <label for="clock-time">Set the time</label>
+      <input id="clock-time" class="code-input" type="time" value="06:00" step="300" aria-describedby="clock-error">
+      <p id="clock-error" class="puzzle-error" aria-live="polite"></p>
+      <button class="button button-primary" type="submit">Wind the clock</button>
+    </form>`);
+  document.getElementById("clock-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const value = document.getElementById("clock-time").value;
+    if (value === "07:20" || value === "19:20") {
+      state.flags.clockRepaired = true;
+      removeItem("clockKey");
+      addItem("gear");
+      addClue("clock-repaired");
+      closePuzzle();
+      render();
+      showMessage("Clock", "At 7:20 the clock begins to tick. A silver gear drops into its lower compartment.");
+    } else {
+      penalize(15);
+      document.getElementById("clock-error").textContent = "The hands lock in place. Re-read the note on the desk. −15 points";
+    }
+  });
+}
+
+function openFinalPuzzle() {
+  openModal("The Celestial Alignment", "Final mechanism", `
+    <p class="puzzle-help">Three dials show the symbols from the portrait. Align each one with the value learned in the greenhouse.</p>
+    <div class="dial-row" aria-label="Star, moon, and sun dials">
+      ${dialMarkup("star-dial", "Star", 1)}
+      ${dialMarkup("moon-dial", "Moon", 1)}
+      ${dialMarkup("sun-dial", "Sun", 1)}
+    </div>
+    <p id="dial-error" class="puzzle-error" aria-live="polite"></p>
+    <button id="align-button" class="button button-primary" type="button">Align the mechanism</button>`);
+
+  elements.puzzleBody.querySelectorAll(".dial button").forEach(button => {
+    button.addEventListener("click", () => {
+      const output = document.getElementById(button.dataset.target);
+      let value = Number(output.value);
+      value += button.dataset.direction === "up" ? 1 : -1;
+      if (value > 9) value = 1;
+      if (value < 1) value = 9;
+      output.value = value;
+      output.textContent = value;
+    });
+  });
+
+  document.getElementById("align-button").addEventListener("click", () => {
+    const values = ["star-dial", "moon-dial", "sun-dial"].map(id => Number(document.getElementById(id).value));
+    if (values.join("") === "845") finishGame();
+    else {
+      penalize(20);
+      document.getElementById("dial-error").textContent = "The gears grind and return. The symbols follow the portrait's order. −20 points";
+    }
+  });
+}
+
+function dialMarkup(id, label, value) {
+  return `<div class="dial"><span>${label}</span><button type="button" data-target="${id}" data-direction="up" aria-label="Increase ${label} dial">▲</button><output id="${id}" aria-label="${label} value" value="${value}">${value}</output><button type="button" data-target="${id}" data-direction="down" aria-label="Decrease ${label} dial">▼</button></div>`;
+}
+
+function finishGame() {
+  state.finished = true;
+  const finalTime = formatTime(elapsedSeconds());
+  if (!state.tokens.includes("observatory")) state.tokens.push("observatory");
+  const withFinalToken = calculatedScore();
+  clearInterval(timerId);
+  closePuzzle();
+  try {
+    const best = Number(localStorage.getItem(BEST_KEY) || 0);
+    if (withFinalToken > best) localStorage.setItem(BEST_KEY, withFinalToken.toString());
+    localStorage.removeItem(SAVE_KEY);
+  } catch (_) { /* Continue without persistence. */ }
+  elements.finalScore.textContent = withFinalToken;
+  elements.finalTime.textContent = finalTime;
+  elements.finalTokens.textContent = `${state.tokens.length}/3`;
+  elements.winModal.classList.add("open");
+  elements.winModal.setAttribute("aria-hidden", "false");
+  elements.playAgain.focus();
+  render();
+}
+
+function giveHint() {
+  if (!state.started || state.finished) return;
+  const hints = [];
+  if (!state.flags.rugLifted) hints.push("A corner of the patterned rug does not lie flat.");
+  else if (!state.flags.drawerOpen) hints.push("Select the brass key in your inventory, then click the desk drawer.");
+  else if (!state.flags.portraitRevealed) hints.push("The blue lens reveals details hidden by a bluish surface.");
+  else if (!state.flags.chestOpen) {
+    if (!state.clues.includes("star-eight") || !state.clues.includes("moon-four") || !state.clues.includes("sun-five")) hints.push("The portrait gives an order. Count matching shapes in the greenhouse.");
+    else hints.push("The chest code follows STAR, MOON, SUN: 8, 4, 5.");
+  } else if (!state.flags.clockRepaired) hints.push("Select the clock key, use it on the study clock, and interpret the note on the desk as 7:20.");
+  else if (!state.flags.observatoryUnlocked) hints.push("Select the silver gear, then click the observatory door.");
+  else hints.push("The final dials use the same STAR, MOON, SUN values as the greenhouse chest.");
+  state.hintsUsed += 1;
+  state.score = Math.max(100, state.score - 25);
+  showMessage("Hint", `${hints[0]} (−25 points)`);
+  updateStats();
+  saveGame();
+}
+
+function resetGame(confirmReset = true) {
+  if (confirmReset && state.started && !state.finished && !window.confirm("Restart the adventure and clear this run?")) return;
+  try { localStorage.removeItem(SAVE_KEY); } catch (_) { /* Ignore storage failure. */ }
+  clearInterval(timerId);
+  state = freshState();
+  render();
+  elements.winModal.classList.remove("open");
+  elements.winModal.setAttribute("aria-hidden", "true");
+  elements.startModal.classList.add("open");
+  elements.startButton.focus();
+  showMessage("Narrator", "Every object may hide part of the inventor’s secret. Look closely.");
+}
+
+function startGame() {
+  state.started = true;
+  state.startTime = Date.now();
+  elements.startModal.classList.remove("open");
+  render();
+  timerId = window.setInterval(updateStats, 1000);
+  showMessage("Narrator", "The tower door closes behind you. Search the study before midnight.");
+  const firstHotspot = elements.scene.querySelector(".hotspot");
+  if (firstHotspot) firstHotspot.focus();
+}
+
+elements.scene.addEventListener("click", event => {
+  const hotspot = event.target.closest("[data-action]");
+  if (hotspot) handleAction(hotspot.dataset.action);
+});
+
+elements.inventory.addEventListener("click", event => {
+  const button = event.target.closest("[data-item]");
+  if (!button) return;
+  const item = button.dataset.item;
+  state.selectedItem = state.selectedItem === item ? null : item;
+  renderInventory();
+  showMessage("Inventory", state.selectedItem ? `${itemData[item].name} selected. Now choose where to use it.` : `${itemData[item].name} put away.`);
+  saveGame();
+});
+
+document.querySelectorAll(".room-nav").forEach(button => button.addEventListener("click", () => moveTo(button.dataset.room)));
+elements.hintButton.addEventListener("click", giveHint);
+elements.restartButton.addEventListener("click", () => resetGame(true));
+elements.startButton.addEventListener("click", startGame);
+elements.puzzleClose.addEventListener("click", closePuzzle);
+elements.playAgain.addEventListener("click", () => resetGame(false));
+
+elements.puzzleModal.addEventListener("click", event => {
+  if (event.target === elements.puzzleModal) closePuzzle();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && elements.puzzleModal.classList.contains("open")) closePuzzle();
+  if (event.key.toLowerCase() === "h" && !event.target.matches("input")) giveHint();
+});
+
+window.addEventListener("beforeunload", saveGame);
+document.addEventListener("visibilitychange", () => { if (document.hidden) saveGame(); });
+
+function initialize() {
+  const resumed = loadGame();
+  render();
+  if (resumed) {
+    elements.startModal.classList.remove("open");
+    timerId = window.setInterval(updateStats, 1000);
+    showMessage("Welcome back", "Your investigation resumes where you left it.");
+  } else {
+    elements.startButton.focus();
+  }
+}
+
+initialize();
+</script>
+</body>
+</html>

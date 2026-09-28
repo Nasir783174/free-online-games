@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Maze Adventure Game - Explore Free Online</title>
+  <meta name="description" content="Play Maze Adventure free online. Explore changing ruins, collect lost relics, avoid guardians, and escape three browser-based maze levels with no download.">
+  <meta name="theme-color" content="#171b2d">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="/games/maze-adventure/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --bg: #f6f7fb;
+  --card: #fff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --game-2: #1f2937;
+  --shadow: 0 18px 50px rgba(23, 27, 45, .1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Nunito Sans", system-ui, sans-serif; font-size: 17px; line-height: 1.65; }
+button, input { font: inherit; }
+a { color: inherit; }
+.shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+.site-header { height: 72px; display: flex; align-items: center; background: rgba(255,255,255,.92); border-bottom: 1px solid var(--border); }
+.header-inner { display: flex; justify-content: space-between; align-items: center; }
+.brand { display: inline-flex; gap: 10px; align-items: center; color: var(--text); font-size: 20px; font-weight: 800; text-decoration: none; }
+.brand span { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 9px; background: var(--brand); color: #fff; }
+.header-label { color: var(--muted); font-size: 14px; font-weight: 700; }
+.breadcrumb { display: flex; gap: 9px; align-items: center; padding: 25px 0 0; color: var(--muted); font-size: 14px; }
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--brand); }
+.intro { max-width: 790px; padding: 52px 0 34px; }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 14px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 18px; font-size: clamp(40px, 6vw, 62px); line-height: 1.06; letter-spacing: -.045em; }
+h2 { margin-bottom: 18px; font-size: clamp(28px, 4vw, 36px); line-height: 1.18; letter-spacing: -.025em; }
+h3 { margin-bottom: 10px; font-size: 22px; line-height: 1.3; }
+.intro > p:last-child { margin-bottom: 0; color: var(--muted); font-size: 18px; }
+.game-card { overflow: hidden; border: 1px solid var(--border); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
+.game-topbar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+.stat { display: flex; min-width: 0; padding: 14px 20px; flex-direction: column; background: #fff; }
+.stat span { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.stat strong { overflow: hidden; font-size: 22px; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
+.lives-stat strong { color: var(--danger); letter-spacing: 3px; }
+.game-stage { position: relative; display: grid; min-height: 600px; place-items: center; overflow: hidden; background: var(--game); touch-action: none; }
+canvas { display: block; width: 100%; max-width: 840px; height: auto; aspect-ratio: 7 / 5; background: var(--game); }
+.game-overlay { position: absolute; inset: 0; display: grid; padding: 24px; place-items: center; background: rgba(9, 14, 27, .82); backdrop-filter: blur(4px); transition: opacity .2s ease; }
+.game-overlay.is-hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+.overlay-panel { width: min(500px, 100%); padding: 35px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: #182131; color: #fff; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+.overlay-panel h2 { margin-bottom: 12px; }
+.overlay-panel > p:not(.eyebrow) { color: #cbd5e1; }
+.overlay-icon { display: grid; width: 58px; height: 58px; margin: 0 auto 18px; place-items: center; border-radius: 16px; background: rgba(22,184,196,.14); color: #55dce6; font-size: 30px; }
+.button { min-height: 46px; padding: 10px 20px; border: 0; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform .15s, background .15s, box-shadow .15s; }
+.button:hover { transform: translateY(-1px); }
+.button:focus-visible, .dpad:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid rgba(91,92,226,.3); outline-offset: 3px; }
+.button-primary { background: var(--action); color: #352307; box-shadow: 0 8px 20px rgba(255,184,77,.2); }
+.button-primary:hover { background: #ffc465; }
+.button-secondary { border: 1px solid var(--border); background: #fff; color: var(--text); }
+.button-secondary:hover { background: #f8f8fc; }
+.game-actions { display: flex; gap: 20px; justify-content: space-between; align-items: center; padding: 16px 20px; border-top: 1px solid #2f394a; background: var(--game-2); color: #fff; }
+.status-wrap { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.status-wrap p { margin: 0; color: #d7deea; font-size: 15px; }
+.status-dot { width: 9px; height: 9px; flex: 0 0 auto; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 4px rgba(34,197,94,.15); }
+.mobile-controls { display: none; grid-template: repeat(2, 58px) / repeat(3, 58px); gap: 8px; justify-content: center; padding: 18px; border-top: 1px solid var(--border); background: #f9fafc; }
+.dpad { border: 1px solid #d8dbea; border-radius: 13px; background: #fff; color: var(--brand-dark); font-size: 24px; font-weight: 800; box-shadow: 0 3px 0 #dfe1ec; touch-action: manipulation; }
+.dpad:active { transform: translateY(2px); box-shadow: 0 1px 0 #dfe1ec; }
+.dpad.up { grid-column: 2; }
+.dpad.left { grid-column: 1; grid-row: 2; }
+.dpad.down { grid-column: 2; grid-row: 2; }
+.dpad.right { grid-column: 3; grid-row: 2; }
+.content-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, .7fr); gap: 28px; padding: 76px 0 0; }
+.content-main, .legend-card { padding: 28px; border: 1px solid var(--border); border-radius: 18px; background: #fff; }
+.content-main p, .content-main li, .info-section > p { color: var(--muted); }
+.content-main ul { margin-bottom: 0; padding-left: 22px; }
+.content-main li + li { margin-top: 8px; }
+.legend-card { align-self: start; }
+.legend-row { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--border); }
+.legend-symbol { display: grid; width: 39px; height: 39px; flex: 0 0 auto; place-items: center; border-radius: 10px; background: var(--game); font-weight: 800; }
+.legend-row span:last-child { display: flex; flex-direction: column; line-height: 1.35; }
+.legend-row small { color: var(--muted); }
+.legend-symbol.player { color: #f5c451; }.legend-symbol.relic { color: #4ed6e0; }.legend-symbol.exit { color: #ffc857; }.legend-symbol.danger { color: #f46f6f; }.legend-symbol.potion { color: #57cf85; }
+.info-section { padding-top: 76px; }
+.info-section > p { max-width: 800px; }
+.tip-grid, .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tip-grid article, .related-grid article { padding: 24px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+.tip-grid article > span { display: inline-block; margin-bottom: 20px; color: var(--brand); font-weight: 800; }
+.tip-grid p, .related-grid p { margin-bottom: 0; color: var(--muted); font-size: 16px; }
+.related-grid article > span { display: grid; width: 48px; height: 48px; margin-bottom: 18px; place-items: center; border-radius: 13px; background: #eeefff; color: var(--brand); font-size: 24px; }
+.related-grid small { display: block; margin-top: 16px; color: var(--muted); font-weight: 700; }
+.faq-section { padding-bottom: 80px; }
+details { border-top: 1px solid var(--border); background: transparent; }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { padding: 19px 4px; font-weight: 800; cursor: pointer; }
+details p { max-width: 850px; padding: 0 4px 18px; color: var(--muted); }
+footer { padding: 28px 0; border-top: 1px solid var(--border); background: #fff; color: var(--muted); font-size: 14px; text-align: center; }
+
+@media (max-width: 760px) {
+  .shell { width: min(100% - 28px, 1160px); }
+  .header-label { display: none; }
+  .intro { padding: 38px 0 28px; }
+  .intro > p:last-child { font-size: 16px; }
+  .game-card { border-radius: 16px; }
+  .game-topbar { grid-template-columns: repeat(3, 1fr); }
+  .stat { padding: 11px 12px; }
+  .stat strong { font-size: 18px; }
+  .lives-stat { grid-column: span 2; }
+  .game-stage { min-height: 0; }
+  canvas { max-width: none; }
+  .overlay-panel { padding: 25px 19px; }
+  .overlay-panel h2 { font-size: 27px; }
+  .game-actions { align-items: stretch; flex-direction: column; }
+  .game-actions .button { width: 100%; }
+  .mobile-controls { display: grid; }
+  .content-grid { grid-template-columns: 1fr; padding-top: 58px; }
+  .tip-grid, .related-grid { grid-template-columns: 1fr; }
+  .info-section { padding-top: 58px; }
+  .faq-section { padding-bottom: 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Games Hub home"><span aria-hidden="true">◆</span> Games Hub</a>
+      <span class="header-label">Free Browser Games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/games/">Games</a><span aria-hidden="true">/</span><span aria-current="page">Maze Adventure</span>
+      </nav>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Adventure puzzle</p>
+        <h1 id="page-title">Maze Adventure Game</h1>
+        <p>Enter the shifting Sunken Ruins, recover every relic, and find the glowing exit before the guardians catch you. Each run creates a new maze, so no two expeditions are the same.</p>
+      </section>
+
+      <section class="game-card" aria-label="Maze Adventure game">
+        <div class="game-topbar">
+          <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+          <div class="stat"><span>Level</span><strong id="level">1 / 3</strong></div>
+          <div class="stat"><span>Relics</span><strong id="relics">0 / 0</strong></div>
+          <div class="stat"><span>Time</span><strong id="time">00:00</strong></div>
+          <div class="stat lives-stat"><span>Health</span><strong id="lives" aria-label="3 health">♥ ♥ ♥</strong></div>
+        </div>
+
+        <div class="game-stage" id="gameStage">
+          <canvas id="gameCanvas" width="840" height="600" aria-label="Maze game board. Use arrow keys, WASD, swipe, or the direction buttons to move." role="img"></canvas>
+
+          <div class="game-overlay" id="startOverlay">
+            <div class="overlay-panel">
+              <span class="overlay-icon" aria-hidden="true">◇</span>
+              <p class="eyebrow">The Sunken Ruins</p>
+              <h2>Recover the Lost Relics</h2>
+              <p>Collect every blue relic to unlock the golden exit. Watch for guardians, traps, and hidden potions.</p>
+              <button class="button button-primary" id="startButton" type="button">Begin Adventure</button>
+            </div>
+          </div>
+
+          <div class="game-overlay is-hidden" id="messageOverlay">
+            <div class="overlay-panel">
+              <span class="overlay-icon" id="messageIcon" aria-hidden="true">★</span>
+              <p class="eyebrow" id="messageEyebrow">Level complete</p>
+              <h2 id="messageTitle">The Path Opens</h2>
+              <p id="messageText"></p>
+              <button class="button button-primary" id="messageButton" type="button">Continue</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <div class="status-wrap">
+            <span class="status-dot" aria-hidden="true"></span>
+            <p id="gameStatus" role="status" aria-live="polite">Ready for an adventure.</p>
+          </div>
+          <button class="button button-secondary" id="restartButton" type="button">Restart Run</button>
+        </div>
+
+        <div class="mobile-controls" aria-label="Touch movement controls">
+          <button class="dpad up" type="button" data-direction="up" aria-label="Move up">↑</button>
+          <button class="dpad left" type="button" data-direction="left" aria-label="Move left">←</button>
+          <button class="dpad down" type="button" data-direction="down" aria-label="Move down">↓</button>
+          <button class="dpad right" type="button" data-direction="right" aria-label="Move right">→</button>
+        </div>
+      </section>
+
+      <section class="content-grid" aria-labelledby="how-to-play">
+        <article class="content-main">
+          <h2 id="how-to-play">How to Play Maze Adventure</h2>
+          <p>Guide the explorer through the corridors and collect every relic in the current maze. The exit stays sealed until the last relic is recovered. Reach the open exit to advance, and clear all three levels to win the expedition.</p>
+          <h3>Controls</h3>
+          <ul>
+            <li><strong>Desktop:</strong> use the arrow keys or W, A, S, and D.</li>
+            <li><strong>Mobile:</strong> swipe across the maze or tap the direction buttons.</li>
+            <li><strong>Restart:</strong> select Restart Run to generate a fresh maze from level one.</li>
+          </ul>
+        </article>
+        <aside class="legend-card" aria-label="Game legend">
+          <h3>Explorer’s Guide</h3>
+          <div class="legend-row"><span class="legend-symbol player">●</span><span><strong>Explorer</strong><small>Your character</small></span></div>
+          <div class="legend-row"><span class="legend-symbol relic">◆</span><span><strong>Relic</strong><small>Collect every one</small></span></div>
+          <div class="legend-row"><span class="legend-symbol exit">▣</span><span><strong>Exit</strong><small>Opens after all relics</small></span></div>
+          <div class="legend-row"><span class="legend-symbol danger">▲</span><span><strong>Danger</strong><small>Costs one health</small></span></div>
+          <div class="legend-row"><span class="legend-symbol potion">♥</span><span><strong>Potion</strong><small>Restores one health</small></span></div>
+        </aside>
+      </section>
+
+      <section class="info-section">
+        <h2>About Maze Adventure</h2>
+        <p>Maze Adventure combines a classic maze puzzle with light exploration and survival mechanics. Every free online game begins with a newly generated route. Relic locations, hazards, potions, and guardians also change, making observation as important as speed.</p>
+      </section>
+
+      <section class="info-section tips-section">
+        <h2>Maze Adventure Tips</h2>
+        <div class="tip-grid">
+          <article><span>01</span><h3>Read the corridors</h3><p>Check branching paths before committing. A short detour may hold a relic or potion.</p></article>
+          <article><span>02</span><h3>Track guardians</h3><p>Guardians move after you do. Keep walls between you and them whenever possible.</p></article>
+          <article><span>03</span><h3>Save your health</h3><p>Potions cannot raise health above three, so leave one untouched when you are already full.</p></article>
+        </div>
+      </section>
+
+      <section class="info-section related-section" aria-labelledby="related-heading">
+        <h2 id="related-heading">More Adventure & Puzzle Games</h2>
+        <div class="related-grid">
+          <article><span aria-hidden="true">▦</span><h3>2048</h3><p>Slide and combine number tiles.</p><small>Coming soon</small></article>
+          <article><span aria-hidden="true">▰</span><h3>Block Puzzle</h3><p>Fit shapes and clear the board.</p><small>Coming soon</small></article>
+          <article><span aria-hidden="true">◉</span><h3>Snake</h3><p>Grow longer and chase a high score.</p><small>Coming soon</small></article>
+        </div>
+      </section>
+
+      <section class="info-section faq-section">
+        <h2>Maze Adventure FAQ</h2>
+        <details><summary>Is Maze Adventure free to play?</summary><p>Yes. Maze Adventure is a free browser game with no download, login, or signup required.</p></details>
+        <details><summary>Does the maze change each time?</summary><p>Yes. A new maze and new item positions are generated whenever you restart the run.</p></details>
+        <details><summary>Can I play Maze Adventure on mobile?</summary><p>Yes. On phones and tablets, move using swipe gestures or the large on-screen direction controls.</p></details>
+        <details><summary>How do I unlock the exit?</summary><p>Collect every blue relic in the maze. The exit turns gold and opens after you recover the final relic.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer><div class="shell">Maze Adventure · A free online game from Games Hub</div></footer>
+  <script>"use strict";
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const scoreEl = document.getElementById("score");
+const levelEl = document.getElementById("level");
+const relicsEl = document.getElementById("relics");
+const timeEl = document.getElementById("time");
+const livesEl = document.getElementById("lives");
+const statusEl = document.getElementById("gameStatus");
+const startOverlay = document.getElementById("startOverlay");
+const messageOverlay = document.getElementById("messageOverlay");
+const messageIcon = document.getElementById("messageIcon");
+const messageEyebrow = document.getElementById("messageEyebrow");
+const messageTitle = document.getElementById("messageTitle");
+const messageText = document.getElementById("messageText");
+const messageButton = document.getElementById("messageButton");
+const startButton = document.getElementById("startButton");
+const restartButton = document.getElementById("restartButton");
+const stage = document.getElementById("gameStage");
+
+const COLS = 21;
+const ROWS = 15;
+const TOTAL_LEVELS = 3;
+const directions = {
+  up: { dx: 0, dy: -1, wall: "top", opposite: "bottom" },
+  right: { dx: 1, dy: 0, wall: "right", opposite: "left" },
+  down: { dx: 0, dy: 1, wall: "bottom", opposite: "top" },
+  left: { dx: -1, dy: 0, wall: "left", opposite: "right" }
+};
+
+let maze = [];
+let player = { x: 0, y: 0 };
+let exit = { x: COLS - 1, y: ROWS - 1 };
+let relics = [];
+let traps = [];
+let potions = [];
+let guardians = [];
+let level = 1;
+let score = 0;
+let lives = 3;
+let moves = 0;
+let collected = 0;
+let requiredRelics = 0;
+let elapsed = 0;
+let timerId = null;
+let gameState = "ready";
+let invulnerableUntil = 0;
+let nextAction = null;
+let touchStart = null;
+
+function cell(x, y) {
+  return maze[y] && maze[y][x];
+}
+
+function makeMaze() {
+  maze = Array.from({ length: ROWS }, (_, y) =>
+    Array.from({ length: COLS }, (_, x) => ({
+      x, y, visited: false,
+      walls: { top: true, right: true, bottom: true, left: true }
+    }))
+  );
+
+  const stack = [maze[0][0]];
+  maze[0][0].visited = true;
+  while (stack.length) {
+    const current = stack[stack.length - 1];
+    const options = Object.entries(directions)
+      .map(([name, d]) => ({ name, d, next: cell(current.x + d.dx, current.y + d.dy) }))
+      .filter(option => option.next && !option.next.visited);
+    if (!options.length) {
+      stack.pop();
+      continue;
+    }
+    const choice = options[Math.floor(Math.random() * options.length)];
+    current.walls[choice.d.wall] = false;
+    choice.next.walls[choice.d.opposite] = false;
+    choice.next.visited = true;
+    stack.push(choice.next);
+  }
+
+  // Add a few loops so the maze rewards route choices rather than pure backtracking.
+  const loops = 9 + level * 3;
+  for (let i = 0; i < loops; i += 1) {
+    const x = 1 + Math.floor(Math.random() * (COLS - 2));
+    const y = 1 + Math.floor(Math.random() * (ROWS - 2));
+    const names = ["right", "down"];
+    const name = names[Math.floor(Math.random() * names.length)];
+    const d = directions[name];
+    const neighbor = cell(x + d.dx, y + d.dy);
+    if (neighbor) {
+      cell(x, y).walls[d.wall] = false;
+      neighbor.walls[d.opposite] = false;
+    }
+  }
+}
+
+function samePosition(a, b) { return a.x === b.x && a.y === b.y; }
+function occupied(x, y) {
+  const point = { x, y };
+  return samePosition(point, player) || samePosition(point, exit) ||
+    relics.some(item => samePosition(item, point)) || traps.some(item => samePosition(item, point)) ||
+    potions.some(item => samePosition(item, point)) || guardians.some(item => samePosition(item, point));
+}
+
+function randomFreeCell(minDistance = 0) {
+  for (let attempt = 0; attempt < 1000; attempt += 1) {
+    const point = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+    const distance = Math.abs(point.x - player.x) + Math.abs(point.y - player.y);
+    if (!occupied(point.x, point.y) && distance >= minDistance) return point;
+  }
+  return { x: COLS - 2, y: ROWS - 2 };
+}
+
+function setupLevel() {
+  player = { x: 0, y: 0 };
+  exit = { x: COLS - 1, y: ROWS - 1 };
+  relics = [];
+  traps = [];
+  potions = [];
+  guardians = [];
+  collected = 0;
+  moves = 0;
+  invulnerableUntil = 0;
+  makeMaze();
+
+  requiredRelics = 2 + level;
+  for (let i = 0; i < requiredRelics; i += 1) relics.push(randomFreeCell(5));
+  for (let i = 0; i < level + 2; i += 1) traps.push(randomFreeCell(4));
+  for (let i = 0; i < 2; i += 1) potions.push(randomFreeCell(5));
+  for (let i = 0; i < level; i += 1) guardians.push({ ...randomFreeCell(10), lastX: -1, lastY: -1 });
+  updateHud();
+  setStatus(`Level ${level}: recover ${requiredRelics} relic${requiredRelics === 1 ? "" : "s"}.`);
+  draw();
+}
+
+function startGame() {
+  level = 1;
+  score = 0;
+  lives = 3;
+  elapsed = 0;
+  gameState = "playing";
+  startOverlay.classList.add("is-hidden");
+  messageOverlay.classList.add("is-hidden");
+  clearInterval(timerId);
+  timerId = setInterval(() => {
+    if (gameState === "playing") {
+      elapsed += 1;
+      updateHud();
+    }
+  }, 1000);
+  setupLevel();
+  canvas.focus?.();
+}
+
+function canMove(entity, directionName) {
+  const d = directions[directionName];
+  const current = cell(entity.x, entity.y);
+  return current && !current.walls[d.wall] && cell(entity.x + d.dx, entity.y + d.dy);
+}
+
+function movePlayer(directionName) {
+  if (gameState !== "playing" || !directions[directionName]) return;
+  if (!canMove(player, directionName)) {
+    setStatus("A stone wall blocks the way.");
+    return;
+  }
+  const d = directions[directionName];
+  player.x += d.dx;
+  player.y += d.dy;
+  moves += 1;
+  score = Math.max(0, score - 1);
+  checkPickups();
+  if (gameState !== "playing") return;
+  if (moves % 2 === 0) moveGuardians();
+  checkDanger();
+  if (gameState === "playing" && samePosition(player, exit)) {
+    if (collected === requiredRelics) completeLevel();
+    else setStatus(`The exit is sealed. ${requiredRelics - collected} relic${requiredRelics - collected === 1 ? " remains" : "s remain"}.`);
+  }
+  updateHud();
+  draw();
+}
+
+function checkPickups() {
+  const relicIndex = relics.findIndex(item => samePosition(item, player));
+  if (relicIndex !== -1) {
+    relics.splice(relicIndex, 1);
+    collected += 1;
+    score += 250;
+    setStatus(collected === requiredRelics ? "All relics recovered! The golden exit is open." : `Relic recovered. ${requiredRelics - collected} still hidden.`);
+  }
+  const potionIndex = potions.findIndex(item => samePosition(item, player));
+  if (potionIndex !== -1 && lives < 3) {
+    potions.splice(potionIndex, 1);
+    lives += 1;
+    score += 50;
+    setStatus("Potion used. One health restored.");
+  }
+}
+
+function validGuardianMoves(guardian) {
+  return Object.keys(directions).filter(name => {
+    if (!canMove(guardian, name)) return false;
+    const d = directions[name];
+    return !(guardian.x + d.dx === guardian.lastX && guardian.y + d.dy === guardian.lastY);
+  });
+}
+
+function moveGuardians() {
+  guardians.forEach(guardian => {
+    let options = validGuardianMoves(guardian);
+    if (!options.length) options = Object.keys(directions).filter(name => canMove(guardian, name));
+    if (!options.length) return;
+    options.sort((a, b) => {
+      const da = directions[a];
+      const db = directions[b];
+      const distanceA = Math.abs(guardian.x + da.dx - player.x) + Math.abs(guardian.y + da.dy - player.y);
+      const distanceB = Math.abs(guardian.x + db.dx - player.x) + Math.abs(guardian.y + db.dy - player.y);
+      return distanceA - distanceB;
+    });
+    const choice = Math.random() < 0.7 ? options[0] : options[Math.floor(Math.random() * options.length)];
+    const d = directions[choice];
+    guardian.lastX = guardian.x;
+    guardian.lastY = guardian.y;
+    guardian.x += d.dx;
+    guardian.y += d.dy;
+  });
+}
+
+function checkDanger() {
+  if (Date.now() < invulnerableUntil) return;
+  const onTrap = traps.some(item => samePosition(item, player));
+  const hitGuardian = guardians.some(item => samePosition(item, player));
+  if (!onTrap && !hitGuardian) return;
+  lives -= 1;
+  score = Math.max(0, score - 100);
+  if (lives <= 0) {
+    endGame(false);
+    return;
+  }
+  player = { x: 0, y: 0 };
+  invulnerableUntil = Date.now() + 1000;
+  setStatus(hitGuardian ? "A guardian caught you. You returned to the entrance." : "A floor trap sent you back to the entrance.");
+}
+
+function completeLevel() {
+  gameState = "paused";
+  const levelBonus = Math.max(300, 1100 - moves * 3 - elapsed);
+  score += levelBonus;
+  if (level === TOTAL_LEVELS) {
+    endGame(true);
+    return;
+  }
+  messageIcon.textContent = "◆";
+  messageEyebrow.textContent = `Level ${level} complete`;
+  messageTitle.textContent = "A Deeper Passage Opens";
+  messageText.textContent = `You earned a ${levelBonus}-point expedition bonus. The next ruin has more relics, traps, and guardians.`;
+  messageButton.textContent = "Enter Next Level";
+  nextAction = () => {
+    level += 1;
+    gameState = "playing";
+    messageOverlay.classList.add("is-hidden");
+    setupLevel();
+  };
+  messageOverlay.classList.remove("is-hidden");
+  updateHud();
+}
+
+function endGame(won) {
+  gameState = won ? "won" : "lost";
+  clearInterval(timerId);
+  const timeBonus = won ? Math.max(0, 1800 - elapsed * 3) : 0;
+  if (won) score += timeBonus;
+  messageIcon.textContent = won ? "★" : "×";
+  messageEyebrow.textContent = won ? "Adventure complete" : "Expedition ended";
+  messageTitle.textContent = won ? "The Ruins Are Restored" : "The Ruins Claim Another Explorer";
+  messageText.textContent = won
+    ? `Final score: ${score.toLocaleString()}. You escaped all three mazes in ${formatTime(elapsed)}.`
+    : `You recovered ${collected} of ${requiredRelics} relics on level ${level}. Try a new maze and choose your route carefully.`;
+  messageButton.textContent = "Play Again";
+  nextAction = startGame;
+  messageOverlay.classList.remove("is-hidden");
+  setStatus(won ? "Adventure complete. All ruins cleared." : "Game over. Start a new expedition when ready.");
+  updateHud();
+  draw();
+}
+
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
+function setStatus(text) { statusEl.textContent = text; }
+function updateHud() {
+  scoreEl.textContent = score.toLocaleString();
+  levelEl.textContent = `${level} / ${TOTAL_LEVELS}`;
+  relicsEl.textContent = `${collected} / ${requiredRelics}`;
+  timeEl.textContent = formatTime(elapsed);
+  livesEl.textContent = `${"♥ ".repeat(lives)}${"♡ ".repeat(3 - lives)}`.trim();
+  livesEl.setAttribute("aria-label", `${lives} health remaining`);
+}
+
+function drawRoundedRect(x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, width, height, radius);
+  ctx.fill();
+}
+
+function draw() {
+  const width = canvas.width;
+  const height = canvas.height;
+  const cellW = width / COLS;
+  const cellH = height / ROWS;
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#101827";
+  ctx.fillRect(0, 0, width, height);
+
+  for (let y = 0; y < ROWS; y += 1) {
+    for (let x = 0; x < COLS; x += 1) {
+      ctx.fillStyle = (x + y) % 2 === 0 ? "#182334" : "#162030";
+      ctx.fillRect(x * cellW, y * cellH, cellW, cellH);
+    }
+  }
+
+  traps.forEach(item => {
+    const cx = (item.x + .5) * cellW;
+    const cy = (item.y + .55) * cellH;
+    ctx.fillStyle = "#e96666";
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - cellH * .2);
+    ctx.lineTo(cx + cellW * .2, cy + cellH * .18);
+    ctx.lineTo(cx - cellW * .2, cy + cellH * .18);
+    ctx.closePath();
+    ctx.fill();
+  });
+
+  potions.forEach(item => {
+    const x = item.x * cellW + cellW * .31;
+    const y = item.y * cellH + cellH * .28;
+    ctx.fillStyle = "#5dd58b";
+    drawRoundedRect(x, y, cellW * .38, cellH * .48, 6);
+    ctx.fillStyle = "#d9ffe8";
+    ctx.fillRect(x + cellW * .12, y - cellH * .08, cellW * .14, cellH * .1);
+  });
+
+  relics.forEach(item => {
+    const cx = (item.x + .5) * cellW;
+    const cy = (item.y + .5) * cellH;
+    ctx.fillStyle = "rgba(72, 211, 222, .2)";
+    ctx.beginPath(); ctx.arc(cx, cy, cellW * .35, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#4ed6e0";
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - cellH * .24); ctx.lineTo(cx + cellW * .2, cy);
+    ctx.lineTo(cx, cy + cellH * .24); ctx.lineTo(cx - cellW * .2, cy); ctx.closePath(); ctx.fill();
+  });
+
+  const exitOpen = collected === requiredRelics;
+  const exitX = exit.x * cellW + cellW * .2;
+  const exitY = exit.y * cellH + cellH * .15;
+  ctx.fillStyle = exitOpen ? "rgba(255, 190, 77, .22)" : "rgba(135, 148, 169, .12)";
+  drawRoundedRect(exit.x * cellW + 2, exit.y * cellH + 2, cellW - 4, cellH - 4, 7);
+  ctx.fillStyle = exitOpen ? "#ffc857" : "#667085";
+  drawRoundedRect(exitX, exitY, cellW * .6, cellH * .72, 6);
+  ctx.fillStyle = "#172033";
+  ctx.beginPath(); ctx.arc(exitX + cellW * .43, exitY + cellH * .37, 2.8, 0, Math.PI * 2); ctx.fill();
+
+  guardians.forEach(item => {
+    const cx = (item.x + .5) * cellW;
+    const cy = (item.y + .52) * cellH;
+    ctx.fillStyle = "#b978e6";
+    ctx.beginPath(); ctx.arc(cx, cy, Math.min(cellW, cellH) * .27, Math.PI, 0); ctx.lineTo(cx + cellW * .27, cy + cellH * .19); ctx.lineTo(cx - cellW * .27, cy + cellH * .19); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(cx - 5, cy - 1, 2.5, 0, Math.PI * 2); ctx.arc(cx + 5, cy - 1, 2.5, 0, Math.PI * 2); ctx.fill();
+  });
+
+  if (gameState !== "ready") {
+    const cx = (player.x + .5) * cellW;
+    const cy = (player.y + .5) * cellH;
+    ctx.fillStyle = "rgba(255, 200, 87, .2)";
+    ctx.beginPath(); ctx.arc(cx, cy, cellW * .4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#f6c453";
+    ctx.beginPath(); ctx.arc(cx, cy, Math.min(cellW, cellH) * .25, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#362b16";
+    ctx.fillRect(cx - 6, cy - 2, 3, 3); ctx.fillRect(cx + 3, cy - 2, 3, 3);
+  }
+
+  ctx.strokeStyle = "#506078";
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  maze.forEach(row => row.forEach(tile => {
+    const x = tile.x * cellW;
+    const y = tile.y * cellH;
+    ctx.beginPath();
+    if (tile.walls.top) { ctx.moveTo(x, y); ctx.lineTo(x + cellW, y); }
+    if (tile.walls.right) { ctx.moveTo(x + cellW, y); ctx.lineTo(x + cellW, y + cellH); }
+    if (tile.walls.bottom) { ctx.moveTo(x, y + cellH); ctx.lineTo(x + cellW, y + cellH); }
+    if (tile.walls.left) { ctx.moveTo(x, y); ctx.lineTo(x, y + cellH); }
+    ctx.stroke();
+  }));
+}
+
+function directionFromKey(key) {
+  return ({ ArrowUp: "up", w: "up", W: "up", ArrowRight: "right", d: "right", D: "right", ArrowDown: "down", s: "down", S: "down", ArrowLeft: "left", a: "left", A: "left" })[key];
+}
+
+document.addEventListener("keydown", event => {
+  const direction = directionFromKey(event.key);
+  if (!direction) return;
+  event.preventDefault();
+  movePlayer(direction);
+});
+
+document.querySelectorAll("[data-direction]").forEach(button => {
+  button.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    movePlayer(button.dataset.direction);
+  });
+});
+
+stage.addEventListener("touchstart", event => {
+  const touch = event.changedTouches[0];
+  touchStart = { x: touch.clientX, y: touch.clientY };
+}, { passive: true });
+
+stage.addEventListener("touchend", event => {
+  if (!touchStart) return;
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - touchStart.x;
+  const dy = touch.clientY - touchStart.y;
+  touchStart = null;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+  movePlayer(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up"));
+}, { passive: true });
+
+startButton.addEventListener("click", startGame);
+restartButton.addEventListener("click", startGame);
+messageButton.addEventListener("click", () => { if (nextAction) nextAction(); });
+
+window.addEventListener("resize", draw);
+window.addEventListener("pagehide", () => clearInterval(timerId));
+
+makeMaze();
+updateHud();
+draw();
+</script>
+</body>
+</html>

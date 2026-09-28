@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sudoku Game - Play Free Online</title>
+  <meta name="description" content="Play Sudoku online for free in your browser. Choose a difficulty, use notes and hints, and solve a fresh number puzzle with no download.">
+  <meta name="theme-color" content="#5B5CE2">
+  <meta name="robots" content="index,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root{--primary:#5b5ce2;--primary-dark:#4546b8;--accent:#16b8c4;--action:#ffb84d;--success:#22c55e;--danger:#ef5b5b;--bg:#f6f7fb;--card:#fff;--text:#171b2d;--muted:#667085;--border:#e5e7ef;--game:#111827;--game2:#1f2937;--shadow:0 18px 50px rgba(30,36,80,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito Sans",system-ui,sans-serif;font-size:17px;line-height:1.65}button,select{font:inherit}button,a,select{-webkit-tap-highlight-color:transparent}a{color:inherit}.shell{width:min(1160px,calc(100% - 40px));margin-inline:auto}.skip-link{position:fixed;left:16px;top:-100px;z-index:100;background:var(--text);color:#fff;padding:10px 16px;border-radius:8px}.skip-link:focus{top:12px}.site-header{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}.header-inner{display:flex;align-items:center;justify-content:space-between}.brand{font-weight:800;font-size:21px;text-decoration:none;display:flex;align-items:center;gap:9px}.brand span{display:grid;place-items:center;width:32px;height:32px;background:var(--primary);color:#fff;border-radius:10px}.all-games{font-size:15px;font-weight:700;color:var(--primary);text-decoration:none}.hero{padding-top:55px;padding-bottom:35px}.breadcrumb{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);margin-bottom:25px}.breadcrumb a{color:var(--primary);font-weight:700;text-decoration:none}.hero-copy{max-width:730px}.eyebrow{margin:0 0 8px;color:var(--primary);font-size:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(42px,6vw,64px);line-height:1.07;margin:0 0 16px;font-weight:800;letter-spacing:-.035em}.hero-copy>p:last-child{font-size:18px;color:var(--muted);margin:0}.game-section{scroll-margin-top:24px}.game-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow)}.game-toolbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}.game-toolbar label{font-size:14px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;gap:5px;max-width:180px}.game-toolbar select{height:46px;border:1px solid #d7daea;border-radius:11px;background:#fff;color:var(--text);padding:0 38px 0 13px;font-weight:700;cursor:pointer}.stats{display:flex;gap:34px;text-align:center}.stats div{display:flex;flex-direction:column;line-height:1.25}.stats span{font-size:13px;color:var(--muted);font-weight:700}.stats strong,.stats strong span{font-size:22px;color:var(--text);font-weight:800;font-variant-numeric:tabular-nums}.button{height:46px;border:0;border-radius:11px;padding:0 20px;font-weight:800;cursor:pointer}.button.primary{background:var(--primary);color:#fff;justify-self:end;box-shadow:0 7px 18px rgba(91,92,226,.22)}.button.primary:hover{background:var(--primary-dark)}button:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(22,184,196,.45);outline-offset:3px}.status{text-align:center;min-height:44px;padding:13px 5px 8px;color:var(--muted);font-size:15px;font-weight:600}.status.error{color:#bd3030}.status.success{color:#168543}.play-layout{display:grid;grid-template-columns:minmax(360px,580px) minmax(220px,300px);justify-content:center;align-items:center;gap:42px;padding:10px 0 6px}.board-wrap{position:relative;width:100%;aspect-ratio:1}.sudoku-board{display:grid;grid-template-columns:repeat(9,1fr);width:100%;height:100%;border:3px solid var(--game);border-radius:8px;overflow:hidden;background:var(--game);gap:1px}.cell{position:relative;border:0;border-radius:0;background:#fff;color:var(--primary-dark);font-size:clamp(20px,3.6vw,32px);font-weight:700;display:grid;place-items:center;padding:0;cursor:pointer;min-width:0}.cell:nth-child(3n):not(:nth-child(9n)){box-shadow:inset -2px 0 var(--game)}.cell:nth-child(n+19):nth-child(-n+27),.cell:nth-child(n+46):nth-child(-n+54){box-shadow:inset 0 -2px var(--game)}.cell:nth-child(3n):not(:nth-child(9n)):nth-child(n+19):nth-child(-n+27),.cell:nth-child(3n):not(:nth-child(9n)):nth-child(n+46):nth-child(-n+54){box-shadow:inset -2px 0 var(--game),inset 0 -2px var(--game)}.cell.given{color:var(--text);font-weight:800;background:#fafbff}.cell.peer{background:#eef0ff}.cell.same-number{background:#dfe2ff;color:#3c3db2}.cell.selected{background:#cdd2ff;box-shadow:inset 0 0 0 3px var(--primary)!important;z-index:2}.cell.wrong{background:#ffe5e5;color:#c92d2d;animation:shake .25s linear}.cell.hinted{color:#168543}.notes-grid{position:absolute;inset:4px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);align-items:center;justify-items:center;font-size:clamp(7px,1.4vw,12px);line-height:1;color:#69708a}.game-overlay{position:absolute;inset:0;background:rgba(17,24,39,.78);backdrop-filter:blur(3px);display:grid;place-items:center;border-radius:8px;padding:20px;z-index:5}.game-overlay[hidden]{display:none}.overlay-card{width:min(360px,100%);background:#fff;border-radius:18px;text-align:center;padding:28px 22px}.overlay-icon{margin:auto;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:#dcfce7;color:#168543;font-size:30px;font-weight:800}.overlay-card h3{font-size:25px;margin:13px 0 6px}.overlay-card p{color:var(--muted);margin:0 0 18px}.overlay-card .button{width:100%}.controls{display:flex;flex-direction:column;gap:18px}.number-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.number-button{aspect-ratio:1;border:1px solid #dfe1ec;background:#f7f8fc;border-radius:13px;color:var(--primary);font-size:27px;font-weight:800;cursor:pointer}.number-button:hover{background:#eceeff;border-color:#c7cbef}.number-button:disabled{opacity:.35;cursor:not-allowed}.tool-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tool-button{position:relative;min-height:65px;border:1px solid var(--border);background:#fff;border-radius:12px;color:var(--muted);font-size:13px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer}.tool-button>span{font-size:21px;line-height:1;color:var(--text)}.tool-button small{position:absolute;top:5px;right:7px;width:19px;height:19px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:11px}.tool-button.active{background:#eeefff;border-color:var(--primary);color:var(--primary)}.tool-button.active>span{color:var(--primary)}.tool-button:disabled{opacity:.45;cursor:not-allowed}.keyboard-help{font-size:13px;color:var(--muted);line-height:1.5;margin:0}.content-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;padding-top:75px}.content-card,.info-section{background:#fff;border:1px solid var(--border);border-radius:18px;padding:30px}.content-card h2,.info-section h2,.related h2,.faq h2{font-size:34px;line-height:1.2;margin:0 0 16px;letter-spacing:-.02em}.content-card p{margin:0 0 16px}.content-card ol,.content-card ul{padding-left:22px;margin:0 0 14px}.content-card li+li{margin-top:8px}.tips-card{background:#191d32;color:#fff;border:0}.tips-card h2{color:#fff}.tips-card ul{color:#d5d8e6}.tips-card li::marker{color:var(--action)}.info-section{margin-top:24px}.info-section p{color:var(--muted);margin:0;max-width:900px}.related,.faq{padding-top:75px}.section-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}.section-heading h2{margin:0}.section-heading>span{font-size:14px;color:var(--muted)}.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.related-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;align-items:center;gap:15px}.related-card>span{width:65px;aspect-ratio:1;border-radius:13px;background:#eeefff;color:var(--primary);display:grid;place-items:center;font-weight:800}.related-card h3{font-size:19px;margin:0 0 2px}.related-card p{font-size:14px;color:var(--muted);margin:0}.faq{max-width:900px;margin-inline:auto;padding-bottom:80px}.faq>h2{text-align:center;margin-bottom:25px}.faq details{background:#fff;border:1px solid var(--border);border-radius:13px;padding:0 19px;margin-bottom:12px}.faq summary{cursor:pointer;font-weight:800;padding:17px 30px 17px 0}.faq details p{color:var(--muted);margin:0;padding:0 0 17px}footer{background:#171b2d;color:#fff;padding:28px 0}footer .shell{display:flex;justify-content:space-between}footer span{color:#b8bfce;font-size:15px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+@media (max-width:800px){.play-layout{grid-template-columns:minmax(0,560px);gap:24px}.controls{max-width:560px}.number-pad{grid-template-columns:repeat(9,1fr);gap:5px}.number-button{border-radius:9px;font-size:21px}.keyboard-help{text-align:center}.content-grid{grid-template-columns:1fr}.game-toolbar{grid-template-columns:1fr 1fr}.stats{grid-column:1/-1;grid-row:2;justify-content:center}.button.primary{width:100%}.content-card h2,.info-section h2,.related h2,.faq h2{font-size:29px}.related-grid{grid-template-columns:1fr}.related-card:nth-child(n+3){display:none}}
+@media (max-width:540px){body{font-size:16px}.shell{width:min(100% - 24px,1160px)}.site-header{height:64px}.all-games{font-size:14px}.hero{padding-top:32px;padding-bottom:25px}.breadcrumb{margin-bottom:18px}.hero h1{font-size:40px}.hero-copy>p:last-child{font-size:16px}.game-card{padding:13px;border-radius:16px}.game-toolbar{gap:13px;padding-bottom:14px;align-items:end}.game-toolbar label{max-width:none}.game-toolbar select{width:100%;height:43px}.game-toolbar>.button{height:43px;padding:0 12px}.stats{gap:48px}.status{font-size:13px;padding-top:10px}.play-layout{padding-top:4px;gap:18px}.sudoku-board{border-width:2px}.cell{font-size:clamp(18px,7vw,28px)}.notes-grid{inset:2px;font-size:clamp(6px,2.3vw,10px)}.number-pad{gap:3px}.number-button{font-size:19px;border-radius:7px}.tool-button{min-height:58px}.keyboard-help{display:none}.content-grid,.related,.faq{padding-top:55px}.content-card,.info-section{padding:23px}.section-heading>span{display:none}.faq{padding-bottom:60px}footer .shell{flex-direction:column;gap:3px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home"><span aria-hidden="true">◈</span> Games Hub</a>
+      <a class="all-games" href="../../">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../../">Games</a><span aria-hidden="true">/</span><span>Sudoku</span></nav>
+      <div class="hero-copy">
+        <p class="eyebrow">Logic puzzle</p>
+        <h1>Sudoku Game</h1>
+        <p>Fill every row, column, and 3 × 3 box with the numbers 1 to 9. Play a fresh free Sudoku online, with notes and hints when you need them.</p>
+      </div>
+    </section>
+
+    <section class="game-section shell" id="game" aria-labelledby="game-heading">
+      <h2 class="sr-only" id="game-heading">Play Sudoku</h2>
+      <div class="game-card">
+        <div class="game-toolbar">
+          <label for="difficulty">Difficulty
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <div class="stats" aria-label="Game statistics">
+            <div><span>Time</span><strong id="timer">00:00</strong></div>
+            <div><span>Mistakes</span><strong><span id="mistakes">0</span>/3</strong></div>
+          </div>
+          <button class="button primary" id="new-game" type="button">New Game</button>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite">Select an empty square, then choose a number.</div>
+
+        <div class="play-layout">
+          <div class="board-wrap">
+            <div class="sudoku-board" id="board" role="grid" aria-label="Sudoku puzzle"></div>
+            <div class="game-overlay" id="overlay" hidden>
+              <div class="overlay-card">
+                <span class="overlay-icon" id="overlay-icon" aria-hidden="true">✓</span>
+                <h3 id="overlay-title">Puzzle complete!</h3>
+                <p id="overlay-message"></p>
+                <button class="button primary" id="play-again" type="button">Play Again</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="controls" aria-label="Sudoku controls">
+            <div class="number-pad" id="number-pad" aria-label="Number pad"></div>
+            <div class="tool-row">
+              <button class="tool-button" id="erase" type="button"><span aria-hidden="true">⌫</span>Erase</button>
+              <button class="tool-button" id="notes" type="button" aria-pressed="false"><span aria-hidden="true">✎</span>Notes</button>
+              <button class="tool-button" id="hint" type="button"><span aria-hidden="true">?</span>Hint <small id="hint-count">3</small></button>
+            </div>
+            <p class="keyboard-help">Keyboard: 1–9 to enter, N for notes, Backspace to erase, arrow keys to move.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid shell">
+      <article class="content-card">
+        <h2>How to Play Sudoku</h2>
+        <p>Your goal is to complete the 9 × 9 grid so each number from 1 through 9 appears once in every row, column, and 3 × 3 box.</p>
+        <ol>
+          <li>Select any empty square.</li>
+          <li>Choose a number from the pad or your keyboard.</li>
+          <li>Use Notes to record possible answers without committing.</li>
+          <li>Correct every square to complete the puzzle.</li>
+        </ol>
+        <p>Three incorrect entries end the game. A hint fills the selected square correctly and can be used up to three times.</p>
+      </article>
+      <aside class="content-card tips-card">
+        <h2>Sudoku Tips</h2>
+        <ul>
+          <li>Start with rows, columns, or boxes that are nearly complete.</li>
+          <li>Scan for a number that can fit in only one square.</li>
+          <li>Use notes when two or more candidates remain.</li>
+          <li>Recheck the crossing row and column before entering a number.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="info-section shell">
+      <h2>About Sudoku</h2>
+      <p>Sudoku is a number-placement logic puzzle. Despite using digits, it requires no arithmetic. Each puzzle is solved through elimination and pattern recognition. This browser version creates a new playable puzzle for every game and saves your current board on the same device if you refresh the page.</p>
+    </section>
+
+    <section class="related shell">
+      <div class="section-heading"><div><p class="eyebrow">Keep playing</p><h2>Related Games</h2></div><span>More games coming soon</span></div>
+      <div class="related-grid">
+        <div class="related-card"><span aria-hidden="true">2048</span><div><h3>2048</h3><p>Slide and merge number tiles.</p></div></div>
+        <div class="related-card"><span aria-hidden="true">A Z</span><div><h3>Word Puzzle</h3><p>Test vocabulary and deduction.</p></div></div>
+        <div class="related-card"><span aria-hidden="true">♟</span><div><h3>Chess</h3><p>Plan moves and outthink a rival.</p></div></div>
+      </div>
+    </section>
+
+    <section class="faq shell">
+      <h2>Sudoku FAQ</h2>
+      <details><summary>Is this Sudoku game free?</summary><p>Yes. You can play unlimited Sudoku puzzles online for free, with no account or download.</p></details>
+      <details><summary>Does a Sudoku puzzle involve math?</summary><p>No. The numbers are symbols. You solve the grid using logic, elimination, and pattern recognition rather than calculation.</p></details>
+      <details><summary>Can I play on a phone?</summary><p>Yes. The board, number pad, notes, erase, and hint controls are designed for both touchscreen and desktop play.</p></details>
+      <details><summary>What happens if I refresh the page?</summary><p>Your active puzzle, elapsed time, mistakes, notes, and progress are saved in your browser and restored on the same device.</p></details>
+    </section>
+  </main>
+
+  <footer><div class="shell"><strong>Games Hub</strong><span>Fast, free browser games.</span></div></footer>
+  <script>"use strict";
+
+const boardEl = document.getElementById("board");
+const numberPadEl = document.getElementById("number-pad");
+const difficultyEl = document.getElementById("difficulty");
+const timerEl = document.getElementById("timer");
+const mistakesEl = document.getElementById("mistakes");
+const statusEl = document.getElementById("status");
+const notesButton = document.getElementById("notes");
+const eraseButton = document.getElementById("erase");
+const hintButton = document.getElementById("hint");
+const hintCountEl = document.getElementById("hint-count");
+const newGameButton = document.getElementById("new-game");
+const playAgainButton = document.getElementById("play-again");
+const overlayEl = document.getElementById("overlay");
+const overlayIconEl = document.getElementById("overlay-icon");
+const overlayTitleEl = document.getElementById("overlay-title");
+const overlayMessageEl = document.getElementById("overlay-message");
+
+const STORAGE_KEY = "games-hub-sudoku-v1";
+const EMPTY_COUNTS = { easy: 38, medium: 46, hard: 52 };
+let state = null;
+let selected = -1;
+let notesMode = false;
+let timerId = null;
+
+function shuffled(values) {
+  const copy = [...values];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function pattern(row, col) {
+  return (row * 3 + Math.floor(row / 3) + col) % 9;
+}
+
+function createSolution() {
+  const base = [0, 1, 2];
+  const rows = shuffled(base).flatMap(group => shuffled(base).map(row => group * 3 + row));
+  const cols = shuffled(base).flatMap(group => shuffled(base).map(col => group * 3 + col));
+  const nums = shuffled([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  return rows.flatMap(row => cols.map(col => nums[pattern(row, col)]));
+}
+
+function isAllowed(grid, index, value) {
+  const row = Math.floor(index / 9);
+  const col = index % 9;
+  for (let i = 0; i < 9; i++) {
+    if (grid[row * 9 + i] === value || grid[i * 9 + col] === value) return false;
+  }
+  const startRow = Math.floor(row / 3) * 3;
+  const startCol = Math.floor(col / 3) * 3;
+  for (let r = startRow; r < startRow + 3; r++) {
+    for (let c = startCol; c < startCol + 3; c++) {
+      if (grid[r * 9 + c] === value) return false;
+    }
+  }
+  return true;
+}
+
+function countSolutions(grid, limit = 2) {
+  let count = 0;
+  function solve() {
+    if (count >= limit) return;
+    let bestIndex = -1;
+    let bestCandidates = null;
+    for (let i = 0; i < 81; i++) {
+      if (grid[i] !== 0) continue;
+      const candidates = [];
+      for (let value = 1; value <= 9; value++) if (isAllowed(grid, i, value)) candidates.push(value);
+      if (!candidates.length) return;
+      if (!bestCandidates || candidates.length < bestCandidates.length) {
+        bestCandidates = candidates;
+        bestIndex = i;
+        if (candidates.length === 1) break;
+      }
+    }
+    if (bestIndex === -1) { count++; return; }
+    for (const value of bestCandidates) {
+      grid[bestIndex] = value;
+      solve();
+      grid[bestIndex] = 0;
+      if (count >= limit) return;
+    }
+  }
+  solve();
+  return count;
+}
+
+function createPuzzle(solution, difficulty) {
+  const puzzle = [...solution];
+  const target = EMPTY_COUNTS[difficulty];
+  const order = shuffled(Array.from({ length: 81 }, (_, i) => i));
+  let removed = 0;
+  for (const index of order) {
+    if (removed >= target) break;
+    const backup = puzzle[index];
+    puzzle[index] = 0;
+    if (countSolutions([...puzzle]) === 1) removed++;
+    else puzzle[index] = backup;
+  }
+  return puzzle;
+}
+
+function freshGame(difficulty = difficultyEl.value) {
+  stopTimer();
+  const solution = createSolution();
+  const puzzle = createPuzzle(solution, difficulty);
+  state = {
+    difficulty,
+    solution,
+    puzzle,
+    entries: [...puzzle],
+    notes: Array.from({ length: 81 }, () => []),
+    hints: 3,
+    mistakes: 0,
+    elapsed: 0,
+    finished: false,
+    result: null
+  };
+  selected = puzzle.findIndex(value => value === 0);
+  notesMode = false;
+  difficultyEl.value = difficulty;
+  overlayEl.hidden = true;
+  setStatus("Select an empty square, then choose a number.");
+  saveGame();
+  render();
+  startTimer();
+}
+
+function saveGame() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
+}
+
+function loadGame() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const valid = saved && Array.isArray(saved.solution) && saved.solution.length === 81 &&
+      Array.isArray(saved.puzzle) && saved.puzzle.length === 81 &&
+      Array.isArray(saved.entries) && saved.entries.length === 81 &&
+      Array.isArray(saved.notes) && saved.notes.length === 81;
+    if (!valid) return false;
+    state = saved;
+    state.hints = Number.isInteger(state.hints) ? state.hints : 3;
+    state.mistakes = Number.isInteger(state.mistakes) ? state.mistakes : 0;
+    state.elapsed = Number.isInteger(state.elapsed) ? state.elapsed : 0;
+    selected = state.entries.findIndex((value, index) => !state.puzzle[index] && !value);
+    if (selected < 0) selected = 0;
+    difficultyEl.value = state.difficulty || "medium";
+    if (state.finished) showOverlay(state.result === "win");
+    else startTimer();
+    return true;
+  } catch (_) { return false; }
+}
+
+function render() {
+  boardEl.innerHTML = "";
+  const selectedValue = selected >= 0 ? state.entries[selected] : 0;
+  for (let index = 0; index < 81; index++) {
+    const cell = document.createElement("button");
+    const row = Math.floor(index / 9);
+    const col = index % 9;
+    cell.type = "button";
+    cell.className = "cell";
+    cell.dataset.index = index;
+    cell.setAttribute("role", "gridcell");
+    cell.setAttribute("aria-rowindex", row + 1);
+    cell.setAttribute("aria-colindex", col + 1);
+    cell.setAttribute("aria-label", `Row ${row + 1}, column ${col + 1}${state.entries[index] ? `, ${state.entries[index]}` : ", empty"}`);
+    if (state.puzzle[index]) cell.classList.add("given");
+    if (index === selected) cell.classList.add("selected");
+    else if (selected >= 0 && isPeer(index, selected)) cell.classList.add("peer");
+    if (selectedValue && state.entries[index] === selectedValue) cell.classList.add("same-number");
+    const value = state.entries[index];
+    if (value) cell.textContent = value;
+    else if (state.notes[index].length) {
+      const notes = document.createElement("span");
+      notes.className = "notes-grid";
+      for (let number = 1; number <= 9; number++) {
+        const mark = document.createElement("span");
+        mark.textContent = state.notes[index].includes(number) ? number : "";
+        notes.appendChild(mark);
+      }
+      cell.appendChild(notes);
+    }
+    cell.addEventListener("click", () => selectCell(index));
+    boardEl.appendChild(cell);
+  }
+  mistakesEl.textContent = state.mistakes;
+  hintCountEl.textContent = state.hints;
+  hintButton.disabled = state.hints <= 0 || state.finished;
+  eraseButton.disabled = state.finished;
+  notesButton.disabled = state.finished;
+  notesButton.classList.toggle("active", notesMode);
+  notesButton.setAttribute("aria-pressed", String(notesMode));
+  timerEl.textContent = formatTime(state.elapsed);
+  updateNumberPad();
+}
+
+function isPeer(a, b) {
+  const ar = Math.floor(a / 9), ac = a % 9, br = Math.floor(b / 9), bc = b % 9;
+  return ar === br || ac === bc || (Math.floor(ar / 3) === Math.floor(br / 3) && Math.floor(ac / 3) === Math.floor(bc / 3));
+}
+
+function selectCell(index) {
+  if (state.finished) return;
+  selected = index;
+  render();
+}
+
+function enterNumber(value) {
+  if (state.finished || selected < 0 || state.puzzle[selected]) return;
+  if (notesMode) {
+    if (state.entries[selected]) return;
+    const list = state.notes[selected];
+    const position = list.indexOf(value);
+    if (position >= 0) list.splice(position, 1);
+    else list.push(value);
+    list.sort();
+    saveGame();
+    render();
+    return;
+  }
+  if (value !== state.solution[selected]) {
+    state.mistakes++;
+    setStatus(`That number does not fit. ${3 - state.mistakes} mistake${3 - state.mistakes === 1 ? "" : "s"} left.`, "error");
+    const wrongIndex = selected;
+    render();
+    const cell = boardEl.querySelector(`[data-index="${wrongIndex}"]`);
+    if (cell) cell.classList.add("wrong");
+    if (state.mistakes >= 3) finishGame(false);
+    else saveGame();
+    return;
+  }
+  state.entries[selected] = value;
+  state.notes[selected] = [];
+  clearPeerNotes(selected, value);
+  setStatus("Correct. Keep going!", "success");
+  if (state.entries.every((entry, index) => entry === state.solution[index])) finishGame(true);
+  else {
+    moveToNextEmpty();
+    saveGame();
+    render();
+  }
+}
+
+function eraseSelected() {
+  if (state.finished || selected < 0 || state.puzzle[selected]) return;
+  state.entries[selected] = 0;
+  state.notes[selected] = [];
+  setStatus("Square cleared.");
+  saveGame();
+  render();
+}
+
+function useHint() {
+  if (state.finished || state.hints <= 0) return;
+  if (selected < 0 || state.puzzle[selected] || state.entries[selected] === state.solution[selected]) {
+    selected = state.entries.findIndex((value, index) => !state.puzzle[index] && value !== state.solution[index]);
+  }
+  if (selected < 0) return;
+  const value = state.solution[selected];
+  state.entries[selected] = value;
+  state.notes[selected] = [];
+  state.hints--;
+  clearPeerNotes(selected, value);
+  setStatus(`Hint used. The answer is ${value}.`, "success");
+  if (state.entries.every((entry, index) => entry === state.solution[index])) finishGame(true);
+  else { saveGame(); render(); }
+}
+
+function clearPeerNotes(index, value) {
+  state.notes.forEach((list, other) => {
+    if (isPeer(index, other)) state.notes[other] = list.filter(number => number !== value);
+  });
+}
+
+function moveToNextEmpty() {
+  for (let offset = 1; offset <= 81; offset++) {
+    const next = (selected + offset) % 81;
+    if (!state.entries[next]) { selected = next; return; }
+  }
+}
+
+function moveSelection(key) {
+  if (selected < 0) selected = 0;
+  const row = Math.floor(selected / 9), col = selected % 9;
+  if (key === "ArrowUp") selected = ((row + 8) % 9) * 9 + col;
+  if (key === "ArrowDown") selected = ((row + 1) % 9) * 9 + col;
+  if (key === "ArrowLeft") selected = row * 9 + (col + 8) % 9;
+  if (key === "ArrowRight") selected = row * 9 + (col + 1) % 9;
+  render();
+  const cell = boardEl.querySelector(`[data-index="${selected}"]`);
+  if (cell) cell.focus({ preventScroll: true });
+}
+
+function updateNumberPad() {
+  const counts = Array(10).fill(0);
+  state.entries.forEach(value => { if (value) counts[value]++; });
+  numberPadEl.querySelectorAll("button").forEach(button => {
+    const value = Number(button.dataset.value);
+    button.disabled = counts[value] >= 9 || state.finished;
+    button.setAttribute("aria-label", counts[value] >= 9 ? `${value}, complete` : `Enter ${value}`);
+  });
+}
+
+function finishGame(won) {
+  state.finished = true;
+  state.result = won ? "win" : "lose";
+  stopTimer();
+  saveGame();
+  render();
+  showOverlay(won);
+}
+
+function showOverlay(won) {
+  overlayIconEl.textContent = won ? "✓" : "×";
+  overlayIconEl.style.background = won ? "#dcfce7" : "#ffe5e5";
+  overlayIconEl.style.color = won ? "#168543" : "#c92d2d";
+  overlayTitleEl.textContent = won ? "Puzzle complete!" : "Game over";
+  overlayMessageEl.textContent = won
+    ? `You solved this ${state.difficulty} Sudoku in ${formatTime(state.elapsed)} with ${state.mistakes} mistake${state.mistakes === 1 ? "" : "s"}.`
+    : "You reached three mistakes. Start a fresh puzzle and try again.";
+  overlayEl.hidden = false;
+}
+
+function setStatus(message, type = "") {
+  statusEl.textContent = message;
+  statusEl.className = `status${type ? ` ${type}` : ""}`;
+}
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
+  const remainder = (seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${remainder}`;
+}
+
+function startTimer() {
+  stopTimer();
+  timerId = window.setInterval(() => {
+    if (!state.finished && !document.hidden) {
+      state.elapsed++;
+      timerEl.textContent = formatTime(state.elapsed);
+      if (state.elapsed % 5 === 0) saveGame();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId) window.clearInterval(timerId);
+  timerId = null;
+}
+
+for (let value = 1; value <= 9; value++) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "number-button";
+  button.dataset.value = value;
+  button.textContent = value;
+  button.addEventListener("click", () => enterNumber(value));
+  numberPadEl.appendChild(button);
+}
+
+notesButton.addEventListener("click", () => { notesMode = !notesMode; render(); setStatus(notesMode ? "Notes mode is on." : "Notes mode is off."); });
+eraseButton.addEventListener("click", eraseSelected);
+hintButton.addEventListener("click", useHint);
+newGameButton.addEventListener("click", () => freshGame(difficultyEl.value));
+playAgainButton.addEventListener("click", () => freshGame(difficultyEl.value));
+difficultyEl.addEventListener("change", () => freshGame(difficultyEl.value));
+document.addEventListener("keydown", event => {
+  if (!state || state.finished || ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+  if (/^[1-9]$/.test(event.key)) { event.preventDefault(); enterNumber(Number(event.key)); }
+  else if (event.key === "Backspace" || event.key === "Delete" || event.key === "0") { event.preventDefault(); eraseSelected(); }
+  else if (event.key.toLowerCase() === "n") { event.preventDefault(); notesButton.click(); }
+  else if (event.key.startsWith("Arrow")) { event.preventDefault(); moveSelection(event.key); }
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) saveGame(); });
+window.addEventListener("beforeunload", saveGame);
+
+if (!loadGame()) freshGame("medium");
+render();
+</script>
+</body>
+</html>

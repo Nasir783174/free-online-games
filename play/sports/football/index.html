@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Football Game - Play Free Online</title>
+<meta name="description" content="Play Football Game free online in your browser. Take shots, beat the goalkeeper, score goals, and improve your accuracy with no download.">
+<meta name="theme-color" content="#111827">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box}
+:root{font-family:"Nunito Sans",system-ui,sans-serif;color:#171B2D;background:#F6F7FB}
+body{margin:0;background:#F6F7FB}
+button,input{font:inherit}
+.site-header{height:72px;background:#fff;border-bottom:1px solid #E5E7EF;display:flex;align-items:center}
+.header-inner{width:min(1120px,calc(100% - 32px));margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#171B2D;font-weight:800;font-size:19px}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#5B5CE2;color:#fff}
+.game-pill{font-size:14px;font-weight:700;color:#4546B8;background:#EEF0FF;padding:7px 12px;border-radius:999px}
+.page{width:min(100% - 32px,1120px);margin:0 auto;padding:28px 0 72px}
+.breadcrumb{display:flex;gap:8px;font-size:14px;color:#667085;margin-bottom:34px}
+.breadcrumb a{color:#4546B8;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.intro{margin-bottom:24px}.eyebrow{margin:0 0 8px;color:#5B5CE2;font-size:13px;font-weight:800;letter-spacing:.08em}
+h1{font-size:clamp(36px,5vw,56px);line-height:1.08;margin:0 0 12px;font-weight:800;letter-spacing:-.02em}
+.intro p:last-child{max-width:680px;color:#667085;font-size:18px;line-height:1.65;margin:0}
+.game-card{background:#fff;border:1px solid #E5E7EF;border-radius:20px;box-shadow:0 10px 30px rgba(23,27,45,.07);overflow:hidden}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#E5E7EF;border-bottom:1px solid #E5E7EF}
+.stat{background:#fff;padding:16px 20px}.stat span{display:block;color:#667085;font-size:13px;font-weight:700}.stat strong{display:block;margin-top:2px;font-size:25px;line-height:1.2}
+.timer-stat strong{color:#4546B8}
+.canvas-wrap{position:relative;background:#111827;width:100%;aspect-ratio:16/9;min-height:360px;overflow:hidden}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.game-message{position:absolute;inset:0;display:grid;place-items:center;background:rgba(17,24,39,.66);padding:24px;text-align:center;color:#fff;font-size:30px;font-weight:800;pointer-events:none}
+.game-message.hidden{display:none}
+.controls{padding:22px 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:20px 28px}
+.control-group label{display:block;font-size:15px;font-weight:800;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:#5B5CE2;cursor:pointer;height:28px}
+.range-labels{display:flex;justify-content:space-between;color:#667085;font-size:12px;margin-top:-4px}
+.action-row{grid-column:1/-1;display:flex;gap:12px}
+.btn{border:0;border-radius:12px;height:48px;padding:0 24px;font-weight:800;font-size:16px;cursor:pointer;transition:transform .15s,filter .15s}
+.btn:hover{filter:brightness(.97);transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+.btn:focus-visible,input:focus-visible{outline:3px solid rgba(91,92,226,.3);outline-offset:2px}
+.primary{background:#5B5CE2;color:#fff}.secondary{background:#EEF0F5;color:#171B2D}
+.keyboard-hint{grid-column:1/-1;margin:0;color:#667085;font-size:14px;text-align:center}
+kbd{display:inline-block;min-width:24px;padding:2px 6px;background:#F0F1F5;border:1px solid #D9DCE5;border-bottom-width:2px;border-radius:5px;color:#4546B8;font-weight:800}
+.content-section{margin-top:58px;max-width:800px}
+.content-section h2{font-size:32px;line-height:1.2;margin:0 0 14px}.content-section p,.content-section li{font-size:17px;line-height:1.7;color:#4E566A}
+.content-section ul{padding-left:22px}.faq{max-width:900px}
+details{background:#fff;border:1px solid #E5E7EF;border-radius:12px;margin:10px 0;padding:16px 18px}
+summary{cursor:pointer;font-weight:700}details p{margin:10px 0 0!important;font-size:16px!important}
+@media(max-width:700px){
+ .site-header{height:64px}.page{width:min(100% - 20px,1120px);padding-top:20px}.breadcrumb{margin-bottom:24px}
+ .intro p:last-child{font-size:16px}.game-card{border-radius:16px}
+ .hud{grid-template-columns:repeat(4,1fr)}.stat{padding:12px 9px;text-align:center}.stat strong{font-size:20px}.stat span{font-size:11px}
+ .canvas-wrap{aspect-ratio:4/3;min-height:0}
+ .controls{padding:18px 16px;grid-template-columns:1fr;gap:14px}.action-row{grid-column:auto}.btn{flex:1}
+ .keyboard-hint{display:none}.content-section{margin-top:44px}.content-section h2{font-size:28px}.content-section p,.content-section li{font-size:16px}
+}
+@media(max-width:390px){.brand span:last-child{display:none}.hud .stat{padding-inline:4px}.stat strong{font-size:18px}.btn{padding-inline:14px}}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../../index.html" aria-label="Games Hub home"><span class="brand-mark">G</span><span>Games Hub</span></a>
+    <span class="game-pill">Football</span>
+  </div>
+</header>
+
+<main class="page">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span>/</span><span>Football Game</span></nav>
+
+  <section class="intro">
+    <div>
+      <p class="eyebrow">FREE BROWSER GAME</p>
+      <h1>Football Game</h1>
+      <p>Step up for the penalty. Aim, choose your shot power, and beat the goalkeeper before the clock runs out.</p>
+    </div>
+  </section>
+
+  <section class="game-card" aria-label="Football game">
+    <div class="hud">
+      <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+      <div class="stat"><span>Goals</span><strong id="goals">0</strong></div>
+      <div class="stat"><span>Shots</span><strong id="shots">0</strong></div>
+      <div class="stat timer-stat"><span>Time</span><strong id="time">60</strong></div>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="gameCanvas" aria-label="Football penalty shootout game"></canvas>
+      <div id="message" class="game-message hidden" role="status" aria-live="polite"></div>
+    </div>
+    <div class="controls">
+      <div class="control-group">
+        <label for="aim">Aim</label>
+        <input id="aim" type="range" min="12" max="88" value="50" aria-label="Aim left to right">
+        <div class="range-labels"><span>Left</span><span>Center</span><span>Right</span></div>
+      </div>
+      <div class="control-group">
+        <label for="power">Power</label>
+        <input id="power" type="range" min="35" max="100" value="72" aria-label="Shot power">
+        <div class="range-labels"><span>Soft</span><span>Powerful</span></div>
+      </div>
+      <div class="action-row">
+        <button id="shootBtn" class="btn primary" type="button">Shoot</button>
+        <button id="restartBtn" class="btn secondary" type="button">New Game</button>
+      </div>
+      <p class="keyboard-hint">Keyboard: <kbd>←</kbd><kbd>→</kbd> aim &nbsp; <kbd>↑</kbd><kbd>↓</kbd> power &nbsp; <kbd>Space</kbd> shoot</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <h2>How to Play Football</h2>
+    <p>Choose where to place your shot, set the power, then press <strong>Shoot</strong>. Your aim marker moves across the goal and the goalkeeper reacts to each attempt.</p>
+    <ul>
+      <li>Move the <strong>Aim</strong> slider to target the left, center, or right side of the goal.</li>
+      <li>Adjust <strong>Power</strong> for a faster, harder shot.</li>
+      <li>Score as many goals as possible before the 60-second game ends.</li>
+      <li>Misses and saves count as shots, so balance accuracy with power.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <h2>About the Football Game</h2>
+    <p>This free Football Game is a quick browser penalty challenge built for desktop and mobile play. Each shot uses a target, power, and goalkeeper position to create a simple skill-based scoring system.</p>
+  </section>
+
+  <section class="content-section tips">
+    <h2>Football Game Tips</h2>
+    <p>Mix up your target instead of repeatedly shooting to the same side. Higher power helps the ball reach the net quickly, while accurate placement gives you a better chance of avoiding the goalkeeper.</p>
+  </section>
+
+  <section class="content-section faq">
+    <h2>Football Game FAQ</h2>
+    <details><summary>Is the Football Game free?</summary><p>Yes. The game runs directly in your browser without a download, account, database, or server-side game processing.</p></details>
+    <details><summary>Can I play Football on mobile?</summary><p>Yes. The sliders and large action buttons are designed for touch screens, and the game scales to smaller screens.</p></details>
+    <details><summary>How is the score calculated?</summary><p>A successful goal awards points based on shot power and placement accuracy. A saved or missed shot scores no points.</p></details>
+  </section>
+</main>
+<script>(() => {
+"use strict";
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const aim = document.getElementById("aim");
+const power = document.getElementById("power");
+const shootBtn = document.getElementById("shootBtn");
+const restartBtn = document.getElementById("restartBtn");
+const scoreEl = document.getElementById("score");
+const goalsEl = document.getElementById("goals");
+const shotsEl = document.getElementById("shots");
+const timeEl = document.getElementById("time");
+const message = document.getElementById("message");
+
+let W=0,H=0,dpr=1, score=0, goals=0, shots=0, timeLeft=60;
+let running=true, animating=false, lastTime=0, timerAcc=0;
+let keeperX=.5, keeperTarget=.5, ball={x:.5,y:.9,vx:0,vy:0,r:.018};
+let shotStart=0, shotDuration=700, resultText="";
+let particles=[];
+
+function resize(){
+  const rect=canvas.getBoundingClientRect();
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  W=Math.max(320,rect.width); H=Math.max(260,rect.height);
+  canvas.width=Math.round(W*dpr); canvas.height=Math.round(H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function updateHUD(){
+  scoreEl.textContent=score; goalsEl.textContent=goals; shotsEl.textContent=shots; timeEl.textContent=timeLeft;
+}
+function reset(){
+  score=0;goals=0;shots=0;timeLeft=60;running=true;animating=false;timerAcc=0;
+  keeperX=.5;keeperTarget=.5;ball={x:.5,y:.9,vx:0,vy:0,r:.018};particles=[];resultText="";
+  message.classList.add("hidden");shootBtn.disabled=false;updateHUD();draw();
+}
+function rand(a,b){return a+Math.random()*(b-a)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function shoot(){
+  if(!running||animating)return;
+  shots++; updateHUD(); animating=true; shotStart=performance.now();
+  const target=(Number(aim.value)/100);
+  const p=Number(power.value)/100;
+  keeperTarget=clamp(rand(.18,.82),.12,.88);
+  shotDuration=780-(p*260);
+  ball={x:.5,y:.9,vx:(target-.5)*.9,vy:-(.65+p*.35),r:.018};
+  resultText="";
+}
+function finishShot(){
+  const target=Number(aim.value)/100;
+  const p=Number(power.value)/100;
+  const distance=Math.abs(target-keeperTarget);
+  const accuracy=Math.max(0,1-Math.abs(target-.5)*.45);
+  const saved = distance < (.12 + (1-p)*.10);
+  const wide = target<.1 || target>.9;
+  if(!saved&&!wide){
+    goals++;
+    score += Math.round(80 + p*70 + accuracy*50);
+    resultText="GOAL!";
+    burst();
+  }else{
+    resultText=saved?"SAVED!":"MISS!";
+  }
+  updateHUD();animating=false;
+  ball={x:.5,y:.9,vx:0,vy:0,r:.018};
+}
+function burst(){
+  particles=[];
+  for(let i=0;i<24;i++) particles.push({x:.5,y:.28,vx:rand(-.6,.6),vy:rand(-.7,.1),life:1});
+}
+function endGame(){
+  running=false;animating=false;
+  message.innerHTML=`<div>Full Time!<br><small>Score: ${score} · Goals: ${goals}/${shots}</small><br><button class="btn primary" style="margin-top:16px;pointer-events:auto" id="playAgain">Play Again</button></div>`;
+  message.classList.remove("hidden");
+  document.getElementById("playAgain").addEventListener("click",reset);
+}
+function update(dt,now){
+  if(!running)return;
+  timerAcc+=dt;
+  if(timerAcc>=1000){const ticks=Math.floor(timerAcc/1000);timeLeft-=ticks;timerAcc-=ticks*1000;updateHUD();if(timeLeft<=0){timeLeft=0;updateHUD();endGame();return}}
+  if(animating){
+    const t=clamp((now-shotStart)/shotDuration,0,1);
+    const ease=t*t*(3-2*t);
+    const targetX=Number(aim.value)/100;
+    ball.x=.5+(targetX-.5)*ease;
+    ball.y=.9-(.9-.24)*ease;
+    if(t>=1)finishShot();
+  }else{
+    ball.x=.5;ball.y=.9;
+    if(resultText && Math.random()<dt/700) resultText="";
+  }
+  particles.forEach(p=>{p.x+=p.vx*dt/1000;p.y+=p.vy*dt/1000;p.vy+=.8*dt/1000;p.life-=dt/1000});
+  particles=particles.filter(p=>p.life>0);
+}
+function drawField(){
+  ctx.fillStyle="#111827";ctx.fillRect(0,0,W,H);
+  const horizon=H*.14, ground=H*.86;
+  ctx.fillStyle="#14532D";ctx.fillRect(0,horizon,W,ground-horizon);
+  for(let i=0;i<10;i++){ctx.fillStyle=i%2?"#166534":"#15803D";ctx.fillRect(0,horizon+i*(ground-horizon)/10,W,(ground-horizon)/10)}
+  ctx.fillStyle="rgba(255,255,255,.08)";ctx.fillRect(0,ground,W,H-ground);
+}
+function drawGoal(){
+  const gx=W*.15, gy=H*.18, gw=W*.7, gh=H*.36;
+  ctx.fillStyle="rgba(255,255,255,.13)";ctx.fillRect(gx,gy,gw,gh);
+  ctx.strokeStyle="#fff";ctx.lineWidth=Math.max(3,W*.006);ctx.strokeRect(gx,gy,gw,gh);
+  ctx.strokeStyle="rgba(255,255,255,.3)";ctx.lineWidth=1;
+  for(let x=gx;x<=gx+gw;x+=gw/12){ctx.beginPath();ctx.moveTo(x,gy);ctx.lineTo(x,gy+gh);ctx.stroke()}
+  for(let y=gy;y<=gy+gh;y+=gh/7){ctx.beginPath();ctx.moveTo(gx,y);ctx.lineTo(gx+gw,y);ctx.stroke()}
+  ctx.fillStyle="#F8FAFC";ctx.fillRect(gx-8,gy-5,16,10);ctx.fillRect(gx+gw-8,gy-5,16,10);
+}
+function drawKeeper(){
+  const x=keeperX*W,y=H*.38;
+  const scale=Math.min(W,H);
+  ctx.save();ctx.translate(x,y);
+  ctx.fillStyle="#F59E0B";ctx.beginPath();ctx.arc(0,-scale*.065,scale*.045,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#2563EB";ctx.fillRect(-scale*.045,-scale*.02,scale*.09,scale*.13);
+  ctx.strokeStyle="#2563EB";ctx.lineWidth=scale*.025;ctx.lineCap="round";
+  ctx.beginPath();ctx.moveTo(-scale*.035,scale*.01);ctx.lineTo(-scale*.10,scale*.07);ctx.moveTo(scale*.035,scale*.01);ctx.lineTo(scale*.10,scale*.07);ctx.stroke();
+  ctx.strokeStyle="#111827";ctx.lineWidth=scale*.035;ctx.beginPath();ctx.moveTo(-scale*.02,scale*.11);ctx.lineTo(-scale*.055,scale*.18);ctx.moveTo(scale*.02,scale*.11);ctx.lineTo(scale*.055,scale*.18);ctx.stroke();
+  ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(-scale*.105,scale*.075,scale*.018,0,Math.PI*2);ctx.arc(scale*.105,scale*.075,scale*.018,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function drawBall(){
+  const x=ball.x*W,y=ball.y*H,r=Math.max(7,Math.min(W,H)*.018);
+  ctx.save();ctx.shadowColor="rgba(0,0,0,.35)";ctx.shadowBlur=10;ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+  ctx.strokeStyle="#CBD5E1";ctx.lineWidth=1;ctx.stroke();ctx.fillStyle="#111827";
+  for(let i=0;i<5;i++){const a=i*Math.PI*2/5;ctx.beginPath();ctx.arc(x+Math.cos(a)*r*.48,y+Math.sin(a)*r*.48,r*.14,0,Math.PI*2);ctx.fill()}
+  ctx.restore();
+}
+function drawAim(){
+  if(animating)return;
+  const x=(Number(aim.value)/100)*W, y=H*.24;
+  ctx.strokeStyle="#FFB84D";ctx.lineWidth=3;ctx.setLineDash([8,7]);ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle="#FFB84D";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+}
+function drawOverlay(){
+  if(resultText){
+    ctx.textAlign="center";ctx.font=`800 ${Math.max(24,W*.045)}px "Nunito Sans",sans-serif`;ctx.fillStyle="#fff";ctx.fillText(resultText,W/2,H*.68);
+  }
+  particles.forEach(p=>{ctx.globalAlpha=p.life;ctx.fillStyle="#FFB84D";ctx.beginPath();ctx.arc(p.x*W,p.y*H,4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1});
+}
+function draw(){
+  drawField();drawGoal();
+  if(!animating){keeperX += (keeperTarget-keeperX)*.08}
+  drawKeeper();drawAim();drawBall();drawOverlay();
+}
+function loop(now){
+  if(!lastTime)lastTime=now;
+  const dt=Math.min(50,now-lastTime);lastTime=now;
+  update(dt,now);draw();requestAnimationFrame(loop);
+}
+function adjustAim(delta){aim.value=clamp(Number(aim.value)+delta,12,88)}
+function adjustPower(delta){power.value=clamp(Number(power.value)+delta,35,100)}
+shootBtn.addEventListener("click",shoot);
+restartBtn.addEventListener("click",reset);
+window.addEventListener("resize",()=>{resize();draw()});
+window.addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft"){e.preventDefault();adjustAim(-4)}
+  else if(e.key==="ArrowRight"){e.preventDefault();adjustAim(4)}
+  else if(e.key==="ArrowUp"){e.preventDefault();adjustPower(5)}
+  else if(e.key==="ArrowDown"){e.preventDefault();adjustPower(-5)}
+  else if(e.code==="Space"){e.preventDefault();shoot()}
+});
+resize();updateHUD();requestAnimationFrame(loop);
+})();</script>
+</body>
+</html>

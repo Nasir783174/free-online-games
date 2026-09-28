@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Play Shooting Game free online in your browser. Aim, hit moving targets, build combos, and chase a high score with mouse, touch, or keyboard controls. No download required.">
+  <title>Shooting Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary:#5B5CE2; --primary-dark:#4546B8; --secondary:#16B8C4;
+  --action:#FFB84D; --success:#22C55E; --danger:#EF5B5B;
+  --bg:#F6F7FB; --card:#FFFFFF; --text:#171B2D; --muted:#667085;
+  --border:#E5E7EF; --game:#111827; --game2:#1F2937;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Nunito Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.65}
+button,a{font:inherit}
+button{touch-action:manipulation}
+a{color:var(--primary-dark);text-decoration:none}
+a:hover{text-decoration:underline}
+.shell{width:min(1160px,calc(100% - 40px));margin:auto}
+.site-header{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:800}
+.brand:hover{text-decoration:none}
+.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--primary);color:#fff;font-size:20px}
+.header-tag{color:var(--muted);font-size:14px;font-weight:700}
+.breadcrumb{display:flex;gap:9px;align-items:center;padding:24px 0 4px;font-size:14px;color:var(--muted)}
+.hero{padding:36px 0 32px;max-width:820px}
+.eyebrow{margin:0 0 8px;color:var(--primary);font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+h1{font-size:clamp(40px,6vw,62px);line-height:1.08;margin:0 0 14px;font-weight:800;letter-spacing:-.035em}
+h2{font-size:34px;line-height:1.2;margin:0 0 18px}
+h3{font-size:22px;line-height:1.3;margin:26px 0 10px}
+.intro{font-size:18px;color:var(--muted);margin:0}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 12px 34px rgba(23,27,45,.06)}
+.game-topbar{display:flex;justify-content:space-between;gap:24px;align-items:center;margin-bottom:16px}
+.game-topbar>div:first-child{display:flex;flex-direction:column}
+.top-label{font-size:14px;color:var(--muted);font-weight:700}
+#statusText{font-size:20px}
+.stats{display:flex;gap:10px}
+.stat{min-width:78px;padding:7px 12px;border:1px solid var(--border);border-radius:12px;text-align:center;background:#fafafe}
+.stat span{display:block;color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase}
+.stat strong{font-size:22px;line-height:1.2}
+.canvas-wrap{position:relative;overflow:hidden;border-radius:16px;background:var(--game);aspect-ratio:16/9;cursor:crosshair}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.game-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(17,24,39,.72);padding:20px}
+.game-overlay.hidden{display:none}
+.overlay-panel{max-width:480px;text-align:center;color:#fff}
+.target-icon{display:grid;place-items:center;width:70px;height:70px;margin:0 auto 14px;border-radius:50%;background:rgba(255,255,255,.1);font-size:48px;color:var(--action)}
+.overlay-panel h2{font-size:32px;margin-bottom:8px}
+.overlay-panel p{color:#d4d8e2;margin:0 0 20px}
+.primary-btn,.secondary-btn{min-height:46px;border:0;border-radius:12px;padding:10px 20px;font-weight:800;cursor:pointer}
+.primary-btn{background:var(--action);color:#352408}
+.primary-btn:hover{filter:brightness(.96)}
+.secondary-btn{background:#eef0ff;color:var(--primary-dark)}
+.primary-btn:focus-visible,.secondary-btn:focus-visible,.mobile-controls button:focus-visible{outline:3px solid var(--secondary);outline-offset:3px}
+.game-actions{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:16px}
+.control-hint{font-size:14px;color:var(--muted);font-weight:700}
+.mobile-hint{display:none}
+.mobile-controls{display:none;text-align:center;margin-top:16px}
+.mobile-controls>button,.mobile-controls div button{width:54px;height:48px;border:1px solid var(--border);border-radius:11px;background:#f4f5fb;color:var(--text);font-weight:800}
+.mobile-controls div{display:flex;justify-content:center;gap:8px;margin:8px 0}
+.mobile-controls .fire-btn{width:86px;background:var(--danger);color:#fff;border-color:transparent}
+.content-grid{display:grid;grid-template-columns:1.45fr 1fr;gap:24px;margin-top:70px}
+.content-card,.info-section,.related-section,.faq-section{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px}
+.content-card p,.info-section p{color:#4f586b}
+ul{padding-left:22px}
+li+li{margin-top:8px}
+.tips-card{background:#fbfbff}
+.info-section,.related-section,.faq-section{margin-top:24px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.related-card{border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.related-card span{font-size:28px}
+.related-card small{color:var(--muted);font-size:14px}
+details{border-top:1px solid var(--border);padding:16px 0}
+details:last-child{padding-bottom:0}
+summary{font-weight:800;cursor:pointer}
+details p{color:var(--muted);margin-bottom:0}
+footer{margin-top:72px;padding:30px 0;border-top:1px solid var(--border);background:#fff;color:var(--muted);font-size:14px}
+@media(max-width:760px){
+  body{font-size:16px}.shell{width:min(100% - 24px,1160px)}.header-tag{display:none}
+  .hero{padding:28px 0 24px}h1{font-size:40px}h2{font-size:28px}
+  .game-card{padding:12px;border-radius:16px}.game-topbar{align-items:flex-start;flex-direction:column;gap:12px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);width:100%;gap:6px}
+  .stat{min-width:0;padding:6px 4px}.stat strong{font-size:18px}.stat span{font-size:10px}
+  .game-actions{align-items:stretch;flex-direction:column}.secondary-btn{width:100%}
+  .desktop-hint{display:none}.mobile-hint{display:inline}.mobile-controls{display:block}
+  .content-grid{grid-template-columns:1fr;margin-top:48px}.content-card,.info-section,.related-section,.faq-section{padding:22px}
+  .related-grid{grid-template-columns:1fr}.overlay-panel h2{font-size:26px}.target-icon{width:58px;height:58px;font-size:40px}
+}
+@media(max-width:420px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .canvas-wrap{aspect-ratio:4/3}
+  .overlay-panel p{font-size:14px;line-height:1.45}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Free browser games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span><span>Shooting Game</span>
+      </nav>
+
+      <section class="hero">
+        <p class="eyebrow">Arcade • Aim & Accuracy</p>
+        <h1>Shooting Game</h1>
+        <p class="intro">Test your aim in a fast browser shooting game. Hit moving targets, protect your lives, build a combo, and score as many points as possible before time runs out.</p>
+      </section>
+
+      <section class="game-card" aria-labelledby="game-title">
+        <div class="game-topbar">
+          <div>
+            <span class="top-label" id="game-title">Target Range</span>
+            <strong id="statusText" aria-live="polite">Ready to play</strong>
+          </div>
+          <div class="stats" aria-label="Game statistics">
+            <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+            <div class="stat"><span>Time</span><strong id="time">60</strong></div>
+            <div class="stat"><span>Lives</span><strong id="lives">3</strong></div>
+            <div class="stat"><span>Combo</span><strong id="combo">x1</strong></div>
+          </div>
+        </div>
+
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="gameCanvas" width="960" height="540" aria-label="Shooting game area. Aim at and shoot the moving targets."></canvas>
+          <div class="game-overlay" id="overlay">
+            <div class="overlay-panel">
+              <span class="target-icon" aria-hidden="true">◎</span>
+              <h2 id="overlayTitle">Ready, Aim, Fire!</h2>
+              <p id="overlayText">Hit targets before they escape. Missing a target costs one life.</p>
+              <button class="primary-btn" id="startBtn" type="button">Start Game</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <div class="control-hint">
+            <span class="desktop-hint">Mouse: aim + click • Keyboard: arrows/WASD + Space</span>
+            <span class="mobile-hint">Tap targets to shoot</span>
+          </div>
+          <button class="secondary-btn" id="restartBtn" type="button">Restart Game</button>
+        </div>
+
+        <div class="mobile-controls" aria-label="Keyboard-style touch controls">
+          <button type="button" data-move="up" aria-label="Aim up">↑</button>
+          <div>
+            <button type="button" data-move="left" aria-label="Aim left">←</button>
+            <button class="fire-btn" type="button" id="fireBtn" aria-label="Fire">FIRE</button>
+            <button type="button" data-move="right" aria-label="Aim right">→</button>
+          </div>
+          <button type="button" data-move="down" aria-label="Aim down">↓</button>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="content-card">
+          <h2>How to Play Shooting Game</h2>
+          <p>Start the round and aim at the colored targets moving across the range. Shoot a target before it leaves the game area to earn points. Smaller targets are worth more, and consecutive hits increase your combo multiplier.</p>
+          <h3>Controls</h3>
+          <ul>
+            <li><strong>Desktop:</strong> Move the mouse and click a target to shoot.</li>
+            <li><strong>Keyboard:</strong> Use Arrow keys or WASD to move the crosshair and Space to fire.</li>
+            <li><strong>Mobile:</strong> Tap directly on a target, or use the optional on-screen controls.</li>
+          </ul>
+        </article>
+
+        <aside class="content-card tips-card">
+          <h2>Shooting Game Tips</h2>
+          <ul>
+            <li>Prioritize small targets because they award more points.</li>
+            <li>Keep consecutive shots accurate to grow your combo.</li>
+            <li>Watch targets near the edges so they do not escape.</li>
+            <li>A missed shot breaks your combo, so accuracy matters.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="info-section">
+        <h2>About This Shooting Game</h2>
+        <p>This free online shooting game is a lightweight arcade target challenge built for quick browser play. Each round lasts up to 60 seconds. Targets vary in size, speed, direction, and point value, so the difficulty increases as your score rises.</p>
+        <p>No download or account is required. The game runs entirely in your browser and supports desktop and mobile controls.</p>
+      </section>
+
+      <section class="related-section">
+        <h2>Related Games</h2>
+        <div class="related-grid">
+          <div class="related-card"><span>🎯</span><strong>Precision Games</strong><small>More accuracy challenges coming soon.</small></div>
+          <div class="related-card"><span>⚡</span><strong>Arcade Games</strong><small>Fast browser games coming soon.</small></div>
+          <div class="related-card"><span>🧠</span><strong>Skill Games</strong><small>Reflex and timing games coming soon.</small></div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2>Shooting Game FAQ</h2>
+        <details>
+          <summary>Is this shooting game free?</summary>
+          <p>Yes. You can play the game free in a modern web browser without downloading game software.</p>
+        </details>
+        <details>
+          <summary>Can I play the shooting game on mobile?</summary>
+          <p>Yes. Tap directly on targets to shoot, or use the on-screen directional and fire controls.</p>
+        </details>
+        <details>
+          <summary>How does scoring work?</summary>
+          <p>Targets award points based mainly on their size. Consecutive accurate hits build a combo multiplier, while a missed shot resets the combo.</p>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">Games Hub • Fast, free browser games</div>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const wrap = document.getElementById("canvasWrap");
+  const overlay = document.getElementById("overlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const scoreEl = document.getElementById("score");
+  const timeEl = document.getElementById("time");
+  const livesEl = document.getElementById("lives");
+  const comboEl = document.getElementById("combo");
+  const statusEl = document.getElementById("statusText");
+  const fireBtn = document.getElementById("fireBtn");
+
+  const W = 960, H = 540;
+  let targets = [], particles = [];
+  let score = 0, lives = 3, combo = 1, hits = 0, shots = 0;
+  let running = false, last = 0, elapsed = 0, spawnClock = 0, remaining = 60;
+  let animationId = 0;
+  const crosshair = { x: W / 2, y: H / 2, visible: true };
+  const keys = new Set();
+
+  const colors = ["#FFB84D", "#16B8C4", "#5B5CE2", "#22C55E", "#EF5B5B"];
+
+  function resetGame() {
+    targets = []; particles = [];
+    score = 0; lives = 3; combo = 1; hits = 0; shots = 0;
+    elapsed = 0; spawnClock = 0; remaining = 60;
+    crosshair.x = W / 2; crosshair.y = H / 2;
+    updateHUD();
+  }
+
+  function startGame() {
+    cancelAnimationFrame(animationId);
+    resetGame();
+    running = true;
+    overlay.classList.add("hidden");
+    statusEl.textContent = "Round in progress";
+    last = performance.now();
+    spawnTarget();
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function endGame(reason) {
+    running = false;
+    cancelAnimationFrame(animationId);
+    const accuracy = shots ? Math.round((hits / shots) * 100) : 0;
+    statusEl.textContent = "Game over";
+    overlayTitle.textContent = reason === "lives" ? "Range Closed!" : "Time's Up!";
+    overlayText.textContent = `Final score: ${score.toLocaleString()} • Accuracy: ${accuracy}% • Hits: ${hits}`;
+    startBtn.textContent = "Play Again";
+    overlay.classList.remove("hidden");
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = score.toLocaleString();
+    timeEl.textContent = Math.max(0, Math.ceil(remaining));
+    livesEl.textContent = lives;
+    comboEl.textContent = `x${combo}`;
+  }
+
+  function difficulty() {
+    return Math.min(1, elapsed / 50);
+  }
+
+  function spawnTarget() {
+    const d = difficulty();
+    const radius = 24 + Math.random() * (24 - d * 8);
+    const edge = Math.floor(Math.random() * 4);
+    let x, y, vx, vy;
+    const speed = 75 + Math.random() * 70 + d * 65;
+
+    if (edge === 0) { x = -radius; y = 70 + Math.random() * (H - 140); vx = speed; vy = (Math.random() - .5) * 45; }
+    if (edge === 1) { x = W + radius; y = 70 + Math.random() * (H - 140); vx = -speed; vy = (Math.random() - .5) * 45; }
+    if (edge === 2) { x = 70 + Math.random() * (W - 140); y = -radius; vx = (Math.random() - .5) * 45; vy = speed; }
+    if (edge === 3) { x = 70 + Math.random() * (W - 140); y = H + radius; vx = (Math.random() - .5) * 45; vy = -speed; }
+
+    const base = radius < 31 ? 30 : radius < 39 ? 20 : 10;
+    targets.push({ x, y, vx, vy, r: radius, color: colors[Math.floor(Math.random() * colors.length)], points: base, age: 0 });
+  }
+
+  function update(dt) {
+    elapsed += dt;
+    remaining = 60 - elapsed;
+    if (remaining <= 0) return endGame("time");
+
+    const moveSpeed = 340;
+    if (keys.has("arrowleft") || keys.has("a")) crosshair.x -= moveSpeed * dt;
+    if (keys.has("arrowright") || keys.has("d")) crosshair.x += moveSpeed * dt;
+    if (keys.has("arrowup") || keys.has("w")) crosshair.y -= moveSpeed * dt;
+    if (keys.has("arrowdown") || keys.has("s")) crosshair.y += moveSpeed * dt;
+    crosshair.x = Math.max(0, Math.min(W, crosshair.x));
+    crosshair.y = Math.max(0, Math.min(H, crosshair.y));
+
+    spawnClock += dt;
+    const interval = Math.max(.42, 1.05 - difficulty() * .5);
+    if (spawnClock >= interval) {
+      spawnClock = 0;
+      spawnTarget();
+      if (difficulty() > .55 && Math.random() < .25) spawnTarget();
+    }
+
+    for (let i = targets.length - 1; i >= 0; i--) {
+      const t = targets[i];
+      t.x += t.vx * dt; t.y += t.vy * dt; t.age += dt;
+      const margin = t.r + 20;
+      if ((t.vx > 0 && t.x > W + margin) || (t.vx < 0 && t.x < -margin) ||
+          (t.vy > 0 && t.y > H + margin) || (t.vy < 0 && t.y < -margin)) {
+        targets.splice(i, 1);
+        lives--;
+        combo = 1;
+        burst(Math.max(20, Math.min(W - 20, t.x)), Math.max(20, Math.min(H - 20, t.y)), "#EF5B5B", 8);
+        updateHUD();
+        if (lives <= 0) return endGame("lives");
+      }
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 80 * dt;
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+    updateHUD();
+  }
+
+  function burst(x, y, color, count = 12) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2, s = 45 + Math.random() * 130;
+      particles.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: .35 + Math.random() * .35, max: .7, color });
+    }
+  }
+
+  function shoot(x, y) {
+    if (!running) return;
+    shots++;
+    let hitIndex = -1;
+    for (let i = targets.length - 1; i >= 0; i--) {
+      const t = targets[i];
+      if (Math.hypot(x - t.x, y - t.y) <= t.r) { hitIndex = i; break; }
+    }
+    if (hitIndex >= 0) {
+      const t = targets[hitIndex];
+      hits++;
+      score += t.points * combo;
+      combo = Math.min(5, combo + 1);
+      burst(t.x, t.y, t.color, 15);
+      targets.splice(hitIndex, 1);
+      statusEl.textContent = `Hit! +${t.points * (combo - 1 || 1)}`;
+    } else {
+      combo = 1;
+      burst(x, y, "#FFFFFF", 4);
+      statusEl.textContent = "Miss — combo reset";
+    }
+    updateHUD();
+  }
+
+  function drawBackground() {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, "#111827"); g.addColorStop(1, "#1F2937");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = "rgba(255,255,255,.055)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= W; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y <= H; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+    ctx.fillStyle = "rgba(255,255,255,.05)";
+    ctx.font = "700 18px 'Nunito Sans', sans-serif";
+    ctx.fillText("TARGET RANGE", 28, 38);
+  }
+
+  function drawTarget(t) {
+    ctx.save();
+    ctx.translate(t.x, t.y);
+    ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = 12;
+    ctx.fillStyle = t.color; ctx.beginPath(); ctx.arc(0, 0, t.r, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(0, 0, t.r * .65, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = t.color; ctx.beginPath(); ctx.arc(0, 0, t.r * .34, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#111827"; ctx.beginPath(); ctx.arc(0, 0, Math.max(4, t.r * .11), 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawCrosshair() {
+    const {x,y} = crosshair;
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,255,255,.92)"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(x, y, 16, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x - 25, y); ctx.lineTo(x - 7, y); ctx.moveTo(x + 7, y); ctx.lineTo(x + 25, y);
+    ctx.moveTo(x, y - 25); ctx.lineTo(x, y - 7); ctx.moveTo(x, y + 7); ctx.lineTo(x, y + 25); ctx.stroke();
+    ctx.restore();
+  }
+
+  function draw() {
+    drawBackground();
+    targets.forEach(drawTarget);
+    particles.forEach(p => {
+      ctx.globalAlpha = Math.max(0, p.life / p.max);
+      ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    drawCrosshair();
+  }
+
+  function loop(now) {
+    if (!running) return;
+    const dt = Math.min(.035, (now - last) / 1000);
+    last = now;
+    update(dt);
+    draw();
+    if (running) animationId = requestAnimationFrame(loop);
+  }
+
+  function pointerPosition(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.clientX, clientY = e.clientY;
+    return { x: (clientX - rect.left) * W / rect.width, y: (clientY - rect.top) * H / rect.height };
+  }
+
+  canvas.addEventListener("pointermove", e => {
+    const p = pointerPosition(e); crosshair.x = p.x; crosshair.y = p.y;
+    if (!running) draw();
+  });
+  canvas.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    const p = pointerPosition(e); crosshair.x = p.x; crosshair.y = p.y; shoot(p.x, p.y);
+  });
+
+  window.addEventListener("keydown", e => {
+    const k = e.key.toLowerCase();
+    if (["arrowleft","arrowright","arrowup","arrowdown"," ","w","a","s","d"].includes(k)) e.preventDefault();
+    if (k === " " && running && !e.repeat) shoot(crosshair.x, crosshair.y);
+    keys.add(k);
+  });
+  window.addEventListener("keyup", e => keys.delete(e.key.toLowerCase()));
+  window.addEventListener("blur", () => keys.clear());
+
+  document.querySelectorAll("[data-move]").forEach(btn => {
+    const map = {left:[-34,0],right:[34,0],up:[0,-34],down:[0,34]};
+    const move = () => {
+      if (!running) return;
+      const [dx,dy] = map[btn.dataset.move];
+      crosshair.x = Math.max(0, Math.min(W, crosshair.x + dx));
+      crosshair.y = Math.max(0, Math.min(H, crosshair.y + dy));
+    };
+    btn.addEventListener("pointerdown", e => { e.preventDefault(); move(); });
+  });
+  fireBtn.addEventListener("click", () => shoot(crosshair.x, crosshair.y));
+  startBtn.addEventListener("click", startGame);
+  restartBtn.addEventListener("click", startGame);
+
+  updateHUD();
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5B5CE2">
+  <meta name="description" content="Play Idle Empire free online in your browser. Tap for coins, buy automatic producers, unlock upgrades, and build a million-coin empire with no download.">
+  <title>Idle Empire Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --page: #f6f7fb;
+  --card: #fff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --game-2: #1f2937;
+  --shadow: 0 20px 55px rgba(31, 41, 55, .12);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: var(--page); color: var(--text); font-family: "Nunito Sans", system-ui, sans-serif; font-size: 17px; line-height: 1.65; }
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid rgba(22, 184, 196, .65); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.site-header { height: 72px; padding: 0 max(24px, calc((100vw - 1180px) / 2)); display: flex; align-items: center; justify-content: space-between; background: var(--card); border-bottom: 1px solid var(--border); }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-size: 20px; font-weight: 800; text-decoration: none; }
+.brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: var(--brand); }
+.category-pill { padding: 7px 13px; border-radius: 999px; color: var(--brand-dark); background: #ededff; font-size: 14px; font-weight: 700; }
+.page-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 24px; color: var(--muted); font-size: 14px; }
+.breadcrumb a { color: var(--brand-dark); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.intro { max-width: 760px; padding: 52px 0 36px; }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 14px; font-weight: 800; letter-spacing: .09em; line-height: 1.3; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 16px; font-size: clamp(40px, 6vw, 64px); font-weight: 800; letter-spacing: -.04em; line-height: 1.06; }
+h2 { margin-bottom: 16px; font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -.025em; line-height: 1.18; }
+h3 { font-size: 21px; line-height: 1.3; }
+.intro > p:last-child { margin-bottom: 0; color: var(--muted); font-size: 19px; }
+
+.game-card { overflow: hidden; border: 1px solid #263247; border-radius: 20px; background: var(--game); color: #fff; box-shadow: var(--shadow); }
+.game-topbar { min-height: 94px; padding: 18px 22px; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 30px; border-bottom: 1px solid #344054; background: #172033; }
+.stat-label { display: block; color: #aeb8c8; font-size: 14px; font-weight: 700; }
+.balance { display: block; overflow-wrap: anywhere; color: #fff; font-size: clamp(28px, 5vw, 40px); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.balance::before { content: "●"; margin-right: 10px; color: var(--action); font-size: .72em; }
+.compact-stats { display: flex; gap: 28px; }
+.compact-stats div { min-width: 90px; }
+.compact-stats span { display: block; color: #aeb8c8; font-size: 13px; }
+.compact-stats strong { font-size: 20px; font-variant-numeric: tabular-nums; }
+.icon-button { width: 46px; height: 46px; border: 1px solid #475467; border-radius: 13px; color: #fff; background: #293548; font-weight: 800; cursor: pointer; }
+.icon-button:hover { background: #35435a; }
+
+.game-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(350px, .9fr); min-height: 680px; }
+.core-panel { position: relative; overflow: hidden; padding: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--game); background-image: radial-gradient(circle at 50% 45%, rgba(91, 92, 226, .22), transparent 37%), linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: auto, 32px 32px, 32px 32px; }
+.goal-row { width: min(480px, 100%); display: flex; justify-content: space-between; color: #c5ccda; font-size: 14px; font-weight: 700; }
+.progress-track { width: min(480px, 100%); height: 10px; margin: 10px 0 58px; overflow: hidden; border-radius: 99px; background: #2b3648; }
+.progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), #71e3c7); transition: width .35s ease; }
+.energy-core { position: relative; width: clamp(210px, 31vw, 300px); aspect-ratio: 1; border: 0; border-radius: 50%; color: #fff; background: transparent; cursor: pointer; touch-action: manipulation; isolation: isolate; }
+.energy-core::before { content: ""; position: absolute; inset: 15%; z-index: -1; border: 2px solid rgba(255,255,255,.38); border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffe4a7 0, #ffb84d 19%, #f07845 48%, #a84498 72%, #5b5ce2 100%); box-shadow: 0 0 0 12px rgba(255,184,77,.06), 0 20px 60px rgba(91,92,226,.38); transition: transform .1s ease, filter .15s ease; }
+.energy-core:hover::before { filter: brightness(1.08); transform: scale(1.025); }
+.energy-core:active::before, .energy-core.is-pressed::before { transform: scale(.94); }
+.core-center { position: absolute; inset: 25%; display: grid; place-content: center; text-align: center; pointer-events: none; }
+.core-center > span { font-size: 38px; line-height: 1; }
+.core-center strong { margin-top: 8px; font-size: 24px; letter-spacing: .08em; }
+.core-center small { font-size: 14px; font-weight: 700; }
+.core-orbit { position: absolute; inset: 4%; z-index: -2; border: 2px solid rgba(132, 214, 255, .28); border-radius: 50%; animation: spin 9s linear infinite; }
+.core-orbit::before { content: ""; position: absolute; top: 14%; right: 8%; width: 14px; height: 14px; border-radius: 50%; background: #7be4ee; box-shadow: 0 0 18px rgba(123,228,238,.7); }
+.orbit-two { inset: 0 18%; transform: rotate(60deg); animation-duration: 7s; animation-direction: reverse; }
+.orbit-two::before { background: #ffd581; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.core-hint { margin: 30px 0 26px; color: #aeb8c8; font-size: 14px; }
+kbd { padding: 2px 8px; border: 1px solid #475467; border-bottom-width: 2px; border-radius: 6px; color: #f7f8fa; background: #293548; font-family: inherit; font-size: 12px; }
+.milestones { width: min(480px, 100%); display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.milestone { padding: 10px 6px; border: 1px solid #344054; border-radius: 11px; color: #78869a; background: rgba(31, 41, 55, .7); text-align: center; }
+.milestone span, .milestone small { display: block; }
+.milestone span { font-size: 14px; font-weight: 800; }
+.milestone small { font-size: 11px; }
+.milestone.is-unlocked { border-color: #6085a5; color: #e6faff; background: rgba(22,184,196,.16); }
+
+.shop-panel { overflow-y: auto; max-height: 680px; padding: 26px; border-left: 1px solid #344054; background: var(--game-2); scrollbar-color: #596579 #1f2937; }
+.shop-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.shop-heading h2 { margin: 0; font-size: 25px; }
+.buy-mode { display: flex; padding: 3px; border-radius: 10px; background: #111827; }
+.mode-button { min-width: 42px; padding: 6px 8px; border: 0; border-radius: 8px; color: #aeb8c8; background: transparent; font-size: 12px; font-weight: 800; cursor: pointer; }
+.mode-button.is-active { color: #fff; background: var(--brand); }
+.producer-list, .upgrade-list { display: grid; gap: 10px; }
+.producer { width: 100%; padding: 13px; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 12px; border: 1px solid #3b4658; border-radius: 14px; color: #fff; background: #283447; text-align: left; cursor: pointer; transition: border-color .15s, transform .15s, background .15s; }
+.producer:hover:not(:disabled) { border-color: #7887a0; background: #303e53; transform: translateY(-1px); }
+.producer:disabled { cursor: not-allowed; opacity: .55; }
+.producer-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 12px; background: #182235; font-size: 24px; }
+.producer-name { display: block; font-size: 15px; font-weight: 800; }
+.producer-rate { display: block; color: #aeb8c8; font-size: 12px; }
+.producer-price { text-align: right; }
+.producer-price strong, .producer-price small { display: block; }
+.producer-price strong { color: #ffd68b; font-size: 14px; }
+.producer-price small { color: #aeb8c8; font-size: 11px; }
+.upgrade-block { margin-top: 26px; }
+.upgrade-block h3 { margin-bottom: 12px; font-size: 18px; }
+.upgrade { width: 100%; padding: 13px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid #3b4658; border-radius: 13px; color: #fff; background: #252f41; text-align: left; cursor: pointer; }
+.upgrade:hover:not(:disabled) { border-color: var(--accent); }
+.upgrade:disabled { opacity: .55; cursor: not-allowed; }
+.upgrade span { display: block; font-size: 14px; font-weight: 800; }
+.upgrade small { display: block; color: #aeb8c8; font-size: 11px; }
+.upgrade strong { flex: 0 0 auto; color: #ffd68b; font-size: 13px; }
+.upgrade.is-bought { border-color: rgba(34,197,94,.5); }
+.upgrade.is-bought strong { color: #79e59c; }
+.game-footer { min-height: 78px; padding: 15px 22px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #344054; background: #172033; }
+.status-message { margin: 0; color: #bdc5d2; font-size: 14px; }
+.game-actions { display: flex; gap: 10px; }
+.button { min-height: 46px; padding: 10px 18px; border: 1px solid transparent; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; }
+.button-primary { color: #fff; background: var(--brand); }
+.button-primary:hover { background: var(--brand-dark); }
+.button-secondary { border-color: #4a586f; color: #fff; background: #293548; }
+.button-secondary:hover { background: #35435a; }
+.button-danger { border-color: rgba(239,91,91,.45); color: #ffaaaa; background: rgba(239,91,91,.1); }
+.button-danger:hover { background: rgba(239,91,91,.2); }
+.floating-number { position: fixed; z-index: 30; color: #ffe098; font-size: 20px; font-weight: 800; pointer-events: none; animation: float-away .8s ease-out forwards; text-shadow: 0 2px 8px #111827; }
+@keyframes float-away { from { opacity: 1; transform: translate(-50%, 0) scale(.85); } to { opacity: 0; transform: translate(-50%, -70px) scale(1.1); } }
+
+.content-section { margin-top: 72px; padding: 40px; border: 1px solid var(--border); border-radius: 18px; background: var(--card); }
+.content-section > p:last-child { margin-bottom: 0; }
+.content-section p, .control-list { color: var(--muted); }
+.instruction-grid, .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+.instruction-grid article, .related-grid article { padding: 22px; border: 1px solid var(--border); border-radius: 15px; background: #fafbfe; }
+.instruction-grid article > span { display: grid; width: 38px; height: 38px; place-items: center; margin-bottom: 16px; border-radius: 10px; color: #fff; background: var(--brand); font-size: 14px; font-weight: 800; }
+.instruction-grid h3, .related-grid h3 { margin-bottom: 8px; }
+.instruction-grid p, .related-grid p { margin: 0; font-size: 15px; }
+.split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 46px; }
+.control-list { margin: 0; padding-left: 20px; }
+.control-list li + li { margin-top: 10px; }
+.related-grid article > span { font-size: 30px; }
+.related-grid small { display: inline-block; margin-top: 14px; color: var(--brand-dark); font-weight: 800; }
+.faq-section details { border-top: 1px solid var(--border); }
+.faq-section details:last-child { border-bottom: 1px solid var(--border); }
+.faq-section summary { padding: 18px 2px; font-weight: 800; cursor: pointer; }
+.faq-section details p { padding: 0 26px 18px 2px; margin: 0; }
+.site-footer { margin-top: 80px; padding: 28px 20px; border-top: 1px solid var(--border); color: var(--muted); background: #fff; text-align: center; font-size: 14px; }
+.site-footer p { margin: 0; }
+
+.modal { position: fixed; inset: 0; z-index: 100; padding: 20px; display: grid; place-items: center; background: rgba(12,18,31,.76); backdrop-filter: blur(5px); }
+.modal-card { width: min(440px, 100%); padding: 34px; border-radius: 20px; background: #fff; color: var(--text); box-shadow: 0 30px 90px rgba(0,0,0,.35); text-align: center; }
+.modal-card h2 { font-size: 30px; }
+.modal-card p { color: var(--muted); }
+.modal-card > strong { display: block; margin: 18px 0 24px; color: var(--brand); font-size: 28px; }
+.modal-card .button { width: 100%; margin-top: 10px; }
+.modal-card .button-secondary { border-color: var(--border); color: var(--text); background: #f3f4f8; }
+.modal-icon { width: 64px; height: 64px; display: grid; place-items: center; margin: 0 auto 18px; border-radius: 18px; color: #aa6810; background: #fff0ce; font-size: 32px; }
+.modal-icon.victory { color: #4b4cca; background: #e9e9ff; }
+body.is-paused .core-orbit { animation-play-state: paused; }
+body.is-paused .energy-core { opacity: .72; }
+
+@media (max-width: 900px) {
+  .game-layout { grid-template-columns: 1fr; }
+  .shop-panel { max-height: none; border-top: 1px solid #344054; border-left: 0; }
+  .core-panel { min-height: 650px; }
+  .instruction-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .site-header { height: 64px; padding: 0 16px; }
+  .brand { font-size: 18px; }
+  .brand-mark { width: 34px; height: 34px; }
+  .category-pill { padding: 5px 10px; font-size: 12px; }
+  .page-shell { width: min(100% - 24px, 1180px); }
+  .breadcrumb { padding-top: 18px; }
+  .intro { padding: 38px 0 28px; }
+  .intro > p:last-child { font-size: 17px; }
+  .game-card { border-radius: 16px; }
+  .game-topbar { grid-template-columns: 1fr auto; gap: 12px; padding: 14px 16px; }
+  .compact-stats { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; gap: 12px; }
+  .compact-stats div { min-width: 0; }
+  .icon-button { grid-column: 2; grid-row: 1; }
+  .core-panel { min-height: 590px; padding: 22px 14px; }
+  .progress-track { margin-bottom: 38px; }
+  .energy-core { width: min(250px, 78vw); }
+  .milestones { gap: 5px; }
+  .milestone { padding: 8px 3px; }
+  .shop-panel { padding: 22px 14px; }
+  .shop-heading { align-items: flex-start; flex-direction: column; }
+  .producer { grid-template-columns: 42px minmax(0, 1fr) auto; padding: 11px; gap: 9px; }
+  .producer-icon { width: 42px; height: 42px; }
+  .game-footer { align-items: stretch; flex-direction: column; padding: 16px; }
+  .game-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .content-section { margin-top: 48px; padding: 26px 20px; }
+  .split-section, .related-grid { grid-template-columns: 1fr; }
+  .split-section { gap: 30px; }
+  .site-footer { margin-top: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Idle Empire",
+    "description": "A free browser idle game about tapping for coins, purchasing automatic producers, and building a million-coin empire.",
+    "genre": ["Casual", "Idle", "Incremental"],
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "operatingSystem": "Any modern web browser"
+  }
+  </script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../../index.html" aria-label="Games Hub home">
+      <span class="brand-mark" aria-hidden="true">G</span>
+      <span>Games Hub</span>
+    </a>
+    <span class="category-pill">Casual Game</span>
+  </header>
+
+  <main>
+    <div class="page-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a><span aria-hidden="true">/</span><span>Casual Games</span><span aria-hidden="true">/</span><span aria-current="page">Idle Empire</span>
+      </nav>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Free online idle game</p>
+        <h1 id="page-title">Idle Empire Game</h1>
+        <p>Turn one tiny energy core into a thriving automated empire. Tap to earn coins, hire producers, stack upgrades, and keep growing even while you are away.</p>
+      </section>
+
+      <section class="game-card" aria-label="Idle Empire game">
+        <div class="game-topbar">
+          <div>
+            <span class="stat-label">Coin balance</span>
+            <strong class="balance" id="coinBalance">0</strong>
+          </div>
+          <div class="compact-stats">
+            <div><span>Per tap</span><strong id="perTap">1</strong></div>
+            <div><span>Per second</span><strong id="perSecond">0</strong></div>
+          </div>
+          <button class="icon-button" id="pauseButton" type="button" aria-label="Pause game" aria-pressed="false">
+            <span id="pauseIcon" aria-hidden="true">Ⅱ</span>
+          </button>
+        </div>
+
+        <div class="game-layout">
+          <div class="core-panel">
+            <div class="goal-row">
+              <span>Empire goal</span>
+              <strong id="goalText">0 / 1.00M</strong>
+            </div>
+            <div class="progress-track" role="progressbar" aria-label="Progress to one million lifetime coins" aria-valuemin="0" aria-valuemax="1000000" aria-valuenow="0">
+              <span id="goalProgress"></span>
+            </div>
+
+            <button class="energy-core" id="coreButton" type="button" aria-label="Tap the energy core to earn coins">
+              <span class="core-orbit orbit-one" aria-hidden="true"></span>
+              <span class="core-orbit orbit-two" aria-hidden="true"></span>
+              <span class="core-center"><span aria-hidden="true">⚡</span><strong>TAP</strong><small>+<span id="tapReward">1</span> coin</small></span>
+            </button>
+            <p class="core-hint">Tap the core or press <kbd>Space</kbd></p>
+
+            <div class="milestones" aria-label="Milestones">
+              <div class="milestone is-unlocked" data-milestone="100"><span>100</span><small>Spark</small></div>
+              <div class="milestone" data-milestone="10000"><span>10K</span><small>Builder</small></div>
+              <div class="milestone" data-milestone="100000"><span>100K</span><small>Tycoon</small></div>
+              <div class="milestone" data-milestone="1000000"><span>1M</span><small>Empire</small></div>
+            </div>
+          </div>
+
+          <aside class="shop-panel" aria-labelledby="shop-title">
+            <div class="shop-heading">
+              <div><p class="eyebrow">Automation</p><h2 id="shop-title">Build Your Empire</h2></div>
+              <div class="buy-mode" role="group" aria-label="Purchase quantity">
+                <button class="mode-button is-active" type="button" data-mode="1" aria-pressed="true">x1</button>
+                <button class="mode-button" type="button" data-mode="10" aria-pressed="false">x10</button>
+                <button class="mode-button" type="button" data-mode="max" aria-pressed="false">Max</button>
+              </div>
+            </div>
+            <div id="producerList" class="producer-list"></div>
+
+            <div class="upgrade-block">
+              <h3>Power Upgrades</h3>
+              <div id="upgradeList" class="upgrade-list"></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="game-footer">
+          <p id="statusMessage" class="status-message" role="status" aria-live="polite">Your empire is ready. Tap the core to begin.</p>
+          <div class="game-actions">
+            <button class="button button-secondary" id="saveButton" type="button">Save Game</button>
+            <button class="button button-danger" id="resetButton" type="button">Reset Progress</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div>
+          <p class="eyebrow">Simple controls, steady progress</p>
+          <h2 id="how-to-play">How to Play Idle Empire</h2>
+          <p>Tap the energy core to collect your first coins. Spend those coins on Helper Bots, Workshops, Factories, and Quantum Labs. Each producer earns coins automatically, so your balance keeps rising without constant tapping.</p>
+          <p>The goal is to generate one million lifetime coins. Reaching that total completes the empire, but you can keep playing and growing afterward.</p>
+        </div>
+        <div class="instruction-grid">
+          <article><span>01</span><h3>Tap for Coins</h3><p>Click, tap, or press Space to charge the core and earn coins instantly.</p></article>
+          <article><span>02</span><h3>Buy Producers</h3><p>Purchase automatic coin makers. Their cost rises as you own more.</p></article>
+          <article><span>03</span><h3>Unlock Power</h3><p>Use upgrades to multiply tap strength or all automatic production.</p></article>
+        </div>
+      </section>
+
+      <section class="content-section split-section">
+        <div>
+          <h2>Idle Empire Controls</h2>
+          <ul class="control-list">
+            <li><strong>Mouse or touch:</strong> Tap the core and select shop buttons.</li>
+            <li><strong>Space:</strong> Earn coins from the energy core.</li>
+            <li><strong>P:</strong> Pause or resume automatic production.</li>
+            <li><strong>1, 2, 3:</strong> Switch between x1, x10, and Max buying.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Tips for Faster Progress</h2>
+          <ul class="control-list">
+            <li>Buy early producers first so income grows while you decide what to purchase next.</li>
+            <li>Compare the income gained with the price instead of buying only the most expensive item.</li>
+            <li>Tap upgrades help active play; production upgrades are stronger when you leave the game idle.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="about-game">
+        <h2 id="about-game">About This Free Idle Game</h2>
+        <p>Idle Empire is a casual incremental game built for quick sessions and long-term progress. It runs directly in a modern browser with no download, account, or sign-up. Your progress is stored only in your browser, and offline earnings are limited to eight hours so returning feels rewarding without removing every decision.</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="related-games">
+        <h2 id="related-games">More Casual Games</h2>
+        <div class="related-grid">
+          <article><span aria-hidden="true">🔢</span><h3>2048</h3><p>Slide and combine number tiles.</p><small>Coming soon</small></article>
+          <article><span aria-hidden="true">🐍</span><h3>Snake</h3><p>Grow longer and chase a high score.</p><small>Coming soon</small></article>
+          <article><span aria-hidden="true">🧱</span><h3>Block Puzzle</h3><p>Fit shapes and clear the board.</p><small>Coming soon</small></article>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Idle Empire FAQ</h2>
+        <details><summary>Is Idle Empire free to play?</summary><p>Yes. Idle Empire is a free browser game and does not require a download, account, or purchase.</p></details>
+        <details><summary>Does the idle game save my progress?</summary><p>Yes. The game automatically stores progress in your current browser using local storage. Clearing browser data will remove that save.</p></details>
+        <details><summary>Do I earn coins while the game is closed?</summary><p>Yes. When you return, your producers can award up to eight hours of offline earnings based on your saved production rate.</p></details>
+        <details><summary>Can I play on a phone?</summary><p>Yes. The interface adapts to smaller screens, and every game action works with touch controls.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p>© <span id="currentYear"></span> Games Hub. Play free online games in your browser.</p></footer>
+
+  <div class="modal" id="offlineModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="offlineTitle">
+      <div class="modal-icon" aria-hidden="true">☀</div>
+      <h2 id="offlineTitle">Welcome Back!</h2>
+      <p>Your empire kept working while you were away.</p>
+      <strong id="offlineAmount">+0 coins</strong>
+      <button class="button button-primary" id="collectOfflineButton" type="button">Collect Coins</button>
+    </div>
+  </div>
+
+  <div class="modal" id="winModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <div class="modal-icon victory" aria-hidden="true">★</div>
+      <p class="eyebrow">Goal complete</p>
+      <h2 id="winTitle">Your Empire Is Thriving!</h2>
+      <p>You generated one million lifetime coins and earned the Empire milestone.</p>
+      <button class="button button-primary" id="continueButton" type="button">Keep Building</button>
+      <button class="button button-secondary" id="newEmpireButton" type="button">Start New Empire</button>
+    </div>
+  </div>
+
+  <script>"use strict";
+
+const SAVE_KEY = "gamesHub_idleEmpire_v1";
+const GOAL = 1_000_000;
+const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
+const SAVE_INTERVAL_MS = 5000;
+
+const producerDefinitions = [
+  { id: "bot", name: "Helper Bot", icon: "🤖", baseCost: 15, baseRate: 0.5 },
+  { id: "workshop", name: "Workshop", icon: "🔧", baseCost: 120, baseRate: 4 },
+  { id: "factory", name: "Factory", icon: "🏭", baseCost: 1250, baseRate: 38 },
+  { id: "lab", name: "Quantum Lab", icon: "⚛", baseCost: 15000, baseRate: 420 }
+];
+
+const upgradeDefinitions = [
+  { id: "tap2", name: "Charged Touch", description: "Tap power ×2", cost: 250, type: "tap", multiplier: 2 },
+  { id: "auto2", name: "Smart Logistics", description: "All production ×2", cost: 2500, type: "auto", multiplier: 2 },
+  { id: "tap5", name: "Plasma Fingers", description: "Tap power ×5", cost: 12000, type: "tap", multiplier: 5 },
+  { id: "auto3", name: "Golden Network", description: "All production ×3", cost: 85000, type: "auto", multiplier: 3 }
+];
+
+const defaultState = () => ({
+  coins: 0,
+  lifetimeCoins: 0,
+  producers: Object.fromEntries(producerDefinitions.map(item => [item.id, 0])),
+  upgrades: [],
+  buyMode: "1",
+  paused: false,
+  won: false,
+  lastSaved: Date.now()
+});
+
+let state = defaultState();
+let lastFrame = performance.now();
+let lastRenderedSecond = -1;
+
+const elements = {
+  coinBalance: document.getElementById("coinBalance"),
+  perTap: document.getElementById("perTap"),
+  perSecond: document.getElementById("perSecond"),
+  tapReward: document.getElementById("tapReward"),
+  coreButton: document.getElementById("coreButton"),
+  producerList: document.getElementById("producerList"),
+  upgradeList: document.getElementById("upgradeList"),
+  goalText: document.getElementById("goalText"),
+  goalProgress: document.getElementById("goalProgress"),
+  progressTrack: document.querySelector(".progress-track"),
+  statusMessage: document.getElementById("statusMessage"),
+  pauseButton: document.getElementById("pauseButton"),
+  pauseIcon: document.getElementById("pauseIcon"),
+  saveButton: document.getElementById("saveButton"),
+  resetButton: document.getElementById("resetButton"),
+  offlineModal: document.getElementById("offlineModal"),
+  offlineAmount: document.getElementById("offlineAmount"),
+  collectOfflineButton: document.getElementById("collectOfflineButton"),
+  winModal: document.getElementById("winModal"),
+  continueButton: document.getElementById("continueButton"),
+  newEmpireButton: document.getElementById("newEmpireButton"),
+  currentYear: document.getElementById("currentYear")
+};
+
+function sanitizeLoadedState(parsed) {
+  const clean = defaultState();
+  if (!parsed || typeof parsed !== "object") return clean;
+  clean.coins = validNumber(parsed.coins);
+  clean.lifetimeCoins = validNumber(parsed.lifetimeCoins);
+  clean.buyMode = ["1", "10", "max"].includes(String(parsed.buyMode)) ? String(parsed.buyMode) : "1";
+  clean.paused = Boolean(parsed.paused);
+  clean.won = Boolean(parsed.won);
+  clean.lastSaved = Number.isFinite(parsed.lastSaved) ? parsed.lastSaved : Date.now();
+  clean.upgrades = Array.isArray(parsed.upgrades)
+    ? parsed.upgrades.filter(id => upgradeDefinitions.some(upgrade => upgrade.id === id))
+    : [];
+  producerDefinitions.forEach(item => {
+    const amount = parsed.producers && parsed.producers[item.id];
+    clean.producers[item.id] = Number.isFinite(amount) ? Math.max(0, Math.floor(amount)) : 0;
+  });
+  return clean;
+}
+
+function validNumber(value) {
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
+function loadGame() {
+  try {
+    const saved = localStorage.getItem(SAVE_KEY);
+    if (!saved) return;
+    state = sanitizeLoadedState(JSON.parse(saved));
+    const elapsedSeconds = Math.min(OFFLINE_CAP_SECONDS, Math.max(0, (Date.now() - state.lastSaved) / 1000));
+    const offlineCoins = state.paused ? 0 : getProductionRate() * elapsedSeconds;
+    if (offlineCoins >= 1 && elapsedSeconds >= 30) {
+      state.coins += offlineCoins;
+      state.lifetimeCoins += offlineCoins;
+      elements.offlineAmount.textContent = `+${formatNumber(offlineCoins)} coins`;
+      openModal(elements.offlineModal, elements.collectOfflineButton);
+    }
+  } catch (error) {
+    console.warn("The saved Idle Empire game could not be loaded.", error);
+    state = defaultState();
+  }
+}
+
+function saveGame(showMessage = false) {
+  state.lastSaved = Date.now();
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    if (showMessage) setStatus("Game saved in this browser.");
+  } catch (error) {
+    if (showMessage) setStatus("This browser could not save the game.");
+    console.warn("Idle Empire save failed.", error);
+  }
+}
+
+function getTapPower() {
+  return upgradeDefinitions
+    .filter(item => item.type === "tap" && state.upgrades.includes(item.id))
+    .reduce((power, item) => power * item.multiplier, 1);
+}
+
+function getAutoMultiplier() {
+  return upgradeDefinitions
+    .filter(item => item.type === "auto" && state.upgrades.includes(item.id))
+    .reduce((power, item) => power * item.multiplier, 1);
+}
+
+function getProductionRate() {
+  const base = producerDefinitions.reduce((total, item) => total + state.producers[item.id] * item.baseRate, 0);
+  return base * getAutoMultiplier();
+}
+
+function unitCost(item, ownedOffset = 0) {
+  return item.baseCost * Math.pow(1.15, state.producers[item.id] + ownedOffset);
+}
+
+function purchaseQuote(item) {
+  if (state.buyMode === "max") {
+    let quantity = 0;
+    let cost = 0;
+    while (quantity < 10000) {
+      const nextCost = unitCost(item, quantity);
+      if (cost + nextCost > state.coins + 1e-8) break;
+      cost += nextCost;
+      quantity += 1;
+    }
+    return { quantity, cost };
+  }
+  const desired = Number(state.buyMode);
+  let cost = 0;
+  for (let index = 0; index < desired; index += 1) cost += unitCost(item, index);
+  return { quantity: desired, cost };
+}
+
+function buyProducer(id) {
+  if (state.paused) return setStatus("Resume the game before making a purchase.");
+  const item = producerDefinitions.find(entry => entry.id === id);
+  if (!item) return;
+  const quote = purchaseQuote(item);
+  if (quote.quantity < 1) return setStatus(`You need more coins for ${item.name}.`);
+  if (state.coins + 1e-8 < quote.cost) return setStatus(`You need ${formatNumber(quote.cost - state.coins)} more coins.`);
+  state.coins -= quote.cost;
+  state.producers[id] += quote.quantity;
+  setStatus(`Bought ${quote.quantity} ${item.name}${quote.quantity === 1 ? "" : "s"}.`);
+  render();
+}
+
+function buyUpgrade(id) {
+  if (state.paused) return setStatus("Resume the game before buying an upgrade.");
+  const item = upgradeDefinitions.find(entry => entry.id === id);
+  if (!item || state.upgrades.includes(id)) return;
+  if (state.coins < item.cost) return setStatus(`You need ${formatNumber(item.cost - state.coins)} more coins.`);
+  state.coins -= item.cost;
+  state.upgrades.push(id);
+  setStatus(`${item.name} unlocked.`);
+  render();
+}
+
+function tapCore(event) {
+  if (state.paused) return setStatus("The game is paused. Resume to keep building.");
+  const amount = getTapPower();
+  state.coins += amount;
+  state.lifetimeCoins += amount;
+  elements.coreButton.classList.add("is-pressed");
+  window.setTimeout(() => elements.coreButton.classList.remove("is-pressed"), 90);
+  showFloatingNumber(event, amount);
+  render();
+  checkWin();
+}
+
+function showFloatingNumber(event, amount) {
+  const rect = elements.coreButton.getBoundingClientRect();
+  const x = event && Number.isFinite(event.clientX) && event.clientX > 0 ? event.clientX : rect.left + rect.width / 2;
+  const y = event && Number.isFinite(event.clientY) && event.clientY > 0 ? event.clientY : rect.top + rect.height / 2;
+  const number = document.createElement("span");
+  number.className = "floating-number";
+  number.textContent = `+${formatNumber(amount)}`;
+  number.style.left = `${x}px`;
+  number.style.top = `${y}px`;
+  document.body.appendChild(number);
+  window.setTimeout(() => number.remove(), 820);
+}
+
+function setBuyMode(mode) {
+  state.buyMode = String(mode);
+  document.querySelectorAll(".mode-button").forEach(button => {
+    const active = button.dataset.mode === state.buyMode;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  renderShop();
+}
+
+function togglePause() {
+  state.paused = !state.paused;
+  document.body.classList.toggle("is-paused", state.paused);
+  elements.pauseButton.setAttribute("aria-pressed", String(state.paused));
+  elements.pauseButton.setAttribute("aria-label", state.paused ? "Resume game" : "Pause game");
+  elements.pauseIcon.textContent = state.paused ? "▶" : "Ⅱ";
+  setStatus(state.paused ? "Game paused. Automatic production is stopped." : "Game resumed. Your empire is producing again.");
+  lastFrame = performance.now();
+  renderShop();
+  saveGame();
+}
+
+function render() {
+  const tapPower = getTapPower();
+  const production = getProductionRate();
+  elements.coinBalance.textContent = formatNumber(state.coins);
+  elements.perTap.textContent = formatNumber(tapPower);
+  elements.perSecond.textContent = formatNumber(production);
+  elements.tapReward.textContent = formatNumber(tapPower);
+  elements.goalText.textContent = `${formatNumber(Math.min(state.lifetimeCoins, GOAL))} / 1.00M`;
+  const progress = Math.min(100, (state.lifetimeCoins / GOAL) * 100);
+  elements.goalProgress.style.width = `${progress}%`;
+  elements.progressTrack.setAttribute("aria-valuenow", String(Math.floor(Math.min(state.lifetimeCoins, GOAL))));
+  document.querySelectorAll(".milestone").forEach(node => {
+    node.classList.toggle("is-unlocked", state.lifetimeCoins >= Number(node.dataset.milestone));
+  });
+  renderShop();
+}
+
+function renderShop() {
+  elements.producerList.replaceChildren(...producerDefinitions.map(item => {
+    const quote = purchaseQuote(item);
+    const canAfford = quote.quantity > 0 && state.coins + 1e-8 >= quote.cost && !state.paused;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "producer";
+    button.disabled = !canAfford;
+    button.dataset.producer = item.id;
+    button.setAttribute("aria-label", `Buy ${quote.quantity || 1} ${item.name}. Cost ${formatNumber(quote.cost || unitCost(item))} coins. Owned ${state.producers[item.id]}.`);
+    button.innerHTML = `<span class="producer-icon" aria-hidden="true">${item.icon}</span><span><span class="producer-name">${item.name}</span><span class="producer-rate">+${formatNumber(item.baseRate * getAutoMultiplier())}/sec each</span></span><span class="producer-price"><strong>${quote.quantity ? formatNumber(quote.cost) : "Too costly"}</strong><small>Owned ${state.producers[item.id]}${quote.quantity > 1 ? ` · Buy ${quote.quantity}` : ""}</small></span>`;
+    button.addEventListener("click", () => buyProducer(item.id));
+    return button;
+  }));
+
+  elements.upgradeList.replaceChildren(...upgradeDefinitions.map(item => {
+    const bought = state.upgrades.includes(item.id);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `upgrade${bought ? " is-bought" : ""}`;
+    button.disabled = bought || state.coins < item.cost || state.paused;
+    button.setAttribute("aria-label", bought ? `${item.name} purchased` : `Buy ${item.name} for ${formatNumber(item.cost)} coins`);
+    button.innerHTML = `<span>${item.name}<small>${item.description}</small></span><strong>${bought ? "Owned ✓" : formatNumber(item.cost)}</strong>`;
+    button.addEventListener("click", () => buyUpgrade(item.id));
+    return button;
+  }));
+}
+
+function checkWin() {
+  if (state.lifetimeCoins < GOAL || state.won) return;
+  state.won = true;
+  saveGame();
+  openModal(elements.winModal, elements.continueButton);
+}
+
+function resetGame(requireConfirmation = true) {
+  if (requireConfirmation && !window.confirm("Reset all Idle Empire progress? This cannot be undone.")) return;
+  state = defaultState();
+  localStorage.removeItem(SAVE_KEY);
+  closeModal(elements.winModal);
+  document.body.classList.remove("is-paused");
+  elements.pauseButton.setAttribute("aria-pressed", "false");
+  elements.pauseButton.setAttribute("aria-label", "Pause game");
+  elements.pauseIcon.textContent = "Ⅱ";
+  lastFrame = performance.now();
+  setBuyMode("1");
+  setStatus("A new empire is ready. Tap the core to begin.");
+  render();
+}
+
+function openModal(modal, focusTarget) {
+  modal.hidden = false;
+  window.setTimeout(() => focusTarget.focus(), 0);
+}
+
+function closeModal(modal) {
+  modal.hidden = true;
+  elements.coreButton.focus();
+}
+
+function setStatus(message) {
+  elements.statusMessage.textContent = message;
+}
+
+function formatNumber(value) {
+  if (!Number.isFinite(value)) return "0";
+  const absolute = Math.abs(value);
+  const units = [
+    { threshold: 1e12, suffix: "T" },
+    { threshold: 1e9, suffix: "B" },
+    { threshold: 1e6, suffix: "M" },
+    { threshold: 1e3, suffix: "K" }
+  ];
+  const unit = units.find(entry => absolute >= entry.threshold);
+  if (unit) {
+    const scaled = value / unit.threshold;
+    const digits = scaled >= 100 ? 0 : scaled >= 10 ? 1 : 2;
+    return `${scaled.toFixed(digits).replace(/\.0+$|(?<=\.[0-9])0$/, "")}${unit.suffix}`;
+  }
+  if (absolute >= 100) return Math.floor(value).toLocaleString("en-US");
+  if (absolute >= 10) return value.toFixed(1).replace(/\.0$/, "");
+  return value.toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1");
+}
+
+function gameLoop(now) {
+  const elapsed = Math.min(.25, Math.max(0, (now - lastFrame) / 1000));
+  lastFrame = now;
+  if (!state.paused) {
+    const earned = getProductionRate() * elapsed;
+    state.coins += earned;
+    state.lifetimeCoins += earned;
+  }
+  const currentSecond = Math.floor(now / 250);
+  if (currentSecond !== lastRenderedSecond) {
+    lastRenderedSecond = currentSecond;
+    render();
+    checkWin();
+  }
+  window.requestAnimationFrame(gameLoop);
+}
+
+elements.coreButton.addEventListener("click", tapCore);
+elements.pauseButton.addEventListener("click", togglePause);
+elements.saveButton.addEventListener("click", () => saveGame(true));
+elements.resetButton.addEventListener("click", () => resetGame(true));
+elements.collectOfflineButton.addEventListener("click", () => {
+  closeModal(elements.offlineModal);
+  setStatus("Offline earnings collected. Welcome back!");
+  render();
+  checkWin();
+  saveGame();
+});
+elements.continueButton.addEventListener("click", () => {
+  closeModal(elements.winModal);
+  setStatus("Goal complete. Keep building your empire!");
+});
+elements.newEmpireButton.addEventListener("click", () => resetGame(true));
+document.querySelectorAll(".mode-button").forEach(button => button.addEventListener("click", () => setBuyMode(button.dataset.mode)));
+
+document.addEventListener("keydown", event => {
+  const target = event.target;
+  const isInteractive = target instanceof HTMLButtonElement || target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement;
+  if (event.code === "Space" && !isInteractive && elements.offlineModal.hidden && elements.winModal.hidden) {
+    event.preventDefault();
+    tapCore(event);
+  }
+  if (event.key.toLowerCase() === "p" && !isInteractive && elements.offlineModal.hidden && elements.winModal.hidden) togglePause();
+  if (["1", "2", "3"].includes(event.key) && !isInteractive) setBuyMode({ "1": "1", "2": "10", "3": "max" }[event.key]);
+  if (event.key === "Escape") {
+    if (!elements.offlineModal.hidden) elements.collectOfflineButton.click();
+    else if (!elements.winModal.hidden) elements.continueButton.click();
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) saveGame();
+  lastFrame = performance.now();
+});
+window.addEventListener("pagehide", () => saveGame());
+window.setInterval(() => saveGame(), SAVE_INTERVAL_MS);
+
+elements.currentYear.textContent = String(new Date().getFullYear());
+loadGame();
+setBuyMode(state.buyMode);
+document.body.classList.toggle("is-paused", state.paused);
+elements.pauseButton.setAttribute("aria-pressed", String(state.paused));
+elements.pauseButton.setAttribute("aria-label", state.paused ? "Resume game" : "Pause game");
+elements.pauseIcon.textContent = state.paused ? "▶" : "Ⅱ";
+render();
+window.requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>

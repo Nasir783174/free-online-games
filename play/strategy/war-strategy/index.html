@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play War Strategy free online in your browser. Command your army, capture territory, manage resources, and defeat the enemy without downloads.">
+  <title>War Strategy Game - Play Free Online</title>
+  <style>*{box-sizing:border-box}
+:root{font-family:"Nunito Sans",Arial,sans-serif;color:#171B2D;background:#F6F7FB}
+body{margin:0;background:#F6F7FB}
+.site-header{height:72px;background:#fff;border-bottom:1px solid #E5E7EF;display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,calc((100% - 1180px)/2));}
+.brand{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}.brand-mark{width:36px;height:36px;border-radius:11px;background:#5B5CE2;color:white;display:grid;place-items:center}.genre{font-size:14px;font-weight:700;color:#667085;background:#F1F2FA;padding:8px 12px;border-radius:999px}
+.page{max-width:1180px;margin:auto;padding:28px 20px 70px}.breadcrumb{display:flex;gap:8px;color:#667085;font-size:14px;margin-bottom:24px}.breadcrumb strong{color:#171B2D}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}.intro h1{font-size:48px;line-height:1.08;margin:0 0 12px;font-weight:800}.intro p{font-size:17px;line-height:1.65;color:#667085;margin:0;max-width:760px}.mission-pill{font-size:13px;font-weight:800;color:#4546B8;background:#E9E9FF;padding:9px 13px;border-radius:999px;white-space:nowrap}
+.game-shell{display:grid;grid-template-columns:270px 1fr;gap:18px;background:#fff;border:1px solid #E5E7EF;border-radius:18px;padding:18px;box-shadow:0 10px 35px rgba(23,27,45,.06)}
+.sidebar{display:flex;flex-direction:column;gap:14px}.panel{border:1px solid #E5E7EF;border-radius:14px;padding:15px;background:#fff}.panel-title{font-size:12px;letter-spacing:.12em;font-weight:800;color:#667085;margin-bottom:12px}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat-grid div{background:#F6F7FB;border-radius:10px;padding:10px}.stat-grid span{display:block;font-size:12px;color:#667085}.stat-grid b{font-size:21px}.selected-info{font-size:14px;line-height:1.5;color:#667085;min-height:55px}.selected-info strong{color:#171B2D}
+.action-btn{width:100%;height:46px;border:1px solid #E5E7EF;background:#fff;border-radius:10px;font:700 15px inherit;color:#171B2D;cursor:pointer;margin-top:8px;transition:.15s}.action-btn:hover:not(:disabled){transform:translateY(-1px);border-color:#5B5CE2}.action-btn:focus-visible{outline:3px solid rgba(91,92,226,.25)}.action-btn.primary{background:#5B5CE2;color:#fff;border-color:#5B5CE2}.action-btn.danger{color:#C73E3E}.action-btn:disabled{opacity:.42;cursor:not-allowed}.action-btn.large{width:180px;margin-top:18px}
+.log-panel{flex:1;min-height:160px}.log{font-size:12px;line-height:1.45;color:#667085;max-height:180px;overflow:auto}.log div{padding:7px 0;border-bottom:1px solid #F0F1F5}.log b{color:#171B2D}
+.board-wrap{min-width:0;background:#111827;border-radius:15px;padding:15px;color:white;display:flex;flex-direction:column}.board-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:3px 4px 14px}.board-top strong{display:block;font-size:18px}.board-top span{display:block;font-size:12px;color:#AAB2C2;margin-top:3px}.turn-indicator{font-size:11px!important;font-weight:800;letter-spacing:.08em;padding:7px 9px;border-radius:999px;background:#26334A;color:#fff!important;white-space:nowrap}
+.board{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;aspect-ratio:1.35;background:#1F2937;padding:8px;border-radius:12px}
+.cell{position:relative;border:1px solid rgba(255,255,255,.09);border-radius:9px;min-width:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.15s;user-select:none}.cell:hover{filter:brightness(1.08);transform:translateY(-1px)}.cell.player{background:#3439A4}.cell.enemy{background:#8E3C45}.cell.neutral{background:#596273}.cell.selected{outline:3px solid #FFB84D;z-index:2}.cell.fortified:after{content:"";position:absolute;right:6px;top:5px;width:8px;height:8px;border-radius:50%;background:#FFB84D}.cell .name{font-size:clamp(9px,1.2vw,13px);font-weight:800;text-align:center}.cell .units{font-size:clamp(15px,2vw,23px);font-weight:800;margin-top:3px}.cell .owner{font-size:9px;opacity:.7;margin-top:1px}.legend{display:flex;flex-wrap:wrap;gap:14px;padding:13px 4px 2px;font-size:11px;color:#AAB2C2}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.player-dot{background:#5B5CE2}.enemy-dot{background:#8E3C45}.neutral-dot{background:#596273}.fort-dot{background:#FFB84D}
+.content{padding:60px 10px 0;max-width:920px}.content h2{font-size:28px;margin:34px 0 10px}.content p,.content li{font-size:16px;line-height:1.7;color:#667085}.content ul{padding-left:20px}.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.tips article{background:#fff;border:1px solid #E5E7EF;border-radius:14px;padding:18px}.tips b{display:block;margin-bottom:8px}.tips span{font-size:14px;color:#667085;line-height:1.55}.related{display:flex;flex-wrap:wrap;gap:10px}.related span{background:#fff;border:1px solid #E5E7EF;padding:10px 14px;border-radius:10px;font-weight:700;font-size:14px}details{background:#fff;border:1px solid #E5E7EF;border-radius:12px;padding:14px 16px;margin:9px 0}summary{font-weight:700;cursor:pointer}details p{margin-bottom:0}
+.modal{position:fixed;inset:0;background:rgba(17,24,39,.62);display:grid;place-items:center;padding:20px;z-index:10}.modal.hidden{display:none}.modal-card{background:#fff;border-radius:20px;padding:35px;text-align:center;max-width:410px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2)}.result-icon{font-size:40px;color:#FFB84D}.modal-card h2{font-size:32px;margin:8px 0}.modal-card p{color:#667085;line-height:1.6}
+@media(max-width:800px){.intro{align-items:start}.intro h1{font-size:38px}.game-shell{grid-template-columns:1fr}.sidebar{order:2}.board-wrap{order:1}.log-panel{min-height:120px}.log{max-height:110px}.tips{grid-template-columns:1fr}}
+@media(max-width:520px){.site-header{height:62px}.page{padding:20px 12px 50px}.intro{display:block}.intro h1{font-size:34px}.mission-pill{display:inline-block;margin-top:14px}.game-shell{padding:9px;border-radius:14px}.board-wrap{padding:10px}.board{gap:4px;padding:5px}.cell{border-radius:6px}.legend{gap:9px}.content{padding:35px 3px 0}.content h2{font-size:24px}.tips{grid-template-columns:1fr}}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="brand"><span class="brand-mark">⚔</span><span>Games Hub</span></div>
+    <span class="genre">Strategy</span>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <span>Games</span><span>›</span><span>Strategy</span><span>›</span><strong>War Strategy</strong>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <h1>War Strategy Game</h1>
+        <p>Command your forces, capture enemy territory, balance your resources, and outmaneuver the opposing army in this browser-based strategy game.</p>
+      </div>
+      <div class="mission-pill" id="missionPill">MISSION 01</div>
+    </section>
+
+    <section class="game-shell" aria-label="War Strategy game">
+      <aside class="sidebar">
+        <div class="panel">
+          <div class="panel-title">COMMAND</div>
+          <div class="stat-grid">
+            <div><span>Gold</span><b id="gold">120</b></div>
+            <div><span>Supplies</span><b id="supplies">90</b></div>
+            <div><span>Army</span><b id="army">18</b></div>
+            <div><span>Turns</span><b id="turns">30</b></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">SELECTED</div>
+          <div id="selectedInfo" class="selected-info">Select one of your territories.</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">ORDERS</div>
+          <button class="action-btn primary" id="attackBtn" disabled>⚔ Attack</button>
+          <button class="action-btn" id="fortifyBtn" disabled>▣ Fortify</button>
+          <button class="action-btn" id="endTurnBtn">End Turn</button>
+          <button class="action-btn danger" id="restartBtn">Restart Mission</button>
+        </div>
+
+        <div class="panel log-panel">
+          <div class="panel-title">BATTLE LOG</div>
+          <div id="log" class="log" aria-live="polite"></div>
+        </div>
+      </aside>
+
+      <div class="board-wrap">
+        <div class="board-top">
+          <div><strong>Frontier Command</strong><span id="objective">Capture all enemy territory.</span></div>
+          <div class="turn-indicator" id="turnIndicator">YOUR TURN</div>
+        </div>
+        <div id="board" class="board" role="grid" aria-label="Strategic territory map"></div>
+        <div class="legend">
+          <span><i class="player-dot"></i>Your territory</span>
+          <span><i class="enemy-dot"></i>Enemy territory</span>
+          <span><i class="neutral-dot"></i>Neutral territory</span>
+          <span><i class="fort-dot"></i>Fortified</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <h2>How to Play War Strategy</h2>
+      <p>Choose one of your territories, then attack an adjacent enemy or neutral territory. Successful attacks expand your control, while fortifying increases a territory's defense.</p>
+      <div class="tips">
+        <article><b>1. Build your position</b><span>Use fortify orders when a border territory needs stronger defense.</span></article>
+        <article><b>2. Choose attacks carefully</b><span>Attacking costs army units, so avoid spreading your forces too thin.</span></article>
+        <article><b>3. Manage resources</b><span>Gold and supplies are restored during your turn, helping you sustain your campaign.</span></article>
+      </div>
+
+      <h2>About War Strategy</h2>
+      <p>This free online strategy game is designed around territory control, resource management, tactical attacks, and turn-based decisions. The goal is to eliminate the opposing force before your turns run out.</p>
+
+      <h2>Tips & Strategy</h2>
+      <ul>
+        <li>Secure the center before making a deep push into enemy territory.</li>
+        <li>Keep enough army strength behind your frontline to protect captured regions.</li>
+        <li>Fortify valuable border regions before ending a turn.</li>
+        <li>Neutral regions are easier targets and can provide useful strategic routes.</li>
+      </ul>
+
+      <h2>Related Games</h2>
+      <div class="related"><span>Chess</span><span>2048</span><span>Hex Puzzle</span><span>Tank Battle</span></div>
+
+      <h2>FAQ</h2>
+      <details><summary>Can I play War Strategy in a browser?</summary><p>Yes. The game runs entirely in the browser with HTML, CSS, and JavaScript.</p></details>
+      <details><summary>How do I win?</summary><p>Capture every enemy territory before your available turns run out.</p></details>
+      <details><summary>Does the game work on mobile?</summary><p>Yes. The map and controls adapt to smaller screens and territory tiles are touch-friendly.</p></details>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="modal-card">
+      <div class="result-icon" id="resultIcon">★</div>
+      <h2 id="resultTitle">Victory!</h2>
+      <p id="resultText"></p>
+      <button class="action-btn primary large" id="playAgainBtn">Play Again</button>
+    </div>
+  </div>
+
+  <script>const boardEl = document.getElementById("board");
+const goldEl = document.getElementById("gold");
+const suppliesEl = document.getElementById("supplies");
+const armyEl = document.getElementById("army");
+const turnsEl = document.getElementById("turns");
+const selectedInfo = document.getElementById("selectedInfo");
+const logEl = document.getElementById("log");
+const attackBtn = document.getElementById("attackBtn");
+const fortifyBtn = document.getElementById("fortifyBtn");
+const endTurnBtn = document.getElementById("endTurnBtn");
+const restartBtn = document.getElementById("restartBtn");
+const resultModal = document.getElementById("resultModal");
+const resultTitle = document.getElementById("resultTitle");
+const resultText = document.getElementById("resultText");
+const resultIcon = document.getElementById("resultIcon");
+const playAgainBtn = document.getElementById("playAgainBtn");
+const turnIndicator = document.getElementById("turnIndicator");
+const objective = document.getElementById("objective");
+
+const MAP = [
+  ["North Ridge","Pine Pass","Iron Hill","East Gate","Coast"],
+  ["West Fort","River Bend","Stonefield","Red Valley","Harbor"],
+  ["Old Road","Crossroads","Highland","Watchtower","Delta"],
+  ["Westport","Central Plain","Oak Woods","Eastport","Marsh"],
+  ["South Fort","Farmland","Supply Base","Hilltop","Enemy HQ"]
+];
+
+let cells, selected, gameOver, playerTurn, gold, supplies, army, turns, score, mission;
+
+function initialState(){
+  cells = MAP.flatMap((row, i) => row.map((name, j) => {
+    const idx = i * 5 + j;
+    let owner = "neutral", units = 5;
+    if (idx === 0 || idx === 5 || idx === 10 || idx === 15 || idx === 20) owner = "player";
+    if ([4,8,9,14,19,24].includes(idx)) owner = "enemy";
+    if (owner === "player") units = idx === 0 ? 9 : 6;
+    if (owner === "enemy") units = idx === 24 ? 10 : 7;
+    return {name, owner, units, fortified:false, x:j, y:i};
+  }));
+  selected = null; gameOver = false; playerTurn = true;
+  gold = 120; supplies = 90; army = 18; turns = 30; score = 0; mission = 1;
+  resultModal.classList.add("hidden");
+  logEl.innerHTML = "";
+  addLog("Mission started. Capture every enemy region.");
+  render();
+}
+
+function neighbors(index){
+  const x = cells[index].x, y = cells[index].y;
+  return cells.map((c,i) => (Math.abs(c.x-x)+Math.abs(c.y-y)===1 ? i : -1)).filter(i=>i>=0);
+}
+
+function addLog(message){
+  const div=document.createElement("div");
+  div.textContent=message;
+  logEl.prepend(div);
+  while(logEl.children.length>8) logEl.lastChild.remove();
+}
+
+function render(){
+  boardEl.innerHTML="";
+  cells.forEach((cell,index)=>{
+    const el=document.createElement("button");
+    el.className=`cell ${cell.owner}${selected===index?" selected":""}${cell.fortified?" fortified":""}`;
+    el.setAttribute("role","gridcell");
+    el.setAttribute("aria-label",`${cell.name}, ${cell.owner}, ${cell.units} units${cell.fortified?", fortified":""}`);
+    el.innerHTML=`<span class="name">${cell.name}</span><span class="units">${cell.units}</span><span class="owner">${cell.owner==="player"?"YOU":cell.owner.toUpperCase()}</span>`;
+    el.addEventListener("click",()=>selectCell(index));
+    boardEl.appendChild(el);
+  });
+  goldEl.textContent=gold; suppliesEl.textContent=supplies; armyEl.textContent=army; turnsEl.textContent=turns;
+  updateSelection();
+}
+
+function selectCell(index){
+  if(gameOver || !playerTurn) return;
+  if(cells[index].owner==="player"){
+    selected=index;
+    updateSelection();
+    render();
+  } else if(selected!==null && neighbors(selected).includes(index)){
+    attack(index);
+  } else {
+    addLog("Select one of your adjacent territories.");
+  }
+}
+
+function updateSelection(){
+  const validTargets = selected===null ? [] : neighbors(selected).filter(i=>cells[i].owner!=="player");
+  if(selected===null){
+    selectedInfo.textContent="Select one of your territories.";
+    attackBtn.disabled=true; fortifyBtn.disabled=true;
+    return;
+  }
+  const c=cells[selected];
+  selectedInfo.innerHTML=`<strong>${c.name}</strong><br>${c.units} units · ${c.fortified?"Fortified":"Standard"}<br><small>${validTargets.length} adjacent target${validTargets.length===1?"":"s"}</small>`;
+  attackBtn.disabled=gameOver || !validTargets.length || c.units<2 || supplies<8;
+  fortifyBtn.disabled=gameOver || c.fortified || gold<15;
+}
+
+function attack(targetIndex){
+  if(gameOver || !playerTurn || selected===null) return;
+  const from=cells[selected], target=cells[targetIndex];
+  if(!neighbors(selected).includes(targetIndex) || from.owner!=="player") return;
+  if(from.units<2 || supplies<8) { addLog("Not enough army or supplies to attack."); return; }
+  supplies-=8; gold=Math.max(0,gold-5);
+  const attackerPower=from.units + Math.floor(Math.random()*7);
+  const defenderPower=target.units + (target.fortified?3:0) + Math.floor(Math.random()*5);
+  const loss=Math.max(1,Math.floor(target.units/3)+Math.floor(Math.random()*2));
+  if(attackerPower>=defenderPower){
+    const moved=Math.max(1,Math.floor(from.units/2));
+    from.units-=moved;
+    target.owner="player"; target.units=Math.max(2,moved-1); target.fortified=false;
+    score+=100; army=Math.max(0,army-1);
+    addLog(`Victory at ${target.name}. Territory captured.`);
+  }else{
+    from.units=Math.max(1,from.units-loss);
+    army=Math.max(0,army-loss);
+    addLog(`Attack failed at ${target.name}. Your force lost ${loss} units.`);
+  }
+  selected=null;
+  checkWin();
+  if(!gameOver) enemyTurn();
+  render();
+}
+
+function fortify(){
+  if(selected===null || gameOver || !playerTurn) return;
+  const c=cells[selected];
+  if(c.owner!=="player" || c.fortified || gold<15) return;
+  gold-=15; c.fortified=true; c.units=Math.min(14,c.units+2);
+  addLog(`${c.name} fortified. Defense increased.`);
+  selected=null;
+  render();
+}
+
+function enemyTurn(){
+  playerTurn=false; turnIndicator.textContent="ENEMY TURN"; endTurnBtn.disabled=true;
+  setTimeout(()=>{
+    if(gameOver) return;
+    const enemyIndexes=cells.map((c,i)=>c.owner==="enemy"?i:-1).filter(i=>i>=0);
+    let attackOptions=[];
+    enemyIndexes.forEach(i=>neighbors(i).forEach(n=>{
+      if(cells[n].owner==="player") attackOptions.push([i,n]);
+    }));
+    if(attackOptions.length){
+      const [fromIndex,targetIndex]=attackOptions[Math.floor(Math.random()*attackOptions.length)];
+      const from=cells[fromIndex], target=cells[targetIndex];
+      const power=from.units+Math.floor(Math.random()*5);
+      const defense=target.units+(target.fortified?3:0)+Math.floor(Math.random()*4);
+      if(power>defense){
+        const loss=Math.min(target.units,Math.max(1,Math.floor(from.units/3)));
+        target.owner="enemy"; target.units=Math.max(2,loss); target.fortified=false;
+        addLog(`Enemy captured ${target.name}.`);
+      }else{
+        from.units=Math.max(1,from.units-1);
+        addLog(`Enemy attack on ${target.name} was repelled.`);
+      }
+    } else addLog("Enemy is regrouping.");
+    turns--;
+    gold=Math.min(160,gold+12); supplies=Math.min(120,supplies+15);
+    army=cells.filter(c=>c.owner==="player").reduce((s,c)=>s+c.units,0);
+    if(turns<=0){lose("Your campaign ran out of turns.");return;}
+    if(cells.filter(c=>c.owner==="player").length===0){lose("Your army has lost all territory.");return;}
+    playerTurn=true; turnIndicator.textContent="YOUR TURN"; endTurnBtn.disabled=false;
+    render();
+  },450);
+}
+
+function endTurn(){
+  if(gameOver || !playerTurn) return;
+  selected=null; enemyTurn();
+}
+
+function checkWin(){
+  if(cells.every(c=>c.owner==="player")) win();
+}
+
+function win(){
+  gameOver=true; playerTurn=false; score += turns*10;
+  resultIcon.textContent="★"; resultTitle.textContent="Victory!";
+  resultText.textContent=`You captured the entire frontier with a final score of ${score}.`;
+  resultModal.classList.remove("hidden");
+  turnIndicator.textContent="MISSION COMPLETE"; objective.textContent="All enemy territory captured.";
+}
+
+function lose(reason){
+  gameOver=true; playerTurn=false;
+  resultIcon.textContent="!"; resultTitle.textContent="Defeat";
+  resultText.textContent=`${reason} Final score: ${score}.`;
+  resultModal.classList.remove("hidden");
+  turnIndicator.textContent="MISSION FAILED"; objective.textContent="Restart the mission and try a new strategy.";
+}
+
+attackBtn.addEventListener("click",()=>{
+  if(selected===null) return;
+  const target=neighbors(selected).find(i=>cells[i].owner!=="player");
+  if(target!==undefined) attack(target);
+});
+fortifyBtn.addEventListener("click",fortify);
+endTurnBtn.addEventListener("click",endTurn);
+restartBtn.addEventListener("click",initialState);
+playAgainBtn.addEventListener("click",initialState);
+
+document.addEventListener("keydown",(e)=>{
+  if(gameOver) return;
+  if(e.key.toLowerCase()==="r") initialState();
+  if(e.key==="Enter" && selected!==null && !attackBtn.disabled) attackBtn.click();
+  if(e.key.toLowerCase()==="f" && !fortifyBtn.disabled) fortify();
+  if(e.key.toLowerCase()==="e" && !endTurnBtn.disabled) endTurn();
+});
+
+initialState();
+</script>
+</body>
+</html>

@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Spelling Game online for free. Listen to or read each word, type the correct spelling, and build your score with fast browser gameplay. No download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Spelling Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --secondary: #16B8C4;
+  --action: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game-bg: #111827;
+  --game-secondary: #1F2937;
+  --shadow: 0 18px 45px rgba(23, 27, 45, 0.09);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.site-header {
+  height: 72px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1160px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.header-pill {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  background: #F1F2FF;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.page-shell {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 28px 24px 72px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.breadcrumb a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.intro {
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+h1,
+h2 {
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(40px, 5vw, 58px);
+  font-weight: 800;
+}
+
+.lead {
+  max-width: 740px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.game-card {
+  overflow: hidden;
+  background: var(--game-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  color: #fff;
+}
+
+.game-topbar {
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  background: var(--game-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.stat {
+  text-align: center;
+  padding: 14px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.stat:last-child {
+  border-right: 0;
+}
+
+.stat-label {
+  display: block;
+  color: #AEB7C7;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.stat strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 25px;
+  line-height: 1.15;
+}
+
+.game-stage {
+  min-height: 590px;
+  padding: 42px 24px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.status-badge {
+  background: rgba(91, 92, 226, 0.18);
+  border: 1px solid rgba(143, 145, 255, 0.32);
+  color: #C9CAFF;
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.word-card {
+  width: min(100%, 620px);
+  margin: 24px auto 28px;
+  padding: 32px 24px;
+  text-align: center;
+  background: #182235;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+}
+
+.round-label {
+  margin: 0;
+  color: #8EDDE2;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.speaker-wrap {
+  margin: 18px 0 14px;
+}
+
+.icon-button {
+  width: 72px;
+  height: 72px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: #fff;
+  font-size: 29px;
+  display: inline-grid;
+  place-items: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.icon-button:hover {
+  transform: translateY(-2px);
+  background: #12A4AE;
+}
+
+.icon-button:focus-visible,
+button:focus-visible,
+input:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #FFB84D;
+  outline-offset: 3px;
+}
+
+.word-hint {
+  margin: 0;
+  color: #E7EAF0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.word-length {
+  margin: 5px 0 0;
+  color: #909BAE;
+  font-size: 14px;
+}
+
+.answer-form {
+  width: min(100%, 620px);
+}
+
+.answer-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #C8CED9;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.answer-form input {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  border: 2px solid #384357;
+  border-radius: 12px;
+  background: #111827;
+  color: #fff;
+  padding: 0 16px;
+  font-size: 18px;
+}
+
+.answer-form input::placeholder {
+  color: #667085;
+}
+
+.answer-form input:focus {
+  border-color: var(--secondary);
+  outline: none;
+}
+
+.submit-button,
+.primary-button,
+.secondary-button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 11px;
+  padding: 0 20px;
+  font-weight: 800;
+  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.submit-button,
+.primary-button {
+  background: var(--action);
+  color: #3A2A0E;
+}
+
+.submit-button:hover,
+.primary-button:hover,
+.secondary-button:hover {
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled,
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.feedback {
+  width: min(100%, 620px);
+  min-height: 29px;
+  margin: 15px 0 0;
+  text-align: center;
+  font-weight: 800;
+}
+
+.feedback.success {
+  color: #7BE69B;
+}
+
+.feedback.error {
+  color: #FF9898;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.secondary-button {
+  background: transparent;
+  border: 1px solid #465269;
+  color: #E7EAF0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.game-over {
+  width: min(100%, 620px);
+  margin-top: 25px;
+  padding: 30px 24px;
+  text-align: center;
+  background: #182235;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 18px;
+}
+
+.result-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(34,197,94,0.16);
+  color: #7BE69B;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.game-over h2 {
+  margin: 10px 0;
+  font-size: 30px;
+}
+
+.final-score {
+  margin: 0 0 20px;
+  color: #B9C1CF;
+}
+
+.content-section {
+  margin-top: 64px;
+}
+
+.content-section h2 {
+  margin: 0 0 14px;
+  font-size: 32px;
+}
+
+.content-section p {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.content-section ul {
+  color: var(--muted);
+  padding-left: 23px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 132px;
+  padding: 20px;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(23,27,45,0.07);
+}
+
+.related-card span {
+  font-size: 24px;
+}
+
+.related-card strong {
+  font-size: 18px;
+}
+
+.related-card small {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.faq details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0 18px;
+  margin-top: 10px;
+}
+
+.faq summary {
+  padding: 17px 0;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.faq details p {
+  padding: 0 0 17px;
+  margin: 0;
+}
+
+.site-footer {
+  padding: 28px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  background: #fff;
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  body {
+    font-size: 16px;
+  }
+
+  .site-header {
+    height: 64px;
+  }
+
+  .header-inner,
+  .page-shell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .page-shell {
+    padding-top: 20px;
+  }
+
+  .header-pill {
+    display: none;
+  }
+
+  .lead {
+    font-size: 17px;
+  }
+
+  .game-stage {
+    min-height: 0;
+    padding: 30px 16px 38px;
+  }
+
+  .game-topbar {
+    min-height: 74px;
+  }
+
+  .stat {
+    padding: 10px 5px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .stat strong {
+    font-size: 21px;
+  }
+
+  .word-card {
+    padding: 26px 17px;
+    margin-top: 20px;
+  }
+
+  .word-hint {
+    font-size: 18px;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+
+  .controls {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .controls button {
+    width: 100%;
+  }
+
+  .two-col,
+  .related-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .content-section {
+    margin-top: 48px;
+  }
+
+  .content-section h2 {
+    font-size: 28px;
+  }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">Games Hub</a>
+      <span class="header-pill">Word Game</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games</a><span aria-hidden="true">/</span><span>Spelling</span>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow">FREE ONLINE WORD GAME</p>
+        <h1>Spelling Game</h1>
+        <p class="lead">Test your spelling skills, type each word correctly, and keep your streak alive. Play directly in your browser with no download required.</p>
+      </div>
+    </section>
+
+    <section class="game-card" aria-labelledby="game-heading">
+      <div class="game-topbar">
+        <div class="stat">
+          <span class="stat-label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="stat streak-stat">
+          <span class="stat-label">Streak</span>
+          <strong id="streak">0</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Round</span>
+          <strong><span id="round">1</span>/10</strong>
+        </div>
+      </div>
+
+      <div class="game-stage">
+        <div class="status-badge" id="statusBadge">Ready</div>
+        <div class="word-card">
+          <p class="round-label" id="roundLabel">SPELL THE WORD</p>
+          <div class="speaker-wrap">
+            <button id="speakBtn" class="icon-button" type="button" aria-label="Hear the word" title="Hear the word">
+              <span aria-hidden="true">🔊</span>
+            </button>
+          </div>
+          <p class="word-hint" id="wordHint">A common everyday word</p>
+          <p class="word-length" id="wordLength">5 letters</p>
+        </div>
+
+        <form id="answerForm" class="answer-form" autocomplete="off">
+          <label for="answerInput">Type the spelling</label>
+          <div class="input-row">
+            <input id="answerInput" name="answer" type="text" inputmode="text" autocapitalize="none" spellcheck="false" maxlength="24" placeholder="Type your answer..." aria-describedby="feedback">
+            <button class="submit-button" type="submit">Check</button>
+          </div>
+        </form>
+
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+
+        <div class="controls">
+          <button id="nextBtn" class="secondary-button hidden" type="button">Next Word</button>
+          <button id="restartBtn" class="secondary-button" type="button">Restart Game</button>
+        </div>
+
+        <div id="gameOverPanel" class="game-over hidden" aria-live="polite">
+          <div class="result-icon" aria-hidden="true">✓</div>
+          <p class="round-label">GAME COMPLETE</p>
+          <h2>Great spelling session!</h2>
+          <p class="final-score">You scored <strong id="finalScore">0</strong> points with a best streak of <strong id="finalStreak">0</strong>.</p>
+          <button id="playAgainBtn" class="primary-button" type="button">Play Again</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Spelling Game</h2>
+      <p>Read the clue, use the speaker button if you want to hear the word, then type the spelling in the answer box. Submit your answer to see whether it is correct.</p>
+      <ul>
+        <li>Each game has 10 spelling rounds.</li>
+        <li>A correct answer adds points and increases your streak.</li>
+        <li>An incorrect answer ends the current streak and shows the correct spelling.</li>
+        <li>Use <strong>Enter</strong> to submit an answer and the speaker button to hear the word when browser speech synthesis is available.</li>
+      </ul>
+    </section>
+
+    <section class="content-section two-col">
+      <div>
+        <h2>About the Spelling Game</h2>
+        <p>This browser spelling game uses a rotating set of everyday English words with short clues. The goal is simple: spell as many words correctly as possible while maintaining a strong streak.</p>
+      </div>
+      <div>
+        <h2>Spelling Tips</h2>
+        <p>Say the word slowly, break it into familiar sounds, and watch for common letter patterns. If you miss a word, read the correct spelling before moving to the next round.</p>
+      </div>
+    </section>
+
+    <section class="content-section related">
+      <h2>Related Games</h2>
+      <div class="related-grid">
+        <a href="#" class="related-card"><span>🔤</span><strong>Word Games</strong><small>More word challenges</small></a>
+        <a href="#" class="related-card"><span>🧩</span><strong>Puzzle Games</strong><small>Think and solve</small></a>
+        <a href="#" class="related-card"><span>⚡</span><strong>Quick Games</strong><small>Fast browser fun</small></a>
+      </div>
+    </section>
+
+    <section class="faq content-section">
+      <h2>Spelling Game FAQ</h2>
+      <details>
+        <summary>Is the Spelling Game free to play?</summary>
+        <p>Yes. This game runs directly in your browser and does not require a download, account, or signup.</p>
+      </details>
+      <details>
+        <summary>Can I play the spelling game on mobile?</summary>
+        <p>Yes. The game uses a responsive layout and a mobile-friendly text input, so it can be played on modern phones and tablets.</p>
+      </details>
+      <details>
+        <summary>How is the score calculated?</summary>
+        <p>Correct answers earn points, with a small streak bonus for consecutive correct answers. Incorrect answers reset the current streak.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Play free browser games with Games Hub.</p>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const WORDS = [
+    { word: "because", hint: "A word used to give a reason" },
+    { word: "beautiful", hint: "Pleasant to look at or experience" },
+    { word: "calendar", hint: "A chart that shows days, weeks, and months" },
+    { word: "different", hint: "Not the same as something else" },
+    { word: "favorite", hint: "Something you like more than the others" },
+    { word: "language", hint: "A system people use to communicate" },
+    { word: "necessary", hint: "Needed or required" },
+    { word: "practice", hint: "Repeated activity used to improve a skill" },
+    { word: "remember", hint: "To keep something in your mind" },
+    { word: "successful", hint: "Achieving the result you wanted" },
+    { word: "tomorrow", hint: "The day after today" },
+    { word: "together", hint: "With another person or group" },
+    { word: "important", hint: "Having great value or meaning" },
+    { word: "knowledge", hint: "Information and understanding gained through learning" },
+    { word: "experience", hint: "Knowledge gained by doing or living through something" },
+    { word: "environment", hint: "The surroundings in which people or things exist" },
+    { word: "opportunity", hint: "A favorable chance to do something" },
+    { word: "restaurant", hint: "A place where meals are prepared and served" },
+    { word: "adventure", hint: "An exciting or unusual experience" },
+    { word: "education", hint: "The process of learning and gaining knowledge" },
+    { word: "friendship", hint: "A relationship between people who care about each other" },
+    { word: "government", hint: "The group or system that runs a country or community" },
+    { word: "beautifully", hint: "In a pleasing or attractive way" },
+    { word: "temperature", hint: "A measure of how hot or cold something is" },
+    { word: "comfortable", hint: "Providing physical ease and relaxation" }
+  ];
+
+  const TOTAL_ROUNDS = 10;
+  const POINTS_PER_CORRECT = 100;
+
+  const scoreEl = document.getElementById("score");
+  const streakEl = document.getElementById("streak");
+  const roundEl = document.getElementById("round");
+  const statusBadge = document.getElementById("statusBadge");
+  const roundLabel = document.getElementById("roundLabel");
+  const wordHint = document.getElementById("wordHint");
+  const wordLength = document.getElementById("wordLength");
+  const answerForm = document.getElementById("answerForm");
+  const answerInput = document.getElementById("answerInput");
+  const feedback = document.getElementById("feedback");
+  const nextBtn = document.getElementById("nextBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const playAgainBtn = document.getElementById("playAgainBtn");
+  const speakBtn = document.getElementById("speakBtn");
+  const gameOverPanel = document.getElementById("gameOverPanel");
+  const finalScore = document.getElementById("finalScore");
+  const finalStreak = document.getElementById("finalStreak");
+
+  let round = 1;
+  let score = 0;
+  let streak = 0;
+  let bestStreak = 0;
+  let currentWord = null;
+  let answered = false;
+  let deck = [];
+
+  function shuffle(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function buildDeck() {
+    deck = shuffle(WORDS).slice(0, TOTAL_ROUNDS);
+  }
+
+  function updateStats() {
+    scoreEl.textContent = String(score);
+    streakEl.textContent = String(streak);
+    roundEl.textContent = String(round);
+  }
+
+  function setFeedback(message, type = "") {
+    feedback.textContent = message;
+    feedback.className = `feedback${type ? ` ${type}` : ""}`;
+  }
+
+  function loadRound() {
+    currentWord = deck[round - 1];
+    answered = false;
+    statusBadge.textContent = "Your turn";
+    roundLabel.textContent = "SPELL THE WORD";
+    wordHint.textContent = currentWord.hint;
+    wordLength.textContent = `${currentWord.word.length} letters`;
+    answerInput.value = "";
+    answerInput.disabled = false;
+    nextBtn.classList.add("hidden");
+    setFeedback("");
+    gameOverPanel.classList.add("hidden");
+    answerInput.focus();
+    updateStats();
+  }
+
+  function calculatePoints() {
+    return POINTS_PER_CORRECT + Math.max(0, streak - 1) * 25;
+  }
+
+  function submitAnswer(event) {
+    event.preventDefault();
+
+    if (answered || !currentWord) return;
+
+    const answer = answerInput.value.trim().toLowerCase();
+
+    if (!answer) {
+      setFeedback("Type a spelling before checking.", "error");
+      answerInput.focus();
+      return;
+    }
+
+    answered = true;
+    answerInput.disabled = true;
+
+    if (answer === currentWord.word) {
+      const points = calculatePoints();
+      score += points;
+      streak += 1;
+      bestStreak = Math.max(bestStreak, streak);
+      statusBadge.textContent = "Correct!";
+      roundLabel.textContent = "NICE WORK";
+      setFeedback(`Correct! +${points} points. Your streak is ${streak}.`, "success");
+    } else {
+      const previousStreak = streak;
+      streak = 0;
+      statusBadge.textContent = "Not quite";
+      roundLabel.textContent = "CORRECT SPELLING";
+      setFeedback(
+        `The correct spelling is "${currentWord.word}".${previousStreak > 0 ? " Your streak resets here." : ""}`,
+        "error"
+      );
+    }
+
+    updateStats();
+
+    if (round >= TOTAL_ROUNDS) {
+      window.setTimeout(endGame, 550);
+    } else {
+      nextBtn.classList.remove("hidden");
+      nextBtn.focus();
+    }
+  }
+
+  function nextRound() {
+    if (!answered) return;
+    round += 1;
+    loadRound();
+  }
+
+  function endGame() {
+    statusBadge.textContent = "Complete";
+    roundLabel.textContent = "GAME COMPLETE";
+    gameOverPanel.classList.remove("hidden");
+    finalScore.textContent = String(score);
+    finalStreak.textContent = String(bestStreak);
+    nextBtn.classList.add("hidden");
+    answerForm.classList.add("hidden");
+    setFeedback("");
+    gameOverPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function restartGame() {
+    round = 1;
+    score = 0;
+    streak = 0;
+    bestStreak = 0;
+    answerForm.classList.remove("hidden");
+    buildDeck();
+    updateStats();
+    loadRound();
+  }
+
+  function speakWord() {
+    if (!currentWord) return;
+
+    if (!("speechSynthesis" in window)) {
+      setFeedback("Your browser does not support word pronunciation.", "error");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(currentWord.word);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  answerForm.addEventListener("submit", submitAnswer);
+  nextBtn.addEventListener("click", nextRound);
+  restartBtn.addEventListener("click", restartGame);
+  playAgainBtn.addEventListener("click", restartGame);
+  speakBtn.addEventListener("click", speakWord);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !answered) {
+      answerInput.value = "";
+      answerInput.focus();
+    }
+  });
+
+  restartGame();
+})();
+</script>
+</body>
+</html>

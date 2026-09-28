@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Base Building free online. Build, upgrade, and defend your base in this fast browser strategy game with no download required.">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Base Building Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#F6F7FB;color:#171B2D;font-family:"Nunito Sans",system-ui,sans-serif;font-size:17px;line-height:1.6}.site-header{height:72px;background:#fff;border-bottom:1px solid #E5E7EF}.header-inner{max-width:1160px;height:100%;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:#171B2D;font-weight:800}.brand-mark{width:34px;height:34px;border-radius:10px;background:#5B5CE2;color:#fff;display:grid;place-items:center}.header-tag{color:#667085;font-size:14px}.page{max-width:1160px;margin:auto;padding:28px 20px 70px}.breadcrumb{font-size:14px;color:#667085;display:flex;gap:8px;align-items:center;margin-bottom:24px}.breadcrumb a{color:#4546B8;text-decoration:none}.intro{max-width:760px;margin-bottom:28px}.eyebrow{color:#5B5CE2;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px;margin:0 0 5px}.intro h1{font-size:clamp(36px,5vw,56px);line-height:1.08;margin:0 0 12px;font-weight:800}.intro p{margin:0;color:#667085}.game-shell{background:#111827;border-radius:20px;padding:16px;box-shadow:0 12px 35px rgba(17,24,39,.12)}.game-topbar{display:grid;grid-template-columns:repeat(4,1fr) 1.1fr;gap:10px;margin-bottom:12px}.stat,.wave-stat{background:#1F2937;border-radius:12px;padding:9px 12px;color:#fff;display:flex;justify-content:space-between;align-items:center}.stat span,.wave-stat span{color:#9CA3AF;font-size:13px}.stat strong,.wave-stat strong{font-size:20px}.wave-stat{background:#5B5CE2}.wave-stat span{color:#E7E7FF}.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:14px}.board-wrap{min-width:0}.board-header{background:#1F2937;color:#fff;border-radius:13px 13px 0 0;padding:11px 14px;display:flex;justify-content:space-between;align-items:center}.board-header strong{display:block;font-size:17px}.board-header span:not(.timer){color:#9CA3AF;font-size:13px}.timer{font-weight:800;font-size:22px;background:#111827;padding:2px 9px;border-radius:8px}.board{display:grid;grid-template-columns:repeat(10,1fr);aspect-ratio:1/0.66;background:#273548;padding:6px;gap:3px;touch-action:manipulation}.tile{position:relative;border:1px solid #34445A;background:#30445B;border-radius:4px;cursor:pointer;min-width:0}.tile:hover{background:#3A506A}.tile.center{background:#293B50}.building{position:absolute;inset:7%;display:grid;place-items:center;border-radius:5px;color:#fff;font-size:clamp(13px,2.5vw,25px);font-weight:800;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16)}.house{background:#B96B4D}.lumber{background:#4E8B65}.quarry{background:#69758A}.farm{background:#D49A3A}.tower{background:#5B5CE2}.wall{background:#8B6B4E}.building::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.2);border-radius:5px}.game-message{min-height:42px;background:#1F2937;color:#D1D5DB;border-radius:0 0 13px 13px;padding:8px 13px;font-size:14px}.controls-panel{background:#fff;border-radius:15px;padding:17px}.controls-panel h2{font-size:22px;margin:0 0 10px}.build-list{display:grid;gap:7px}.build-btn{border:1px solid #E5E7EF;background:#fff;border-radius:10px;padding:8px;display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;text-align:left;cursor:pointer;color:#171B2D}.build-btn:hover{border-color:#BFC1F4}.build-btn.selected{border-color:#5B5CE2;box-shadow:0 0 0 2px rgba(91,92,226,.12)}.build-btn:disabled{opacity:.45;cursor:not-allowed}.build-btn b{display:block;font-size:14px;line-height:1.15}.build-btn small{display:block;color:#667085;font-size:11px;line-height:1.2;margin-top:2px}.build-btn em{font-style:normal;font-size:12px;font-weight:800;color:#667085;white-space:nowrap}.building-icon{width:32px;height:32px;border-radius:8px;color:#fff;display:grid;place-items:center;font-weight:800}.house-icon{background:#B96B4D}.lumber-icon{background:#4E8B65}.quarry-icon{background:#69758A}.farm-icon{background:#D49A3A}.tower-icon{background:#5B5CE2}.wall-icon{background:#8B6B4E}.objective{border-top:1px solid #E5E7EF;margin-top:14px;padding-top:12px}.objective h3{font-size:16px;margin:0 0 7px}.status-row{display:flex;justify-content:space-between;font-size:13px;margin:6px 0}.status-row strong{font-weight:800}.meter{height:7px;background:#E5E7EF;border-radius:99px;overflow:hidden}.meter i{display:block;height:100%;width:100%;background:#22C55E;transition:width .25s}.primary-btn,.secondary-btn{width:100%;height:46px;border:0;border-radius:10px;font:700 15px inherit;cursor:pointer;margin-top:13px}.primary-btn{background:#5B5CE2;color:#fff}.primary-btn:hover{background:#4546B8}.secondary-btn{background:#F1F2F8;color:#4546B8}.content{max-width:820px;margin:54px auto 0}.content h2{font-size:30px;line-height:1.2;margin:38px 0 10px}.content p{color:#4B5565}.content li{margin:6px 0}.content details{background:#fff;border:1px solid #E5E7EF;border-radius:10px;margin:9px 0;padding:13px 16px}.content summary{font-weight:700;cursor:pointer}.content details p{margin:8px 0 0;font-size:16px}@media(max-width:820px){.game-layout{grid-template-columns:1fr}.controls-panel{order:2}.game-topbar{grid-template-columns:repeat(3,1fr)}.wave-stat{grid-column:auto}.board{aspect-ratio:1/0.8}}@media(max-width:520px){body{font-size:16px}.page{padding:20px 12px 50px}.header-inner{padding:0 12px}.header-tag{display:none}.game-shell{padding:9px;border-radius:15px}.game-topbar{grid-template-columns:repeat(2,1fr)}.wave-stat{grid-column:span 2}.board{grid-template-columns:repeat(10,1fr);gap:2px;padding:4px;aspect-ratio:1/1}.building{inset:8%;font-size:15px}.board-header{padding:9px 10px}.board-header span:not(.timer){font-size:11px}.timer{font-size:18px}.content{margin-top:38px}.content h2{font-size:26px}.build-btn{min-height:53px}.intro h1{font-size:40px}}button:focus-visible,a:focus-visible,summary:focus-visible,.tile:focus-visible{outline:3px solid #FFB84D;outline-offset:2px}</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Games Hub home"><span class="brand-mark">G</span><span>Games Hub</span></a>
+      <span class="header-tag">Play in your browser</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="./">Games Hub</a><span aria-hidden="true">›</span><span>Base Building</span>
+    </nav>
+
+    <section class="intro">
+      <p class="eyebrow">Strategy Game</p>
+      <h1>Base Building Game</h1>
+      <p>Build a strong base, balance your resources, and survive enemy waves. Start small, upgrade smartly, and protect your command center.</p>
+    </section>
+
+    <section class="game-shell" aria-label="Base Building game">
+      <div class="game-topbar">
+        <div class="stat"><span>Wood</span><strong id="wood">120</strong></div>
+        <div class="stat"><span>Stone</span><strong id="stone">90</strong></div>
+        <div class="stat"><span>Food</span><strong id="food">80</strong></div>
+        <div class="stat"><span>Power</span><strong id="power">0</strong></div>
+        <div class="wave-stat"><span>Wave</span><strong id="wave">1</strong></div>
+      </div>
+
+      <div class="game-layout">
+        <div class="board-wrap">
+          <div class="board-header">
+            <div>
+              <strong id="phaseTitle">Build Phase</strong>
+              <span id="phaseText">Place buildings before the next attack.</span>
+            </div>
+            <div class="timer" aria-live="polite"><span id="timer">30</span>s</div>
+          </div>
+          <div id="board" class="board" role="grid" aria-label="Base building board"></div>
+          <div id="message" class="game-message" aria-live="polite">Choose a building, then click an empty tile.</div>
+        </div>
+
+        <aside class="controls-panel">
+          <h2>Build</h2>
+          <div id="buildButtons" class="build-list">
+            <button class="build-btn selected" data-type="house" type="button">
+              <span class="building-icon house-icon">⌂</span><span><b>House</b><small>+2 population</small></span><em>25 W</em>
+            </button>
+            <button class="build-btn" data-type="lumber" type="button">
+              <span class="building-icon lumber-icon">▥</span><span><b>Lumber Camp</b><small>+5 wood / wave</small></span><em>35 W</em>
+            </button>
+            <button class="build-btn" data-type="quarry" type="button">
+              <span class="building-icon quarry-icon">◆</span><span><b>Quarry</b><small>+4 stone / wave</small></span><em>35 W</em>
+            </button>
+            <button class="build-btn" data-type="farm" type="button">
+              <span class="building-icon farm-icon">✚</span><span><b>Farm</b><small>+5 food / wave</small></span><em>30 W</em>
+            </button>
+            <button class="build-btn" data-type="tower" type="button">
+              <span class="building-icon tower-icon">▲</span><span><b>Defense Tower</b><small>+8 defense</small></span><em>45 W</em>
+            </button>
+            <button class="build-btn" data-type="wall" type="button">
+              <span class="building-icon wall-icon">▦</span><span><b>Wall</b><small>+4 defense</small></span><em>20 W</em>
+            </button>
+          </div>
+
+          <div class="objective">
+            <h3>Base Status</h3>
+            <div class="status-row"><span>Command Center</span><strong id="hp">100%</strong></div>
+            <div class="meter"><i id="hpBar"></i></div>
+            <div class="status-row"><span>Defense</span><strong id="defense">20</strong></div>
+            <div class="status-row"><span>Population</span><strong id="population">2</strong></div>
+          </div>
+
+          <button id="attackBtn" class="primary-btn" type="button">End Build Phase</button>
+          <button id="restartBtn" class="secondary-btn" type="button">Restart Game</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="content">
+      <h2>How to Play Base Building</h2>
+      <p>Use the build menu to select a structure and place it on an empty tile. Resource buildings generate materials after each enemy wave, while defense buildings help protect your command center.</p>
+      <ul>
+        <li>Build during the preparation phase.</li>
+        <li>Keep enough resources for defensive structures.</li>
+        <li>Place towers and walls near the center to strengthen your defense.</li>
+        <li>End the build phase when you are ready for the next attack.</li>
+      </ul>
+
+      <h2>Base Building Strategy Tips</h2>
+      <p>A balanced base is usually stronger than spending everything on one type of building. Early resource buildings improve your future options, but a weak defense can cost command center health. Survive as many waves as possible while growing your economy.</p>
+
+      <h2>About This Base Building Game</h2>
+      <p>This browser strategy game combines simple city building with wave defense. There is no download, account, or server required. Your progress runs locally in the browser for the current game session.</p>
+
+      <h2>FAQ</h2>
+      <details><summary>Is Base Building free to play?</summary><p>Yes. The game is designed to be played directly in a modern browser.</p></details>
+      <details><summary>Can I play Base Building on mobile?</summary><p>Yes. Tap an empty tile to place a selected building. The interface adapts to smaller screens.</p></details>
+      <details><summary>How do I win?</summary><p>Survive as many enemy waves as possible. The game ends when your command center reaches zero health.</p></details>
+    </section>
+  </main>
+  <script>(() => {
+  "use strict";
+
+  const SIZE = 10;
+  const BUILDINGS = {
+    house:  {name:"House", cost:{wood:25,stone:0,food:0}, icon:"⌂", income:{food:0,wood:0,stone:0}, defense:0, pop:2},
+    lumber: {name:"Lumber Camp", cost:{wood:35,stone:0,food:0}, icon:"▥", income:{wood:5,stone:0,food:0}, defense:0, pop:0},
+    quarry: {name:"Quarry", cost:{wood:35,stone:0,food:0}, icon:"◆", income:{wood:0,stone:4,food:0}, defense:0, pop:0},
+    farm:   {name:"Farm", cost:{wood:30,stone:0,food:0}, icon:"✚", income:{wood:0,stone:0,food:5}, defense:0, pop:0},
+    tower:  {name:"Defense Tower", cost:{wood:45,stone:0,food:0}, icon:"▲", income:{wood:0,stone:0,food:0}, defense:8, pop:0},
+    wall:   {name:"Wall", cost:{wood:20,stone:0,food:0}, icon:"▦", income:{wood:0,stone:0,food:0}, defense:4, pop:0}
+  };
+
+  let state;
+
+  const $ = id => document.getElementById(id);
+  const board = $("board");
+  const message = $("message");
+  const timerEl = $("timer");
+  const phaseTitle = $("phaseTitle");
+  const phaseText = $("phaseText");
+
+  function freshState() {
+    return {
+      resources:{wood:120, stone:90, food:80},
+      wave:1, hp:100, defense:20, population:2,
+      selected:"house", phase:"build", seconds:30,
+      grid:Array(SIZE*SIZE).fill(null),
+      timer:null, ended:false, buildingCount:0
+    };
+  }
+
+  function renderBoard() {
+    board.innerHTML = "";
+    state.grid.forEach((type, i) => {
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "tile" + (i === 44 ? " center" : "");
+      tile.setAttribute("role","gridcell");
+      tile.setAttribute("aria-label", type ? `${BUILDINGS[type].name}, tile ${i+1}` : `Empty tile ${i+1}`);
+      tile.addEventListener("click", () => placeBuilding(i));
+      if (type) {
+        const b = document.createElement("span");
+        b.className = `building ${type}`;
+        b.textContent = BUILDINGS[type].icon;
+        tile.appendChild(b);
+      }
+      board.appendChild(tile);
+    });
+  }
+
+  function updateUI() {
+    $("wood").textContent = state.resources.wood;
+    $("stone").textContent = state.resources.stone;
+    $("food").textContent = state.resources.food;
+    $("wave").textContent = state.wave;
+    $("hp").textContent = `${state.hp}%`;
+    $("hpBar").style.width = `${state.hp}%`;
+    $("defense").textContent = state.defense;
+    $("population").textContent = state.population;
+    timerEl.textContent = state.seconds;
+
+    document.querySelectorAll(".build-btn").forEach(btn => {
+      const type = btn.dataset.type;
+      btn.classList.toggle("selected", type === state.selected);
+      const c = BUILDINGS[type].cost;
+      btn.disabled = state.phase !== "build" || state.resources.wood < c.wood;
+    });
+
+    if (state.phase === "build") {
+      phaseTitle.textContent = "Build Phase";
+      phaseText.textContent = "Place buildings before the next attack.";
+      $("attackBtn").textContent = "End Build Phase";
+    } else if (!state.ended) {
+      phaseTitle.textContent = "Enemy Attack";
+      phaseText.textContent = "Your base is under attack!";
+      $("attackBtn").textContent = "Next Build Phase";
+    }
+  }
+
+  function setMessage(text) {
+    message.textContent = text;
+  }
+
+  function selectBuilding(type) {
+    if (state.phase !== "build" || state.ended) return;
+    state.selected = type;
+    setMessage(`Selected ${BUILDINGS[type].name}. Choose an empty tile.`);
+    updateUI();
+  }
+
+  function placeBuilding(index) {
+    if (state.phase !== "build" || state.ended) return;
+    if (state.grid[index]) {
+      setMessage("That tile is occupied. Choose an empty tile.");
+      return;
+    }
+    // Keep the command center area clear.
+    if (index === 44) {
+      setMessage("The center tile is reserved for your command center.");
+      return;
+    }
+    const type = state.selected;
+    const data = BUILDINGS[type];
+    if (state.resources.wood < data.cost.wood) {
+      setMessage(`Not enough wood for a ${data.name}.`);
+      return;
+    }
+    state.resources.wood -= data.cost.wood;
+    state.grid[index] = type;
+    state.buildingCount++;
+    state.defense += data.defense;
+    state.population += data.pop;
+    setMessage(`${data.name} built. Keep preparing your base.`);
+    renderBoard();
+    updateUI();
+  }
+
+  function collectIncome() {
+    let wood=0, stone=0, food=0;
+    state.grid.forEach(type => {
+      if (!type) return;
+      const inc = BUILDINGS[type].income;
+      wood += inc.wood; stone += inc.stone; food += inc.food;
+    });
+    // Houses also consume food as population grows.
+    const foodUse = Math.max(1, Math.ceil(state.population / 3));
+    state.resources.wood += wood;
+    state.resources.stone += stone;
+    state.resources.food += food - foodUse;
+    if (state.resources.food < 0) {
+      state.hp = Math.max(0, state.hp + state.resources.food);
+      state.resources.food = 0;
+      setMessage("Your food ran low, hurting the base.");
+    }
+  }
+
+  function attack() {
+    if (state.ended) return;
+    state.phase = "attack";
+    clearInterval(state.timer);
+    const enemy = 16 + state.wave * 7 + Math.floor(state.wave * 1.8);
+    const damage = Math.max(0, enemy - state.defense);
+    const blocked = enemy - damage;
+    collectIncome();
+    if (damage > 0) {
+      state.hp = Math.max(0, state.hp - damage);
+      setMessage(`Wave ${state.wave} attacked. Defense blocked ${blocked} damage; ${damage} damage got through.`);
+    } else {
+      setMessage(`Wave ${state.wave} defeated your attackers. Your defense held perfectly.`);
+    }
+
+    if (state.hp <= 0) {
+      state.ended = true;
+      phaseTitle.textContent = "Base Destroyed";
+      phaseText.textContent = "Your command center has fallen.";
+      timerEl.textContent = "0";
+      $("attackBtn").disabled = true;
+      setMessage(`Game over after wave ${state.wave}. Your final defense was ${state.defense}.`);
+      updateUI();
+      return;
+    }
+
+    state.wave++;
+    updateUI();
+    setTimeout(() => {
+      if (state.ended) return;
+      state.phase = "build";
+      state.seconds = Math.max(14, 30 - Math.floor(state.wave / 2));
+      setMessage(`Wave cleared. You gained resources. Prepare for wave ${state.wave}.`);
+      startTimer();
+      updateUI();
+    }, 900);
+  }
+
+  function startTimer() {
+    clearInterval(state.timer);
+    state.timer = setInterval(() => {
+      if (state.phase !== "build" || state.ended) return;
+      state.seconds--;
+      timerEl.textContent = state.seconds;
+      if (state.seconds <= 0) attack();
+    }, 1000);
+  }
+
+  function restart() {
+    if (state.timer) clearInterval(state.timer);
+    state = freshState();
+    $("attackBtn").disabled = false;
+    renderBoard();
+    updateUI();
+    setMessage("Choose a building, then click an empty tile.");
+    startTimer();
+  }
+
+  document.querySelectorAll(".build-btn").forEach(btn => {
+    btn.addEventListener("click", () => selectBuilding(btn.dataset.type));
+  });
+
+  $("attackBtn").addEventListener("click", () => {
+    if (state.phase === "build") attack();
+    else if (!state.ended) {
+      state.phase = "build";
+      state.seconds = Math.max(14, 30 - Math.floor(state.wave / 2));
+      startTimer();
+      updateUI();
+      setMessage(`Build phase started. Prepare for wave ${state.wave}.`);
+    }
+  });
+
+  $("restartBtn").addEventListener("click", restart);
+  restart();
+})();</script>
+</body>
+</html>

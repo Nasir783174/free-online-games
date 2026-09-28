@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Platform Arcade Game - Play Free Online</title>
+  <meta name="description" content="Play Platform Arcade free online. Run, jump, collect energy cores, avoid hazards, and clear three browser-based levels with no download required.">
+  <meta name="theme-color" content="#111827">
+  <meta property="og:title" content="Platform Arcade Game - Play Free Online">
+  <meta property="og:description" content="Run, jump, collect every core, and escape the Neon Ruins in this free browser platform game.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5b5ce2;
+  --primary-dark: #4546b8;
+  --secondary: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --background: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --shadow: 0 16px 44px rgba(23, 27, 45, .10);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, a { font: inherit; }
+a { color: var(--primary-dark); }
+.page-shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; left: 16px; top: -60px; z-index: 100; padding: 10px 16px; border-radius: 8px; background: var(--text); color: #fff; transition: top .2s; }
+.skip-link:focus { top: 12px; }
+
+.site-header { height: 72px; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+.header-inner { width: min(1160px, calc(100% - 40px)); margin: auto; display: flex; justify-content: space-between; align-items: center; }
+.brand { display: inline-flex; align-items: center; gap: 11px; color: var(--text); font-weight: 800; text-decoration: none; font-size: 20px; }
+.brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--primary); color: #fff; font-size: 14px; letter-spacing: -.5px; }
+.all-games-link { font-size: 15px; font-weight: 700; text-decoration: none; }
+
+.hero { padding: 54px 0 32px; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 14px; margin-bottom: 26px; }
+.breadcrumb a { color: var(--muted); text-decoration: none; }
+.hero-copy { max-width: 790px; }
+.eyebrow, .section-label { margin: 0 0 8px; color: var(--primary); font-size: 14px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+h1, h2, h3 { line-height: 1.12; margin-top: 0; }
+h1 { margin-bottom: 18px; font-size: clamp(42px, 6vw, 64px); font-weight: 800; letter-spacing: -.045em; }
+h2 { margin-bottom: 18px; font-size: clamp(28px, 4vw, 36px); font-weight: 700; letter-spacing: -.025em; }
+h3 { font-size: 21px; }
+.hero-copy > p:last-child { max-width: 720px; margin: 0; color: var(--muted); font-size: 18px; }
+
+.game-section { padding: 16px 0 70px; }
+.game-card { overflow: hidden; border: 1px solid var(--border); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
+.game-toolbar { min-height: 76px; padding: 13px 20px; display: flex; align-items: center; gap: 22px; border-bottom: 1px solid rgba(255,255,255,.08); background: #171f31; color: #fff; }
+.stat { min-width: 74px; display: flex; flex-direction: column; line-height: 1.25; }
+.stat span { color: #aab4c8; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.stat strong { font-size: 22px; font-variant-numeric: tabular-nums; }
+.icon-button { margin-left: auto; min-height: 42px; padding: 0 14px; border: 1px solid #38455e; border-radius: 10px; color: #e7ebf4; background: #222c41; font-weight: 700; cursor: pointer; }
+.canvas-wrap { position: relative; overflow: hidden; background: var(--game); aspect-ratio: 16 / 9; touch-action: none; }
+#gameCanvas { display: block; width: 100%; height: 100%; }
+.game-overlay { position: absolute; inset: 0; z-index: 5; display: none; place-items: center; padding: 24px; background: rgba(7, 12, 24, .78); backdrop-filter: blur(4px); }
+.game-overlay.is-visible { display: grid; }
+.overlay-panel { width: min(460px, 100%); padding: 30px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(23,31,49,.96); color: #fff; text-align: center; }
+.overlay-panel h2 { margin-bottom: 10px; font-size: clamp(28px, 5vw, 40px); }
+.overlay-panel p { margin: 0 auto 22px; color: #c4cada; }
+.overlay-icon { display: block; margin-bottom: 7px; color: var(--action); font-size: 38px; }
+.primary-button, .secondary-button { min-height: 48px; border-radius: 11px; padding: 0 20px; font-size: 16px; font-weight: 800; cursor: pointer; }
+.primary-button { border: 0; background: var(--action); color: #332100; box-shadow: 0 6px 0 #c58015; }
+.primary-button:active { transform: translateY(3px); box-shadow: 0 3px 0 #c58015; }
+.key-hint { margin-top: 19px !important; margin-bottom: 0 !important; font-size: 14px; }
+.status-toast { position: absolute; top: 18px; left: 50%; z-index: 4; translate: -50% -12px; opacity: 0; padding: 8px 15px; border-radius: 999px; background: rgba(17,24,39,.90); color: #fff; font-size: 15px; font-weight: 800; pointer-events: none; transition: opacity .2s, translate .2s; }
+.status-toast.show { opacity: 1; translate: -50% 0; }
+
+.mobile-controls { display: none; justify-content: space-between; gap: 24px; padding: 16px 18px 10px; background: #171f31; }
+.move-controls { display: flex; gap: 12px; }
+.control-button { width: 66px; height: 56px; border: 1px solid #46526a; border-radius: 14px; background: #28344b; color: #fff; font-size: 21px; font-weight: 800; user-select: none; -webkit-user-select: none; touch-action: none; }
+.control-button.is-pressed, .control-button:active { background: var(--primary); border-color: #8e8ff2; transform: translateY(2px); }
+.jump-button { width: 96px; background: #79561f; border-color: #b17a21; color: #ffe8bf; font-size: 17px; }
+.game-actions { display: flex; justify-content: center; gap: 12px; padding: 18px; background: #fff; }
+.secondary-button { border: 1px solid var(--border); background: #fff; color: var(--text); }
+.secondary-button:hover { border-color: var(--primary); color: var(--primary-dark); }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid rgba(91,92,226,.36); outline-offset: 3px; }
+
+.content-section, .about-section, .related-section, .faq-section { padding: 70px 0; }
+.content-grid { display: grid; grid-template-columns: 1.45fr .8fr; gap: 24px; align-items: stretch; }
+.content-card, .tips-card { padding: clamp(24px, 4vw, 38px); border: 1px solid var(--border); border-radius: 18px; background: var(--card); }
+.instruction-list, .tips-card ul { margin: 22px 0 0; padding-left: 22px; }
+.instruction-list li, .tips-card li { margin-bottom: 11px; }
+.tips-card { background: #171f31; color: #fff; border-color: #171f31; }
+.tips-card .section-label { color: #69dce3; }
+.tips-card li { color: #c8cfdd; }
+.about-section { background: #eceefe; }
+.narrow-copy { max-width: 780px; }
+.narrow-copy p:not(.section-label) { color: #4c556d; }
+.section-heading { margin-bottom: 26px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.related-card { display: flex; align-items: center; gap: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); }
+.game-emoji { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 14px; background: #eeeeff; font-size: 28px; }
+.related-card h3, .related-card p { margin: 0; }
+.related-card p { color: var(--muted); font-size: 14px; }
+.faq-list { display: grid; gap: 12px; max-width: 840px; }
+.faq-list details { border: 1px solid var(--border); border-radius: 14px; background: var(--card); padding: 0 20px; }
+.faq-list summary { padding: 18px 28px 18px 0; cursor: pointer; font-weight: 800; }
+.faq-list p { margin: -3px 0 20px; color: var(--muted); }
+.site-footer { margin-top: 18px; padding: 30px 0; border-top: 1px solid var(--border); color: var(--muted); text-align: center; font-size: 15px; }
+
+@media (hover: none), (pointer: coarse) { .mobile-controls { display: flex; } }
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .page-shell, .header-inner { width: min(100% - 28px, 1160px); }
+  .hero { padding-top: 34px; }
+  .breadcrumb { margin-bottom: 20px; }
+  h1 { font-size: clamp(36px, 11vw, 42px); }
+  .hero-copy > p:last-child { font-size: 16px; }
+  .game-section { width: 100%; padding-top: 6px; }
+  .game-card { border-radius: 0; border-left: 0; border-right: 0; }
+  .game-toolbar { padding: 10px 12px; gap: 10px; min-height: 68px; overflow-x: auto; }
+  .stat { min-width: 60px; }
+  .stat span { font-size: 11px; }
+  .stat strong { font-size: 18px; }
+  .icon-button { min-width: 88px; padding: 0 10px; font-size: 13px; }
+  .overlay-panel { padding: 22px 18px; }
+  .overlay-panel .key-hint { display: none; }
+  .game-actions { padding: 14px; }
+  .content-grid, .related-grid { grid-template-columns: 1fr; }
+  .content-section, .about-section, .related-section, .faq-section { padding: 52px 0; }
+}
+@media (max-width: 430px) {
+  .mobile-controls { padding-inline: 12px; }
+  .control-button { width: 58px; height: 52px; }
+  .jump-button { width: 88px; }
+  .secondary-button { padding: 0 13px; font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+</style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"VideoGame",
+    "name":"Platform Arcade",
+    "description":"A free three-level browser platform game where players collect energy cores, avoid hazards, and reach the exit portal.",
+    "genre":["Platform game","Arcade game"],
+    "playMode":"SinglePlayer",
+    "gamePlatform":["Web browser","Desktop","Mobile"],
+    "applicationCategory":"Game",
+    "operatingSystem":"Any"
+  }
+  </script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">GH</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../../">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero page-shell" aria-labelledby="page-title">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Home</a><span aria-hidden="true">/</span>
+        <a href="../">Arcade Games</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Platform Arcade</span>
+      </nav>
+      <div class="hero-copy">
+        <p class="eyebrow">Free browser platformer</p>
+        <h1 id="page-title">Platform Arcade Game</h1>
+        <p>Dash through the Neon Ruins, collect every energy core, dodge traps, and reach the portal. Three handcrafted levels are ready to play with no download.</p>
+      </div>
+    </section>
+
+    <section class="game-section page-shell" id="game" aria-labelledby="game-heading">
+      <h2 class="visually-hidden" id="game-heading">Play Platform Arcade</h2>
+      <div class="game-card">
+        <div class="game-toolbar" aria-label="Game statistics">
+          <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+          <div class="stat"><span>Level</span><strong id="level">1 / 3</strong></div>
+          <div class="stat"><span>Cores</span><strong id="cores">0 / 0</strong></div>
+          <div class="stat"><span>Lives</span><strong id="lives">3</strong></div>
+          <button class="icon-button" id="soundButton" type="button" aria-label="Mute sound" aria-pressed="false">Sound On</button>
+        </div>
+
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="gameCanvas" width="960" height="540" aria-label="Platform Arcade game area"></canvas>
+          <div class="game-overlay is-visible" id="gameOverlay" role="dialog" aria-modal="false" aria-labelledby="overlayTitle">
+            <div class="overlay-panel">
+              <span class="overlay-icon" id="overlayIcon" aria-hidden="true">⚡</span>
+              <h2 id="overlayTitle">Platform Arcade</h2>
+              <p id="overlayText">Collect every energy core, then reach the portal. Watch for patrol bots and spikes.</p>
+              <button class="primary-button" id="overlayButton" type="button">Start Game</button>
+              <p class="key-hint">Move with A/D or arrow keys. Jump with W, ↑, or Space.</p>
+            </div>
+          </div>
+          <div class="status-toast" id="statusToast" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="mobile-controls" aria-label="Touch game controls">
+          <div class="move-controls">
+            <button class="control-button" id="leftButton" type="button" aria-label="Move left">◀</button>
+            <button class="control-button" id="rightButton" type="button" aria-label="Move right">▶</button>
+          </div>
+          <button class="control-button jump-button" id="jumpButton" type="button" aria-label="Jump">Jump</button>
+        </div>
+
+        <div class="game-actions">
+          <button class="secondary-button" id="pauseButton" type="button">Pause</button>
+          <button class="secondary-button" id="restartButton" type="button">Restart Level</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section page-shell">
+      <div class="content-grid">
+        <article class="content-card">
+          <p class="section-label">Quick guide</p>
+          <h2>How to Play Platform Arcade</h2>
+          <p>Guide Nova through each stage and collect all glowing energy cores. The exit portal unlocks only after every core in the level has been collected.</p>
+          <ul class="instruction-list">
+            <li><strong>Move:</strong> Use A and D, the left and right arrow keys, or the on-screen buttons.</li>
+            <li><strong>Jump:</strong> Press W, the up arrow, Space, or the Jump button. Hold briefly for a higher jump.</li>
+            <li><strong>Pause:</strong> Press P or use the Pause button below the game.</li>
+            <li><strong>Survive:</strong> Avoid spikes and patrol bots. Falling off a stage costs one life.</li>
+          </ul>
+        </article>
+        <aside class="tips-card">
+          <p class="section-label">Player tips</p>
+          <h2>Score More Points</h2>
+          <ul>
+            <li>Collect cores quickly for a larger time bonus.</li>
+            <li>Landing on a patrol bot disables it and earns points.</li>
+            <li>Use moving platforms to reach hidden routes.</li>
+            <li>Activate checkpoints before risky jumps.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="about-section page-shell">
+      <div class="narrow-copy">
+        <p class="section-label">Inside the game</p>
+        <h2>About Platform Arcade</h2>
+        <p>Platform Arcade is a compact free online platform game built around responsive movement and short, replayable stages. Each level introduces a new challenge, including patrol enemies, disappearing routes, moving platforms, and carefully placed hazards.</p>
+        <p>The game runs entirely in your browser. Your best score is saved on your device, so you can return and try to beat it without creating an account.</p>
+      </div>
+    </section>
+
+    <section class="related-section page-shell" aria-labelledby="related-title">
+      <div class="section-heading">
+        <p class="section-label">Keep playing</p>
+        <h2 id="related-title">Related Games</h2>
+      </div>
+      <!-- Replace each coming-soon card with a link when its game page is published. -->
+      <div class="related-grid">
+        <article class="related-card"><span class="game-emoji" aria-hidden="true">🏃</span><div><h3>Endless Runner</h3><p>Coming soon</p></div></article>
+        <article class="related-card"><span class="game-emoji" aria-hidden="true">🧱</span><div><h3>Block Jumper</h3><p>Coming soon</p></div></article>
+        <article class="related-card"><span class="game-emoji" aria-hidden="true">🚀</span><div><h3>Space Escape</h3><p>Coming soon</p></div></article>
+      </div>
+    </section>
+
+    <section class="faq-section page-shell" aria-labelledby="faq-title">
+      <div class="section-heading"><p class="section-label">Questions</p><h2 id="faq-title">Platform Arcade FAQ</h2></div>
+      <div class="faq-list">
+        <details><summary>Is Platform Arcade free to play?</summary><p>Yes. You can play the complete game free in your browser without downloading anything or creating an account.</p></details>
+        <details><summary>Can I play on a phone or tablet?</summary><p>Yes. Use the large left, right, and Jump controls below the game. The game area scales to fit smaller screens.</p></details>
+        <details><summary>How do I unlock the exit portal?</summary><p>Collect every energy core in the current stage. The portal changes from red to green when it is ready.</p></details>
+        <details><summary>Does the game save my score?</summary><p>Your best score is stored locally in your browser. No account or online storage is required.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="page-shell"><p>Platform Arcade is part of Games Hub, a collection of lightweight free online games.</p></div></footer>
+  <script>"use strict";
+
+(() => {
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const ui = {
+    score: document.getElementById("score"), level: document.getElementById("level"),
+    cores: document.getElementById("cores"), lives: document.getElementById("lives"),
+    overlay: document.getElementById("gameOverlay"), overlayTitle: document.getElementById("overlayTitle"),
+    overlayText: document.getElementById("overlayText"), overlayIcon: document.getElementById("overlayIcon"),
+    overlayButton: document.getElementById("overlayButton"), pause: document.getElementById("pauseButton"),
+    restart: document.getElementById("restartButton"), sound: document.getElementById("soundButton"),
+    toast: document.getElementById("statusToast"), left: document.getElementById("leftButton"),
+    right: document.getElementById("rightButton"), jump: document.getElementById("jumpButton")
+  };
+
+  const W = canvas.width, H = canvas.height;
+  const GRAVITY = 1850, MOVE_SPEED = 285, JUMP_SPEED = 660, MAX_FALL = 980;
+  const keys = { left: false, right: false, jump: false };
+  let jumpQueued = false, jumpReleased = true, state = "menu", overlayAction = "start";
+  let levelIndex = 0, level = null, player = null, cameraX = 0, score = 0, lives = 3;
+  let levelStartScore = 0, levelStartedAt = 0, lastTime = 0, soundEnabled = true;
+  let particles = [], toastTimer = 0, animationId = 0, audioContext = null;
+  let bestScore = readBestScore();
+
+  const LEVELS = [
+    {
+      name: "Signal Gardens", width: 2300, sky: ["#16223d", "#243968"], spawn: [90, 400],
+      platforms: [
+        [0,470,420,70],[500,470,410,70],[1000,470,340,70],[1430,470,380,70],[1900,470,400,70],
+        [270,375,170,22],[580,335,180,22],[825,275,150,22],[1110,350,170,22],[1480,305,160,22],[1715,245,150,22],[2010,345,170,22]
+      ],
+      moving: [[1300,250,120,20,0,115,2.2]],
+      cores: [[335,330],[630,290],[880,230],[1185,305],[1545,260],[1770,200],[2090,300]],
+      spikes: [[425,448,70,22],[915,448,80,22],[1345,448,80,22],[1815,448,80,22]],
+      enemies: [[710,430,610,860],[1200,310,1120,1260],[1590,430,1490,1760]],
+      checkpoints: [[1050,420]], portal: [2205,400]
+    },
+    {
+      name: "Copper Heights", width: 2650, sky: ["#251d42", "#563b73"], spawn: [70, 400],
+      platforms: [
+        [0,470,300,70],[420,470,280,70],[805,470,300,70],[1220,470,240,70],[1590,470,300,70],[2010,470,260,70],[2380,470,270,70],
+        [190,365,130,22],[480,305,150,22],[760,250,145,22],[1030,340,145,22],[1290,270,150,22],[1540,205,150,22],[1800,310,150,22],[2110,250,140,22],[2350,335,155,22]
+      ],
+      moving: [[315,400,100,20,0,95,2.0],[930,205,110,20,110,0,2.4],[1465,360,110,20,0,100,1.8],[2265,190,110,20,0,120,2.1]],
+      cores: [[245,320],[545,260],[815,205],[1085,295],[1360,225],[1600,160],[1860,265],[2170,205],[2420,290]],
+      spikes: [[305,448,110,22],[705,448,95,22],[1110,448,105,22],[1465,448,120,22],[1895,448,110,22],[2275,448,100,22]],
+      enemies: [[545,265,490,620],[970,430,840,1070],[1790,430,1640,1850],[2430,295,2370,2475]],
+      checkpoints: [[1260,420],[2050,420]], portal: [2565,400]
+    },
+    {
+      name: "The Last Circuit", width: 3000, sky: ["#102c37", "#12515a"], spawn: [70, 400],
+      platforms: [
+        [0,470,330,70],[450,470,290,70],[860,470,250,70],[1240,470,300,70],[1670,470,250,70],[2030,470,320,70],[2480,470,520,70],
+        [220,350,150,22],[500,275,145,22],[790,205,135,22],[1060,320,145,22],[1370,245,155,22],[1630,175,145,22],[1900,285,150,22],[2200,205,145,22],[2480,320,140,22],[2720,245,150,22]
+      ],
+      moving: [[345,400,100,20,0,100,2.2],[665,350,105,20,110,0,1.9],[1130,190,110,20,0,125,2.3],[1535,365,100,20,0,105,1.7],[2355,365,105,20,0,145,2.0]],
+      cores: [[275,305],[555,230],[845,160],[1115,275],[1440,200],[1685,130],[1960,240],[2260,160],[2540,275],[2780,200]],
+      spikes: [[335,448,110,22],[745,448,110,22],[1115,448,120,22],[1545,448,120,22],[1925,448,100,22],[2355,448,120,22]],
+      enemies: [[560,235,510,610],[970,430,885,1070],[1420,205,1380,1475],[1790,430,1700,1890],[2180,430,2060,2310],[2750,205,2730,2825]],
+      checkpoints: [[1280,420],[2070,420]], portal: [2900,400]
+    }
+  ];
+
+  function readBestScore() {
+    try { return Number(localStorage.getItem("platformArcadeBest")) || 0; } catch (_) { return 0; }
+  }
+  function saveBestScore() {
+    if (score <= bestScore) return;
+    bestScore = score;
+    try { localStorage.setItem("platformArcadeBest", String(bestScore)); } catch (_) { /* storage may be disabled */ }
+  }
+  function rect(x, y, w, h) { return { x, y, w, h }; }
+  function cloneLevel(source) {
+    return {
+      ...source,
+      platforms: source.platforms.map(p => ({ ...rect(...p), moving: false })),
+      moving: source.moving.map((p, i) => ({ ...rect(p[0],p[1],p[2],p[3]), baseX:p[0], baseY:p[1], rangeX:p[4], rangeY:p[5], speed:p[6], phase:i*.9, moving:true, dx:0, dy:0 })),
+      cores: source.cores.map((c, i) => ({ x:c[0], y:c[1], r:11, collected:false, phase:i*.75 })),
+      spikes: source.spikes.map(s => rect(...s)),
+      enemies: source.enemies.map(e => ({ x:e[0], y:e[1], w:38, h:40, min:e[2], max:e[3], vx:72, alive:true })),
+      checkpoints: source.checkpoints.map(c => ({ x:c[0], y:c[1], w:22, h:50, active:false })),
+      portal: { x:source.portal[0], y:source.portal[1], w:48, h:70 }
+    };
+  }
+  function newPlayer(x, y) {
+    return { x, y, w:34, h:44, vx:0, vy:0, grounded:false, coyote:0, jumpBuffer:0, invincible:0, spawnX:x, spawnY:y, facing:1 };
+  }
+
+  function startGame() {
+    score = 0; lives = 3; levelIndex = 0; levelStartScore = 0;
+    loadLevel(0); state = "playing"; hideOverlay();
+    levelStartedAt = performance.now(); lastTime = performance.now();
+    updateUI(); beep(440, .08, "square");
+  }
+  function loadLevel(index) {
+    levelIndex = index; level = cloneLevel(LEVELS[index]);
+    player = newPlayer(level.spawn[0], level.spawn[1]);
+    particles = []; cameraX = 0; levelStartScore = score; levelStartedAt = performance.now(); updateUI();
+    showToast(level.name);
+  }
+  function restartLevel() {
+    if (!level || state === "menu") return;
+    score = levelStartScore; loadLevel(levelIndex); state = "playing"; hideOverlay(); lastTime = performance.now();
+  }
+
+  function update(dt, now) {
+    if (state !== "playing") return;
+    updatePlatforms(now / 1000);
+    player.invincible = Math.max(0, player.invincible - dt);
+    player.coyote = player.grounded ? .11 : Math.max(0, player.coyote - dt);
+    player.jumpBuffer = jumpQueued ? .12 : Math.max(0, player.jumpBuffer - dt);
+    jumpQueued = false;
+
+    const move = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+    const targetVx = move * MOVE_SPEED;
+    player.vx += (targetVx - player.vx) * Math.min(1, (player.grounded ? 15 : 8) * dt);
+    if (move) player.facing = move;
+    if (player.jumpBuffer > 0 && player.coyote > 0) {
+      player.vy = -JUMP_SPEED; player.grounded = false; player.coyote = 0; player.jumpBuffer = 0;
+      burst(player.x + player.w/2, player.y + player.h, "#ffcf70", 7); beep(310, .06, "square");
+    }
+    if (jumpReleased && player.vy < -250) player.vy += 1200 * dt;
+    player.vy = Math.min(MAX_FALL, player.vy + GRAVITY * dt);
+
+    const platforms = level.platforms.concat(level.moving);
+    player.x += player.vx * dt;
+    for (const p of platforms) {
+      if (!overlap(player, p)) continue;
+      if (player.vx > 0) player.x = p.x - player.w;
+      else if (player.vx < 0) player.x = p.x + p.w;
+      player.vx = 0;
+    }
+    player.x = Math.max(0, Math.min(level.width - player.w, player.x));
+
+    const oldBottom = player.y + player.h;
+    player.y += player.vy * dt; player.grounded = false;
+    for (const p of platforms) {
+      if (!overlap(player, p)) continue;
+      if (player.vy >= 0 && oldBottom <= p.y + Math.max(10, Math.abs(p.dy || 0) + 3)) {
+        player.y = p.y - player.h; player.vy = 0; player.grounded = true;
+        if (p.moving) player.x += p.dx || 0;
+      } else if (player.vy < 0) { player.y = p.y + p.h; player.vy = 30; }
+    }
+
+    for (const core of level.cores) {
+      if (!core.collected && circleRect(core.x, core.y, core.r + 7, player)) {
+        core.collected = true; score += 100; burst(core.x, core.y, "#ffcf55", 12); beep(690, .08, "sine");
+        if (collectedCount() === level.cores.length) showToast("Portal unlocked!");
+      }
+    }
+    for (const cp of level.checkpoints) {
+      if (!cp.active && overlap(player, cp)) {
+        level.checkpoints.forEach(c => c.active = false); cp.active = true;
+        player.spawnX = cp.x - 15; player.spawnY = cp.y - 45; score += 50;
+        showToast("Checkpoint activated"); beep(520, .12, "sine");
+      }
+    }
+    for (const enemy of level.enemies) updateEnemy(enemy, dt);
+    for (const spike of level.spikes) if (overlapInset(player, spike, 5) && player.invincible <= 0) hurtPlayer();
+    if (player.y > H + 140) hurtPlayer(true);
+    if (overlap(player, level.portal)) {
+      if (collectedCount() === level.cores.length) finishLevel(now);
+      else if (!toastTimer) showToast(`${level.cores.length - collectedCount()} core${level.cores.length - collectedCount() === 1 ? "" : "s"} remaining`);
+    }
+
+    updateParticles(dt);
+    const targetCamera = Math.max(0, Math.min(level.width - W, player.x - W * .38));
+    cameraX += (targetCamera - cameraX) * Math.min(1, dt * 5);
+    updateUI();
+  }
+
+  function updatePlatforms(t) {
+    for (const p of level.moving) {
+      const oldX = p.x, oldY = p.y, wave = Math.sin(t * p.speed + p.phase);
+      p.x = p.baseX + wave * p.rangeX; p.y = p.baseY + wave * p.rangeY;
+      p.dx = p.x - oldX; p.dy = p.y - oldY;
+    }
+  }
+  function updateEnemy(enemy, dt) {
+    if (!enemy.alive) return;
+    enemy.x += enemy.vx * dt;
+    if (enemy.x <= enemy.min || enemy.x + enemy.w >= enemy.max) { enemy.x = Math.max(enemy.min, Math.min(enemy.max - enemy.w, enemy.x)); enemy.vx *= -1; }
+    if (!overlap(player, enemy) || player.invincible > 0) return;
+    const playerBottomBefore = player.y + player.h - player.vy * dt;
+    if (player.vy > 70 && playerBottomBefore <= enemy.y + 14) {
+      enemy.alive = false; player.vy = -430; score += 150; burst(enemy.x + 19, enemy.y + 18, "#62e6d2", 12); beep(180, .08, "square");
+    } else hurtPlayer();
+  }
+  function hurtPlayer(fell = false) {
+    if (player.invincible > 0 || state !== "playing") return;
+    lives -= 1; beep(105, .22, "sawtooth");
+    if (lives <= 0) {
+      state = "gameover"; saveBestScore();
+      showOverlay("Game Over", `Final score: ${score.toLocaleString()}. Best: ${bestScore.toLocaleString()}.`, "Try Again", "↻", "newgame");
+      updateUI(); return;
+    }
+    burst(player.x + player.w/2, Math.min(H - 20, player.y + 20), "#ef5b5b", 16);
+    player.x = player.spawnX; player.y = player.spawnY; player.vx = 0; player.vy = 0; player.invincible = 1.6;
+    cameraX = Math.max(0, player.x - 200); showToast(fell ? "Watch your step" : "Life lost"); updateUI();
+  }
+  function finishLevel(now) {
+    if (state !== "playing") return;
+    const seconds = Math.floor((now - levelStartedAt) / 1000);
+    const bonus = Math.max(200, 1200 - seconds * 12); score += bonus; saveBestScore();
+    if (levelIndex < LEVELS.length - 1) {
+      state = "levelcomplete";
+      showOverlay("Level Clear!", `${level.name} complete. Time bonus: ${bonus.toLocaleString()} points.`, "Next Level", "✓", "next");
+    } else {
+      state = "complete";
+      showOverlay("Neon Ruins Restored!", `You cleared all three levels with ${score.toLocaleString()} points. Best: ${bestScore.toLocaleString()}.`, "Play Again", "★", "newgame");
+    }
+    updateUI(); beep(780, .12, "sine"); setTimeout(() => beep(980, .18, "sine"), 130);
+  }
+
+  function draw(now) {
+    const source = level || cloneLevel(LEVELS[0]);
+    drawBackground(source, now / 1000);
+    ctx.save(); ctx.translate(-cameraX, 0);
+    drawWorld(source, now / 1000);
+    if (player) drawPlayer(now / 1000);
+    drawParticles(); ctx.restore();
+  }
+  function drawBackground(source, t) {
+    const gradient = ctx.createLinearGradient(0, 0, 0, H);
+    gradient.addColorStop(0, source.sky[0]); gradient.addColorStop(1, source.sky[1]);
+    ctx.fillStyle = gradient; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = "rgba(255,255,255,.07)";
+    for (let i=0;i<35;i++) {
+      const x = ((i * 173 - cameraX * .12) % (W + 80) + W + 80) % (W + 80) - 40;
+      const y = 35 + ((i * 79) % 300); const r = i % 4 === 0 ? 2 : 1;
+      ctx.globalAlpha = .45 + Math.sin(t * 2 + i) * .25; ctx.fillRect(x,y,r,r);
+    }
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "rgba(8,15,31,.22)";
+    for (let i=0;i<10;i++) { const x = ((i*190 - cameraX*.25) % 1150) - 80; const h = 80 + (i%4)*35; ctx.fillRect(x,H-h,130,h); }
+    ctx.strokeStyle = "rgba(100,220,225,.08)"; ctx.lineWidth = 1;
+    for (let y=390;y<H;y+=30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  }
+  function drawWorld(source, t) {
+    const platforms = source.platforms.concat(source.moving || []);
+    for (const p of platforms) {
+      ctx.fillStyle = p.moving ? "#334e68" : "#29364e"; roundRect(p.x,p.y,p.w,p.h,6); ctx.fill();
+      ctx.fillStyle = p.moving ? "#45c6ca" : "#5b5ce2"; ctx.fillRect(p.x,p.y,p.w,6);
+      ctx.fillStyle = "rgba(255,255,255,.07)";
+      for (let x=p.x+14;x<p.x+p.w-6;x+=32) ctx.fillRect(x,p.y+16,14,3);
+    }
+    for (const s of source.spikes) {
+      const count = Math.max(1, Math.floor(s.w/20));
+      for(let i=0;i<count;i++){ const x=s.x+i*(s.w/count); ctx.beginPath(); ctx.moveTo(x,s.y+s.h); ctx.lineTo(x+s.w/count/2,s.y); ctx.lineTo(x+s.w/count,s.y+s.h); ctx.closePath(); ctx.fillStyle="#ef6570"; ctx.fill(); }
+    }
+    for (const core of source.cores) if (!core.collected) drawCore(core, t);
+    for (const cp of source.checkpoints) drawCheckpoint(cp, t);
+    for (const enemy of source.enemies) if (enemy.alive) drawEnemy(enemy, t);
+    drawPortal(source.portal, source.cores.every(c => c.collected), t);
+  }
+  function drawCore(core, t) {
+    const bob = Math.sin(t*3 + core.phase)*5;
+    ctx.save(); ctx.translate(core.x, core.y+bob); ctx.rotate(t*1.7 + core.phase);
+    ctx.shadowColor="#ffd36a"; ctx.shadowBlur=16; ctx.fillStyle="#ffc857";
+    ctx.beginPath(); ctx.moveTo(0,-13); ctx.lineTo(10,0); ctx.lineTo(0,13); ctx.lineTo(-10,0); ctx.closePath(); ctx.fill();
+    ctx.fillStyle="#fff3c6"; ctx.fillRect(-2,-7,4,14); ctx.restore();
+  }
+  function drawCheckpoint(cp, t) {
+    ctx.fillStyle="#70809c"; ctx.fillRect(cp.x,cp.y,4,cp.h);
+    ctx.fillStyle=cp.active?"#22c55e":"#7b88a3"; if(cp.active){ctx.shadowColor="#22c55e";ctx.shadowBlur=12;}
+    ctx.beginPath();ctx.moveTo(cp.x+4,cp.y+3);ctx.lineTo(cp.x+25,cp.y+11);ctx.lineTo(cp.x+4,cp.y+22);ctx.closePath();ctx.fill();ctx.shadowBlur=0;
+  }
+  function drawEnemy(e, t) {
+    ctx.save(); ctx.translate(e.x,e.y); ctx.fillStyle="#1bc4b4"; roundRect(0,5,e.w,e.h-5,10);ctx.fill();
+    ctx.fillStyle="#102e39"; const look=e.vx>0?3:-3; ctx.fillRect(8+look,15,6,6);ctx.fillRect(25+look,15,6,6);
+    ctx.fillStyle="#74f5e2";ctx.fillRect(7,4,24,5); ctx.restore();
+  }
+  function drawPortal(p, unlocked, t) {
+    ctx.save(); ctx.translate(p.x+p.w/2,p.y+p.h/2); ctx.strokeStyle=unlocked?"#4ade80":"#ef6570"; ctx.lineWidth=7;
+    ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=unlocked?18:8;ctx.beginPath();ctx.ellipse(0,0,20,32,0,0,Math.PI*2);ctx.stroke();
+    ctx.shadowBlur=0;ctx.fillStyle=unlocked?"rgba(74,222,128,.22)":"rgba(239,101,112,.15)";ctx.beginPath();ctx.ellipse(0,0,15,27,0,0,Math.PI*2);ctx.fill();
+    if(unlocked){ctx.strokeStyle="rgba(255,255,255,.65)";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,12+Math.sin(t*4)*3,0,Math.PI*1.6);ctx.stroke();} ctx.restore();
+  }
+  function drawPlayer(t) {
+    if (player.invincible > 0 && Math.floor(t*14)%2===0) return;
+    ctx.save(); ctx.translate(player.x+player.w/2,player.y); ctx.scale(player.facing,1);
+    ctx.fillStyle="#ffb84d"; roundRect(-17,5,34,39,8);ctx.fill();
+    ctx.fillStyle="#ffe4b1";roundRect(-12,9,24,17,6);ctx.fill();
+    ctx.fillStyle="#19233a";ctx.fillRect(3,14,5,5);ctx.fillRect(-8,14,5,5);
+    ctx.fillStyle="#5b5ce2";ctx.fillRect(-17,30,34,8);
+    ctx.fillStyle="#e49125";ctx.fillRect(-13,42,10,5);ctx.fillRect(5,42,10,5);ctx.restore();
+  }
+  function burst(x,y,color,count){ for(let i=0;i<count;i++) particles.push({x,y,vx:(Math.random()-.5)*250,vy:(Math.random()-.8)*240,life:.55+Math.random()*.35,color,size:3+Math.random()*4}); }
+  function updateParticles(dt){ for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=500*dt;p.life-=dt;} particles=particles.filter(p=>p.life>0); }
+  function drawParticles(){ for(const p of particles){ctx.globalAlpha=Math.max(0,p.life*1.5);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,p.size,p.size);}ctx.globalAlpha=1; }
+  function roundRect(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}
+
+  function frame(now) {
+    const dt = Math.min(.033, Math.max(0, (now-lastTime)/1000 || 0)); lastTime=now;
+    update(dt,now); draw(now); animationId=requestAnimationFrame(frame);
+  }
+  function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
+  function overlapInset(a,b,n){return a.x+n<b.x+b.w&&a.x+a.w-n>b.x&&a.y+n<b.y+b.h&&a.y+a.h-n>b.y;}
+  function circleRect(cx,cy,r,o){const x=Math.max(o.x,Math.min(cx,o.x+o.w)),y=Math.max(o.y,Math.min(cy,o.y+o.h));return (cx-x)**2+(cy-y)**2<r*r;}
+  function collectedCount(){return level ? level.cores.filter(c=>c.collected).length : 0;}
+  function updateUI(){ui.score.textContent=score.toLocaleString();ui.level.textContent=`${levelIndex+1} / ${LEVELS.length}`;ui.cores.textContent=level?`${collectedCount()} / ${level.cores.length}`:"0 / 0";ui.lives.textContent=String(lives);}
+  function showToast(message){ui.toast.textContent=message;ui.toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>{ui.toast.classList.remove("show");toastTimer=0;},1700);}
+  function showOverlay(title,text,button,icon,action){ui.overlayTitle.textContent=title;ui.overlayText.textContent=text;ui.overlayButton.textContent=button;ui.overlayIcon.textContent=icon;overlayAction=action;ui.overlay.classList.add("is-visible");}
+  function hideOverlay(){ui.overlay.classList.remove("is-visible");}
+  function togglePause(){
+    if(state==="playing"){state="paused";showOverlay("Game Paused","Take a breath. Your progress in this level is safe.","Resume","Ⅱ","resume");ui.pause.textContent="Resume";}
+    else if(state==="paused"){state="playing";hideOverlay();ui.pause.textContent="Pause";lastTime=performance.now();}
+  }
+  function beep(frequency,duration,type){
+    if(!soundEnabled)return;
+    try{audioContext=audioContext||new(window.AudioContext||window.webkitAudioContext)();const osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type=type;osc.frequency.value=frequency;gain.gain.setValueAtTime(.045,audioContext.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);osc.connect(gain);gain.connect(audioContext.destination);osc.start();osc.stop(audioContext.currentTime+duration);}catch(_){/* audio is optional */}
+  }
+
+  function setKey(code, pressed, inputEvent) {
+    if(["ArrowLeft","ArrowRight","ArrowUp","Space"].includes(code)) inputEvent.preventDefault();
+    if(code==="ArrowLeft"||code==="KeyA") keys.left=pressed;
+    if(code==="ArrowRight"||code==="KeyD") keys.right=pressed;
+    if(code==="ArrowUp"||code==="KeyW"||code==="Space") {
+      keys.jump=pressed;
+      if(pressed&&!inputEvent.repeat){jumpQueued=true;jumpReleased=false;}
+      if(!pressed)jumpReleased=true;
+    }
+  }
+  window.addEventListener("keydown", e=>{ if(e.code==="KeyP"||e.code==="Escape"){e.preventDefault();togglePause();return;} if(e.code==="Enter"&&ui.overlay.classList.contains("is-visible")){ui.overlayButton.click();return;} setKey(e.code,true,e); }, {passive:false});
+  window.addEventListener("keyup", e=>setKey(e.code,false,e), {passive:false});
+  window.addEventListener("blur",()=>{keys.left=keys.right=keys.jump=false;jumpReleased=true;if(state==="playing")togglePause();});
+
+  function bindHold(button,key,isJump=false){
+    const down=e=>{e.preventDefault();button.setPointerCapture?.(e.pointerId);keys[key]=true;button.classList.add("is-pressed");if(isJump){jumpQueued=true;jumpReleased=false;}};
+    const up=e=>{e.preventDefault();keys[key]=false;button.classList.remove("is-pressed");if(isJump)jumpReleased=true;};
+    button.addEventListener("pointerdown",down);button.addEventListener("pointerup",up);button.addEventListener("pointercancel",up);button.addEventListener("lostpointercapture",up);
+  }
+  bindHold(ui.left,"left");bindHold(ui.right,"right");bindHold(ui.jump,"jump",true);
+  ui.overlayButton.addEventListener("click",()=>{
+    if(overlayAction==="start"||overlayAction==="newgame")startGame();
+    else if(overlayAction==="next"){score=Math.max(score,levelStartScore);loadLevel(levelIndex+1);state="playing";hideOverlay();lastTime=performance.now();}
+    else if(overlayAction==="resume")togglePause();
+  });
+  ui.pause.addEventListener("click",togglePause);ui.restart.addEventListener("click",restartLevel);
+  ui.sound.addEventListener("click",()=>{soundEnabled=!soundEnabled;ui.sound.textContent=soundEnabled?"Sound On":"Sound Off";ui.sound.setAttribute("aria-pressed",String(!soundEnabled));if(soundEnabled)beep(440,.06,"sine");});
+  document.addEventListener("visibilitychange",()=>{if(document.hidden&&state==="playing")togglePause();});
+
+  level=cloneLevel(LEVELS[0]);player=newPlayer(level.spawn[0],level.spawn[1]);updateUI();
+  cancelAnimationFrame(animationId);animationId=requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

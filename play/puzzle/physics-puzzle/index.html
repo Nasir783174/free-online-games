@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Physics Puzzle Game - Play Free Online</title>
+  <meta name="description" content="Play Physics Puzzle free online in your browser. Draw platforms, guide the ball to the goal, solve 12 physics levels, and play with mouse or touch. No download.">
+  <meta name="theme-color" content="#5B5CE2">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+
+:root{
+  --primary:#5B5CE2; --primary-dark:#4546B8; --secondary:#16B8C4; --action:#FFB84D;
+  --success:#22C55E; --danger:#EF5B5B; --bg:#F6F7FB; --card:#FFFFFF;
+  --text:#171B2D; --muted:#667085; --border:#E5E7EF; --game:#111827; --game2:#1F2937;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito Sans",system-ui,sans-serif;font-size:17px;line-height:1.65}
+button,a{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid rgba(91,92,226,.35);outline-offset:3px}
+.shell{width:min(1160px,calc(100% - 36px));margin-inline:auto}
+.site-header{height:72px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);display:flex;align-items:center;position:sticky;top:0;z-index:20;backdrop-filter:blur(10px)}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:800}
+.brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--primary);color:white}
+.header-note{font-size:14px;color:var(--muted);font-weight:700}
+.breadcrumb{display:flex;gap:9px;align-items:center;padding:22px 0 8px;color:var(--muted);font-size:14px}
+.breadcrumb a{color:var(--primary);text-decoration:none;font-weight:700}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:32px;padding:24px 0 34px}
+.eyebrow{margin:0 0 8px;color:var(--primary);font-size:14px;letter-spacing:.13em;font-weight:800}
+h1{font-size:clamp(40px,5.2vw,62px);line-height:1.07;margin:0 0 14px;font-weight:800;letter-spacing:-.035em}
+.intro{max-width:760px;margin:0;color:var(--muted);font-size:18px}
+.hero-badge{min-width:150px;background:white;border:1px solid var(--border);border-radius:18px;padding:18px 22px;box-shadow:0 12px 32px rgba(23,27,45,.05)}
+.hero-badge strong{display:block;font-size:34px;line-height:1;color:var(--primary)}
+.hero-badge span{font-size:14px;color:var(--muted);font-weight:700}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 18px 50px rgba(23,27,45,.07)}
+.game-toolbar{display:grid;grid-template-columns:90px 90px 90px minmax(170px,1fr) auto;align-items:center;gap:16px;padding:16px 18px;border-bottom:1px solid var(--border)}
+.stat span,.ink-label span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:800}
+.stat strong{font-size:20px}
+.ink-label{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.ink-track{height:8px;background:#ECEEF5;border-radius:999px;overflow:hidden;margin-top:5px}
+.ink-track span{display:block;width:100%;height:100%;background:var(--secondary);border-radius:inherit;transition:width .18s}
+.button{min-height:46px;border:0;border-radius:12px;padding:10px 17px;font-size:15px;font-weight:800;transition:transform .15s,box-shadow .15s,background .15s}
+.button:hover{transform:translateY(-1px)}
+.button:disabled{opacity:.48;cursor:not-allowed;transform:none}
+.button-primary{background:var(--primary);color:white;box-shadow:0 8px 20px rgba(91,92,226,.24)}
+.button-primary:hover{background:var(--primary-dark)}
+.button-secondary{background:#EEF0F7;color:var(--text)}
+.button-action{background:var(--action);color:#4B3511;box-shadow:0 8px 20px rgba(255,184,77,.22)}
+.button-ghost{background:white;border:1px solid var(--border);color:var(--text)}
+.game-stage{position:relative;background:var(--game);width:100%;aspect-ratio:16/9;min-height:330px;max-height:650px;overflow:hidden;touch-action:none;user-select:none}
+#gameCanvas{display:block;width:100%;height:100%;touch-action:none}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(10,16,29,.62);padding:24px;z-index:5}
+.overlay.hidden{display:none}
+.overlay-card{width:min(430px,100%);text-align:center;background:white;border-radius:18px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.overlay-card h2{margin:8px 0 8px;font-size:30px;line-height:1.15}
+.overlay-card p{margin:0 0 20px;color:var(--muted)}
+.overlay-icon{font-size:32px;color:var(--primary);font-weight:800}
+.stars{font-size:31px;letter-spacing:5px;color:#E0A125;margin:-4px 0 16px}
+.result-actions{display:flex;justify-content:center;gap:10px}
+.game-actions{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 18px;border-top:1px solid var(--border)}
+.mode-status{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:15px;font-weight:700}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--secondary);box-shadow:0 0 0 5px rgba(22,184,196,.1)}
+.action-buttons{display:flex;gap:10px}
+.touch-hint{text-align:center;padding:0 18px 15px;color:var(--muted);font-size:13px}
+.content-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px;margin:64px 0 22px}
+.content-card,.about,.faq{background:white;border:1px solid var(--border);border-radius:18px;padding:28px}
+h2{font-size:34px;line-height:1.2;margin:0 0 15px;font-weight:700;letter-spacing:-.02em}
+.content-card p,.about p,.faq p{color:var(--muted)}
+.content-card li{margin:8px 0}
+.tips-card ul{padding-left:22px}
+.about{margin-bottom:22px}
+.faq{margin-bottom:70px}
+.faq details{border-top:1px solid var(--border);padding:16px 0}
+.faq details:last-child{padding-bottom:0}
+.faq summary{cursor:pointer;font-weight:800}
+.faq details p{margin:8px 0 0}
+.site-footer{border-top:1px solid var(--border);background:white;padding:26px 0;color:var(--muted);font-size:14px}
+
+@media (max-width:800px){
+  .shell{width:min(100% - 24px,1160px)}
+  .hero{align-items:start}
+  .hero-badge{display:none}
+  .game-toolbar{grid-template-columns:repeat(3,1fr);gap:10px}
+  .ink-wrap{grid-column:1/-2}
+  .game-toolbar>.button{grid-column:-2/-1}
+  .content-grid{grid-template-columns:1fr;margin-top:48px}
+  .game-stage{aspect-ratio:4/3;min-height:360px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .header-note{display:none}
+  .hero{padding-top:18px}
+  h1{font-size:40px}
+  .intro{font-size:16px}
+  .game-toolbar{grid-template-columns:repeat(3,1fr);padding:12px}
+  .stat strong{font-size:17px}
+  .ink-wrap{grid-column:1/-1}
+  .game-toolbar>.button{grid-column:1/-1;min-height:42px}
+  .game-stage{aspect-ratio:3/4;min-height:500px}
+  .game-actions{align-items:stretch;flex-direction:column;padding:12px}
+  .action-buttons{display:grid;grid-template-columns:1fr 1.3fr}
+  .button{min-height:48px}
+  .overlay-card{padding:22px 18px}
+  .overlay-card h2{font-size:27px}
+  .content-card,.about,.faq{padding:22px}
+  h2{font-size:28px}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home"><span class="brand-mark">G</span><span>Games Hub</span></a>
+      <span class="header-note">Free browser games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="#">Games</a><span aria-hidden="true">/</span><span>Physics Puzzle</span></nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">DRAW • DROP • SOLVE</p>
+          <h1>Physics Puzzle Game</h1>
+          <p class="intro">Draw solid lines, release the ball, and use gravity to guide it into the goal. Solve all 12 levels with as little ink as possible.</p>
+        </div>
+        <div class="hero-badge" aria-label="Game features">
+          <strong>12</strong><span>Physics levels</span>
+        </div>
+      </section>
+
+      <section class="game-card" aria-labelledby="game-title">
+        <div class="game-toolbar">
+          <div class="stat"><span>Level</span><strong id="levelValue">1 / 12</strong></div>
+          <div class="stat"><span>Score</span><strong id="scoreValue">0</strong></div>
+          <div class="stat"><span>Best</span><strong id="bestValue">—</strong></div>
+          <div class="ink-wrap">
+            <div class="ink-label"><span>Ink</span><strong id="inkValue">100%</strong></div>
+            <div class="ink-track" aria-hidden="true"><span id="inkBar"></span></div>
+          </div>
+          <button id="resetBtn" class="button button-secondary" type="button">Reset level</button>
+        </div>
+
+        <div id="gameStage" class="game-stage">
+          <canvas id="gameCanvas" aria-label="Physics Puzzle game board"></canvas>
+
+          <div id="startOverlay" class="overlay">
+            <div class="overlay-card">
+              <span class="overlay-icon" aria-hidden="true">● ↘</span>
+              <h2 id="game-title">Guide the ball to the goal</h2>
+              <p>Draw platforms before you release the ball. Gravity does the rest.</p>
+              <button id="startBtn" class="button button-primary" type="button">Start Level 1</button>
+            </div>
+          </div>
+
+          <div id="resultOverlay" class="overlay hidden" aria-live="polite">
+            <div class="overlay-card">
+              <span id="resultIcon" class="overlay-icon" aria-hidden="true">★</span>
+              <h2 id="resultTitle">Level complete!</h2>
+              <p id="resultText">Nice work.</p>
+              <div id="stars" class="stars" aria-label="Level rating"></div>
+              <div class="result-actions">
+                <button id="retryBtn" class="button button-secondary" type="button">Retry</button>
+                <button id="nextBtn" class="button button-primary" type="button">Next level</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <div class="mode-status"><span class="status-dot"></span><span id="statusText">Draw platforms, then release the ball.</span></div>
+          <div class="action-buttons">
+            <button id="undoBtn" class="button button-ghost" type="button">Undo</button>
+            <button id="releaseBtn" class="button button-action" type="button">Release Ball</button>
+          </div>
+        </div>
+
+        <div class="touch-hint">Mouse, pen, and touch supported. Draw directly on the board.</div>
+      </section>
+
+      <section class="content-grid">
+        <article class="content-card">
+          <h2>How to Play Physics Puzzle</h2>
+          <p>Your objective is simple: get the blue ball into the green goal. The challenge is deciding where to draw platforms so gravity and momentum carry the ball safely through each level.</p>
+          <ol>
+            <li>Draw one or more lines inside the game board.</li>
+            <li>Use the ink meter carefully. Longer lines consume more ink.</li>
+            <li>Select <strong>Release Ball</strong> when your setup is ready.</li>
+            <li>Reach the green goal without falling off the board or touching red hazards.</li>
+          </ol>
+          <p>You can reset a level at any time. On phones and tablets, draw with your finger directly on the board.</p>
+        </article>
+
+        <aside class="content-card tips-card">
+          <h2>Physics Puzzle Tips</h2>
+          <ul>
+            <li><strong>Use slopes.</strong> A small angle can create useful horizontal momentum.</li>
+            <li><strong>Draw less.</strong> Efficient solutions earn a better star rating.</li>
+            <li><strong>Watch the bounce.</strong> The ball keeps momentum when it hits a platform.</li>
+            <li><strong>Bridge gaps.</strong> Connect safe surfaces instead of trying to catch the ball at the last second.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="about">
+        <h2>About Physics Puzzle</h2>
+        <p>Physics Puzzle is a free online drawing and gravity game built for quick browser play. Each level combines obstacles, gaps, moving space, and limited drawing ink. There is no download or account required, and the game supports both desktop and mobile controls.</p>
+      </section>
+
+      <section class="faq">
+        <h2>Physics Puzzle FAQ</h2>
+        <details><summary>Is Physics Puzzle free to play?</summary><p>Yes. This version runs entirely in your browser and does not require a download, account, or payment.</p></details>
+        <details><summary>How do I control the ball?</summary><p>You do not steer the ball directly. Draw platforms first, then release it and use gravity, slopes, and rebounds to guide it toward the goal.</p></details>
+        <details><summary>Does the game work on mobile?</summary><p>Yes. The board scales to the available screen width and supports touch drawing on modern mobile browsers.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="shell">Physics Puzzle • Free Online Games</div></footer>
+  <script>(() => {
+"use strict";
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const stage = document.getElementById("gameStage");
+const levelValue = document.getElementById("levelValue");
+const scoreValue = document.getElementById("scoreValue");
+const bestValue = document.getElementById("bestValue");
+const inkValue = document.getElementById("inkValue");
+const inkBar = document.getElementById("inkBar");
+const statusText = document.getElementById("statusText");
+const startOverlay = document.getElementById("startOverlay");
+const resultOverlay = document.getElementById("resultOverlay");
+const resultTitle = document.getElementById("resultTitle");
+const resultText = document.getElementById("resultText");
+const resultIcon = document.getElementById("resultIcon");
+const starsEl = document.getElementById("stars");
+const startBtn = document.getElementById("startBtn");
+const resetBtn = document.getElementById("resetBtn");
+const undoBtn = document.getElementById("undoBtn");
+const releaseBtn = document.getElementById("releaseBtn");
+const retryBtn = document.getElementById("retryBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+const W = 960, H = 540, BALL_R = 13, GRAVITY = 640, RESTITUTION = 0.46, FRICTION = 0.992;
+const MAX_SEGMENT = 180;
+const levels = [
+  {name:"First Bridge", start:[90,110], goal:[820,455,54], ink:430, platforms:[[0,490,230,490],[700,490,960,490]], hazards:[]},
+  {name:"Gentle Slope", start:[95,105], goal:[820,430,52], ink:380, platforms:[[0,475,260,475],[660,470,960,470]], hazards:[]},
+  {name:"Mind the Gap", start:[110,360], goal:[820,405,50], ink:360, platforms:[[0,430,260,430],[710,455,960,455]], hazards:[[420,500,160,24]]},
+  {name:"Step Down", start:[100,100], goal:[835,450,50], ink:410, platforms:[[0,300,240,300],[700,490,960,490]], hazards:[[400,505,130,20]]},
+  {name:"Red Floor", start:[105,100], goal:[835,190,48], ink:440, platforms:[[0,275,240,275],[700,245,960,245]], hazards:[[245,500,455,28]]},
+  {name:"Twin Islands", start:[100,150], goal:[845,390,50], ink:390, platforms:[[0,350,220,350],[400,430,545,430],[745,445,960,445]], hazards:[[250,505,140,22],[565,505,155,22]]},
+  {name:"High Goal", start:[95,360], goal:[840,150,50], ink:500, platforms:[[0,430,230,430],[720,210,960,210]], hazards:[[310,500,300,25]]},
+  {name:"Narrow Landing", start:[90,95], goal:[835,430,46], ink:390, platforms:[[0,300,220,300],[780,475,960,475]], hazards:[[330,500,340,24]]},
+  {name:"Center Block", start:[100,115], goal:[840,390,50], ink:460, platforms:[[0,330,235,330],[725,445,960,445]], blocks:[[430,255,105,170]], hazards:[]},
+  {name:"Two Hazards", start:[100,130], goal:[840,400,50], ink:470, platforms:[[0,350,220,350],[740,455,960,455]], blocks:[[465,360,80,150]], hazards:[[260,505,170,22],[580,505,125,22]]},
+  {name:"Precision Run", start:[100,100], goal:[845,145,46], ink:520, platforms:[[0,285,220,285],[765,200,960,200]], blocks:[[380,335,90,170],[575,285,75,220]], hazards:[[235,505,130,22]]},
+  {name:"Final Experiment", start:[90,120], goal:[850,120,48], ink:560, platforms:[[0,315,205,315],[755,180,960,180]], blocks:[[330,375,80,130],[545,315,80,190]], hazards:[[220,510,100,20],[425,510,105,20],[640,510,105,20]]}
+];
+
+let dpr=1, scaleX=1, scaleY=1, currentLevel=0, score=0, state="intro";
+let lines=[], currentStroke=null, inkUsed=0, ball=null, lastTime=0, animationId=0, settledTime=0;
+
+function safeStorageGet(key, fallback) {
+  try { const v = localStorage.getItem(key); return v === null ? fallback : v; } catch(e) { return fallback; }
+}
+function safeStorageSet(key, value) { try { localStorage.setItem(key, value); } catch(e) {} }
+
+function resizeCanvas(){
+  const rect=stage.getBoundingClientRect();
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=Math.max(1,Math.round(rect.width*dpr));
+  canvas.height=Math.max(1,Math.round(rect.height*dpr));
+  scaleX=rect.width/W; scaleY=rect.height/H;
+  draw();
+}
+window.addEventListener("resize", resizeCanvas);
+
+function level(){ return levels[currentLevel]; }
+function resetBall(){
+  const [x,y]=level().start;
+  ball={x,y,vx:0,vy:0,r:BALL_R,active:false};
+}
+function updateUI(){
+  levelValue.textContent=`${currentLevel+1} / ${levels.length}`;
+  scoreValue.textContent=score.toLocaleString();
+  const best=Number(safeStorageGet("physicsPuzzleBest","0"));
+  bestValue.textContent=best ? best.toLocaleString() : "—";
+  const pct=Math.max(0,Math.round((1-inkUsed/level().ink)*100));
+  inkValue.textContent=`${pct}%`;
+  inkBar.style.width=`${pct}%`;
+  undoBtn.disabled=state!=="drawing" || !lines.length;
+  releaseBtn.disabled=state!=="drawing";
+}
+function beginLevel(showIntro=false){
+  cancelAnimationFrame(animationId);
+  lines=[]; currentStroke=null; inkUsed=0; state=showIntro?"intro":"drawing"; settledTime=0;
+  resetBall();
+  resultOverlay.classList.add("hidden");
+  startOverlay.classList.toggle("hidden", !showIntro);
+  startBtn.textContent=`Start Level ${currentLevel+1}`;
+  statusText.textContent="Draw platforms, then release the ball.";
+  releaseBtn.textContent="Release Ball";
+  updateUI(); draw();
+}
+function startLevel(){
+  state="drawing"; startOverlay.classList.add("hidden"); updateUI(); draw();
+}
+function resetLevel(){ beginLevel(false); }
+
+function pointerPos(e){
+  const r=canvas.getBoundingClientRect();
+  return {x:(e.clientX-r.left)/r.width*W, y:(e.clientY-r.top)/r.height*H};
+}
+function insideBoard(p){ return p.x>=8&&p.x<=W-8&&p.y>=8&&p.y<=H-8; }
+function distance(a,b){ return Math.hypot(a.x-b.x,a.y-b.y); }
+
+canvas.addEventListener("pointerdown", e=>{
+  if(state!=="drawing") return;
+  const p=pointerPos(e); if(!insideBoard(p)) return;
+  canvas.setPointerCapture?.(e.pointerId);
+  currentStroke=[p]; draw();
+});
+canvas.addEventListener("pointermove", e=>{
+  if(state!=="drawing" || !currentStroke) return;
+  const p=pointerPos(e), last=currentStroke[currentStroke.length-1];
+  if(!insideBoard(p) || distance(last,p)<5) return;
+  const remaining=level().ink-inkUsed;
+  if(remaining<=0) return;
+  let d=distance(last,p);
+  if(d>MAX_SEGMENT){
+    const t=MAX_SEGMENT/d; p.x=last.x+(p.x-last.x)*t; p.y=last.y+(p.y-last.y)*t; d=MAX_SEGMENT;
+  }
+  if(d>remaining){
+    const t=remaining/d; p.x=last.x+(p.x-last.x)*t; p.y=last.y+(p.y-last.y)*t; d=remaining;
+  }
+  currentStroke.push(p); inkUsed+=d; updateUI(); draw();
+});
+function endStroke(){
+  if(!currentStroke) return;
+  if(currentStroke.length>1) lines.push(currentStroke);
+  currentStroke=null; updateUI(); draw();
+}
+canvas.addEventListener("pointerup", endStroke);
+canvas.addEventListener("pointercancel", endStroke);
+canvas.addEventListener("contextmenu", e=>e.preventDefault());
+
+function undo(){
+  if(state!=="drawing" || !lines.length) return;
+  const s=lines.pop();
+  for(let i=1;i<s.length;i++) inkUsed-=distance(s[i-1],s[i]);
+  inkUsed=Math.max(0,inkUsed); updateUI(); draw();
+}
+function release(){
+  if(state!=="drawing") return;
+  state="running"; ball.active=true; ball.vx=0; ball.vy=0; lastTime=performance.now();
+  statusText.textContent="Ball released. Watch the physics!";
+  releaseBtn.disabled=true; undoBtn.disabled=true;
+  animationId=requestAnimationFrame(loop);
+}
+
+function allSegments(){
+  const segs=[];
+  level().platforms.forEach(p=>segs.push({a:{x:p[0],y:p[1]},b:{x:p[2],y:p[3]},fixed:true}));
+  lines.forEach(stroke=>{ for(let i=1;i<stroke.length;i++) segs.push({a:stroke[i-1],b:stroke[i],fixed:false}); });
+  return segs;
+}
+function closestPoint(px,py,a,b){
+  const abx=b.x-a.x, aby=b.y-a.y, len2=abx*abx+aby*aby || 1;
+  let t=((px-a.x)*abx+(py-a.y)*aby)/len2; t=Math.max(0,Math.min(1,t));
+  return {x:a.x+abx*t,y:a.y+aby*t,t};
+}
+function collideSegment(seg){
+  const cp=closestPoint(ball.x,ball.y,seg.a,seg.b);
+  let dx=ball.x-cp.x, dy=ball.y-cp.y, dist=Math.hypot(dx,dy);
+  if(dist>=ball.r+3 || dist===0) return;
+  let nx=dx/dist, ny=dy/dist;
+  const rel=ball.vx*nx+ball.vy*ny;
+  if(rel<0 || dist<ball.r-1){
+    const push=ball.r+3-dist; ball.x+=nx*push; ball.y+=ny*push;
+    if(rel<0){ ball.vx-=(1+RESTITUTION)*rel*nx; ball.vy-=(1+RESTITUTION)*rel*ny; }
+    const tx=-ny, ty=nx, tang=ball.vx*tx+ball.vy*ty;
+    ball.vx-=tang*.012*tx; ball.vy-=tang*.012*ty;
+  }
+}
+function collideRect(r){
+  const [x,y,w,h]=r;
+  const cx=Math.max(x,Math.min(ball.x,x+w)), cy=Math.max(y,Math.min(ball.y,y+h));
+  let dx=ball.x-cx,dy=ball.y-cy,dist=Math.hypot(dx,dy);
+  if(dist>=ball.r || dist===0) return;
+  const nx=dx/dist,ny=dy/dist,rel=ball.vx*nx+ball.vy*ny;
+  ball.x+=nx*(ball.r-dist); ball.y+=ny*(ball.r-dist);
+  if(rel<0){ball.vx-=(1+RESTITUTION)*rel*nx;ball.vy-=(1+RESTITUTION)*rel*ny;}
+}
+function inRectCircle(r){
+  const [x,y,w,h]=r, cx=Math.max(x,Math.min(ball.x,x+w)),cy=Math.max(y,Math.min(ball.y,y+h));
+  return Math.hypot(ball.x-cx,ball.y-cy)<ball.r;
+}
+function checkGoal(){
+  const [gx,gy,gr]=level().goal;
+  return Math.hypot(ball.x-gx,ball.y-gy) < gr-ball.r*.25;
+}
+function finish(success){
+  state=success?"won":"lost"; ball.active=false;
+  if(success){
+    const ratio=inkUsed/level().ink;
+    const stars=ratio<=.42?3:ratio<=.72?2:1;
+    const points=500+stars*350+Math.round(Math.max(0,level().ink-inkUsed)*2);
+    score+=points;
+    const best=Math.max(Number(safeStorageGet("physicsPuzzleBest","0")),score);
+    safeStorageSet("physicsPuzzleBest",String(best));
+    resultIcon.textContent="★"; resultTitle.textContent=currentLevel===levels.length-1?"Puzzle master!":"Level complete!";
+    resultText.textContent=`${level().name} solved. +${points.toLocaleString()} points`;
+    starsEl.textContent="★".repeat(stars)+"☆".repeat(3-stars);
+    nextBtn.textContent=currentLevel===levels.length-1?"Play Again":"Next level";
+  }else{
+    resultIcon.textContent="↻"; resultTitle.textContent="Try again";
+    resultText.textContent="The ball missed the goal or touched a red hazard.";
+    starsEl.textContent="";
+    nextBtn.textContent="Reset level";
+  }
+  resultOverlay.classList.remove("hidden"); updateUI(); draw();
+}
+function loop(t){
+  if(state!=="running") return;
+  const dt=Math.min(.022,(t-lastTime)/1000||.016); lastTime=t;
+  const steps=2, sdt=dt/steps;
+  for(let s=0;s<steps;s++){
+    ball.vy+=GRAVITY*sdt; ball.vx*=FRICTION; ball.vy*=.9995;
+    ball.x+=ball.vx*sdt; ball.y+=ball.vy*sdt;
+    allSegments().forEach(collideSegment);
+    (level().blocks||[]).forEach(collideRect);
+    if(checkGoal()){ finish(true); return; }
+    if((level().hazards||[]).some(inRectCircle)){ finish(false); return; }
+    if(ball.y>H+80 || ball.x<-100 || ball.x>W+100){ finish(false); return; }
+    const speed=Math.hypot(ball.vx,ball.vy);
+    if(speed<9 && ball.y>80) settledTime+=sdt; else settledTime=0;
+    if(settledTime>4.2){ finish(false); return; }
+  }
+  draw(); animationId=requestAnimationFrame(loop);
+}
+
+function roundedRect(x,y,w,h,r,fill){
+  ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fillStyle=fill; ctx.fill();
+}
+function drawGrid(){
+  ctx.strokeStyle="rgba(255,255,255,.045)";ctx.lineWidth=1;
+  for(let x=0;x<=W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<=H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+}
+function draw(){
+  if(!ctx) return;
+  ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);
+  ctx.clearRect(0,0,W,H);
+  const grad=ctx.createLinearGradient(0,0,0,H); grad.addColorStop(0,"#111827");grad.addColorStop(1,"#182235");
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H); drawGrid();
+
+  (level().hazards||[]).forEach(r=>{
+    roundedRect(r[0],r[1],r[2],r[3],7,"#EF5B5B");
+    ctx.fillStyle="rgba(255,255,255,.25)";
+    for(let x=r[0]+8;x<r[0]+r[2]-4;x+=20){ctx.beginPath();ctx.moveTo(x,r[1]+r[3]);ctx.lineTo(x+10,r[1]);ctx.lineTo(x+16,r[1]);ctx.lineTo(x+6,r[1]+r[3]);ctx.fill();}
+  });
+  (level().blocks||[]).forEach(r=>{
+    roundedRect(r[0],r[1],r[2],r[3],10,"#374151");
+    ctx.strokeStyle="#4B5563";ctx.lineWidth=2;ctx.strokeRect(r[0]+1,r[1]+1,r[2]-2,r[3]-2);
+  });
+  level().platforms.forEach(p=>{
+    ctx.lineCap="round";ctx.strokeStyle="#A7B0C0";ctx.lineWidth=14;ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(p[2],p[3]);ctx.stroke();
+    ctx.strokeStyle="#E5E7EB";ctx.lineWidth=4;ctx.stroke();
+  });
+
+  const [gx,gy,gr]=level().goal;
+  ctx.beginPath();ctx.arc(gx,gy,gr,0,Math.PI*2);ctx.fillStyle="rgba(34,197,94,.16)";ctx.fill();
+  ctx.strokeStyle="#22C55E";ctx.lineWidth=7;ctx.stroke();
+  ctx.beginPath();ctx.arc(gx,gy,gr-14,0,Math.PI*2);ctx.strokeStyle="rgba(34,197,94,.55)";ctx.lineWidth=3;ctx.stroke();
+  ctx.fillStyle="#86EFAC";ctx.font="800 15px 'Nunito Sans',sans-serif";ctx.textAlign="center";ctx.fillText("GOAL",gx,gy+5);
+
+  const strokes=currentStroke?[...lines,currentStroke]:lines;
+  strokes.forEach(stroke=>{
+    if(stroke.length<2)return;
+    ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#16B8C4";ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(stroke[0].x,stroke[0].y);
+    for(let i=1;i<stroke.length;i++)ctx.lineTo(stroke[i].x,stroke[i].y);ctx.stroke();
+    ctx.strokeStyle="#6EE7EE";ctx.lineWidth=3;ctx.stroke();
+  });
+
+  if(ball){
+    ctx.beginPath();ctx.arc(ball.x+4,ball.y+7,ball.r+2,0,Math.PI*2);ctx.fillStyle="rgba(0,0,0,.25)";ctx.fill();
+    const bg=ctx.createRadialGradient(ball.x-5,ball.y-6,2,ball.x,ball.y,ball.r+2);bg.addColorStop(0,"#A5B4FC");bg.addColorStop(1,"#5B5CE2");
+    ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fillStyle=bg;ctx.fill();ctx.strokeStyle="#C7D2FE";ctx.lineWidth=2;ctx.stroke();
+  }
+
+  ctx.fillStyle="rgba(255,255,255,.72)";ctx.font="700 14px 'Nunito Sans',sans-serif";ctx.textAlign="left";
+  ctx.fillText(level().name,20,28);
+}
+startBtn.addEventListener("click",startLevel);
+resetBtn.addEventListener("click",resetLevel);
+undoBtn.addEventListener("click",undo);
+releaseBtn.addEventListener("click",release);
+retryBtn.addEventListener("click",resetLevel);
+nextBtn.addEventListener("click",()=>{
+  if(state==="won"){
+    if(currentLevel===levels.length-1){currentLevel=0;score=0;}else currentLevel++;
+    beginLevel(false);
+  } else resetLevel();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key.toLowerCase()==="r") resetLevel();
+  if((e.key==="Enter"||e.key===" ") && state==="drawing"){e.preventDefault();release();}
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="z"){e.preventDefault();undo();}
+});
+resetBall(); resizeCanvas(); beginLevel(true);
+})();</script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Play Golf Game free online in your browser. Aim, adjust power, and complete 9 holes with as few strokes as possible. No download required.">
+  <title>Golf Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>*{box-sizing:border-box}
+:root{font-family:"Nunito Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#171B2D;background:#F6F7FB}
+html{scroll-behavior:smooth}
+body{margin:0;background:#F6F7FB}
+button,input{font:inherit}
+button{cursor:pointer}
+.site-header{height:72px;background:#fff;border-bottom:1px solid #E5E7EF;display:flex;align-items:center}
+.header-inner{width:min(1160px,calc(100% - 32px));margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#171B2D;font-weight:800;font-size:20px}
+.brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#5B5CE2;color:#fff}
+.header-pill{padding:7px 12px;border-radius:999px;background:#EEF0FF;color:#4546B8;font-size:14px;font-weight:800}
+.page{width:min(1160px,calc(100% - 32px));margin:0 auto;padding:30px 0 72px}
+.breadcrumb{display:flex;gap:9px;color:#667085;font-size:14px;margin-bottom:18px}
+.breadcrumb a{color:#4546B8;text-decoration:none;font-weight:700}
+.intro{margin-bottom:25px}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(38px,5vw,58px);line-height:1.08;margin-bottom:12px;letter-spacing:-1px}
+.intro p{max-width:720px;color:#667085;font-size:18px;line-height:1.65;margin-bottom:0}
+.game-shell{background:#fff;border:1px solid #E5E7EF;border-radius:20px;overflow:hidden;box-shadow:0 14px 40px rgba(23,27,45,.07)}
+.game-topbar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#E5E7EF}
+.stat{background:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.stat span{font-size:14px;color:#667085}.stat strong{font-size:21px}
+.canvas-wrap{position:relative;background:#111827;padding:0;line-height:0}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+.state-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,calc(100% - 36px));padding:26px;border-radius:18px;background:rgba(255,255,255,.97);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);line-height:1.5}
+.state-card.hidden{display:none}
+.state-kicker{font-size:13px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#5B5CE2}
+.state-card h2{font-size:30px;margin:6px 0 8px}.state-card p{color:#667085;margin-bottom:18px}
+.controls-panel{padding:22px 24px;background:#fff}
+.aim-row,.power-row{display:grid;grid-template-columns:100px 1fr;gap:18px;align-items:center;margin-bottom:16px}
+.control-label{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.control-label span{color:#667085;font-size:15px}.control-label strong{font-size:16px}
+input[type=range]{width:100%;accent-color:#5B5CE2;height:34px}
+.action-row{display:flex;gap:12px;margin-top:4px}
+.primary-btn,.secondary-btn,.ghost-btn{min-height:48px;border-radius:12px;border:1px solid transparent;padding:0 20px;font-weight:800;font-size:16px}
+.primary-btn,.secondary-btn{background:#5B5CE2;color:#fff}.primary-btn:hover,.secondary-btn:hover{background:#4546B8}
+.ghost-btn{background:#fff;border-color:#E5E7EF;color:#171B2D}.ghost-btn:hover{background:#F6F7FB}
+.control-help{font-size:14px;line-height:1.55;color:#667085;margin:14px 0 0}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.content-card{background:#fff;border:1px solid #E5E7EF;border-radius:18px;padding:26px}
+.content-card h2{font-size:28px;margin-bottom:12px}.content-card h3{font-size:20px;margin:22px 0 8px}
+.content-card p,.content-card li{font-size:16px;line-height:1.65;color:#4F586B}
+.content-card ul{padding-left:22px;margin-bottom:0}.content-card li+li{margin-top:7px}
+.tips{margin-top:20px}.tips-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tips-grid div{padding:18px;border:1px solid #E5E7EF;border-radius:14px;background:#FAFAFC}
+.tips-grid span{display:block;color:#5B5CE2;font-weight:800;margin-bottom:8px}.tips-grid p{margin:0;font-size:15px}
+.muted{color:#667085!important}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.related-card{display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid #E5E7EF;border-radius:12px;text-decoration:none;color:#171B2D;font-weight:800;background:#fff}
+.related-card:hover{border-color:#5B5CE2;background:#F8F8FF}
+.faq{margin-top:20px}.faq details{border-top:1px solid #E5E7EF;padding:16px 0}.faq details:last-child{border-bottom:1px solid #E5E7EF}.faq summary{cursor:pointer;font-weight:800;font-size:16px}.faq details p{margin:10px 0 0}
+@media(max-width:760px){
+ .page{width:min(100% - 20px,1160px);padding-top:22px}
+ .site-header{height:64px}.header-inner{width:calc(100% - 20px)}
+ .intro p{font-size:16px}
+ .game-topbar{grid-template-columns:repeat(2,1fr)}
+ .stat{padding:12px 14px}.stat strong{font-size:18px}
+ .controls-panel{padding:18px 16px}
+ .aim-row,.power-row{grid-template-columns:1fr;gap:4px;margin-bottom:10px}
+ .control-label{justify-content:space-between}
+ .action-row{display:grid;grid-template-columns:1fr 1fr}
+ .primary-btn,.secondary-btn,.ghost-btn{width:100%;padding:0 12px}
+ .content-grid{grid-template-columns:1fr;gap:16px}.content-card{padding:21px}
+ .content-card h2{font-size:25px}
+ .tips-grid{grid-template-columns:1fr 1fr}
+ .related-grid{grid-template-columns:1fr}
+}
+@media(max-width:440px){
+ h1{font-size:38px}.tips-grid{grid-template-columns:1fr}
+ .action-row{grid-template-columns:1fr}
+ .state-card{padding:21px}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">
+        <span class="brand-mark">G</span><span>Games Hub</span>
+      </a>
+      <span class="header-pill">Golf</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games</a><span aria-hidden="true">/</span><span>Golf</span>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <h1>Golf Game</h1>
+        <p>Play a free online golf game in your browser. Aim carefully, choose the right power, and finish all 9 holes in as few strokes as possible.</p>
+      </div>
+    </section>
+
+    <section class="game-shell" aria-label="Golf game">
+      <div class="game-topbar">
+        <div class="stat"><span>Hole</span><strong id="holeValue">1 / 9</strong></div>
+        <div class="stat"><span>Par</span><strong id="parValue">3</strong></div>
+        <div class="stat"><span>Strokes</span><strong id="strokesValue">0</strong></div>
+        <div class="stat"><span>Total</span><strong id="totalValue">0</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="1100" height="620" aria-label="Golf course game board"></canvas>
+        <div class="state-card hidden" id="stateCard" role="status" aria-live="polite">
+          <div class="state-kicker" id="stateKicker">Hole complete</div>
+          <h2 id="stateTitle">Great shot!</h2>
+          <p id="stateText">Ready for the next hole?</p>
+          <button class="primary-btn" id="stateButton" type="button">Next Hole</button>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <div class="aim-row">
+          <div class="control-label">
+            <span>Aim</span>
+            <strong id="angleValue">0°</strong>
+          </div>
+          <input id="angleSlider" type="range" min="-180" max="180" value="0" step="1" aria-label="Aim direction">
+        </div>
+        <div class="power-row">
+          <div class="control-label">
+            <span>Power</span>
+            <strong id="powerValue">50%</strong>
+          </div>
+          <input id="powerSlider" type="range" min="10" max="100" value="50" step="1" aria-label="Shot power">
+        </div>
+        <div class="action-row">
+          <button class="secondary-btn" id="shotButton" type="button">Take Shot</button>
+          <button class="ghost-btn" id="restartButton" type="button">Restart Game</button>
+        </div>
+        <p class="control-help">Desktop: use the sliders or ← → to aim and ↑ ↓ to change power. Press Space to shoot. Mobile: drag the controls and tap Take Shot.</p>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article class="content-card">
+        <h2>How to Play Golf</h2>
+        <p>Each hole gives you a target and a ball position. Set your aim toward the cup, select enough power to reach it, then take your shot. The course includes sand and trees that can affect your ball.</p>
+        <h3>Controls</h3>
+        <ul>
+          <li>Adjust <strong>Aim</strong> to choose the shot direction.</li>
+          <li>Adjust <strong>Power</strong> to control how far the ball travels.</li>
+          <li>Select <strong>Take Shot</strong> to hit the ball.</li>
+          <li>Use <strong>Restart Game</strong> any time to start a fresh 9-hole round.</li>
+        </ul>
+      </article>
+
+      <article class="content-card">
+        <h2>About This Golf Game</h2>
+        <p>This browser golf game uses a simple stroke-based scoring system. Your goal is to complete 9 holes with the lowest total score. Each hole has a par value, and your result is shown as strokes relative to par.</p>
+        <h3>Scoring</h3>
+        <ul>
+          <li><strong>Eagle:</strong> 2 under par</li>
+          <li><strong>Birdie:</strong> 1 under par</li>
+          <li><strong>Par:</strong> equal to par</li>
+          <li><strong>Bogey:</strong> 1 over par</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="content-card tips">
+      <h2>Golf Tips & Strategy</h2>
+      <div class="tips-grid">
+        <div><span>01</span><p>Aim for the center of the cup rather than its edge.</p></div>
+        <div><span>02</span><p>Use moderate power when the hole is short to avoid overshooting.</p></div>
+        <div><span>03</span><p>On longer holes, favor controlled shots over maximum power.</p></div>
+        <div><span>04</span><p>Plan around obstacles instead of repeatedly hitting into them.</p></div>
+      </div>
+    </section>
+
+    <section class="content-card">
+      <h2>Related Games</h2>
+      <p class="muted">More free online games can be linked here as your Games Hub grows.</p>
+      <div class="related-grid">
+        <a href="#" class="related-card">Mini Golf <span>→</span></a>
+        <a href="#" class="related-card">Arcade Sports <span>→</span></a>
+        <a href="#" class="related-card">Basketball <span>→</span></a>
+      </div>
+    </section>
+
+    <section class="content-card faq">
+      <h2>Golf Game FAQ</h2>
+      <details>
+        <summary>Can I play this Golf Game for free?</summary>
+        <p>Yes. The game runs directly in your browser and does not require a download or account.</p>
+      </details>
+      <details>
+        <summary>How many holes are in the game?</summary>
+        <p>The round contains 9 holes with different layouts and par values.</p>
+      </details>
+      <details>
+        <summary>Can I play Golf on mobile?</summary>
+        <p>Yes. The aim and power controls are touch-friendly, and the game is designed to fit smaller screens.</p>
+      </details>
+    </section>
+  </main>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const holeValue = document.getElementById("holeValue");
+  const parValue = document.getElementById("parValue");
+  const strokesValue = document.getElementById("strokesValue");
+  const totalValue = document.getElementById("totalValue");
+  const angleSlider = document.getElementById("angleSlider");
+  const powerSlider = document.getElementById("powerSlider");
+  const angleValue = document.getElementById("angleValue");
+  const powerValue = document.getElementById("powerValue");
+  const shotButton = document.getElementById("shotButton");
+  const restartButton = document.getElementById("restartButton");
+  const stateCard = document.getElementById("stateCard");
+  const stateKicker = document.getElementById("stateKicker");
+  const stateTitle = document.getElementById("stateTitle");
+  const stateText = document.getElementById("stateText");
+  const stateButton = document.getElementById("stateButton");
+
+  const W = canvas.width, H = canvas.height;
+  const HOLES = [
+    {par:3, start:[145,470], cup:[930,150], obstacles:[
+      {type:"sand",x:530,y:350,rx:105,ry:58},{type:"tree",x:720,y:190,r:34},{type:"tree",x:780,y:220,r:28}
+    ]},
+    {par:4, start:[150,485], cup:[965,150], obstacles:[
+      {type:"sand",x:430,y:205,rx:115,ry:55},{type:"sand",x:745,y:410,rx:95,ry:48},{type:"tree",x:585,y:300,r:32}
+    ]},
+    {par:3, start:[165,150], cup:[920,475], obstacles:[
+      {type:"sand",x:510,y:160,rx:105,ry:52},{type:"tree",x:390,y:370,r:34},{type:"tree",x:690,y:290,r:36}
+    ]},
+    {par:4, start:[140,310], cup:[960,310], obstacles:[
+      {type:"sand",x:360,y:180,rx:80,ry:45},{type:"sand",x:730,y:450,rx:90,ry:45},{type:"tree",x:550,y:315,r:38}
+    ]},
+    {par:5, start:[145,500], cup:[945,120], obstacles:[
+      {type:"sand",x:340,y:395,rx:100,ry:52},{type:"sand",x:740,y:215,rx:95,ry:48},{type:"tree",x:550,y:180,r:35},{type:"tree",x:600,y:390,r:30}
+    ]},
+    {par:3, start:[155,135], cup:[930,135], obstacles:[
+      {type:"sand",x:535,y:135,rx:115,ry:50},{type:"tree",x:390,y:300,r:35},{type:"tree",x:735,y:300,r:35}
+    ]},
+    {par:4, start:[160,470], cup:[940,450], obstacles:[
+      {type:"sand",x:500,y:445,rx:125,ry:50},{type:"tree",x:300,y:210,r:35},{type:"tree",x:785,y:230,r:35}
+    ]},
+    {par:4, start:[145,155], cup:[950,490], obstacles:[
+      {type:"sand",x:380,y:210,rx:90,ry:48},{type:"sand",x:780,y:330,rx:90,ry:48},{type:"tree",x:590,y:300,r:38}
+    ]},
+    {par:5, start:[145,485], cup:[955,125], obstacles:[
+      {type:"sand",x:300,y:300,rx:90,ry:48},{type:"sand",x:690,y:300,rx:105,ry:52},{type:"tree",x:505,y:155,r:34},{type:"tree",x:520,y:470,r:34}
+    ]}
+  ];
+
+  let holeIndex = 0, strokes = 0, total = 0;
+  let ball = {x:0,y:0}, moving = false, gameOver = false, anim = null;
+  let trail = [], messageTimer = 0;
+
+  function currentHole(){ return HOLES[holeIndex]; }
+  function resetBall(){
+    const h = currentHole();
+    ball.x = h.start[0]; ball.y = h.start[1];
+    trail = [];
+  }
+  function updateUI(){
+    const h = currentHole();
+    holeValue.textContent = `${holeIndex + 1} / ${HOLES.length}`;
+    parValue.textContent = h.par;
+    strokesValue.textContent = strokes;
+    totalValue.textContent = total;
+    angleValue.textContent = `${Number(angleSlider.value)}°`;
+    powerValue.textContent = `${Number(powerSlider.value)}%`;
+  }
+  function showState(kicker,title,text,button){
+    stateKicker.textContent=kicker; stateTitle.textContent=title; stateText.textContent=text; stateButton.textContent=button;
+    stateCard.classList.remove("hidden");
+  }
+  function hideState(){ stateCard.classList.add("hidden"); }
+
+  function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+  function pointInObstacle(x,y,o){
+    if(o.type==="sand") return ((x-o.x)**2/(o.rx*o.rx)+(y-o.y)**2/(o.ry*o.ry))<=1;
+    return Math.hypot(x-o.x,y-o.y)<o.r;
+  }
+  function hitObstacle(x,y){
+    return currentHole().obstacles.find(o=>pointInObstacle(x,y,o));
+  }
+  function drawCourse(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#0d6b43"; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle="#168252";
+    for(let y=0;y<H;y+=70) ctx.fillRect(0,y,W,35);
+    ctx.strokeStyle="rgba(255,255,255,.07)"; ctx.lineWidth=2;
+    for(let x=0;x<W;x+=110){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+    for(let y=0;y<H;y+=110){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+    const h=currentHole();
+
+    h.obstacles.forEach(o=>{
+      if(o.type==="sand"){
+        ctx.save(); ctx.fillStyle="#d9bb79"; ctx.beginPath(); ctx.ellipse(o.x,o.y,o.rx,o.ry,0,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle="rgba(120,90,40,.2)"; ctx.lineWidth=3; ctx.stroke(); ctx.restore();
+      } else {
+        ctx.save(); ctx.fillStyle="#5b3b24"; ctx.fillRect(o.x-5,o.y+5,10,30);
+        ctx.fillStyle="#174d2d"; ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle="#246c3c";ctx.beginPath();ctx.arc(o.x-10,o.y-9,o.r*.62,0,Math.PI*2);ctx.fill();ctx.restore();
+      }
+    });
+
+    ctx.save();
+    ctx.fillStyle="#111827";ctx.globalAlpha=.18;ctx.beginPath();ctx.arc(h.cup[0]+2,h.cup[1]+3,10,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#f8fafc";ctx.beginPath();ctx.arc(h.cup[0],h.cup[1],9,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#111827";ctx.beginPath();ctx.arc(h.cup[0],h.cup[1],5,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#f8fafc";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(h.cup[0],h.cup[1]);ctx.lineTo(h.cup[0],h.cup[1]-70);ctx.stroke();
+    ctx.fillStyle="#EF5B5B";ctx.beginPath();ctx.moveTo(h.cup[0],h.cup[1]-70);ctx.lineTo(h.cup[0]+38,h.cup[1]-58);ctx.lineTo(h.cup[0],h.cup[1]-45);ctx.closePath();ctx.fill();
+    ctx.restore();
+
+    if(trail.length>1){
+      ctx.save();ctx.strokeStyle="rgba(255,255,255,.35)";ctx.lineWidth=2;ctx.setLineDash([5,7]);ctx.beginPath();
+      trail.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.restore();
+    }
+    drawAim();
+    ctx.save();ctx.fillStyle="#f8fafc";ctx.strokeStyle="#111827";ctx.lineWidth=3;ctx.beginPath();ctx.arc(ball.x,ball.y,9,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.restore();
+  }
+
+  function drawAim(){
+    if(moving || gameOver)return;
+    const rad=Number(angleSlider.value)*Math.PI/180;
+    const len=55+Number(powerSlider.value)*1.25;
+    ctx.save();ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=3;ctx.setLineDash([8,8]);
+    ctx.beginPath();ctx.moveTo(ball.x,ball.y);ctx.lineTo(ball.x+Math.cos(rad)*len,ball.y+Math.sin(rad)*len);ctx.stroke();
+    ctx.restore();
+  }
+
+  function shot(){
+    if(moving||gameOver)return;
+    hideState();
+    const power=Number(powerSlider.value);
+    const angle=Number(angleSlider.value)*Math.PI/180;
+    const maxDist=65+power*4.15;
+    const targetX=ball.x+Math.cos(angle)*maxDist, targetY=ball.y+Math.sin(angle)*maxDist;
+    const start={x:ball.x,y:ball.y}, end={x:Math.max(18,Math.min(W-18,targetX)),y:Math.max(18,Math.min(H-18,targetY))};
+    strokes++; updateUI(); moving=true; trail=[{...start}];
+    const duration=420+power*5;
+    const t0=performance.now();
+    function frame(now){
+      const t=Math.min(1,(now-t0)/duration);
+      const ease=1-Math.pow(1-t,3);
+      ball.x=start.x+(end.x-start.x)*ease; ball.y=start.y+(end.y-start.y)*ease;
+      trail.push({x:ball.x,y:ball.y}); if(trail.length>30)trail.shift();
+      drawCourse();
+      if(t<1){anim=requestAnimationFrame(frame);return}
+      moving=false; resolveShot();
+    }
+    anim=requestAnimationFrame(frame);
+  }
+
+  function resolveShot(){
+    const h=currentHole();
+    const obstacle=hitObstacle(ball.x,ball.y);
+    if(dist(ball,{x:h.cup[0],y:h.cup[1]})<20){
+      total+=strokes; updateUI();
+      const rel=strokes-h.par;
+      const label=rel<=-2?"Eagle":rel===-1?"Birdie":rel===0?"Par":rel===1?"Bogey":`${rel} over par`;
+      if(holeIndex===HOLES.length-1){
+        gameOver=true;
+        showState("Round complete",`9 Holes Finished`,`You shot ${total} strokes — ${total-27>=0?total-27:Math.abs(total-27)} ${total-27>=0?"over":"under"} the 27-par round.`,`Play Again`);
+      }else{
+        showState("Hole complete",label,`Hole ${holeIndex+1}: ${strokes} stroke${strokes===1?"":"s"}. Total round score: ${total}.`,`Next Hole`);
+      }
+      return;
+    }
+    if(obstacle){
+      const penalty=obstacle.type==="sand"?0:0;
+      if(obstacle.type==="sand"){
+        angleSlider.value=Number(angleSlider.value)+((Math.random()-.5)*12);
+      } else {
+        const h2=currentHole();
+        ball.x=Math.max(20,ball.x-Math.cos(Number(angleSlider.value)*Math.PI/180)*22);
+        ball.y=Math.max(20,ball.y-Math.sin(Number(angleSlider.value)*Math.PI/180)*22);
+      }
+      if(penalty)strokes+=penalty;
+      updateUI();
+    }
+    messageTimer=performance.now()+1000;
+  }
+
+  function nextHole(){
+    if(gameOver){restart();return}
+    if(holeIndex<HOLES.length-1){
+      holeIndex++;strokes=0;resetBall();hideState();updateUI();drawCourse();
+    }
+  }
+  function restart(){
+    if(anim)cancelAnimationFrame(anim);
+    holeIndex=0;strokes=0;total=0;gameOver=false;moving=false;
+    angleSlider.value=0;powerSlider.value=50;resetBall();hideState();updateUI();drawCourse();
+  }
+
+  angleSlider.addEventListener("input",()=>{updateUI();drawCourse()});
+  powerSlider.addEventListener("input",()=>{updateUI();drawCourse()});
+  shotButton.addEventListener("click",shot);
+  restartButton.addEventListener("click",restart);
+  stateButton.addEventListener("click",nextHole);
+
+  window.addEventListener("keydown",e=>{
+    if(e.target.matches("input,button"))return;
+    if(e.key==="ArrowLeft"){e.preventDefault();angleSlider.value=Math.max(-180,Number(angleSlider.value)-5);updateUI();drawCourse()}
+    if(e.key==="ArrowRight"){e.preventDefault();angleSlider.value=Math.min(180,Number(angleSlider.value)+5);updateUI();drawCourse()}
+    if(e.key==="ArrowUp"){e.preventDefault();powerSlider.value=Math.min(100,Number(powerSlider.value)+5);updateUI();drawCourse()}
+    if(e.key==="ArrowDown"){e.preventDefault();powerSlider.value=Math.max(10,Number(powerSlider.value)-5);updateUI();drawCourse()}
+    if(e.code==="Space"){e.preventDefault();shot()}
+  });
+
+  resetBall();updateUI();drawCourse();
+})();
+</script>
+</body>
+</html>

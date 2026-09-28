@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Reversi Game - Play Free Online</title>
+  <meta name="description" content="Play Reversi online for free against the computer. Flip your opponent's discs, control the corners, and win directly in your browser with no download.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#13795b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --page: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --board: #13795b;
+  --board-dark: #0d5f47;
+  --board-line: rgba(5, 49, 37, 0.65);
+  --shadow: 0 18px 50px rgba(23, 27, 45, 0.09);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, select { font: inherit; }
+a { color: var(--brand-dark); }
+a:hover { color: var(--brand); }
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -80px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus { top: 12px; }
+
+.site-header {
+  height: 72px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.header-inner, .page-shell {
+  width: min(100% - 40px, 1160px);
+  margin-inline: auto;
+}
+
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 7px;
+  border-radius: 11px;
+  background: var(--brand);
+}
+
+.brand-mark i { border-radius: 50%; background: #fff; }
+.brand-mark i:last-child { background: var(--action); }
+
+.all-games-link {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.breadcrumb { padding-top: 24px; }
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.breadcrumb li:not(:last-child)::after { content: "/"; margin-left: 8px; color: #a4a9b7; }
+.breadcrumb a { color: inherit; text-decoration: none; }
+
+.hero {
+  max-width: 780px;
+  margin: 54px auto 40px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--board);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1, h2, h3, p { margin-top: 0; }
+h1 {
+  margin-bottom: 18px;
+  font-size: clamp(42px, 6vw, 64px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+h2 { margin-bottom: 18px; font-size: clamp(28px, 4vw, 36px); line-height: 1.2; letter-spacing: -0.025em; }
+h3 { margin-bottom: 8px; font-size: 21px; line-height: 1.3; }
+.intro { margin-bottom: 0; color: var(--muted); font-size: 18px; }
+
+.game-card {
+  max-width: 850px;
+  margin: 0 auto 76px;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.game-toolbar, .scoreboard, .game-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.game-label, .difficulty-control span, .turn-kicker {
+  display: block;
+  margin: 0 0 3px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.player-color { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 800; line-height: 1.3; }
+.difficulty-control { display: flex; align-items: center; gap: 10px; }
+.difficulty-control span { margin: 0; }
+
+select {
+  min-height: 44px;
+  padding: 0 34px 0 13px;
+  border: 1px solid #cfd3df;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.scoreboard {
+  margin: 22px 0;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f1f3f8;
+}
+
+.score-box {
+  min-width: 170px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 13px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.score-box.active { border-color: var(--action); }
+.score-box strong { font-size: 24px; line-height: 1; }
+.score-name { font-weight: 700; }
+.turn-panel { flex: 1; text-align: center; }
+.turn-panel strong { display: block; font-size: 18px; line-height: 1.25; }
+
+.mini-disc {
+  width: 20px;
+  aspect-ratio: 1;
+  display: inline-block;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.mini-disc.black { background: #111827; }
+.mini-disc.white { border: 1px solid #d3d7df; background: #fff; }
+
+.board-wrap {
+  position: relative;
+  width: min(100%, 630px);
+  margin: 34px auto 28px;
+  padding: 0 0 0 25px;
+}
+
+.board {
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  overflow: hidden;
+  border: 8px solid var(--board-dark);
+  border-radius: 16px;
+  background: var(--board-dark);
+  box-shadow: 0 16px 32px rgba(13, 95, 71, 0.24);
+  touch-action: manipulation;
+}
+
+.cell {
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid var(--board-line);
+  border-bottom: 1px solid var(--board-line);
+  border-radius: 0;
+  background: var(--board);
+  cursor: default;
+}
+
+.cell:nth-child(8n) { border-right: 0; }
+.cell:nth-child(n + 57) { border-bottom: 0; }
+.cell:focus-visible { z-index: 3; outline: 4px solid var(--action); outline-offset: -5px; }
+.cell.legal { cursor: pointer; }
+.cell.legal::after {
+  content: "";
+  position: absolute;
+  width: 23%;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.48);
+  transform: translate(-50%, -50%);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.cell.legal:hover::after, .cell.legal:focus-visible::after { background: var(--action); transform: translate(-50%, -50%) scale(1.25); }
+.board.hints-hidden .cell.legal::after { opacity: 0; }
+
+.disc {
+  position: absolute;
+  inset: 11%;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.28), 0 3px 6px rgba(0, 0, 0, 0.3);
+  animation: place-disc 180ms ease-out;
+}
+
+.disc.black { background: radial-gradient(circle at 35% 28%, #374151, #111827 62%); }
+.disc.white { border: 1px solid #d6d8dd; background: radial-gradient(circle at 35% 28%, #fff, #e8e9ed 68%); }
+
+@keyframes place-disc {
+  from { opacity: 0.25; transform: scale(0.45); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.board-coordinates { position: absolute; display: grid; color: var(--muted); font-size: 11px; font-weight: 800; line-height: 1; }
+.board-coordinates.top { top: -19px; left: 33px; right: 8px; grid-template-columns: repeat(8, 1fr); text-align: center; }
+.board-coordinates.side { top: 8px; bottom: 8px; left: 0; width: 17px; grid-template-rows: repeat(8, 1fr); align-items: center; text-align: center; }
+
+.game-actions { justify-content: center; }
+.primary-button, .secondary-button {
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.primary-button { border: 1px solid var(--brand); background: var(--brand); color: #fff; }
+.primary-button:hover { border-color: var(--brand-dark); background: var(--brand-dark); transform: translateY(-1px); }
+.secondary-button { border: 1px solid #cfd3df; background: #fff; color: var(--text); }
+.secondary-button:hover { border-color: var(--brand); color: var(--brand-dark); }
+.primary-button:focus-visible, .secondary-button:focus-visible, select:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid rgba(91, 92, 226, 0.28); outline-offset: 3px; }
+
+.control-note { margin: 17px 0 0; color: var(--muted); font-size: 14px; text-align: center; }
+
+.result-panel {
+  margin-top: 22px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid #b8e8cf;
+  border-radius: 14px;
+  background: #effbf4;
+}
+
+.result-panel[hidden] { display: none; }
+.result-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--board); color: #fff; font-size: 25px; }
+.result-panel h3, .result-panel p { margin: 0; }
+.result-panel p { color: var(--muted); font-size: 15px; }
+
+.content-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 76px 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-heading { max-width: 700px; }
+.content-section > p { max-width: 760px; color: var(--muted); }
+
+.steps-grid, .related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.steps-grid article, .related-grid article, .strategy-card {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.steps-grid article > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: #e9eafe;
+  color: var(--brand-dark);
+  font-weight: 800;
+}
+
+.steps-grid p, .related-grid p, .strategy-card li { margin: 0; color: var(--muted); font-size: 16px; }
+.rules-callout { margin-top: 24px; padding: 22px 24px; border-left: 5px solid var(--action); border-radius: 4px 14px 14px 4px; background: #fff8e9; }
+.rules-callout p { margin: 0; color: #5b5141; }
+
+.split-section { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); gap: 48px; }
+.split-section > div > p { color: var(--muted); }
+.strategy-card { background: #f1faf6; border-color: #cce8db; }
+.strategy-card ul { margin: 12px 0 0; padding-left: 20px; }
+.strategy-card li + li { margin-top: 10px; }
+.row-heading { max-width: none; display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+.row-heading h2 { margin-bottom: 0; }
+.row-heading > a { margin-bottom: 5px; font-weight: 800; }
+.related-grid article { display: flex; align-items: center; gap: 16px; }
+.related-grid h3 { margin: 0 0 3px; }
+.game-symbol { width: 50px; height: 50px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 14px; background: #e9eafe; color: var(--brand-dark); font-size: 28px; font-weight: 800; }
+
+.faq-section { max-width: 850px; }
+details { border-top: 1px solid var(--border); }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { padding: 20px 4px; font-size: 18px; font-weight: 800; cursor: pointer; }
+details p { padding: 0 34px 20px 4px; color: var(--muted); }
+
+.site-footer { margin-top: 16px; padding: 32px 0; background: var(--text); color: #d9dce5; }
+.site-footer .page-shell { display: flex; justify-content: space-between; gap: 20px; }
+.site-footer p { margin: 0; }
+.site-footer a { color: #fff; font-weight: 800; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .header-inner, .page-shell { width: min(100% - 28px, 1160px); }
+  .hero { margin: 40px auto 32px; }
+  .intro { font-size: 17px; }
+  .game-card { padding: 16px; margin-bottom: 60px; border-radius: 18px; }
+  .scoreboard { gap: 8px; padding: 10px; }
+  .score-box { min-width: 0; grid-template-columns: auto auto; gap: 6px; padding: 9px; }
+  .score-name { grid-column: 1 / -1; grid-row: 2; font-size: 12px; line-height: 1; }
+  .score-box strong { font-size: 21px; }
+  .turn-panel strong { font-size: 15px; }
+  .turn-kicker { font-size: 11px; }
+  .board-wrap { margin-top: 32px; padding-left: 20px; }
+  .board { border-width: 5px; border-radius: 12px; }
+  .board-coordinates.top { left: 25px; right: 5px; }
+  .board-coordinates.side { top: 5px; bottom: 5px; }
+  .disc { inset: 10%; }
+  .content-section { padding: 58px 0; }
+  .steps-grid, .related-grid, .split-section { grid-template-columns: 1fr; }
+  .steps-grid, .related-grid { gap: 14px; }
+  .split-section { gap: 26px; }
+  .result-panel { grid-template-columns: auto 1fr; }
+  .result-panel .primary-button { grid-column: 1 / -1; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .all-games-link { font-size: 15px; }
+  .game-toolbar { align-items: end; }
+  .difficulty-control { display: block; }
+  .difficulty-control span { margin-bottom: 3px; }
+  select { min-height: 42px; }
+  .mini-disc { width: 17px; }
+  .game-actions { flex-direction: column; }
+  .game-actions button { width: 100%; }
+  .row-heading { align-items: start; flex-direction: column; }
+  .site-footer .page-shell { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+  <script>"use strict";
+
+const EMPTY = 0;
+const BLACK = 1;
+const WHITE = 2;
+const SIZE = 8;
+const DIRECTIONS = [
+  [-1, -1], [-1, 0], [-1, 1],
+  [0, -1],             [0, 1],
+  [1, -1],  [1, 0],   [1, 1]
+];
+
+const POSITION_WEIGHTS = [
+  [120, -30, 20, 5, 5, 20, -30, 120],
+  [-30, -45, -5, -5, -5, -5, -45, -30],
+  [20, -5, 15, 3, 3, 15, -5, 20],
+  [5, -5, 3, 3, 3, 3, -5, 5],
+  [5, -5, 3, 3, 3, 3, -5, 5],
+  [20, -5, 15, 3, 3, 15, -5, 20],
+  [-30, -45, -5, -5, -5, -5, -45, -30],
+  [120, -30, 20, 5, 5, 20, -30, 120]
+];
+
+const boardElement = document.getElementById("board");
+const blackScoreElement = document.getElementById("black-score");
+const whiteScoreElement = document.getElementById("white-score");
+const blackScoreBox = document.getElementById("black-score-box");
+const whiteScoreBox = document.getElementById("white-score-box");
+const statusElement = document.getElementById("status");
+const difficultyElement = document.getElementById("difficulty");
+const newGameButton = document.getElementById("new-game");
+const hintButton = document.getElementById("toggle-hints");
+const playAgainButton = document.getElementById("play-again");
+const resultPanel = document.getElementById("result-panel");
+const resultTitle = document.getElementById("result-title");
+const resultMessage = document.getElementById("result-message");
+const resultIcon = document.getElementById("result-icon");
+
+let board = [];
+let currentPlayer = BLACK;
+let gameOver = false;
+let computerThinking = false;
+let showHints = true;
+let focusedIndex = 0;
+let computerTimer = null;
+
+function createEmptyBoard() {
+  return Array.from({ length: SIZE }, () => Array(SIZE).fill(EMPTY));
+}
+
+function startGame() {
+  if (computerTimer !== null) {
+    window.clearTimeout(computerTimer);
+    computerTimer = null;
+  }
+
+  board = createEmptyBoard();
+  board[3][3] = WHITE;
+  board[3][4] = BLACK;
+  board[4][3] = BLACK;
+  board[4][4] = WHITE;
+  currentPlayer = BLACK;
+  gameOver = false;
+  computerThinking = false;
+  focusedIndex = 19;
+  resultPanel.hidden = true;
+  render();
+  focusFirstLegalMove(false);
+}
+
+function isInside(row, col) {
+  return row >= 0 && row < SIZE && col >= 0 && col < SIZE;
+}
+
+function opponentOf(player) {
+  return player === BLACK ? WHITE : BLACK;
+}
+
+function getFlips(state, row, col, player) {
+  if (!isInside(row, col) || state[row][col] !== EMPTY) return [];
+
+  const opponent = opponentOf(player);
+  const allFlips = [];
+
+  for (const [rowStep, colStep] of DIRECTIONS) {
+    let nextRow = row + rowStep;
+    let nextCol = col + colStep;
+    const line = [];
+
+    while (isInside(nextRow, nextCol) && state[nextRow][nextCol] === opponent) {
+      line.push([nextRow, nextCol]);
+      nextRow += rowStep;
+      nextCol += colStep;
+    }
+
+    if (line.length > 0 && isInside(nextRow, nextCol) && state[nextRow][nextCol] === player) {
+      allFlips.push(...line);
+    }
+  }
+
+  return allFlips;
+}
+
+function getValidMoves(state, player) {
+  const moves = [];
+  for (let row = 0; row < SIZE; row += 1) {
+    for (let col = 0; col < SIZE; col += 1) {
+      const flips = getFlips(state, row, col, player);
+      if (flips.length > 0) moves.push({ row, col, flips });
+    }
+  }
+  return moves;
+}
+
+function applyMove(state, move, player) {
+  state[move.row][move.col] = player;
+  for (const [row, col] of move.flips) state[row][col] = player;
+}
+
+function cloneBoard(state) {
+  return state.map((row) => row.slice());
+}
+
+function handleCellSelection(row, col) {
+  if (gameOver || computerThinking || currentPlayer !== BLACK) return;
+  const flips = getFlips(board, row, col, BLACK);
+  if (flips.length === 0) return;
+
+  applyMove(board, { row, col, flips }, BLACK);
+  currentPlayer = WHITE;
+  render();
+  continueGame();
+}
+
+function continueGame() {
+  if (isBoardFull(board)) {
+    finishGame();
+    return;
+  }
+
+  const moves = getValidMoves(board, currentPlayer);
+  if (moves.length > 0) {
+    if (currentPlayer === WHITE) scheduleComputerMove();
+    else {
+      computerThinking = false;
+      render();
+      focusFirstLegalMove(false);
+    }
+    return;
+  }
+
+  const skippedPlayer = currentPlayer;
+  currentPlayer = opponentOf(currentPlayer);
+  const nextMoves = getValidMoves(board, currentPlayer);
+
+  if (nextMoves.length === 0) {
+    finishGame();
+    return;
+  }
+
+  computerThinking = currentPlayer === WHITE;
+  render(skippedPlayer === BLACK ? "No legal move. Your turn was passed." : "Computer had no legal move. Your turn.");
+
+  if (currentPlayer === WHITE) scheduleComputerMove(700);
+  else focusFirstLegalMove(false);
+}
+
+function scheduleComputerMove(delay = 520) {
+  computerThinking = true;
+  render("Computer is thinking…");
+  computerTimer = window.setTimeout(() => {
+    computerTimer = null;
+    if (gameOver || currentPlayer !== WHITE) return;
+    const moves = getValidMoves(board, WHITE);
+    if (moves.length === 0) {
+      computerThinking = false;
+      continueGame();
+      return;
+    }
+    const move = chooseComputerMove(moves);
+    applyMove(board, move, WHITE);
+    computerThinking = false;
+    currentPlayer = BLACK;
+    render();
+    continueGame();
+  }, delay);
+}
+
+function chooseComputerMove(moves) {
+  const difficulty = difficultyElement.value;
+  if (difficulty === "easy") return moves[Math.floor(Math.random() * moves.length)];
+
+  const scoredMoves = moves.map((move) => ({
+    move,
+    score: evaluateMove(move, difficulty)
+  }));
+  scoredMoves.sort((a, b) => b.score - a.score);
+
+  if (difficulty === "medium" && scoredMoves.length > 1 && Math.random() < 0.25) {
+    return scoredMoves[Math.min(1, scoredMoves.length - 1)].move;
+  }
+  return scoredMoves[0].move;
+}
+
+function evaluateMove(move, difficulty) {
+  const simulated = cloneBoard(board);
+  applyMove(simulated, move, WHITE);
+  const positional = POSITION_WEIGHTS[move.row][move.col];
+  const flipValue = move.flips.length * 2;
+  const opponentMobility = getValidMoves(simulated, BLACK).length;
+  let score = positional + flipValue - opponentMobility * (difficulty === "hard" ? 5 : 2);
+
+  if (difficulty === "hard") {
+    const replies = getValidMoves(simulated, BLACK);
+    if (replies.length > 0) {
+      let worstReply = -Infinity;
+      for (const reply of replies) {
+        const replyScore = POSITION_WEIGHTS[reply.row][reply.col] + reply.flips.length * 2;
+        worstReply = Math.max(worstReply, replyScore);
+      }
+      score -= worstReply * 0.65;
+    }
+    score += countStableEdges(simulated, WHITE) * 4;
+  }
+
+  return score + Math.random() * 0.15;
+}
+
+function countStableEdges(state, player) {
+  const corners = [[0, 0], [0, 7], [7, 0], [7, 7]];
+  let count = 0;
+  for (const [row, col] of corners) {
+    if (state[row][col] === player) count += 1;
+  }
+  return count;
+}
+
+function isBoardFull(state) {
+  return state.every((row) => row.every((cell) => cell !== EMPTY));
+}
+
+function countDiscs(state) {
+  let black = 0;
+  let white = 0;
+  for (const row of state) {
+    for (const cell of row) {
+      if (cell === BLACK) black += 1;
+      if (cell === WHITE) white += 1;
+    }
+  }
+  return { black, white };
+}
+
+function finishGame() {
+  gameOver = true;
+  computerThinking = false;
+  const scores = countDiscs(board);
+  let title;
+  let message;
+  let icon;
+
+  if (scores.black > scores.white) {
+    title = "You win!";
+    message = `Final score: You ${scores.black}, Computer ${scores.white}.`;
+    icon = "★";
+  } else if (scores.white > scores.black) {
+    title = "Computer wins";
+    message = `Final score: You ${scores.black}, Computer ${scores.white}. Try controlling the corners next time.`;
+    icon = "●";
+  } else {
+    title = "It’s a draw";
+    message = `Both players finished with ${scores.black} discs.`;
+    icon = "=";
+  }
+
+  resultTitle.textContent = title;
+  resultMessage.textContent = message;
+  resultIcon.textContent = icon;
+  resultPanel.hidden = false;
+  render(title);
+  playAgainButton.focus({ preventScroll: true });
+}
+
+function render(customStatus = "") {
+  const validMoves = !gameOver ? getValidMoves(board, currentPlayer) : [];
+  const legalKeys = new Set(validMoves.map((move) => `${move.row}-${move.col}`));
+  const scores = countDiscs(board);
+
+  boardElement.textContent = "";
+  boardElement.classList.toggle("hints-hidden", !showHints);
+
+  for (let row = 0; row < SIZE; row += 1) {
+    for (let col = 0; col < SIZE; col += 1) {
+      const index = row * SIZE + col;
+      const cell = document.createElement("button");
+      const value = board[row][col];
+      const isLegal = currentPlayer === BLACK && legalKeys.has(`${row}-${col}`) && !computerThinking;
+
+      cell.type = "button";
+      cell.className = `cell${isLegal ? " legal" : ""}`;
+      cell.setAttribute("role", "gridcell");
+      cell.setAttribute("aria-rowindex", String(row + 1));
+      cell.setAttribute("aria-colindex", String(col + 1));
+      cell.setAttribute("aria-label", getCellLabel(row, col, value, isLegal));
+      cell.tabIndex = index === focusedIndex ? 0 : -1;
+      cell.dataset.row = String(row);
+      cell.dataset.col = String(col);
+      cell.addEventListener("click", () => handleCellSelection(row, col));
+      cell.addEventListener("focus", () => { focusedIndex = index; });
+      cell.addEventListener("keydown", handleBoardKeydown);
+
+      if (value !== EMPTY) {
+        const disc = document.createElement("span");
+        disc.className = `disc ${value === BLACK ? "black" : "white"}`;
+        disc.setAttribute("aria-hidden", "true");
+        cell.appendChild(disc);
+      }
+
+      boardElement.appendChild(cell);
+    }
+  }
+
+  blackScoreElement.textContent = String(scores.black);
+  whiteScoreElement.textContent = String(scores.white);
+  blackScoreBox.classList.toggle("active", !gameOver && currentPlayer === BLACK);
+  whiteScoreBox.classList.toggle("active", !gameOver && currentPlayer === WHITE);
+
+  if (customStatus) statusElement.textContent = customStatus;
+  else if (gameOver) statusElement.textContent = "Game over";
+  else if (computerThinking) statusElement.textContent = "Computer is thinking…";
+  else statusElement.textContent = "Your turn";
+}
+
+function getCellLabel(row, col, value, isLegal) {
+  const coordinate = `${String.fromCharCode(65 + col)}${row + 1}`;
+  if (value === BLACK) return `${coordinate}, black disc`;
+  if (value === WHITE) return `${coordinate}, white disc`;
+  if (isLegal) return `${coordinate}, legal move`;
+  return `${coordinate}, empty`;
+}
+
+function handleBoardKeydown(event) {
+  const keyMoves = {
+    ArrowUp: -SIZE,
+    ArrowDown: SIZE,
+    ArrowLeft: -1,
+    ArrowRight: 1
+  };
+
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    const target = event.currentTarget;
+    handleCellSelection(Number(target.dataset.row), Number(target.dataset.col));
+    return;
+  }
+
+  if (!(event.key in keyMoves)) return;
+  event.preventDefault();
+  const currentRow = Math.floor(focusedIndex / SIZE);
+  const currentCol = focusedIndex % SIZE;
+  let nextRow = currentRow;
+  let nextCol = currentCol;
+
+  if (event.key === "ArrowUp") nextRow = Math.max(0, currentRow - 1);
+  if (event.key === "ArrowDown") nextRow = Math.min(SIZE - 1, currentRow + 1);
+  if (event.key === "ArrowLeft") nextCol = Math.max(0, currentCol - 1);
+  if (event.key === "ArrowRight") nextCol = Math.min(SIZE - 1, currentCol + 1);
+
+  focusedIndex = nextRow * SIZE + nextCol;
+  const cells = boardElement.querySelectorAll(".cell");
+  cells.forEach((cell, index) => { cell.tabIndex = index === focusedIndex ? 0 : -1; });
+  cells[focusedIndex].focus();
+}
+
+function focusFirstLegalMove(shouldFocus = true) {
+  const moves = getValidMoves(board, BLACK);
+  if (moves.length === 0) return;
+  focusedIndex = moves[0].row * SIZE + moves[0].col;
+  const cells = boardElement.querySelectorAll(".cell");
+  cells.forEach((cell, index) => { cell.tabIndex = index === focusedIndex ? 0 : -1; });
+  if (shouldFocus) cells[focusedIndex].focus();
+}
+
+newGameButton.addEventListener("click", () => {
+  startGame();
+  focusFirstLegalMove(true);
+});
+
+playAgainButton.addEventListener("click", () => {
+  startGame();
+  focusFirstLegalMove(true);
+});
+
+hintButton.addEventListener("click", () => {
+  showHints = !showHints;
+  hintButton.setAttribute("aria-pressed", String(showHints));
+  hintButton.textContent = showHints ? "Hide Move Hints" : "Show Move Hints";
+  boardElement.classList.toggle("hints-hidden", !showHints);
+});
+
+difficultyElement.addEventListener("change", startGame);
+
+startGame();
+</script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../../index.html">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../index.html#board-games">Board Games</a></li>
+          <li aria-current="page">Reversi</li>
+        </ol>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Classic strategy board game</p>
+        <h1 id="page-title">Reversi Game</h1>
+        <p class="intro">Play Reversi free online against the computer. Place a disc to trap your opponent’s pieces, flip them to your color, and finish with the most discs on the board.</p>
+      </section>
+
+      <section class="game-card" id="game" aria-labelledby="game-heading">
+        <div class="game-toolbar">
+          <div>
+            <p class="game-label">You play</p>
+            <p class="player-color"><span class="mini-disc black" aria-hidden="true"></span> Black</p>
+          </div>
+
+          <label class="difficulty-control" for="difficulty">
+            <span>Difficulty</span>
+            <select id="difficulty" aria-label="Computer difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="scoreboard" aria-label="Game score">
+          <div class="score-box player-score active" id="black-score-box">
+            <span class="mini-disc black" aria-hidden="true"></span>
+            <span class="score-name">You</span>
+            <strong id="black-score">2</strong>
+          </div>
+          <div class="turn-panel">
+            <span class="turn-kicker">Game status</span>
+            <strong id="status" role="status" aria-live="polite">Your turn</strong>
+          </div>
+          <div class="score-box" id="white-score-box">
+            <span class="mini-disc white" aria-hidden="true"></span>
+            <span class="score-name">Computer</span>
+            <strong id="white-score">2</strong>
+          </div>
+        </div>
+
+        <h2 class="sr-only" id="game-heading">Play Reversi</h2>
+        <div class="board-wrap">
+          <div class="board-coordinates top" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+          <div id="board" class="board" role="grid" aria-label="Reversi board" aria-rowcount="8" aria-colcount="8"></div>
+          <div class="board-coordinates side" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+        </div>
+
+        <div class="game-actions">
+          <button class="primary-button" id="new-game" type="button">New Game</button>
+          <button class="secondary-button" id="toggle-hints" type="button" aria-pressed="true">Hide Move Hints</button>
+        </div>
+
+        <p class="control-note"><strong>Controls:</strong> Tap or click a highlighted square. On a keyboard, use the arrow keys and press Enter or Space.</p>
+
+        <div class="result-panel" id="result-panel" hidden>
+          <div class="result-icon" id="result-icon" aria-hidden="true">●</div>
+          <div>
+            <h3 id="result-title">Game Over</h3>
+            <p id="result-message"></p>
+          </div>
+          <button class="primary-button" id="play-again" type="button">Play Again</button>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div class="section-heading">
+          <p class="eyebrow">Rules and controls</p>
+          <h2 id="how-to-play">How to Play Reversi</h2>
+        </div>
+        <p>Reversi is played on an 8×8 board with black and white discs. Black moves first. Your goal is to have more discs showing your color when neither player can make another legal move.</p>
+
+        <div class="steps-grid">
+          <article>
+            <span>1</span>
+            <h3>Find a legal square</h3>
+            <p>Choose an empty highlighted square next to one or more white discs.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3>Trap the discs</h3>
+            <p>Your new black disc must sandwich at least one white disc in a straight line.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3>Flip and continue</h3>
+            <p>Every trapped disc flips to black. Turns continue until no legal moves remain.</p>
+          </article>
+        </div>
+
+        <div class="rules-callout">
+          <h3>When does a player pass?</h3>
+          <p>If you have no legal move, your turn passes automatically. The game ends when both players have no move or the board is full.</p>
+        </div>
+      </section>
+
+      <section class="content-section split-section" aria-labelledby="about-reversi">
+        <div>
+          <p class="eyebrow">A quick introduction</p>
+          <h2 id="about-reversi">About the Reversi Game</h2>
+          <p>Reversi is a two-player strategy game built around positional control. A single move can flip several lines of discs horizontally, vertically, or diagonally, so the lead can change quickly.</p>
+          <p>This browser version lets you play as Black against the computer. It runs entirely on your device and requires no download, account, or sign-up.</p>
+        </div>
+        <aside class="strategy-card" aria-labelledby="strategy-title">
+          <h3 id="strategy-title">Reversi strategy tips</h3>
+          <ul>
+            <li>Prioritize corners because corner discs cannot be flipped.</li>
+            <li>Avoid giving away squares beside an open corner.</li>
+            <li>Keep your opponent’s legal move count low.</li>
+            <li>Do not chase an early lead; stable positions matter more.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="content-section" aria-labelledby="related-games">
+        <div class="section-heading row-heading">
+          <div>
+            <p class="eyebrow">Keep playing</p>
+            <h2 id="related-games">Related Board Games</h2>
+          </div>
+          <a href="../../index.html#board-games">View all board games</a>
+        </div>
+        <div class="related-grid" aria-label="Related game suggestions">
+          <article><span class="game-symbol">♟</span><div><h3>Chess</h3><p>Plan ahead and control the board.</p></div></article>
+          <article><span class="game-symbol">⛀</span><div><h3>Checkers</h3><p>Jump pieces in a classic duel.</p></div></article>
+          <article><span class="game-symbol">×</span><div><h3>Tic-Tac-Toe</h3><p>Make three in a row.</p></div></article>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <p class="eyebrow">Common questions</p>
+          <h2 id="faq-title">Reversi Game FAQ</h2>
+        </div>
+        <details>
+          <summary>Is Reversi the same as Othello?</summary>
+          <p>The games use the same core flanking and disc-flipping mechanics. Othello is a trademarked commercial version with a standardized starting setup.</p>
+        </details>
+        <details>
+          <summary>Can I play this Reversi game on mobile?</summary>
+          <p>Yes. The board scales to fit smaller screens, and you can tap any highlighted legal move.</p>
+        </details>
+        <details>
+          <summary>How do you win at Reversi?</summary>
+          <p>You win by having more discs of your color when the game ends. Corners, stable edges, and limiting the opponent’s choices are usually more valuable than an early disc lead.</p>
+        </details>
+        <details>
+          <summary>What happens when there are no legal moves?</summary>
+          <p>A player with no legal move must pass. If neither player can move, the game ends and the discs are counted.</p>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell">
+      <p>Play quick, free online games directly in your browser.</p>
+      <a href="../../index.html">Explore Games Hub</a>
+    </div>
+  </footer>
+</body>
+</html>

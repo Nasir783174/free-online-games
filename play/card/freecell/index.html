@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FreeCell Game - Play Free Online</title>
+  <meta name="description" content="Play FreeCell online for free in your browser. Move cards strategically between cascades, free cells, and foundations with no download required.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#5B5CE2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --secondary: #16B8C4;
+  --accent: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --felt: #0F6B4F;
+  --felt-dark: #0A4F3C;
+  --red: #C0392B;
+  --black: #1C2434;
+  --shadow: 0 14px 34px rgba(23, 27, 45, .10);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Nunito Sans", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+a { color: var(--primary-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+.site-header {
+  height: 72px;
+  background: rgba(255,255,255,.95);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.brand { font-size: 22px; font-weight: 800; color: var(--primary-dark); }
+.header-label { color: var(--muted); font-size: 15px; font-weight: 700; }
+.page-shell { padding: 24px 0 72px; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+.hero { display: flex; justify-content: space-between; gap: 28px; align-items: end; margin-bottom: 28px; }
+.eyebrow, .toolbar-kicker { margin: 0 0 8px; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+h1 { font-size: clamp(38px, 6vw, 62px); line-height: 1.08; margin: 0 0 14px; font-weight: 800; }
+h2 { font-size: clamp(28px, 4vw, 36px); line-height: 1.2; margin: 0 0 16px; }
+h3 { font-size: 22px; margin: 0 0 12px; }
+.hero-copy { max-width: 780px; margin: 0; color: var(--muted); font-size: 18px; }
+.hero-actions, .modal-actions, .toolbar-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn {
+  border: 0;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  background: #ECEEF7;
+  color: var(--text);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(23,27,45,.12); }
+.btn:focus-visible, .card:focus-visible, .pile-slot:focus-visible { outline: 3px solid rgba(91,92,226,.35); outline-offset: 3px; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: #EEF0F7; color: var(--text); }
+.btn-compact { min-height: 42px; padding: 0 14px; font-size: 15px; }
+
+.game-card, .content-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.game-card { overflow: hidden; margin-bottom: 28px; }
+.game-toolbar { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 20px 22px; border-bottom: 1px solid var(--border); }
+.game-toolbar h2 { margin: 0; font-size: 28px; }
+.stats { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.stat { min-width: 90px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 12px; background: #FAFBFD; text-align: center; }
+.stat span { display: block; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.stat strong { font-size: 20px; line-height: 1.2; }
+
+.board-wrap { overflow-x: auto; background: var(--felt-dark); padding: 18px; }
+.game-board {
+  min-width: 860px;
+  border-radius: 16px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255,255,255,.05), transparent 24%),
+    radial-gradient(circle at 75% 70%, rgba(255,255,255,.04), transparent 28%),
+    var(--felt);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.top-row { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+.pile-group { flex: 1; }
+.group-label { color: rgba(255,255,255,.82); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.slot-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.pile-slot {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  max-width: 92px;
+  width: 100%;
+  border: 2px dashed rgba(255,255,255,.36);
+  border-radius: 10px;
+  background: rgba(255,255,255,.05);
+  cursor: pointer;
+}
+.foundation-symbol { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,.34); font-size: 34px; font-weight: 800; }
+.cascades { display: grid; grid-template-columns: repeat(8, minmax(92px, 1fr)); gap: 10px; align-items: start; }
+.cascade { position: relative; min-height: 150px; border-radius: 10px; cursor: pointer; }
+.cascade.empty { outline: 2px dashed rgba(255,255,255,.28); outline-offset: -2px; min-height: 130px; background: rgba(255,255,255,.035); }
+.card {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  min-height: 124px;
+  border-radius: 10px;
+  border: 1px solid rgba(23,27,45,.18);
+  background: white;
+  box-shadow: 0 3px 8px rgba(0,0,0,.22);
+  padding: 7px;
+  user-select: none;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, outline .12s ease;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 7px 14px rgba(0,0,0,.25); }
+.card.red { color: var(--red); }
+.card.black { color: var(--black); }
+.card.selected { outline: 4px solid var(--accent); outline-offset: 1px; transform: translateY(-4px); z-index: 90 !important; }
+.card.movable-stack { box-shadow: 0 0 0 3px rgba(255,184,77,.9), 0 7px 14px rgba(0,0,0,.25); }
+.card-rank { font-weight: 800; font-size: 21px; line-height: 1; }
+.card-suit { font-size: 23px; line-height: 1; }
+.card-center { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44px; opacity: .92; }
+
+.interaction-panel { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 20px; border-top: 1px solid var(--border); }
+.selection-help { display: flex; flex-direction: column; }
+.selection-help span { color: var(--muted); font-size: 15px; }
+.message-box { min-height: 28px; padding: 0 20px 18px; color: var(--muted); font-size: 15px; }
+.message-box.error { color: var(--danger); font-weight: 700; }
+.message-box.success { color: #15803D; font-weight: 700; }
+
+.content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-bottom: 22px; }
+.content-card { padding: 24px; }
+.content-card p:last-child, .content-card ul:last-child, .content-card ol:last-child { margin-bottom: 0; }
+.content-card li + li { margin-top: 8px; }
+.related-card, .faq-card { margin-bottom: 22px; }
+.related-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.related-pill { padding: 9px 13px; background: #F0F1FD; color: var(--primary-dark); border-radius: 999px; font-weight: 800; font-size: 15px; }
+details { border-top: 1px solid var(--border); padding: 14px 0; }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; font-weight: 800; }
+
+.modal {
+  position: fixed; inset: 0; background: rgba(17,24,39,.64); display: grid; place-items: center; padding: 20px; z-index: 200;
+}
+.modal[hidden] { display: none; }
+.modal-card { width: min(460px, 100%); background: white; border-radius: 18px; padding: 28px; box-shadow: 0 24px 60px rgba(0,0,0,.28); }
+.modal-card h2 { margin-bottom: 10px; }
+
+@media (max-width: 900px) {
+  .hero, .game-toolbar, .interaction-panel { align-items: stretch; flex-direction: column; }
+  .hero-actions { width: 100%; }
+  .hero-actions .btn { flex: 1; }
+  .stats { justify-content: flex-start; }
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  body { font-size: 16px; }
+  .container { width: min(100% - 20px, 1180px); }
+  .page-shell { padding-top: 16px; }
+  .site-header { height: 64px; }
+  .header-label { display: none; }
+  h1 { font-size: 40px; }
+  .hero-copy { font-size: 16px; }
+  .game-toolbar, .content-card { padding: 18px; }
+  .board-wrap { padding: 10px; }
+  .game-board { min-width: 690px; padding: 12px; }
+  .cascades { grid-template-columns: repeat(8, minmax(72px, 1fr)); gap: 7px; }
+  .slot-row { gap: 7px; }
+  .card { min-height: 101px; padding: 5px; }
+  .card-rank { font-size: 17px; }
+  .card-suit { font-size: 18px; }
+  .card-center { font-size: 34px; }
+  .top-row { gap: 14px; margin-bottom: 20px; }
+  .pile-slot { max-width: 74px; }
+  .toolbar-buttons { width: 100%; }
+  .toolbar-buttons .btn { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">Games Hub</a>
+      <span class="header-label">Board Games</span>
+    </div>
+  </header>
+
+  <main class="container page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games</a><span aria-hidden="true">/</span><span>Board Games</span><span aria-hidden="true">/</span><span aria-current="page">FreeCell</span>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Classic solitaire strategy</p>
+        <h1>FreeCell Game</h1>
+        <p class="hero-copy">Play a complete FreeCell game in your browser. Build four suit foundations from Ace to King, use the four free cells carefully, and rearrange the eight cascades to uncover every card.</p>
+      </div>
+      <div class="hero-actions" aria-label="Game actions">
+        <button id="newGameBtn" class="btn btn-primary" type="button">New Game</button>
+        <button id="restartBtn" class="btn btn-secondary" type="button">Restart Deal</button>
+      </div>
+    </section>
+
+    <section class="game-card" aria-labelledby="gameAreaTitle">
+      <div class="game-toolbar">
+        <div>
+          <p class="toolbar-kicker">FreeCell</p>
+          <h2 id="gameAreaTitle">Game Area</h2>
+        </div>
+        <div class="stats" role="status" aria-live="polite">
+          <div class="stat"><span>Moves</span><strong id="movesCount">0</strong></div>
+          <div class="stat"><span>Time</span><strong id="timer">00:00</strong></div>
+          <div class="stat"><span>Status</span><strong id="statusText">Playing</strong></div>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <div id="gameBoard" class="game-board" aria-label="FreeCell game board">
+          <div class="top-row">
+            <div class="pile-group" aria-label="Free cells">
+              <div class="group-label">Free Cells</div>
+              <div id="freeCells" class="slot-row slot-row-free"></div>
+            </div>
+            <div class="pile-group" aria-label="Foundations">
+              <div class="group-label">Foundations</div>
+              <div id="foundations" class="slot-row slot-row-foundation"></div>
+            </div>
+          </div>
+          <div id="cascades" class="cascades" aria-label="Card cascades"></div>
+        </div>
+      </div>
+
+      <div class="interaction-panel">
+        <div class="selection-help">
+          <strong id="selectionTitle">Select a card</strong>
+          <span id="selectionHint">Tap or click a card, then choose its destination.</span>
+        </div>
+        <div class="toolbar-buttons">
+          <button id="autoFoundationBtn" class="btn btn-compact" type="button">Auto Move Safe Cards</button>
+          <button id="clearSelectionBtn" class="btn btn-compact btn-secondary" type="button">Clear Selection</button>
+        </div>
+      </div>
+
+      <div id="messageBox" class="message-box" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="content-grid">
+      <article class="content-card">
+        <h2>How to Play FreeCell</h2>
+        <p>FreeCell uses one standard 52-card deck. All cards are dealt face up into eight cascades, so every card is visible from the start. Your goal is to move all cards to the four foundation piles.</p>
+        <ol>
+          <li>Build foundations upward by suit, starting with Ace and ending with King.</li>
+          <li>Build cascade columns downward in alternating colors.</li>
+          <li>Move one exposed card into any empty free cell.</li>
+          <li>Use empty cascades and free cells to temporarily store cards and unlock longer sequences.</li>
+          <li>Move every card to the foundations to win.</li>
+        </ol>
+      </article>
+
+      <article class="content-card">
+        <h2>FreeCell Controls</h2>
+        <ul>
+          <li><strong>Desktop:</strong> Click a card or valid sequence, then click a destination.</li>
+          <li><strong>Mobile:</strong> Tap a card or sequence, then tap a free cell, foundation, or cascade.</li>
+          <li><strong>Double-click / double-tap:</strong> Sends an eligible exposed card to its foundation.</li>
+          <li><strong>Restart Deal:</strong> Resets the current shuffled deal.</li>
+          <li><strong>New Game:</strong> Creates a fresh shuffled deal.</li>
+        </ul>
+      </article>
+
+      <article class="content-card">
+        <h2>About FreeCell</h2>
+        <p>FreeCell is an open-information solitaire game because every card starts face up. Unlike many luck-heavy solitaire variants, FreeCell emphasizes planning, temporary storage, sequencing, and careful use of empty spaces.</p>
+      </article>
+
+      <article class="content-card">
+        <h2>FreeCell Strategy Tips</h2>
+        <ul>
+          <li>Keep at least one free cell open when possible.</li>
+          <li>Expose low cards early so Aces and Twos can reach the foundations.</li>
+          <li>Empty a cascade only when you have a clear plan for how to use it.</li>
+          <li>Do not rush every available card to the foundation if it may block an important alternating sequence.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="content-card related-card">
+      <h2>Related Games</h2>
+      <p>This page is ready for internal links to other board and solitaire games in your larger Games Hub. Replace these placeholders when those pages exist.</p>
+      <div class="related-grid" aria-label="Related games placeholders">
+        <span class="related-pill">Klondike Solitaire</span>
+        <span class="related-pill">Spider Solitaire</span>
+        <span class="related-pill">Hearts</span>
+      </div>
+    </section>
+
+    <section class="content-card faq-card">
+      <h2>FreeCell FAQ</h2>
+      <details>
+        <summary>Is this FreeCell game free to play?</summary>
+        <p>Yes. It runs entirely in your browser and does not require a download, account, database, or backend.</p>
+      </details>
+      <details>
+        <summary>Can I play FreeCell on mobile?</summary>
+        <p>Yes. The layout adapts to smaller screens and supports tap-based card selection and movement.</p>
+      </details>
+      <details>
+        <summary>How many free cells are there?</summary>
+        <p>There are four free cells. Each can temporarily hold one exposed card.</p>
+      </details>
+      <details>
+        <summary>How do I win FreeCell?</summary>
+        <p>Move all 52 cards to the four suit foundations in ascending order from Ace through King.</p>
+      </details>
+    </section>
+  </main>
+
+  <div id="winModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="winTitle" hidden>
+    <div class="modal-card">
+      <p class="eyebrow">Deal complete</p>
+      <h2 id="winTitle">You won FreeCell!</h2>
+      <p id="winSummary">All cards are safely in the foundations.</p>
+      <div class="modal-actions">
+        <button id="modalNewGameBtn" class="btn btn-primary" type="button">Play New Game</button>
+        <button id="modalCloseBtn" class="btn btn-secondary" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>'use strict';
+
+const suits = [
+  { symbol: '♠', name: 'spades', color: 'black' },
+  { symbol: '♥', name: 'hearts', color: 'red' },
+  { symbol: '♦', name: 'diamonds', color: 'red' },
+  { symbol: '♣', name: 'clubs', color: 'black' }
+];
+
+const rankLabels = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' };
+
+const els = {
+  freeCells: document.getElementById('freeCells'),
+  foundations: document.getElementById('foundations'),
+  cascades: document.getElementById('cascades'),
+  movesCount: document.getElementById('movesCount'),
+  timer: document.getElementById('timer'),
+  statusText: document.getElementById('statusText'),
+  selectionTitle: document.getElementById('selectionTitle'),
+  selectionHint: document.getElementById('selectionHint'),
+  messageBox: document.getElementById('messageBox'),
+  newGameBtn: document.getElementById('newGameBtn'),
+  restartBtn: document.getElementById('restartBtn'),
+  autoFoundationBtn: document.getElementById('autoFoundationBtn'),
+  clearSelectionBtn: document.getElementById('clearSelectionBtn'),
+  winModal: document.getElementById('winModal'),
+  winSummary: document.getElementById('winSummary'),
+  modalNewGameBtn: document.getElementById('modalNewGameBtn'),
+  modalCloseBtn: document.getElementById('modalCloseBtn')
+};
+
+let cascades = Array.from({ length: 8 }, () => []);
+let freeCells = Array(4).fill(null);
+let foundations = { spades: [], hearts: [], diamonds: [], clubs: [] };
+let selected = null;
+let moves = 0;
+let elapsedSeconds = 0;
+let timerId = null;
+let startedAt = null;
+let initialDeckOrder = [];
+let gameWon = false;
+let lastTap = { key: '', time: 0 };
+
+function buildDeck() {
+  const deck = [];
+  let id = 0;
+  for (const suit of suits) {
+    for (let rank = 1; rank <= 13; rank++) {
+      deck.push({ id: `c${id++}`, suit: suit.name, symbol: suit.symbol, color: suit.color, rank });
+    }
+  }
+  return deck;
+}
+
+function shuffle(deck) {
+  const arr = [...deck];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function cardLabel(card) {
+  return `${rankLabels[card.rank] || card.rank}${card.symbol}`;
+}
+
+function cloneCard(card) { return { ...card }; }
+
+function dealFromDeck(deck) {
+  cascades = Array.from({ length: 8 }, () => []);
+  freeCells = Array(4).fill(null);
+  foundations = { spades: [], hearts: [], diamonds: [], clubs: [] };
+  deck.forEach((card, index) => cascades[index % 8].push(cloneCard(card)));
+  selected = null;
+  moves = 0;
+  elapsedSeconds = 0;
+  startedAt = Date.now();
+  gameWon = false;
+  els.winModal.hidden = true;
+  startTimer();
+  setMessage('Build down in alternating colors. Move Aces to the foundations when they become available.');
+  render();
+}
+
+function startNewGame() {
+  const deck = shuffle(buildDeck());
+  initialDeckOrder = deck.map(cloneCard);
+  dealFromDeck(initialDeckOrder);
+}
+
+function restartGame() {
+  dealFromDeck(initialDeckOrder);
+}
+
+function startTimer() {
+  clearInterval(timerId);
+  timerId = setInterval(() => {
+    if (gameWon) return;
+    elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
+    updateStats();
+  }, 1000);
+}
+
+function formatTime(total) {
+  const minutes = Math.floor(total / 60).toString().padStart(2, '0');
+  const seconds = (total % 60).toString().padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
+function updateStats() {
+  els.movesCount.textContent = String(moves);
+  els.timer.textContent = formatTime(elapsedSeconds);
+  els.statusText.textContent = gameWon ? 'Won' : 'Playing';
+}
+
+function setMessage(text, type = '') {
+  els.messageBox.textContent = text;
+  els.messageBox.className = `message-box${type ? ` ${type}` : ''}`;
+}
+
+function clearSelection() {
+  selected = null;
+  updateSelectionHelp();
+  render();
+}
+
+function updateSelectionHelp() {
+  if (!selected) {
+    els.selectionTitle.textContent = 'Select a card';
+    els.selectionHint.textContent = 'Tap or click a card, then choose its destination.';
+    return;
+  }
+  const cards = getSelectedCards();
+  if (!cards.length) {
+    selected = null;
+    updateSelectionHelp();
+    return;
+  }
+  els.selectionTitle.textContent = cards.length === 1 ? `Selected ${cardLabel(cards[0])}` : `Selected ${cards.length}-card sequence`;
+  els.selectionHint.textContent = 'Choose a free cell, foundation, or valid cascade destination.';
+}
+
+function createCardElement(card, options = {}) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = `card ${card.color}`;
+  btn.dataset.cardId = card.id;
+  btn.setAttribute('aria-label', `${rankLabels[card.rank] || card.rank} of ${card.suit}`);
+  btn.innerHTML = `<span class="card-rank">${rankLabels[card.rank] || card.rank}</span><span class="card-suit">${card.symbol}</span><span class="card-center" aria-hidden="true">${card.symbol}</span>`;
+  if (options.selected) btn.classList.add('selected');
+  if (options.stackSelected) btn.classList.add('movable-stack');
+  if (Number.isFinite(options.top)) btn.style.top = `${options.top}px`;
+  if (Number.isFinite(options.z)) btn.style.zIndex = String(options.z);
+  return btn;
+}
+
+function render() {
+  renderFreeCells();
+  renderFoundations();
+  renderCascades();
+  updateStats();
+  updateSelectionHelp();
+}
+
+function renderFreeCells() {
+  els.freeCells.innerHTML = '';
+  freeCells.forEach((card, index) => {
+    const slot = document.createElement('button');
+    slot.type = 'button';
+    slot.className = 'pile-slot';
+    slot.dataset.type = 'freecell';
+    slot.dataset.index = String(index);
+    slot.setAttribute('aria-label', card ? `Free cell ${index + 1}, ${cardLabel(card)}` : `Empty free cell ${index + 1}`);
+    if (card) {
+      const selectedHere = selected?.source === 'freecell' && selected.index === index;
+      const cardEl = createCardElement(card, { selected: selectedHere, top: 0, z: 1 });
+      slot.appendChild(cardEl);
+    }
+    els.freeCells.appendChild(slot);
+  });
+}
+
+function renderFoundations() {
+  els.foundations.innerHTML = '';
+  suits.forEach((suit, index) => {
+    const slot = document.createElement('button');
+    slot.type = 'button';
+    slot.className = 'pile-slot';
+    slot.dataset.type = 'foundation';
+    slot.dataset.suit = suit.name;
+    const stack = foundations[suit.name];
+    const card = stack[stack.length - 1];
+    slot.setAttribute('aria-label', card ? `${suit.name} foundation, top card ${cardLabel(card)}` : `Empty ${suit.name} foundation`);
+    if (card) slot.appendChild(createCardElement(card, { top: 0, z: 1 }));
+    else slot.innerHTML = `<span class="foundation-symbol" aria-hidden="true">${suit.symbol}</span>`;
+    els.foundations.appendChild(slot);
+  });
+}
+
+function renderCascades() {
+  els.cascades.innerHTML = '';
+  cascades.forEach((column, colIndex) => {
+    const cascadeEl = document.createElement('div');
+    cascadeEl.className = `cascade${column.length ? '' : ' empty'}`;
+    cascadeEl.dataset.type = 'cascade';
+    cascadeEl.dataset.index = String(colIndex);
+    cascadeEl.setAttribute('role', 'group');
+    cascadeEl.setAttribute('aria-label', `Cascade ${colIndex + 1}`);
+
+    const overlap = 34;
+    const cardHeight = 128;
+    cascadeEl.style.height = `${Math.max(130, cardHeight + Math.max(0, column.length - 1) * overlap)}px`;
+
+    column.forEach((card, cardIndex) => {
+      const isSelected = selected?.source === 'cascade' && selected.index === colIndex && selected.cardIndex === cardIndex;
+      const isStack = selected?.source === 'cascade' && selected.index === colIndex && cardIndex >= selected.cardIndex;
+      const cardEl = createCardElement(card, { selected: isSelected, stackSelected: isStack && !isSelected, top: cardIndex * overlap, z: cardIndex + 1 });
+      cardEl.dataset.col = String(colIndex);
+      cardEl.dataset.cardIndex = String(cardIndex);
+      cascadeEl.appendChild(cardEl);
+    });
+    els.cascades.appendChild(cascadeEl);
+  });
+}
+
+function isValidDescendingAlternating(cards) {
+  for (let i = 0; i < cards.length - 1; i++) {
+    const a = cards[i];
+    const b = cards[i + 1];
+    if (a.rank !== b.rank + 1 || a.color === b.color) return false;
+  }
+  return true;
+}
+
+function getSelectedCards() {
+  if (!selected) return [];
+  if (selected.source === 'freecell') {
+    const card = freeCells[selected.index];
+    return card ? [card] : [];
+  }
+  if (selected.source === 'cascade') {
+    const col = cascades[selected.index];
+    return col.slice(selected.cardIndex);
+  }
+  return [];
+}
+
+function availableFreeCells(excludeSelectedFreeCell = false) {
+  return freeCells.reduce((count, card, idx) => count + (!card && !(excludeSelectedFreeCell && selected?.source === 'freecell' && selected.index === idx) ? 1 : 0), 0);
+}
+
+function emptyCascadeCount(excludeDestinationIndex = null, excludeSourceIndex = null) {
+  return cascades.reduce((count, col, idx) => {
+    if (idx === excludeDestinationIndex || idx === excludeSourceIndex) return count;
+    return count + (col.length === 0 ? 1 : 0);
+  }, 0);
+}
+
+function maxMovableSequence(destinationIndex) {
+  const selectedCards = getSelectedCards();
+  if (!selectedCards.length) return 0;
+  const sourceCascade = selected?.source === 'cascade' ? selected.index : null;
+  const emptyFree = availableFreeCells(false);
+  const emptyCols = emptyCascadeCount(destinationIndex, sourceCascade);
+  const destinationIsEmpty = cascades[destinationIndex].length === 0;
+  const usableEmptyCols = destinationIsEmpty ? emptyCols : emptyCols;
+  return (emptyFree + 1) * Math.pow(2, usableEmptyCols);
+}
+
+function canPlaceOnCascade(cards, destinationIndex) {
+  if (!cards.length || !isValidDescendingAlternating(cards)) return false;
+  const dest = cascades[destinationIndex];
+  if (dest.length === 0) return cards.length <= maxMovableSequence(destinationIndex);
+  const top = dest[dest.length - 1];
+  const first = cards[0];
+  return top.rank === first.rank + 1 && top.color !== first.color && cards.length <= maxMovableSequence(destinationIndex);
+}
+
+function canMoveToFoundation(card, suitName) {
+  if (!card || card.suit !== suitName) return false;
+  const foundation = foundations[suitName];
+  const expectedRank = foundation.length + 1;
+  return card.rank === expectedRank;
+}
+
+function selectCascadeCard(colIndex, cardIndex) {
+  const stack = cascades[colIndex].slice(cardIndex);
+  if (!stack.length) return;
+  if (!isValidDescendingAlternating(stack)) {
+    setMessage('That card is blocked by a sequence that cannot move together.', 'error');
+    return;
+  }
+  selected = { source: 'cascade', index: colIndex, cardIndex };
+  setMessage(stack.length === 1 ? `Selected ${cardLabel(stack[0])}.` : `Selected a valid ${stack.length}-card sequence.`);
+  render();
+}
+
+function selectFreeCell(index) {
+  const card = freeCells[index];
+  if (!card) return;
+  selected = { source: 'freecell', index };
+  setMessage(`Selected ${cardLabel(card)} from free cell ${index + 1}.`);
+  render();
+}
+
+function removeSelectedCards() {
+  const cards = getSelectedCards().map(cloneCard);
+  if (selected.source === 'freecell') freeCells[selected.index] = null;
+  else cascades[selected.index].splice(selected.cardIndex);
+  return cards;
+}
+
+function completeMove(message) {
+  moves += 1;
+  selected = null;
+  setMessage(message, 'success');
+  render();
+  checkWin();
+}
+
+function moveSelectedToFreeCell(index) {
+  const cards = getSelectedCards();
+  if (!cards.length) return false;
+  if (freeCells[index]) {
+    setMessage('That free cell is already occupied.', 'error');
+    return false;
+  }
+  if (cards.length !== 1) {
+    setMessage('A free cell can hold only one card.', 'error');
+    return false;
+  }
+  const [card] = removeSelectedCards();
+  freeCells[index] = card;
+  completeMove(`Moved ${cardLabel(card)} to free cell ${index + 1}.`);
+  return true;
+}
+
+function moveSelectedToFoundation(suitName) {
+  const cards = getSelectedCards();
+  if (cards.length !== 1) {
+    setMessage('Only one card at a time can move to a foundation.', 'error');
+    return false;
+  }
+  const card = cards[0];
+  if (!canMoveToFoundation(card, suitName)) {
+    setMessage(`That card cannot move to the ${suitName} foundation yet.`, 'error');
+    return false;
+  }
+  removeSelectedCards();
+  foundations[suitName].push(card);
+  completeMove(`Moved ${cardLabel(card)} to the ${suitName} foundation.`);
+  return true;
+}
+
+function moveSelectedToCascade(destinationIndex) {
+  const cards = getSelectedCards();
+  if (!cards.length) return false;
+  if (selected.source === 'cascade' && selected.index === destinationIndex) {
+    clearSelection();
+    return false;
+  }
+  if (!canPlaceOnCascade(cards, destinationIndex)) {
+    const limit = maxMovableSequence(destinationIndex);
+    setMessage(`Invalid cascade move. Build down in alternating colors and keep the move within the current ${limit}-card capacity.`, 'error');
+    return false;
+  }
+  const moved = removeSelectedCards();
+  cascades[destinationIndex].push(...moved);
+  completeMove(`Moved ${moved.length === 1 ? cardLabel(moved[0]) : `${moved.length} cards`} to cascade ${destinationIndex + 1}.`);
+  return true;
+}
+
+function autoMoveCardFromSource(source) {
+  let card = null;
+  if (source.source === 'freecell') card = freeCells[source.index];
+  else {
+    const col = cascades[source.index];
+    if (source.cardIndex !== col.length - 1) return false;
+    card = col[col.length - 1];
+  }
+  if (!card || !canMoveToFoundation(card, card.suit)) return false;
+  selected = { ...source };
+  return moveSelectedToFoundation(card.suit);
+}
+
+function isSafeForAutoFoundation(card) {
+  if (!card || !canMoveToFoundation(card, card.suit)) return false;
+  if (card.rank <= 2) return true;
+  const oppositeColorSuits = suits.filter(s => s.color !== card.color).map(s => s.name);
+  return oppositeColorSuits.every(suit => foundations[suit].length >= card.rank - 1);
+}
+
+function autoMoveSafeCards() {
+  let movedAny = false;
+  let safety = 0;
+  while (safety++ < 60) {
+    let movedThisPass = false;
+    for (let i = 0; i < freeCells.length; i++) {
+      const card = freeCells[i];
+      if (isSafeForAutoFoundation(card)) {
+        selected = { source: 'freecell', index: i };
+        moveSelectedToFoundation(card.suit);
+        movedAny = movedThisPass = true;
+        break;
+      }
+    }
+    if (movedThisPass) continue;
+    for (let i = 0; i < cascades.length; i++) {
+      const col = cascades[i];
+      const card = col[col.length - 1];
+      if (isSafeForAutoFoundation(card)) {
+        selected = { source: 'cascade', index: i, cardIndex: col.length - 1 };
+        moveSelectedToFoundation(card.suit);
+        movedAny = movedThisPass = true;
+        break;
+      }
+    }
+    if (!movedThisPass) break;
+  }
+  if (!movedAny) {
+    selected = null;
+    setMessage('No currently exposed card is safe to auto-move to a foundation.');
+    render();
+  }
+}
+
+function checkWin() {
+  const total = Object.values(foundations).reduce((sum, pile) => sum + pile.length, 0);
+  if (total !== 52) return;
+  gameWon = true;
+  clearInterval(timerId);
+  elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
+  updateStats();
+  setMessage('You won! All 52 cards are in the foundations.', 'success');
+  els.winSummary.textContent = `Completed in ${moves} moves and ${formatTime(elapsedSeconds)}.`;
+  els.winModal.hidden = false;
+  els.modalNewGameBtn.focus();
+}
+
+function maybeDoubleTap(key, action) {
+  const now = Date.now();
+  if (lastTap.key === key && now - lastTap.time < 360) {
+    lastTap = { key: '', time: 0 };
+    action();
+    return true;
+  }
+  lastTap = { key, time: now };
+  return false;
+}
+
+els.cascades.addEventListener('click', (event) => {
+  const cardEl = event.target.closest('.card');
+  const cascadeEl = event.target.closest('.cascade');
+  if (!cascadeEl) return;
+  const colIndex = Number(cascadeEl.dataset.index);
+
+  if (cardEl) {
+    const cardIndex = Number(cardEl.dataset.cardIndex);
+    const key = `c-${colIndex}-${cardIndex}`;
+    if (maybeDoubleTap(key, () => autoMoveCardFromSource({ source: 'cascade', index: colIndex, cardIndex }))) return;
+
+    if (selected) {
+      if (selected.source === 'cascade' && selected.index === colIndex && selected.cardIndex === cardIndex) {
+        clearSelection();
+      } else if (!moveSelectedToCascade(colIndex)) {
+        selectCascadeCard(colIndex, cardIndex);
+      }
+    } else {
+      selectCascadeCard(colIndex, cardIndex);
+    }
+    return;
+  }
+
+  if (selected) moveSelectedToCascade(colIndex);
+});
+
+els.freeCells.addEventListener('click', (event) => {
+  const slot = event.target.closest('.pile-slot');
+  if (!slot) return;
+  const index = Number(slot.dataset.index);
+  const card = freeCells[index];
+
+  if (card) {
+    const key = `f-${index}`;
+    if (maybeDoubleTap(key, () => autoMoveCardFromSource({ source: 'freecell', index }))) return;
+    if (selected?.source === 'freecell' && selected.index === index) clearSelection();
+    else if (selected) selectFreeCell(index);
+    else selectFreeCell(index);
+  } else if (selected) {
+    moveSelectedToFreeCell(index);
+  }
+});
+
+els.foundations.addEventListener('click', (event) => {
+  const slot = event.target.closest('.pile-slot');
+  if (!slot || !selected) return;
+  moveSelectedToFoundation(slot.dataset.suit);
+});
+
+els.newGameBtn.addEventListener('click', startNewGame);
+els.restartBtn.addEventListener('click', restartGame);
+els.autoFoundationBtn.addEventListener('click', autoMoveSafeCards);
+els.clearSelectionBtn.addEventListener('click', clearSelection);
+els.modalNewGameBtn.addEventListener('click', startNewGame);
+els.modalCloseBtn.addEventListener('click', () => { els.winModal.hidden = true; });
+
+els.winModal.addEventListener('click', (event) => {
+  if (event.target === els.winModal) els.winModal.hidden = true;
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (!els.winModal.hidden) els.winModal.hidden = true;
+    else clearSelection();
+  }
+});
+
+startNewGame();
+</script>
+</body>
+</html>

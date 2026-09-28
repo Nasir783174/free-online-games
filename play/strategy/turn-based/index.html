@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Play Turn-Based free online in your browser. Plan attacks, guard at the right moment, manage energy, and defeat the Warden with no download.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Turn-Based Game - Play a Free Tactical Duel Online">
+  <meta property="og:description" content="Fight a strategic browser battle with attacks, defense, healing, and energy management.">
+  <title>Turn-Based Game - Play a Free Tactical Duel Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --teal: #16b8c4;
+  --gold: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --bg: #f6f7fb;
+  --card: #fff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --arena: #111827;
+  --arena-2: #1f2937;
+  --shadow: 0 18px 50px rgba(20, 28, 55, .12);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Nunito Sans", system-ui, sans-serif; font-size: 17px; line-height: 1.65; }
+a { color: inherit; }
+button { font: inherit; }
+.shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+.skip-link { position: fixed; left: 16px; top: -80px; z-index: 100; background: var(--card); padding: 10px 16px; border-radius: 8px; box-shadow: var(--shadow); }
+.skip-link:focus { top: 12px; }
+.site-header { height: 72px; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; text-decoration: none; font-size: 20px; }
+.brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: #fff; background: var(--brand); font-size: 21px; line-height: 1; }
+.browse-link { color: var(--brand-dark); font-weight: 700; text-decoration: none; }
+.browse-link:hover { text-decoration: underline; }
+.breadcrumb { display: flex; gap: 9px; align-items: center; padding-top: 26px; color: var(--muted); font-size: 14px; }
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--brand); }
+.hero { max-width: 760px; margin: 50px auto 38px; text-align: center; }
+.eyebrow { margin: 0 0 8px; color: var(--brand); font-size: 14px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 16px; font-size: clamp(40px, 6vw, 62px); line-height: 1.08; letter-spacing: -.035em; }
+.hero-copy { margin-bottom: 0; color: var(--muted); font-size: 19px; line-height: 1.65; }
+
+.game-card { position: relative; overflow: hidden; background: var(--arena); border: 1px solid #2d3748; border-radius: 20px; box-shadow: var(--shadow); color: #fff; }
+.game-topbar { min-height: 78px; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid #344054; background: #151e2d; }
+.game-topbar > div:first-child { display: flex; gap: 8px; align-items: baseline; }
+.round-label, .scoreboard span { color: #aeb8c8; font-size: 14px; }
+#roundNumber { font-size: 24px; }
+.scoreboard { display: flex; gap: 12px; }
+.scoreboard div { min-width: 92px; display: grid; padding: 7px 12px; border: 1px solid #39465a; border-radius: 10px; background: #1c2738; line-height: 1.2; }
+.scoreboard strong { margin-top: 4px; color: #fff; font-size: 20px; }
+.arena { position: relative; display: grid; grid-template-columns: 1fr 56px 1fr; gap: 18px; padding: 32px 34px; background-color: var(--arena); background-image: radial-gradient(circle at 50% 20%, rgba(91,92,226,.15), transparent 42%), linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: auto, 32px 32px, 32px 32px; }
+.combatant { min-width: 0; display: grid; grid-template-columns: 118px 1fr; gap: 20px; align-items: center; padding: 20px; border: 1px solid #354158; border-radius: 16px; background: rgba(31,41,55,.86); transition: border-color .2s, transform .2s, box-shadow .2s; }
+.combatant.active { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
+.combatant.hit { animation: hit-shake .35s ease; }
+.combatant.heal-flash { animation: heal-pulse .55s ease; }
+.fighter-art { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 50% 50% 42% 42%; border: 2px solid rgba(255,255,255,.13); overflow: hidden; }
+.fighter-art::before { content: ""; position: absolute; inset: 16%; border-radius: 50%; background: rgba(255,255,255,.07); }
+.knight { background: linear-gradient(145deg, #5859c8, #272966); }
+.warden { background: linear-gradient(145deg, #a94949, #54242d); }
+.fighter-icon { position: relative; font-size: 65px; line-height: 1; text-shadow: 0 4px 0 rgba(0,0,0,.2); }
+.fighter-info { min-width: 0; }
+.name-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.name-row h2 { margin: 0; font-size: 20px; line-height: 1.25; }
+.turn-badge { flex: none; padding: 4px 8px; border-radius: 20px; color: #dcdcff; background: rgba(91,92,226,.28); font-size: 12px; font-weight: 800; }
+.enemy-badge { color: #fecaca; background: rgba(239,91,91,.17); }
+.meter-label, .energy-row { display: flex; justify-content: space-between; align-items: center; color: #cbd5e1; font-size: 13px; }
+.meter-label strong { color: #fff; font-size: 13px; }
+.meter { height: 10px; margin: 7px 0 15px; overflow: hidden; border-radius: 20px; background: #374151; }
+.meter span { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--success); transition: width .45s ease, background .3s; }
+.enemy-meter span { background: var(--danger); }
+.energy-pips { display: flex; gap: 5px; }
+.energy-pips i { display: block; width: 13px; height: 13px; border: 2px solid #7c85a0; border-radius: 50%; }
+.energy-pips i.filled { border-color: var(--gold); background: var(--gold); box-shadow: 0 0 0 2px rgba(255,184,77,.12); }
+.enemy-pips i.filled { border-color: #fb7185; background: #fb7185; box-shadow: none; }
+.status-effect { min-height: 22px; margin: 12px 0 0; color: #aeb8c8; font-size: 13px; line-height: 1.4; }
+.versus { display: grid; place-items: center; }
+.versus span { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #475569; color: #cbd5e1; background: #1f2937; font-size: 14px; font-weight: 800; }
+.battle-message { min-height: 56px; display: flex; justify-content: center; align-items: center; gap: 10px; padding: 12px 24px; border-block: 1px solid #344054; background: #182334; text-align: center; color: #e5e7eb; }
+.message-icon { color: var(--gold); }
+.action-panel { padding: 24px; background: #111827; }
+.action-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 16px; }
+.action-heading .label { font-size: 18px; font-weight: 800; }
+.action-heading p { margin: 2px 0 0; color: #8f9caf; font-size: 12px; }
+.restart-button { min-height: 42px; padding: 0 16px; border: 1px solid #475569; border-radius: 10px; color: #e5e7eb; background: transparent; cursor: pointer; font-size: 14px; font-weight: 700; }
+.restart-button:hover { background: #1f2937; }
+.actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.action-button { position: relative; min-height: 112px; display: grid; grid-template-columns: 35px 1fr; grid-template-rows: 1fr auto; gap: 4px 9px; align-items: center; padding: 14px; border: 1px solid #3a4659; border-radius: 14px; color: #fff; background: #1d2939; text-align: left; cursor: pointer; transition: transform .16s, border-color .16s, background .16s; }
+.action-button:hover:not(:disabled) { transform: translateY(-2px); border-color: #7783a0; background: #243247; }
+.action-button:focus-visible, .restart-button:focus-visible, .primary-button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.action-button:disabled { opacity: .43; cursor: not-allowed; }
+.action-key { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 21px; height: 21px; border-radius: 6px; color: #9ca3af; background: #111827; font-size: 11px; font-weight: 800; }
+.action-icon { grid-row: 1 / 2; display: grid; place-items: center; width: 35px; height: 35px; border-radius: 10px; color: #ddd6fe; background: rgba(91,92,226,.2); font-size: 20px; }
+.guard .action-icon { color: #a5f3fc; background: rgba(22,184,196,.16); }
+.power .action-icon { color: #fde68a; background: rgba(255,184,77,.15); }
+.recover .action-icon { color: #bbf7d0; background: rgba(34,197,94,.16); }
+.action-copy { display: grid; line-height: 1.25; }
+.action-copy strong { font-size: 15px; }
+.action-copy small { margin-top: 3px; color: #aeb8c8; font-size: 11px; }
+.cost { grid-column: 1 / -1; color: #fcd34d; font-size: 11px; font-weight: 800; }
+.cost.free { color: #9ca3af; }
+.game-overlay { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 20px; background: rgba(7,12,22,.8); backdrop-filter: blur(7px); }
+.game-overlay[hidden] { display: none; }
+.result-card { width: min(410px, 100%); padding: 30px; border: 1px solid #49566c; border-radius: 20px; background: #1b2738; box-shadow: 0 24px 70px rgba(0,0,0,.4); text-align: center; }
+.result-emblem { width: 74px; height: 74px; display: grid; place-items: center; margin: 0 auto 16px; border-radius: 50%; color: #fcd34d; background: rgba(255,184,77,.14); font-size: 40px; }
+.result-kicker { margin-bottom: 3px; color: #aeb8c8; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+.result-card h2 { margin-bottom: 8px; font-size: 34px; }
+.result-card > p:not(.result-kicker) { color: #cbd5e1; }
+.result-score { width: 160px; display: grid; margin: 20px auto; padding: 10px; border-radius: 12px; background: #111827; }
+.result-score span { color: #9ca3af; font-size: 12px; }
+.result-score strong { color: #fff; font-size: 26px; }
+.primary-button { width: 100%; min-height: 48px; border: 0; border-radius: 11px; color: #fff; background: var(--brand); cursor: pointer; font-weight: 800; }
+.primary-button:hover { background: var(--brand-dark); }
+
+.content-section { max-width: 940px; margin: 76px auto 0; }
+.section-heading { margin-bottom: 18px; }
+.content-section h2 { margin-bottom: 14px; font-size: clamp(28px, 4vw, 36px); line-height: 1.2; letter-spacing: -.02em; }
+.content-section > p { color: var(--muted); }
+.instruction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+.instruction-grid article { padding: 24px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); }
+.instruction-grid article > span { display: inline-block; margin-bottom: 25px; color: var(--brand); font-size: 14px; font-weight: 800; }
+.instruction-grid h3 { margin-bottom: 8px; font-size: 21px; }
+.instruction-grid p { margin: 0; color: var(--muted); font-size: 15px; }
+.split-section { display: grid; grid-template-columns: 1.25fr .75fr; gap: 30px; align-items: center; }
+.split-section p { color: var(--muted); }
+.control-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.control-list span { padding: 7px 11px; border: 1px solid var(--border); border-radius: 9px; background: var(--card); font-size: 14px; }
+kbd { min-width: 24px; display: inline-block; margin-right: 5px; padding: 1px 6px; border: 1px solid #cbd0dd; border-bottom-width: 2px; border-radius: 5px; background: #f7f8fb; text-align: center; font: 700 12px "Nunito Sans", sans-serif; }
+.tip-card { display: flex; gap: 15px; padding: 23px; border: 1px solid #dfe0ff; border-radius: 16px; background: #f0f0ff; }
+.tip-icon { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; color: #fff; background: var(--brand); }
+.tip-card h3 { margin-bottom: 4px; font-size: 19px; }
+.tip-card p { margin: 0; color: #4d5470; font-size: 14px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.related-grid article { display: grid; grid-template-columns: 52px 1fr auto; gap: 13px; align-items: center; padding: 17px; border: 1px solid var(--border); border-radius: 14px; background: var(--card); }
+.related-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 13px; color: #fff; background: #333751; font-size: 27px; }
+.grid-icon { background: var(--teal); }
+.checker-icon { background: #d47745; }
+.related-grid article > span:nth-child(2) { display: grid; line-height: 1.3; }
+.related-grid small { color: var(--muted); font-size: 13px; }
+.related-grid b { color: var(--muted); font-size: 12px; }
+.faq-section { margin-bottom: 82px; }
+details { border-top: 1px solid var(--border); }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { padding: 18px 2px; cursor: pointer; font-weight: 800; }
+details p { padding: 0 24px 18px 2px; margin: 0; color: var(--muted); }
+footer { padding: 35px 0; border-top: 1px solid var(--border); background: #fff; }
+footer .shell { display: flex; justify-content: space-between; align-items: center; }
+.footer-brand { font-size: 17px; }
+.footer-brand .brand-mark { width: 32px; height: 32px; border-radius: 9px; font-size: 17px; }
+footer p { margin: 0; color: var(--muted); font-size: 14px; }
+
+@keyframes hit-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 60%{transform:translateX(5px)} }
+@keyframes heal-pulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 4px rgba(34,197,94,.35)} }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+@media (max-width: 920px) {
+  .arena { grid-template-columns: 1fr; gap: 12px; }
+  .versus { position: absolute; inset: 0; pointer-events: none; }
+  .versus span { width: 42px; height: 42px; box-shadow: 0 0 0 7px var(--arena); }
+  .actions { grid-template-columns: repeat(2, 1fr); }
+  .related-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  body { font-size: 16px; }
+  .shell { width: min(100% - 24px, 1160px); }
+  .site-header { height: 64px; }
+  .browse-link { font-size: 14px; }
+  .hero { margin: 36px auto 28px; }
+  .hero-copy { font-size: 17px; }
+  .game-card { margin-inline: -4px; border-radius: 16px; }
+  .game-topbar { padding: 13px 14px; }
+  .round-label { display: none; }
+  .scoreboard { gap: 7px; }
+  .scoreboard div { min-width: 70px; padding: 6px 9px; }
+  .arena { padding: 20px 14px; }
+  .combatant { grid-template-columns: 78px 1fr; gap: 13px; padding: 14px; }
+  .fighter-icon { font-size: 44px; }
+  .name-row { align-items: flex-start; margin-bottom: 10px; }
+  .name-row h2 { font-size: 17px; }
+  .turn-badge { padding: 3px 7px; font-size: 10px; }
+  .status-effect { margin-top: 8px; font-size: 12px; }
+  .battle-message { font-size: 14px; }
+  .action-panel { padding: 16px 12px; }
+  .action-heading { align-items: flex-end; }
+  .action-heading p { display: none; }
+  .restart-button { min-height: 40px; padding-inline: 12px; }
+  .actions { gap: 9px; }
+  .action-button { min-height: 106px; grid-template-columns: 32px 1fr; padding: 12px 9px; }
+  .action-icon { width: 32px; height: 32px; }
+  .action-copy strong { font-size: 14px; }
+  .action-copy small { font-size: 10px; }
+  .content-section { margin-top: 60px; }
+  .instruction-grid, .split-section { grid-template-columns: 1fr; }
+  .instruction-grid article { padding: 20px; }
+  .instruction-grid article > span { margin-bottom: 12px; }
+  footer .shell { gap: 20px; align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 410px) {
+  .brand { font-size: 17px; }
+  .brand-mark { width: 34px; height: 34px; }
+  .combatant { grid-template-columns: 62px 1fr; }
+  .fighter-art { border-radius: 16px; }
+  .fighter-icon { font-size: 36px; }
+  .action-button { grid-template-columns: 1fr; align-content: start; min-height: 122px; }
+  .action-icon { grid-row: auto; }
+  .action-copy small { line-height: 1.25; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="browse-link" href="../../index.html">Browse games</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Turn-Based</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Free browser strategy game</p>
+        <h1 id="page-title">Turn-Based Game</h1>
+        <p class="hero-copy">Challenge the Iron Warden in a compact tactical duel. Choose each move carefully, manage your energy, and outlast your opponent—no download required.</p>
+      </section>
+
+      <section class="game-card" id="game" aria-label="Turn-Based battle arena">
+        <div class="game-topbar">
+          <div>
+            <span class="round-label">Battle round</span>
+            <strong id="roundNumber">1</strong>
+          </div>
+          <div class="scoreboard" aria-label="Game statistics">
+            <div><span>Score</span><strong id="score">0</strong></div>
+            <div><span>Best</span><strong id="bestScore">0</strong></div>
+          </div>
+        </div>
+
+        <div class="arena">
+          <div class="combatant player-side" id="playerCard">
+            <div class="fighter-art knight" aria-hidden="true">
+              <span class="fighter-icon">♞</span>
+            </div>
+            <div class="fighter-info">
+              <div class="name-row"><h2>Sunsteel Knight</h2><span class="turn-badge" id="playerTurnBadge">Your turn</span></div>
+              <div class="meter-label"><span>Health</span><strong id="playerHealthText">100 / 100</strong></div>
+              <div class="meter"><span id="playerHealthBar"></span></div>
+              <div class="energy-row" aria-label="Player energy">
+                <span>Energy</span>
+                <div class="energy-pips" id="playerEnergyPips"></div>
+              </div>
+              <p class="status-effect" id="playerEffect">Ready for battle</p>
+            </div>
+          </div>
+
+          <div class="versus" aria-hidden="true"><span>VS</span></div>
+
+          <div class="combatant enemy-side" id="enemyCard">
+            <div class="fighter-art warden" aria-hidden="true">
+              <span class="fighter-icon">♜</span>
+            </div>
+            <div class="fighter-info">
+              <div class="name-row"><h2>Iron Warden</h2><span class="turn-badge enemy-badge" id="enemyTurnBadge">Waiting</span></div>
+              <div class="meter-label"><span>Health</span><strong id="enemyHealthText">100 / 100</strong></div>
+              <div class="meter enemy-meter"><span id="enemyHealthBar"></span></div>
+              <div class="energy-row" aria-label="Enemy energy">
+                <span>Energy</span>
+                <div class="energy-pips enemy-pips" id="enemyEnergyPips"></div>
+              </div>
+              <p class="status-effect" id="enemyEffect">Studying your stance</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="battle-message" id="battleMessage" role="status" aria-live="polite">
+          <span class="message-icon" aria-hidden="true">⚔</span>
+          <span id="messageText">Your move. Choose an action.</span>
+        </div>
+
+        <div class="action-panel">
+          <div class="action-heading">
+            <div><span class="label">Choose your action</span><p>Keyboard: 1–4 &nbsp;•&nbsp; Restart: R</p></div>
+            <button class="restart-button" id="restartButton" type="button">Restart battle</button>
+          </div>
+          <div class="actions" id="actionButtons">
+            <button class="action-button strike" type="button" data-action="strike">
+              <span class="action-key">1</span><span class="action-icon" aria-hidden="true">⚔</span>
+              <span class="action-copy"><strong>Strike</strong><small>11–16 damage</small></span><span class="cost free">Free</span>
+            </button>
+            <button class="action-button guard" type="button" data-action="guard">
+              <span class="action-key">2</span><span class="action-icon" aria-hidden="true">◆</span>
+              <span class="action-copy"><strong>Guard</strong><small>Block 50% + gain 1 energy</small></span><span class="cost free">Free</span>
+            </button>
+            <button class="action-button power" type="button" data-action="power">
+              <span class="action-key">3</span><span class="action-icon" aria-hidden="true">✦</span>
+              <span class="action-copy"><strong>Power Strike</strong><small>22–29 damage</small></span><span class="cost">2 energy</span>
+            </button>
+            <button class="action-button recover" type="button" data-action="recover">
+              <span class="action-key">4</span><span class="action-icon" aria-hidden="true">✚</span>
+              <span class="action-copy"><strong>Recover</strong><small>Restore 16–22 health</small></span><span class="cost">2 energy</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="game-overlay" id="gameOverlay" hidden>
+          <div class="result-card" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultText">
+            <div class="result-emblem" id="resultEmblem" aria-hidden="true">♛</div>
+            <p class="result-kicker" id="resultKicker">Battle complete</p>
+            <h2 id="resultTitle">Victory!</h2>
+            <p id="resultText">The Iron Warden has fallen.</p>
+            <div class="result-score"><span>Final score</span><strong id="finalScore">0</strong></div>
+            <button class="primary-button" id="playAgainButton" type="button">Play again</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div class="section-heading"><p class="eyebrow">Battle guide</p><h2 id="how-to-play">How to Play Turn-Based</h2></div>
+        <p>Each combatant acts once per round. On your turn, select an action and wait for the Iron Warden to respond. Reduce the Warden’s health to zero before your own health runs out.</p>
+        <div class="instruction-grid">
+          <article><span>01</span><h3>Read the arena</h3><p>Check both health bars, energy pips, and active guard effects before choosing a move.</p></article>
+          <article><span>02</span><h3>Manage energy</h3><p>Strike costs nothing. Guard reduces the next hit and restores one energy. Stronger actions cost two energy.</p></article>
+          <article><span>03</span><h3>Time your recovery</h3><p>Recover restores health but has a two-turn cooldown. Use it before the enemy can finish the battle.</p></article>
+        </div>
+      </section>
+
+      <section class="content-section split-section">
+        <div>
+          <p class="eyebrow">Controls</p>
+          <h2>Turn-Based Game Controls</h2>
+          <p>Tap or click an action card on any device. Desktop players can also use number keys <strong>1–4</strong>. Press <strong>R</strong> to restart.</p>
+          <div class="control-list">
+            <span><kbd>1</kbd> Strike</span><span><kbd>2</kbd> Guard</span><span><kbd>3</kbd> Power Strike</span><span><kbd>4</kbd> Recover</span>
+          </div>
+        </div>
+        <aside class="tip-card">
+          <span class="tip-icon" aria-hidden="true">◎</span>
+          <div><h3>Strategy tip</h3><p>Guarding is strongest when the Warden has two or more energy. It can soften a Power Strike while preparing your next attack.</p></div>
+        </aside>
+      </section>
+
+      <section class="content-section" aria-labelledby="about-game">
+        <div class="section-heading"><p class="eyebrow">About the game</p><h2 id="about-game">A Quick Tactical Battle</h2></div>
+        <p>Turn-Based is a free online strategy game built around deliberate choices rather than fast reactions. Every action changes the next decision: a basic attack keeps pressure on the opponent, a guard prepares energy, a Power Strike creates a large health swing, and recovery can extend the fight.</p>
+        <p>The computer opponent considers health, available energy, active defenses, and recovery cooldowns. Battles are short enough for a quick break but varied enough to reward a different plan each time.</p>
+      </section>
+
+      <section class="content-section related-section" aria-labelledby="related-games">
+        <div class="section-heading"><p class="eyebrow">Keep playing</p><h2 id="related-games">Related Free Online Games</h2></div>
+        <div class="related-grid" aria-label="Related games coming to the Games Hub">
+          <article data-game-slug="chess"><span class="related-icon chess-icon" aria-hidden="true">♟</span><span><strong>Chess</strong><small>Classic strategy</small></span><b>Coming soon</b></article>
+          <article data-game-slug="tic-tac-toe"><span class="related-icon grid-icon" aria-hidden="true">#</span><span><strong>Tic-Tac-Toe</strong><small>Quick tactics</small></span><b>Coming soon</b></article>
+          <article data-game-slug="checkers"><span class="related-icon checker-icon" aria-hidden="true">●</span><span><strong>Checkers</strong><small>Board battle</small></span><b>Coming soon</b></article>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-title">
+        <div class="section-heading"><p class="eyebrow">Questions</p><h2 id="faq-title">Turn-Based Game FAQ</h2></div>
+        <details><summary>Is this turn-based game free to play?</summary><p>Yes. The complete game is free to play in your browser and does not require a download, login, or account.</p></details>
+        <details><summary>Does the game work on mobile?</summary><p>Yes. The battle arena and action controls adapt to smaller screens, and every move can be selected by touch.</p></details>
+        <details><summary>How is the score calculated?</summary><p>You earn points for dealing damage, blocking attacks, and restoring health. Winning adds a victory bonus based partly on your remaining health.</p></details>
+        <details><summary>Can I play without an internet connection?</summary><p>Once the page files are available locally, the game logic runs entirely in the browser. The optional web font is the only external page asset.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer><div class="shell"><a class="brand footer-brand" href="../../index.html"><span class="brand-mark" aria-hidden="true">G</span><span>Games Hub</span></a><p>Fast, free games made for every screen.</p></div></footer>
+  <script>"use strict";
+
+const MAX_HEALTH = 100;
+const MAX_ENERGY = 3;
+
+const elements = {
+  round: document.getElementById("roundNumber"),
+  score: document.getElementById("score"),
+  bestScore: document.getElementById("bestScore"),
+  playerHealthText: document.getElementById("playerHealthText"),
+  enemyHealthText: document.getElementById("enemyHealthText"),
+  playerHealthBar: document.getElementById("playerHealthBar"),
+  enemyHealthBar: document.getElementById("enemyHealthBar"),
+  playerEnergyPips: document.getElementById("playerEnergyPips"),
+  enemyEnergyPips: document.getElementById("enemyEnergyPips"),
+  playerEffect: document.getElementById("playerEffect"),
+  enemyEffect: document.getElementById("enemyEffect"),
+  playerCard: document.getElementById("playerCard"),
+  enemyCard: document.getElementById("enemyCard"),
+  playerTurnBadge: document.getElementById("playerTurnBadge"),
+  enemyTurnBadge: document.getElementById("enemyTurnBadge"),
+  messageText: document.getElementById("messageText"),
+  actionButtons: [...document.querySelectorAll("[data-action]")],
+  restartButton: document.getElementById("restartButton"),
+  gameOverlay: document.getElementById("gameOverlay"),
+  resultEmblem: document.getElementById("resultEmblem"),
+  resultKicker: document.getElementById("resultKicker"),
+  resultTitle: document.getElementById("resultTitle"),
+  resultText: document.getElementById("resultText"),
+  finalScore: document.getElementById("finalScore"),
+  playAgainButton: document.getElementById("playAgainButton")
+};
+
+let state;
+let enemyTimer = null;
+let gameToken = 0;
+
+function createFighter() {
+  return { health: MAX_HEALTH, energy: 1, guarding: false, recoverCooldown: 0 };
+}
+
+function resetGame() {
+  gameToken += 1;
+  clearTimeout(enemyTimer);
+  state = {
+    player: createFighter(),
+    enemy: createFighter(),
+    round: 1,
+    score: 0,
+    playerTurn: true,
+    gameOver: false
+  };
+  elements.gameOverlay.hidden = true;
+  setMessage("Your move. Choose an action.");
+  render();
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function setMessage(message) {
+  elements.messageText.textContent = message;
+}
+
+function effectLabel(fighter, isPlayer) {
+  if (fighter.guarding) return "Guard active: next hit reduced by 50%";
+  if (fighter.recoverCooldown > 0) return `Recover ready in ${fighter.recoverCooldown} turn${fighter.recoverCooldown === 1 ? "" : "s"}`;
+  return isPlayer ? "Ready for battle" : "Studying your stance";
+}
+
+function renderPips(container, value) {
+  container.replaceChildren();
+  for (let index = 0; index < MAX_ENERGY; index += 1) {
+    const pip = document.createElement("i");
+    if (index < value) pip.classList.add("filled");
+    pip.setAttribute("aria-hidden", "true");
+    container.appendChild(pip);
+  }
+}
+
+function healthColor(health, enemy) {
+  if (health <= 25) return "#ef5b5b";
+  if (health <= 50) return "#ffb84d";
+  return enemy ? "#ef5b5b" : "#22c55e";
+}
+
+function render() {
+  const { player, enemy } = state;
+  elements.round.textContent = state.round;
+  elements.score.textContent = state.score.toLocaleString();
+  elements.bestScore.textContent = getBestScore().toLocaleString();
+  elements.playerHealthText.textContent = `${player.health} / ${MAX_HEALTH}`;
+  elements.enemyHealthText.textContent = `${enemy.health} / ${MAX_HEALTH}`;
+  elements.playerHealthBar.style.width = `${player.health}%`;
+  elements.enemyHealthBar.style.width = `${enemy.health}%`;
+  elements.playerHealthBar.style.background = healthColor(player.health, false);
+  elements.enemyHealthBar.style.background = healthColor(enemy.health, true);
+  renderPips(elements.playerEnergyPips, player.energy);
+  renderPips(elements.enemyEnergyPips, enemy.energy);
+  elements.playerEffect.textContent = effectLabel(player, true);
+  elements.enemyEffect.textContent = effectLabel(enemy, false);
+  elements.playerCard.classList.toggle("active", state.playerTurn && !state.gameOver);
+  elements.enemyCard.classList.toggle("active", !state.playerTurn && !state.gameOver);
+  elements.playerTurnBadge.textContent = state.playerTurn && !state.gameOver ? "Your turn" : "Waiting";
+  elements.enemyTurnBadge.textContent = !state.playerTurn && !state.gameOver ? "Enemy turn" : "Waiting";
+
+  elements.actionButtons.forEach((button) => {
+    const action = button.dataset.action;
+    const lacksEnergy = (action === "power" || action === "recover") && player.energy < 2;
+    const recoverUnavailable = action === "recover" && (player.recoverCooldown > 0 || player.health === MAX_HEALTH);
+    button.disabled = !state.playerTurn || state.gameOver || lacksEnergy || recoverUnavailable;
+    if (action === "recover" && player.recoverCooldown > 0) {
+      button.querySelector(".cost").textContent = `Cooldown: ${player.recoverCooldown}`;
+    } else if (action === "recover") {
+      button.querySelector(".cost").textContent = "2 energy";
+    }
+  });
+}
+
+function animateCard(card, className) {
+  card.classList.remove(className);
+  void card.offsetWidth;
+  card.classList.add(className);
+  window.setTimeout(() => card.classList.remove(className), 600);
+}
+
+function applyDamage(target, rawDamage, targetCard) {
+  const blocked = target.guarding;
+  const damage = blocked ? Math.ceil(rawDamage / 2) : rawDamage;
+  target.guarding = false;
+  target.health = Math.max(0, target.health - damage);
+  animateCard(targetCard, "hit");
+  return { damage, blocked };
+}
+
+function reduceCooldown(fighter, usedRecover) {
+  if (!usedRecover && fighter.recoverCooldown > 0) fighter.recoverCooldown -= 1;
+}
+
+function performAction(actor, target, action, isPlayer) {
+  const actorName = isPlayer ? "You" : "The Warden";
+  const targetCard = isPlayer ? elements.enemyCard : elements.playerCard;
+  let message = "";
+  let usedRecover = false;
+
+  if (action === "strike") {
+    const outcome = applyDamage(target, randomInt(11, 16), targetCard);
+    message = `${actorName} ${isPlayer ? "strike" : "strikes"} for ${outcome.damage} damage${outcome.blocked ? " through the guard" : ""}.`;
+    if (isPlayer) state.score += outcome.damage * 10;
+  }
+
+  if (action === "guard") {
+    actor.guarding = true;
+    actor.energy = Math.min(MAX_ENERGY, actor.energy + 1);
+    message = `${actorName} ${isPlayer ? "raise" : "raises"} a guard and ${isPlayer ? "gain" : "gains"} 1 energy.`;
+  }
+
+  if (action === "power") {
+    actor.energy -= 2;
+    const outcome = applyDamage(target, randomInt(22, 29), targetCard);
+    message = `${actorName} ${isPlayer ? "unleash" : "unleashes"} a Power Strike for ${outcome.damage} damage${outcome.blocked ? " through the guard" : ""}!`;
+    if (isPlayer) state.score += outcome.damage * 12;
+  }
+
+  if (action === "recover") {
+    actor.energy -= 2;
+    const before = actor.health;
+    actor.health = Math.min(MAX_HEALTH, actor.health + randomInt(16, 22));
+    const restored = actor.health - before;
+    actor.recoverCooldown = 2;
+    usedRecover = true;
+    animateCard(isPlayer ? elements.playerCard : elements.enemyCard, "heal-flash");
+    message = `${actorName} ${isPlayer ? "recover" : "recovers"} ${restored} health.`;
+    if (isPlayer) state.score += restored * 5;
+  }
+
+  reduceCooldown(actor, usedRecover);
+  return message;
+}
+
+function handlePlayerAction(action) {
+  if (!state.playerTurn || state.gameOver) return;
+  const button = elements.actionButtons.find((item) => item.dataset.action === action);
+  if (!button || button.disabled) return;
+
+  const message = performAction(state.player, state.enemy, action, true);
+  setMessage(message);
+  if (state.enemy.health <= 0) {
+    endGame(true);
+    return;
+  }
+
+  state.playerTurn = false;
+  render();
+  const token = gameToken;
+  enemyTimer = window.setTimeout(() => {
+    if (token === gameToken) takeEnemyTurn();
+  }, 850);
+}
+
+function chooseEnemyAction() {
+  const enemy = state.enemy;
+  const player = state.player;
+  const canRecover = enemy.energy >= 2 && enemy.recoverCooldown === 0 && enemy.health < MAX_HEALTH;
+
+  if (enemy.health <= 34 && canRecover && Math.random() < .72) return "recover";
+  if (enemy.energy >= 2 && !player.guarding && (player.health <= 30 || Math.random() < .55)) return "power";
+  if (enemy.energy < 2 && Math.random() < .48) return "guard";
+  if (player.guarding && Math.random() < .42) return "guard";
+  return "strike";
+}
+
+function takeEnemyTurn() {
+  if (state.gameOver) return;
+  const action = chooseEnemyAction();
+  const playerWasGuarding = state.player.guarding;
+  const message = performAction(state.enemy, state.player, action, false);
+  if (playerWasGuarding && (action === "strike" || action === "power")) state.score += 40;
+  setMessage(message);
+
+  if (state.player.health <= 0) {
+    endGame(false);
+    return;
+  }
+
+  state.round += 1;
+  state.playerTurn = true;
+  render();
+  window.setTimeout(() => {
+    if (!state.gameOver && state.playerTurn) setMessage("Your move. Choose an action.");
+  }, 950);
+}
+
+function getBestScore() {
+  try {
+    const saved = Number.parseInt(localStorage.getItem("turnBasedBestScore"), 10);
+    return Number.isFinite(saved) ? saved : 0;
+  } catch (error) {
+    return 0;
+  }
+}
+
+function saveBestScore(score) {
+  if (score <= getBestScore()) return;
+  try { localStorage.setItem("turnBasedBestScore", String(score)); } catch (error) { /* Storage may be blocked. */ }
+}
+
+function endGame(playerWon) {
+  state.gameOver = true;
+  state.playerTurn = false;
+  clearTimeout(enemyTimer);
+
+  if (playerWon) {
+    state.score += 500 + state.player.health * 5;
+    elements.resultEmblem.textContent = "♛";
+    elements.resultKicker.textContent = "Battle won";
+    elements.resultTitle.textContent = "Victory!";
+    elements.resultText.textContent = `The Iron Warden fell in round ${state.round}.`;
+    saveBestScore(state.score);
+  } else {
+    elements.resultEmblem.textContent = "⚔";
+    elements.resultKicker.textContent = "Battle lost";
+    elements.resultTitle.textContent = "Defeated";
+    elements.resultText.textContent = "The Warden held the arena. Change your tactics and try again.";
+  }
+
+  elements.finalScore.textContent = state.score.toLocaleString();
+  render();
+  elements.gameOverlay.hidden = false;
+  window.setTimeout(() => elements.playAgainButton.focus(), 50);
+}
+
+elements.actionButtons.forEach((button) => {
+  button.addEventListener("click", () => handlePlayerAction(button.dataset.action));
+});
+
+elements.restartButton.addEventListener("click", resetGame);
+elements.playAgainButton.addEventListener("click", resetGame);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key.toLowerCase() === "r") {
+    resetGame();
+    return;
+  }
+  const keyMap = { "1": "strike", "2": "guard", "3": "power", "4": "recover" };
+  if (keyMap[event.key]) handlePlayerAction(keyMap[event.key]);
+});
+
+resetGame();
+</script>
+</body>
+</html>

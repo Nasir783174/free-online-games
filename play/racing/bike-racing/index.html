@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Play Bike Racing online for free in your browser. Dodge traffic, collect coins, build your score, and race as far as you can with keyboard or touch controls.">
+  <meta name="theme-color" content="#111827">
+  <title>Bike Racing Game - Play Free Online</title>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+
+:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --cyan: #16B8C4;
+  --orange: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game2: #1F2937;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+button, a { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+
+.site-header {
+  height: 72px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.header-inner, .page {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 19px;
+}
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+}
+.header-tag { color: var(--muted); font-size: 14px; }
+
+.page { padding: 28px 0 72px; }
+.breadcrumb {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.breadcrumb a { color: var(--primary); text-decoration: none; }
+.hero {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 800;
+  font-size: 13px;
+}
+h1, h2 { line-height: 1.12; }
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+h2 { font-size: 32px; margin: 0 0 16px; font-weight: 700; }
+.intro { max-width: 760px; color: var(--muted); margin: 0; }
+.best-score {
+  min-width: 130px;
+  padding: 15px 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(23,27,45,.05);
+}
+.best-score span { display:block; font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.08em; }
+.best-score strong { font-size: 30px; line-height: 1.1; }
+
+.game-shell {
+  background: var(--game);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 18px 45px rgba(17,24,39,.15);
+}
+.hud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.hud-item {
+  background: var(--game2);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 12px;
+  padding: 8px 12px;
+  color: #d6d9e2;
+}
+.hud-item span { display:block; font-size:12px; opacity:.7; }
+.hud-item strong { font-size:21px; color:#fff; }
+.hud-item.status strong { color: var(--orange); }
+
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #8ecb68;
+  aspect-ratio: 3 / 2;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(10,16,28,.64);
+  padding: 20px;
+}
+.overlay.hidden { display: none; }
+.overlay-card {
+  width: min(430px, 100%);
+  background: #fff;
+  color: var(--text);
+  padding: 28px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 20px 55px rgba(0,0,0,.25);
+}
+.overlay-card h2 { margin-bottom: 10px; font-size: 34px; }
+.overlay-card p:not(.eyebrow) { color: var(--muted); margin-top: 0; }
+.primary-btn {
+  border: 0;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+.primary-btn:hover { background: var(--primary-dark); }
+.primary-btn:focus-visible, .control-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px auto 8px;
+}
+.control-btn {
+  min-width: 76px;
+  min-height: 52px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 13px;
+  background: #283449;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+.control-btn.brake { font-size: 15px; padding: 0 20px; color: #ffe2a6; }
+.control-btn:active { transform: translateY(1px); background: #34425b; }
+.control-help {
+  text-align: center;
+  color: #aeb6c5;
+  font-size: 13px;
+  margin: 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 24px;
+  margin-top: 56px;
+}
+.content-grid article, .about, .faq {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+}
+.content-grid p, .about p, .faq p { color: var(--muted); }
+ul { padding-left: 22px; }
+li { margin: 8px 0; }
+
+.about, .faq { margin-top: 24px; }
+.faq details { border-top: 1px solid var(--border); padding: 16px 0; }
+.faq details:last-child { border-bottom: 1px solid var(--border); }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq details p { margin-bottom: 0; }
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: #fff;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 24px 20px;
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .header-inner, .page { width: min(100% - 24px, 1120px); }
+  .header-tag { display: none; }
+  .page { padding-top: 20px; }
+  .hero { align-items: stretch; flex-direction: column; gap: 18px; }
+  .best-score { width: 100%; }
+  h1 { font-size: 40px; }
+  h2 { font-size: 27px; }
+  .game-shell { padding: 10px; border-radius: 16px; }
+  .hud { grid-template-columns: repeat(2, 1fr); }
+  .hud-item { padding: 7px 10px; }
+  .hud-item strong { font-size: 19px; }
+  .content-grid { grid-template-columns: 1fr; margin-top: 40px; }
+  .content-grid article, .about, .faq { padding: 22px; }
+  .control-btn { min-width: 82px; min-height: 58px; }
+  .control-help { font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .controls { gap: 8px; }
+  .control-btn { min-width: 74px; }
+  .control-btn.brake { padding: 0 12px; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">
+        <span class="brand-mark">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Fast • Free • Play in Browser</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games Hub</a><span aria-hidden="true">/</span><span>Bike Racing</span>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Arcade Racing</p>
+        <h1>Bike Racing Game</h1>
+        <p class="intro">Race through busy roads, avoid traffic, collect coins, and push your bike as far as possible. Play directly in your browser with keyboard or touch controls.</p>
+      </div>
+      <div class="best-score" aria-label="Best score">
+        <span>BEST</span>
+        <strong id="bestScore">0</strong>
+      </div>
+    </section>
+
+    <section class="game-shell" aria-label="Bike Racing game">
+      <div class="hud">
+        <div class="hud-item"><span>Score</span><strong id="score">0</strong></div>
+        <div class="hud-item"><span>Speed</span><strong id="speed">0</strong></div>
+        <div class="hud-item"><span>Coins</span><strong id="coins">0</strong></div>
+        <div class="hud-item status"><span>Status</span><strong id="status">Ready</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="900" height="600" aria-label="Bike Racing game area"></canvas>
+
+        <div class="overlay" id="startOverlay">
+          <div class="overlay-card">
+            <p class="eyebrow">Ready to ride?</p>
+            <h2>Bike Racing</h2>
+            <p>Use <b>← →</b> or <b>A / D</b> to steer. On mobile, use the touch buttons below.</p>
+            <button id="startBtn" class="primary-btn">Start Racing</button>
+          </div>
+        </div>
+
+        <div class="overlay hidden" id="gameOverOverlay">
+          <div class="overlay-card">
+            <p class="eyebrow">Race over</p>
+            <h2 id="gameOverTitle">Nice Ride!</h2>
+            <p id="finalText">You scored 0 points.</p>
+            <button id="restartBtn" class="primary-btn">Race Again</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls" aria-label="Bike controls">
+        <button class="control-btn" id="leftBtn" aria-label="Steer left">←</button>
+        <button class="control-btn brake" id="brakeBtn" aria-label="Brake">Brake</button>
+        <button class="control-btn" id="rightBtn" aria-label="Steer right">→</button>
+      </div>
+      <p class="control-help">Keyboard: <b>Left / Right</b> or <b>A / D</b> • Hold <b>Space</b> to brake</p>
+    </section>
+
+    <section class="content-grid">
+      <article>
+        <h2>How to Play Bike Racing</h2>
+        <p>Start the race and steer your motorcycle between lanes. Traffic gets faster as your distance increases. Passing vehicles earns points, while collecting coins adds bonus points.</p>
+        <ul>
+          <li>Stay inside the road and avoid cars.</li>
+          <li>Move left or right to change lanes.</li>
+          <li>Collect coins whenever the path is safe.</li>
+          <li>Use the brake when traffic gets crowded.</li>
+          <li>Keep racing to increase your score multiplier.</li>
+        </ul>
+      </article>
+
+      <article>
+        <h2>Bike Racing Tips</h2>
+        <p>Look ahead instead of reacting to the vehicle immediately in front of you. Keep a lane open for your next move, and use short steering movements when traffic is dense.</p>
+        <p>The safest route is not always the fastest one. A clean overtake followed by a coin pickup can be worth more than a risky maneuver.</p>
+      </article>
+    </section>
+
+    <section class="about">
+      <h2>About Bike Racing</h2>
+      <p>Bike Racing is a lightweight browser arcade game built for quick sessions on desktop and mobile. There is no download, account, or server connection required to play.</p>
+    </section>
+
+    <section class="faq">
+      <h2>Bike Racing FAQ</h2>
+      <details>
+        <summary>Can I play Bike Racing on mobile?</summary>
+        <p>Yes. Use the large left, brake, and right touch controls below the game.</p>
+      </details>
+      <details>
+        <summary>How do I control the bike on a computer?</summary>
+        <p>Use the Left and Right arrow keys or A and D. Hold Space to slow down.</p>
+      </details>
+      <details>
+        <summary>How is the score calculated?</summary>
+        <p>Your score increases with distance and successful overtakes. Coins provide an additional bonus.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Games Hub • Free browser games</p>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const scoreEl = document.getElementById("score");
+  const speedEl = document.getElementById("speed");
+  const coinsEl = document.getElementById("coins");
+  const statusEl = document.getElementById("status");
+  const bestScoreEl = document.getElementById("bestScore");
+  const startOverlay = document.getElementById("startOverlay");
+  const gameOverOverlay = document.getElementById("gameOverOverlay");
+  const finalText = document.getElementById("finalText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const leftBtn = document.getElementById("leftBtn");
+  const rightBtn = document.getElementById("rightBtn");
+  const brakeBtn = document.getElementById("brakeBtn");
+
+  const W = canvas.width;
+  const H = canvas.height;
+  const road = { left: 185, right: 715, lanes: 4 };
+  const laneWidth = (road.right - road.left) / road.lanes;
+  const keys = { left: false, right: false, brake: false };
+
+  let state = "ready";
+  let score = 0;
+  let coins = 0;
+  let distance = 0;
+  let speed = 0;
+  let roadOffset = 0;
+  let spawnTimer = 0;
+  let coinTimer = 0;
+  let lastTime = 0;
+  let obstacles = [];
+  let coinItems = [];
+  let particles = [];
+  let best = Number(localStorage.getItem("bikeRacingBest") || 0);
+
+  const player = {
+    x: W / 2,
+    y: H - 118,
+    width: 42,
+    height: 76,
+    vx: 0
+  };
+
+  bestScoreEl.textContent = best;
+
+  function laneX(lane) {
+    return road.left + laneWidth * lane + laneWidth / 2;
+  }
+
+  function reset() {
+    state = "ready";
+    score = 0;
+    coins = 0;
+    distance = 0;
+    speed = 0;
+    roadOffset = 0;
+    spawnTimer = 0;
+    coinTimer = 0;
+    obstacles = [];
+    coinItems = [];
+    particles = [];
+    player.x = laneX(1.5);
+    player.vx = 0;
+    updateHUD();
+  }
+
+  function start() {
+    reset();
+    state = "playing";
+    startOverlay.classList.add("hidden");
+    gameOverOverlay.classList.add("hidden");
+    statusEl.textContent = "Racing";
+    lastTime = performance.now();
+    requestAnimationFrame(loop);
+  }
+
+  function endGame() {
+    state = "gameover";
+    speed = 0;
+    const finalScore = Math.floor(score);
+    if (finalScore > best) {
+      best = finalScore;
+      localStorage.setItem("bikeRacingBest", String(best));
+      bestScoreEl.textContent = best;
+    }
+    statusEl.textContent = "Game Over";
+    finalText.textContent = `You scored ${finalScore} points and collected ${coins} coins.`;
+    gameOverOverlay.classList.remove("hidden");
+  }
+
+  function updateHUD() {
+    scoreEl.textContent = Math.floor(score);
+    coinsEl.textContent = coins;
+    speedEl.textContent = Math.round(speed);
+  }
+
+  function spawnCar() {
+    const lane = Math.floor(Math.random() * road.lanes);
+    const types = [
+      { w: 44, h: 76, body: "#ef5b5b", roof: "#f8c4c4" },
+      { w: 46, h: 82, body: "#5b5ce2", roof: "#cfd0ff" },
+      { w: 48, h: 80, body: "#16b8c4", roof: "#c7f3f5" },
+      { w: 45, h: 78, body: "#ffb84d", roof: "#fff0cf" }
+    ];
+    const type = types[Math.floor(Math.random() * types.length)];
+    obstacles.push({
+      x: laneX(lane),
+      y: -type.h - 15,
+      width: type.w,
+      height: type.h,
+      body: type.body,
+      roof: type.roof,
+      speed: 0.75 + Math.random() * 0.8,
+      passed: false
+    });
+  }
+
+  function spawnCoin() {
+    const lane = Math.floor(Math.random() * road.lanes);
+    coinItems.push({
+      x: laneX(lane),
+      y: -20,
+      r: 11,
+      spin: Math.random() * Math.PI * 2
+    });
+  }
+
+  function rectsOverlap(a, b, pad = 0) {
+    return Math.abs(a.x - b.x) < (a.width + b.width) / 2 - pad &&
+           Math.abs(a.y - b.y) < (a.height + b.height) / 2 - pad;
+  }
+
+  function update(dt) {
+    const braking = keys.brake;
+    const targetSpeed = braking ? 3.4 : Math.min(9.5, 4.2 + distance / 520);
+    speed += (targetSpeed - speed) * Math.min(1, dt * 0.004);
+    distance += speed * dt * 0.045;
+    score += speed * dt * 0.035;
+    roadOffset = (roadOffset + speed * dt * 0.11) % 80;
+
+    const steer = (keys.left ? -1 : 0) + (keys.right ? 1 : 0);
+    player.vx += steer * 0.55 * dt;
+    player.vx *= Math.pow(0.0007, dt / 1000);
+    player.x += player.vx * dt;
+    player.x = Math.max(road.left + 30, Math.min(road.right - 30, player.x));
+
+    spawnTimer += dt;
+    coinTimer += dt;
+    const spawnEvery = Math.max(410, 820 - distance * 0.75);
+    if (spawnTimer > spawnEvery) {
+      spawnTimer = 0;
+      spawnCar();
+      if (Math.random() < 0.24) spawnCar();
+    }
+    if (coinTimer > 850) {
+      coinTimer = 0;
+      spawnCoin();
+    }
+
+    for (const car of obstacles) {
+      car.y += (speed * 0.8 + car.speed) * dt * 0.1;
+      if (!car.passed && car.y > player.y + 55) {
+        car.passed = true;
+        score += 25;
+        burst(car.x, player.y - 35, 5);
+      }
+      if (rectsOverlap(player, car, 8)) {
+        burst(player.x, player.y, 22);
+        endGame();
+        return;
+      }
+    }
+    obstacles = obstacles.filter(o => o.y < H + 100);
+
+    for (const c of coinItems) {
+      c.y += speed * dt * 0.11;
+      c.spin += dt * 0.012;
+      const dx = Math.abs(c.x - player.x);
+      const dy = Math.abs(c.y - player.y);
+      if (dx < 28 && dy < 45) {
+        coins++;
+        score += 75;
+        burst(c.x, c.y, 9);
+        c.collected = true;
+      }
+    }
+    coinItems = coinItems.filter(c => !c.collected && c.y < H + 30);
+
+    for (const p of particles) {
+      p.x += p.vx * dt * 0.06;
+      p.y += p.vy * dt * 0.06;
+      p.life -= dt;
+    }
+    particles = particles.filter(p => p.life > 0);
+
+    updateHUD();
+  }
+
+  function burst(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const v = 0.5 + Math.random() * 2.5;
+      particles.push({
+        x, y,
+        vx: Math.cos(a) * v,
+        vy: Math.sin(a) * v,
+        life: 350 + Math.random() * 450,
+        size: 2 + Math.random() * 4
+      });
+    }
+  }
+
+  function roundedRect(x, y, w, h, r, fill) {
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, r);
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+
+  function drawBackground() {
+    ctx.fillStyle = "#76bd5c";
+    ctx.fillRect(0, 0, W, H);
+
+    // Road shoulders
+    ctx.fillStyle = "#d5b77a";
+    ctx.fillRect(road.left - 28, 0, 28, H);
+    ctx.fillRect(road.right, 0, 28, H);
+
+    ctx.fillStyle = "#2b3442";
+    ctx.fillRect(road.left, 0, road.right - road.left, H);
+
+    // Edge lines
+    ctx.fillStyle = "#f8fafc";
+    ctx.fillRect(road.left + 8, 0, 5, H);
+    ctx.fillRect(road.right - 13, 0, 5, H);
+
+    // Lane markings
+    ctx.fillStyle = "rgba(255,255,255,.72)";
+    for (let lane = 1; lane < road.lanes; lane++) {
+      const x = road.left + laneWidth * lane;
+      for (let y = -80 + roadOffset; y < H; y += 80) {
+        ctx.fillRect(x - 2, y, 4, 42);
+      }
+    }
+
+    // Simple roadside posts
+    for (let y = -70 + roadOffset * 0.55; y < H; y += 105) {
+      ctx.fillStyle = "#f7f7f7";
+      ctx.fillRect(road.left - 20, y, 7, 27);
+      ctx.fillRect(road.right + 13, y, 7, 27);
+      ctx.fillStyle = "#ef5b5b";
+      ctx.fillRect(road.left - 20, y, 7, 7);
+      ctx.fillRect(road.right + 13, y, 7, 7);
+    }
+  }
+
+  function drawCar(car) {
+    ctx.save();
+    ctx.translate(car.x, car.y);
+    roundedRect(-car.width / 2, -car.height / 2, car.width, car.height, 9, "#101827");
+    roundedRect(-car.width / 2 + 3, -car.height / 2 + 3, car.width - 6, car.height - 6, 7, car.body);
+
+    roundedRect(-car.width * .32, -car.height * .29, car.width * .64, car.height * .26, 5, car.roof);
+    ctx.fillStyle = "rgba(20,35,50,.55)";
+    ctx.fillRect(-car.width * .27, -car.height * .255, car.width * .54, car.height * .16);
+
+    ctx.fillStyle = "#f8fafc";
+    ctx.fillRect(-car.width * .37, car.height * .28, car.width * .18, 5);
+    ctx.fillRect(car.width * .19, car.height * .28, car.width * .18, 5);
+    ctx.fillStyle = "#ef5b5b";
+    ctx.fillRect(-car.width * .37, -car.height * .34, car.width * .18, 5);
+    ctx.fillRect(car.width * .19, -car.height * .34, car.width * .18, 5);
+    ctx.restore();
+  }
+
+  function drawBike() {
+    ctx.save();
+    ctx.translate(player.x, player.y);
+
+    // shadow
+    ctx.fillStyle = "rgba(0,0,0,.25)";
+    ctx.beginPath();
+    ctx.ellipse(0, 34, 24, 8, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // wheels
+    ctx.fillStyle = "#0b1019";
+    ctx.beginPath(); ctx.ellipse(0, -28, 9, 16, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0, 28, 9, 16, 0, 0, Math.PI * 2); ctx.fill();
+
+    // bike body
+    ctx.strokeStyle = "#ffb84d";
+    ctx.lineWidth = 7;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(0, -23); ctx.lineTo(-13, 16); ctx.lineTo(13, 16); ctx.lineTo(0, -23);
+    ctx.stroke();
+
+    ctx.fillStyle = "#5b5ce2";
+    ctx.beginPath();
+    ctx.ellipse(0, -2, 13, 23, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // rider
+    ctx.fillStyle = "#f1b79a";
+    ctx.beginPath(); ctx.arc(0, -36, 9, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#171b2d";
+    ctx.beginPath(); ctx.arc(0, -39, 10, Math.PI, Math.PI * 2); ctx.fill();
+
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(-5, -37, 4, 3);
+    ctx.restore();
+  }
+
+  function drawCoin(c) {
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    const squash = Math.abs(Math.cos(c.spin));
+    ctx.scale(Math.max(.18, squash), 1);
+    ctx.fillStyle = "#ffb84d";
+    ctx.beginPath();
+    ctx.arc(0, 0, c.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#fff0bd";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = "#8a5a00";
+    ctx.font = "800 12px Nunito Sans";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("$", 0, 1);
+    ctx.restore();
+  }
+
+  function drawParticles() {
+    for (const p of particles) {
+      ctx.globalAlpha = Math.max(0, p.life / 700);
+      ctx.fillStyle = "#ffb84d";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function draw() {
+    drawBackground();
+    coinItems.forEach(drawCoin);
+    obstacles.forEach(drawCar);
+    drawBike();
+    drawParticles();
+
+    // Speed streaks at high speed
+    if (state === "playing" && speed > 7) {
+      ctx.strokeStyle = "rgba(255,255,255,.12)";
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 7; i++) {
+        const x = road.left + 20 + Math.random() * (road.right - road.left - 40);
+        const y = Math.random() * H;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x, y + 20 + speed * 2);
+        ctx.stroke();
+      }
+    }
+  }
+
+  function loop(now) {
+    if (state !== "playing") {
+      draw();
+      return;
+    }
+    const dt = Math.min(34, now - lastTime || 16);
+    lastTime = now;
+    update(dt);
+    draw();
+    if (state === "playing") requestAnimationFrame(loop);
+  }
+
+  function setKey(name, value) {
+    keys[name] = value;
+  }
+
+  function keyboard(e, down) {
+    const k = e.key.toLowerCase();
+    if (["arrowleft", "a"].includes(k)) { e.preventDefault(); setKey("left", down); }
+    if (["arrowright", "d"].includes(k)) { e.preventDefault(); setKey("right", down); }
+    if (k === " ") { e.preventDefault(); setKey("brake", down); }
+    if (down && k === "enter" && state !== "playing") start();
+  }
+
+  function bindHold(btn, name) {
+    const on = e => { e.preventDefault(); setKey(name, true); };
+    const off = e => { e.preventDefault(); setKey(name, false); };
+    btn.addEventListener("pointerdown", on);
+    btn.addEventListener("pointerup", off);
+    btn.addEventListener("pointercancel", off);
+    btn.addEventListener("pointerleave", off);
+  }
+
+  window.addEventListener("keydown", e => keyboard(e, true), { passive: false });
+  window.addEventListener("keyup", e => keyboard(e, false), { passive: false });
+  bindHold(leftBtn, "left");
+  bindHold(rightBtn, "right");
+  bindHold(brakeBtn, "brake");
+
+  startBtn.addEventListener("click", start);
+  restartBtn.addEventListener("click", start);
+
+  reset();
+  draw();
+})();
+</script>
+</body>
+</html>

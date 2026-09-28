@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Checkers Game - Play Free Online</title>
+  <meta name="description" content="Play a free Checkers game online in your browser. Enjoy local two-player gameplay with forced captures, multi-jumps, kings, and no download.">
+  <meta name="theme-color" content="#5B5CE2">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Checkers Game - Play Free Online">
+  <meta property="og:description" content="Play a polished two-player Checkers game online with touch and mouse controls.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5b5ce2;
+  --primary-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --background: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --board-light: #eadbc8;
+  --board-dark: #745444;
+  --board-frame: #392c2a;
+  --red-piece: #d94747;
+  --red-piece-dark: #9f2727;
+  --black-piece: #283242;
+  --black-piece-dark: #111827;
+  --focus: #fbbf24;
+  --shadow: 0 18px 50px rgba(34, 42, 73, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, a { font: inherit; }
+a { color: inherit; }
+
+button:focus-visible, a:focus-visible, summary:focus-visible, .board:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 12px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--text);
+  color: #fff;
+  transform: translateY(-150%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.header-inner, .page-shell, .footer-inner {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 20px; font-weight: 800; }
+.brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; background: var(--primary); color: #fff; font-size: 15px; }
+.category-badge { padding: 6px 12px; border: 1px solid #dfe0ff; border-radius: 999px; background: #f1f1ff; color: var(--primary-dark); font-size: 14px; font-weight: 700; }
+
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 26px; color: var(--muted); font-size: 14px; }
+.breadcrumb a { color: var(--primary-dark); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.hero { max-width: 780px; padding: 52px 0 34px; }
+.eyebrow, .section-kicker { margin: 0 0 10px; color: var(--primary-dark); font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 18px; font-size: clamp(42px, 6vw, 64px); line-height: 1.06; letter-spacing: -.035em; font-weight: 800; }
+h2 { margin-bottom: 18px; font-size: clamp(28px, 4vw, 36px); line-height: 1.18; letter-spacing: -.02em; }
+h3 { margin-bottom: 8px; font-size: 21px; line-height: 1.25; }
+.intro { margin-bottom: 0; color: var(--muted); font-size: 19px; line-height: 1.7; }
+
+.game-card { overflow: hidden; border: 1px solid var(--border); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
+.game-toolbar { min-height: 86px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--border); }
+.turn-panel { display: flex; gap: 12px; align-items: center; }
+.toolbar-label { display: block; color: var(--muted); font-size: 13px; line-height: 1.25; }
+.turn-panel strong { display: block; font-size: 19px; line-height: 1.3; }
+.turn-piece, .mini-piece { display: inline-block; flex: 0 0 auto; border-radius: 50%; }
+.turn-piece { width: 42px; height: 42px; border: 4px solid rgba(255,255,255,.62); box-shadow: inset 0 -5px 0 rgba(0,0,0,.18), 0 0 0 2px rgba(0,0,0,.08); }
+.mini-piece { width: 18px; height: 18px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.2); }
+.red { background: var(--red-piece); }
+.dark { background: var(--black-piece); }
+.piece-counts { display: flex; gap: 18px; align-items: center; }
+.piece-counts > div { display: flex; gap: 7px; align-items: center; color: var(--muted); font-size: 14px; }
+.piece-counts strong { color: var(--text); font-size: 18px; }
+.game-toolbar .button { justify-self: end; }
+
+.button { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: 10px 19px; border: 0; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 800; transition: transform .15s ease, background .15s ease; }
+.button:hover { transform: translateY(-1px); }
+.button.primary { background: var(--primary); color: #fff; }
+.button.primary:hover { background: var(--primary-dark); }
+.button.secondary { background: #f0f1f6; color: var(--text); }
+.button.secondary:hover { background: #e5e7ef; }
+
+.game-stage { padding: 26px max(16px, 3vw) 22px; background: #202938; }
+.player-rank { width: min(100%, 644px); display: flex; gap: 9px; align-items: center; margin: 0 auto; color: #d7dde7; font-size: 14px; font-weight: 700; }
+.opponent-rank { margin-bottom: 12px; }
+.current-rank { margin-top: 12px; }
+.board-wrap { position: relative; width: min(100%, 644px); margin: 0 auto; }
+.board {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  overflow: hidden;
+  border: clamp(6px, 1.2vw, 12px) solid var(--board-frame);
+  border-radius: 12px;
+  background: var(--board-frame);
+  box-shadow: 0 16px 35px rgba(0,0,0,.26);
+  touch-action: manipulation;
+}
+.square { position: relative; min-width: 0; padding: 0; border: 0; border-radius: 0; display: grid; place-items: center; cursor: default; }
+.square.light { background: var(--board-light); }
+.square.playable { background: var(--board-dark); }
+.square.selectable, .square.destination { cursor: pointer; }
+.square.selectable::before { content: ""; position: absolute; inset: 7%; border: 3px solid rgba(255, 213, 79, .78); border-radius: 10px; }
+.square.destination::after { content: ""; width: 24%; aspect-ratio: 1; border-radius: 50%; background: rgba(255, 220, 94, .9); box-shadow: 0 0 0 5px rgba(255,255,255,.12); }
+.square.destination.capture::after { width: 54%; background: transparent; border: 5px solid #ffd65c; box-shadow: none; }
+.square.selected { background: #987040; }
+.square.last-move { box-shadow: inset 0 0 0 4px rgba(22,184,196,.65); }
+.square:focus-visible { z-index: 2; outline: 4px solid #fff; outline-offset: -4px; }
+
+.piece { position: relative; z-index: 1; width: 70%; aspect-ratio: 1; border-radius: 50%; border: clamp(2px, .5vw, 5px) solid rgba(255,255,255,.36); box-shadow: inset 0 -8px 0 rgba(0,0,0,.2), 0 6px 10px rgba(0,0,0,.3); transition: transform .15s ease; pointer-events: none; }
+.selectable .piece:hover, .selected .piece { transform: translateY(-3px) scale(1.04); }
+.piece.red-piece { background: var(--red-piece); }
+.piece.black-piece { background: var(--black-piece); }
+.piece.king::after { content: "♛"; position: absolute; inset: 0; display: grid; place-items: center; color: #ffd76a; font-size: clamp(18px, 4.4vw, 38px); line-height: 1; text-shadow: 0 2px 1px rgba(0,0,0,.35); }
+
+.game-overlay { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 20px; background: rgba(17,24,39,.78); backdrop-filter: blur(3px); }
+.game-overlay[hidden] { display: none; }
+.overlay-card { width: min(360px, 92%); padding: 28px; border-radius: 18px; background: #fff; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,.28); }
+.result-icon { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 14px; border-radius: 50%; background: #fff3cf; color: #9a6500; font-size: 34px; }
+.overlay-card h2 { margin-bottom: 8px; }
+.overlay-card p { margin-bottom: 20px; color: var(--muted); }
+
+.status-bar { min-height: 56px; display: flex; gap: 10px; align-items: center; justify-content: center; padding: 12px 20px; border-top: 1px solid #303b4c; background: #151d2a; color: #fff; text-align: center; font-weight: 700; }
+.status-dot { width: 9px; height: 9px; flex: 0 0 auto; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 5px rgba(34,197,94,.12); }
+.status-bar.alert .status-dot { background: var(--action); box-shadow: 0 0 0 5px rgba(255,184,77,.13); }
+.quick-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 20px 24px; background: #fbfbfd; }
+.quick-controls > div { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 14px; }
+.control-number { width: 28px; height: 28px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 9px; background: #ededff; color: var(--primary-dark); font-size: 13px; font-weight: 800; }
+
+.content-section { padding: 76px 0; }
+.content-main { max-width: 900px; margin-inline: auto; }
+.content-main > p:not(.section-kicker) { color: var(--muted); }
+.rules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 32px; }
+.rules-grid article, .related-grid article { border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+.rules-grid article { padding: 22px; }
+.rules-grid p, .related-grid p { margin-bottom: 0; color: var(--muted); }
+.rule-icon { width: 44px; height: 44px; display: grid; place-items: center; margin-bottom: 16px; border-radius: 12px; background: #ededff; color: var(--primary-dark); font-size: 21px; font-weight: 800; }
+.note-card { margin-top: 24px; padding: 22px 24px; border-left: 4px solid var(--accent); border-radius: 0 14px 14px 0; background: #eefdff; }
+.note-card strong { font-size: 19px; }
+.note-card p { margin: 5px 0 0; color: #43536a; }
+.soft-section { width: 100vw; margin-left: calc(50% - 50vw); padding-inline: max(20px, calc((100vw - 900px) / 2)); background: #fff; }
+.strategy-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px; padding: 0; list-style: none; }
+.strategy-list li { position: relative; padding: 18px 18px 18px 48px; border-radius: 14px; background: var(--background); color: var(--muted); }
+.strategy-list li::before { content: "✓"; position: absolute; top: 18px; left: 18px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: #dcfce7; color: #15803d; font-size: 13px; font-weight: 800; }
+.strategy-list strong { color: var(--text); }
+.related-section { padding-top: 26px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.related-grid article { padding: 22px; }
+.related-grid article > span { display: block; margin-bottom: 14px; color: var(--primary); font-size: 34px; line-height: 1; }
+.related-grid small { display: block; margin-top: 14px; color: var(--primary-dark); font-weight: 700; }
+.faq-section { padding-top: 30px; }
+details { border-top: 1px solid var(--border); }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { position: relative; padding: 19px 44px 19px 0; cursor: pointer; font-size: 18px; font-weight: 800; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; position: absolute; right: 8px; top: 15px; color: var(--primary); font-size: 26px; }
+details[open] summary::after { content: "−"; }
+details p { padding-right: 40px; color: var(--muted); }
+
+.site-footer { padding: 30px 0; border-top: 1px solid var(--border); background: #fff; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.footer-inner > span { font-weight: 800; }
+.footer-inner p { margin: 0; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .header-inner, .page-shell, .footer-inner { width: min(100% - 28px, 1160px); }
+  .site-header { min-height: 64px; }
+  .category-badge { display: none; }
+  .breadcrumb { padding-top: 20px; }
+  .hero { padding: 40px 0 28px; }
+  h1 { font-size: clamp(38px, 12vw, 44px); }
+  .intro { font-size: 17px; }
+  .game-card { border-radius: 16px; }
+  .game-toolbar { grid-template-columns: 1fr auto; gap: 12px; padding: 14px; }
+  .piece-counts { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+  .game-stage { padding: 18px 8px 16px; }
+  .board { border-width: 6px; border-radius: 9px; }
+  .square.selectable::before { inset: 5%; border-width: 2px; border-radius: 6px; }
+  .square.last-move { box-shadow: inset 0 0 0 3px rgba(22,184,196,.65); }
+  .piece { width: 73%; border-width: 2px; box-shadow: inset 0 -5px 0 rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.28); }
+  .piece.king::after { font-size: clamp(17px, 7vw, 30px); }
+  .quick-controls { grid-template-columns: 1fr; padding: 16px; }
+  .content-section { padding: 58px 0; }
+  .rules-grid, .strategy-list, .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 420px) {
+  .turn-piece { width: 36px; height: 36px; }
+  .turn-panel strong { font-size: 17px; }
+  .button { min-height: 44px; padding-inline: 14px; }
+  .piece-counts > div { font-size: 13px; }
+  .status-bar { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game-board">Skip to the game</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="category-badge">Board Games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Home</a><span aria-hidden="true">/</span>
+        <span>Board Games</span><span aria-hidden="true">/</span>
+        <span aria-current="page">Checkers</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Classic strategy • Local two-player</p>
+        <h1 id="page-title">Checkers Game</h1>
+        <p class="intro">Play free Checkers online with a friend on the same device. Capture every opposing piece or leave your opponent with no legal move to win—no download or account needed.</p>
+      </section>
+
+      <section class="game-card" aria-labelledby="game-heading">
+        <h2 class="visually-hidden" id="game-heading">Play Checkers</h2>
+
+        <div class="game-toolbar">
+          <div class="turn-panel" id="turn-panel">
+            <span class="turn-piece red" id="turn-piece" aria-hidden="true"></span>
+            <div>
+              <span class="toolbar-label">Current turn</span>
+              <strong id="turn-text">Red to move</strong>
+            </div>
+          </div>
+
+          <div class="piece-counts" aria-label="Pieces remaining">
+            <div><span class="mini-piece red" aria-hidden="true"></span><span>Red</span><strong id="red-count">12</strong></div>
+            <div><span class="mini-piece dark" aria-hidden="true"></span><span>Black</span><strong id="black-count">12</strong></div>
+          </div>
+
+          <button class="button secondary" id="new-game-button" type="button">New game</button>
+        </div>
+
+        <div class="game-stage">
+          <div class="player-rank opponent-rank">
+            <span class="mini-piece dark" aria-hidden="true"></span>
+            <span>Black side</span>
+          </div>
+
+          <div class="board-wrap">
+            <div id="game-board" class="board" role="grid" aria-label="Checkers board. Red pieces start at the bottom." aria-describedby="game-instructions" tabindex="0"></div>
+            <div class="game-overlay" id="game-overlay" hidden>
+              <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="result-title" aria-describedby="result-message">
+                <span class="result-icon" id="result-icon" aria-hidden="true">♛</span>
+                <h2 id="result-title">Red wins!</h2>
+                <p id="result-message">Black has no pieces remaining.</p>
+                <button class="button primary" id="play-again-button" type="button">Play again</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="player-rank current-rank">
+            <span class="mini-piece red" aria-hidden="true"></span>
+            <span>Red side</span>
+          </div>
+        </div>
+
+        <div class="status-bar" role="status" aria-live="polite" aria-atomic="true">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-text">Red moves first. Select a piece to begin.</span>
+        </div>
+
+        <div class="quick-controls" id="game-instructions">
+          <div><span class="control-number">1</span><span>Select one of your pieces</span></div>
+          <div><span class="control-number">2</span><span>Choose a highlighted square</span></div>
+          <div><span class="control-number">3</span><span>Captures are required</span></div>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div class="content-main">
+          <p class="section-kicker">Rules and controls</p>
+          <h2 id="how-to-play">How to Play Checkers</h2>
+          <p>Checkers is played by two people on the dark squares of an 8×8 board. Red moves first. Select a piece, then select a highlighted destination. On a phone or tablet, simply tap the piece and square.</p>
+
+          <div class="rules-grid">
+            <article>
+              <span class="rule-icon" aria-hidden="true">↗</span>
+              <h3>Move diagonally</h3>
+              <p>Regular pieces move one dark square diagonally toward the opposite side.</p>
+            </article>
+            <article>
+              <span class="rule-icon" aria-hidden="true">⇥</span>
+              <h3>Capture pieces</h3>
+              <p>Jump over an adjacent opponent into an empty square. If a capture is available, you must take it.</p>
+            </article>
+            <article>
+              <span class="rule-icon" aria-hidden="true">♛</span>
+              <h3>Crown a king</h3>
+              <p>Reach the far edge to become a king. Kings can move and capture both forward and backward.</p>
+            </article>
+            <article>
+              <span class="rule-icon" aria-hidden="true">×2</span>
+              <h3>Chain your jumps</h3>
+              <p>After a capture, keep jumping with the same piece when another capture is available.</p>
+            </article>
+          </div>
+
+          <div class="note-card">
+            <strong>How do you win?</strong>
+            <p>Capture all opposing pieces or block your opponent so they cannot make a legal move. The game also declares a draw after repeated positions or a long period without captures or promotions.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section soft-section" aria-labelledby="strategy-heading">
+        <div class="content-main">
+          <p class="section-kicker">Improve your play</p>
+          <h2 id="strategy-heading">Checkers Tips and Strategy</h2>
+          <ul class="strategy-list">
+            <li><strong>Protect your back row.</strong> Keeping a piece there can delay your opponent from earning a king.</li>
+            <li><strong>Move pieces together.</strong> Connected pieces are harder to capture than isolated ones.</li>
+            <li><strong>Plan forced captures.</strong> A sacrifice can pull an opposing piece into position for a multi-jump.</li>
+            <li><strong>Value the center.</strong> Central pieces usually have more movement options and support both sides.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="about-heading">
+        <div class="content-main">
+          <p class="section-kicker">A timeless board game</p>
+          <h2 id="about-heading">About the Checkers Game</h2>
+          <p>Checkers, also called English draughts, is a two-player strategy game built around diagonal movement, compulsory captures, and promotion to kings. The rules are simple enough to learn quickly, while combinations and forced jumps give experienced players room to plan ahead.</p>
+          <p>This browser version follows American Checkers rules: uncrowned pieces move and capture forward, captures are mandatory, reaching the king row ends the move, and a king can move in both directions.</p>
+        </div>
+      </section>
+
+      <section class="content-section related-section" aria-labelledby="related-heading">
+        <div class="content-main">
+          <p class="section-kicker">Keep playing</p>
+          <h2 id="related-heading">Related Board Games</h2>
+          <div class="related-grid">
+            <article><span aria-hidden="true">♟</span><h3>Chess</h3><p>Plan attacks and defend your king.</p><small>Game page coming soon</small></article>
+            <article><span aria-hidden="true">○</span><h3>Reversi</h3><p>Outflank pieces and control the board.</p><small>Game page coming soon</small></article>
+            <article><span aria-hidden="true">▦</span><h3>Sudoku</h3><p>Complete a grid with pure logic.</p><small>Game page coming soon</small></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-heading">
+        <div class="content-main">
+          <p class="section-kicker">Common questions</p>
+          <h2 id="faq-heading">Checkers Game FAQ</h2>
+          <details><summary>Is this Checkers game free?</summary><p>Yes. You can play the complete Checkers game free in your browser without creating an account or downloading an app.</p></details>
+          <details><summary>Can I play Checkers on mobile?</summary><p>Yes. The board scales to your screen, and all moves work with simple tap controls on modern phones and tablets.</p></details>
+          <details><summary>Are captures mandatory?</summary><p>Yes. When one of your pieces can capture, the game highlights only legal capturing pieces and moves.</p></details>
+          <details><summary>Can I play against the computer?</summary><p>This version is designed for two players sharing the same device. It does not include a computer opponent.</p></details>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner"><span>Games Hub</span><p>Fast, accessible games you can play online.</p></div>
+  </footer>
+
+  <script>"use strict";
+
+(() => {
+  const EMPTY = null;
+  const RED = "red";
+  const BLACK = "black";
+  const BOARD_SIZE = 8;
+  const DRAW_TURN_LIMIT = 80;
+
+  const boardElement = document.getElementById("game-board");
+  const turnPanel = document.getElementById("turn-panel");
+  const turnPiece = document.getElementById("turn-piece");
+  const turnText = document.getElementById("turn-text");
+  const redCount = document.getElementById("red-count");
+  const blackCount = document.getElementById("black-count");
+  const statusText = document.getElementById("status-text");
+  const statusBar = statusText.closest(".status-bar");
+  const newGameButton = document.getElementById("new-game-button");
+  const playAgainButton = document.getElementById("play-again-button");
+  const overlay = document.getElementById("game-overlay");
+  const resultTitle = document.getElementById("result-title");
+  const resultMessage = document.getElementById("result-message");
+  const resultIcon = document.getElementById("result-icon");
+
+  let board = [];
+  let currentPlayer = RED;
+  let selected = null;
+  let forcedPiece = null;
+  let legalMoves = [];
+  let lastMove = null;
+  let gameOver = false;
+  let quietTurns = 0;
+  let positionHistory = new Map();
+
+  function createInitialBoard() {
+    return Array.from({ length: BOARD_SIZE }, (_, row) =>
+      Array.from({ length: BOARD_SIZE }, (_, col) => {
+        if ((row + col) % 2 === 0) return EMPTY;
+        if (row < 3) return { color: BLACK, king: false };
+        if (row > 4) return { color: RED, king: false };
+        return EMPTY;
+      })
+    );
+  }
+
+  function startGame() {
+    board = createInitialBoard();
+    currentPlayer = RED;
+    selected = null;
+    forcedPiece = null;
+    legalMoves = [];
+    lastMove = null;
+    gameOver = false;
+    quietTurns = 0;
+    positionHistory = new Map();
+    overlay.hidden = true;
+    recordPosition();
+    setStatus("Red moves first. Select a piece to begin.", false);
+    render();
+  }
+
+  function isInside(row, col) {
+    return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+  }
+
+  function directionsFor(piece) {
+    if (piece.king) return [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+    return piece.color === RED ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]];
+  }
+
+  function movesForPiece(row, col, capturesOnly = false) {
+    const piece = board[row][col];
+    if (!piece) return [];
+
+    const moves = [];
+    for (const [rowStep, colStep] of directionsFor(piece)) {
+      const nextRow = row + rowStep;
+      const nextCol = col + colStep;
+      if (!isInside(nextRow, nextCol)) continue;
+
+      if (!capturesOnly && board[nextRow][nextCol] === EMPTY) {
+        moves.push({ from: { row, col }, to: { row: nextRow, col: nextCol }, capture: null });
+      }
+
+      const landingRow = row + rowStep * 2;
+      const landingCol = col + colStep * 2;
+      const jumpedPiece = board[nextRow][nextCol];
+      if (
+        isInside(landingRow, landingCol) &&
+        jumpedPiece &&
+        jumpedPiece.color !== piece.color &&
+        board[landingRow][landingCol] === EMPTY
+      ) {
+        moves.push({
+          from: { row, col },
+          to: { row: landingRow, col: landingCol },
+          capture: { row: nextRow, col: nextCol }
+        });
+      }
+    }
+    return capturesOnly ? moves.filter((move) => move.capture) : moves;
+  }
+
+  function allMovesForPlayer(color) {
+    const normalMoves = [];
+    const captures = [];
+    for (let row = 0; row < BOARD_SIZE; row += 1) {
+      for (let col = 0; col < BOARD_SIZE; col += 1) {
+        const piece = board[row][col];
+        if (!piece || piece.color !== color) continue;
+        for (const move of movesForPiece(row, col)) {
+          (move.capture ? captures : normalMoves).push(move);
+        }
+      }
+    }
+    return captures.length ? captures : normalMoves;
+  }
+
+  function sameSquare(a, b) {
+    return Boolean(a && b && a.row === b.row && a.col === b.col);
+  }
+
+  function handleSquare(row, col) {
+    if (gameOver) return;
+
+    const clickedPiece = board[row][col];
+    const destinationMove = legalMoves.find((move) => sameSquare(move.to, { row, col }));
+    if (selected && destinationMove) {
+      makeMove(destinationMove);
+      return;
+    }
+
+    if (forcedPiece) {
+      setStatus("Continue the capture with the highlighted piece.", true);
+      return;
+    }
+
+    if (clickedPiece && clickedPiece.color === currentPlayer) {
+      selectPiece(row, col);
+      return;
+    }
+
+    selected = null;
+    legalMoves = [];
+    const playerMoves = allMovesForPlayer(currentPlayer);
+    const captureRequired = playerMoves.some((move) => move.capture);
+    setStatus(captureRequired ? "A capture is available and must be played." : `${capitalize(currentPlayer)}: select one of your pieces.`, captureRequired);
+    render();
+  }
+
+  function selectPiece(row, col) {
+    const allMoves = allMovesForPlayer(currentPlayer);
+    const pieceMoves = allMoves.filter((move) => sameSquare(move.from, { row, col }));
+    const captureRequired = allMoves.some((move) => move.capture);
+
+    if (!pieceMoves.length) {
+      selected = null;
+      legalMoves = [];
+      setStatus(captureRequired ? "That piece cannot capture. Choose a highlighted piece." : "That piece has no legal move.", true);
+    } else {
+      selected = { row, col };
+      legalMoves = pieceMoves;
+      setStatus(captureRequired ? "Capture required. Choose a highlighted landing square." : "Choose a highlighted square.", captureRequired);
+    }
+    render();
+  }
+
+  function makeMove(move) {
+    const piece = board[move.from.row][move.from.col];
+    board[move.from.row][move.from.col] = EMPTY;
+    board[move.to.row][move.to.col] = piece;
+
+    let captured = false;
+    if (move.capture) {
+      board[move.capture.row][move.capture.col] = EMPTY;
+      captured = true;
+    }
+
+    const wasKing = piece.king;
+    const reachedKingRow = !piece.king && ((piece.color === RED && move.to.row === 0) || (piece.color === BLACK && move.to.row === 7));
+    if (reachedKingRow) piece.king = true;
+
+    lastMove = { from: move.from, to: move.to };
+
+    // Under American Checkers rules, crowning ends a capturing turn.
+    if (captured && !reachedKingRow) {
+      const nextCaptures = movesForPiece(move.to.row, move.to.col, true);
+      if (nextCaptures.length) {
+        selected = { row: move.to.row, col: move.to.col };
+        forcedPiece = selected;
+        legalMoves = nextCaptures;
+        setStatus("Multi-jump! Continue capturing with the same piece.", true);
+        render();
+        return;
+      }
+    }
+
+    quietTurns = (captured || (!wasKing && piece.king)) ? 0 : quietTurns + 1;
+    finishTurn();
+  }
+
+  function finishTurn() {
+    selected = null;
+    forcedPiece = null;
+    legalMoves = [];
+    currentPlayer = currentPlayer === RED ? BLACK : RED;
+
+    const counts = countPieces();
+    if (counts[currentPlayer] === 0) {
+      endGame(currentPlayer === RED ? BLACK : RED, `${capitalize(currentPlayer)} has no pieces remaining.`);
+      return;
+    }
+
+    const nextMoves = allMovesForPlayer(currentPlayer);
+    if (!nextMoves.length) {
+      endGame(currentPlayer === RED ? BLACK : RED, `${capitalize(currentPlayer)} has no legal moves.`);
+      return;
+    }
+
+    const repetitionCount = recordPosition();
+    if (repetitionCount >= 3) {
+      endGame(null, "The same position occurred three times.");
+      return;
+    }
+    if (quietTurns >= DRAW_TURN_LIMIT) {
+      endGame(null, "No capture or promotion occurred for 80 turns.");
+      return;
+    }
+
+    const captureRequired = nextMoves.some((move) => move.capture);
+    setStatus(captureRequired ? `${capitalize(currentPlayer)} must capture.` : `${capitalize(currentPlayer)} to move.`, captureRequired);
+    render();
+  }
+
+  function countPieces() {
+    const counts = { red: 0, black: 0 };
+    for (const row of board) {
+      for (const piece of row) if (piece) counts[piece.color] += 1;
+    }
+    return counts;
+  }
+
+  function positionKey() {
+    const cells = board.flat().map((piece) => {
+      if (!piece) return ".";
+      if (piece.color === RED) return piece.king ? "R" : "r";
+      return piece.king ? "B" : "b";
+    }).join("");
+    return `${currentPlayer}:${cells}`;
+  }
+
+  function recordPosition() {
+    const key = positionKey();
+    const count = (positionHistory.get(key) || 0) + 1;
+    positionHistory.set(key, count);
+    return count;
+  }
+
+  function endGame(winner, reason) {
+    gameOver = true;
+    selected = null;
+    forcedPiece = null;
+    legalMoves = [];
+
+    if (winner) {
+      resultTitle.textContent = `${capitalize(winner)} wins!`;
+      resultMessage.textContent = reason;
+      resultIcon.textContent = "♛";
+      setStatus(`${capitalize(winner)} wins. ${reason}`, false);
+    } else {
+      resultTitle.textContent = "Draw game";
+      resultMessage.textContent = reason;
+      resultIcon.textContent = "=";
+      setStatus(`Draw. ${reason}`, false);
+    }
+    render();
+    overlay.hidden = false;
+    playAgainButton.focus();
+  }
+
+  function setStatus(message, alert) {
+    statusText.textContent = message;
+    statusBar.classList.toggle("alert", Boolean(alert));
+  }
+
+  function capitalize(value) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  function notation(row, col) {
+    return `${String.fromCharCode(65 + col)}${8 - row}`;
+  }
+
+  function render() {
+    const allMoves = gameOver ? [] : allMovesForPlayer(currentPlayer);
+    const selectableKeys = new Set(allMoves.map((move) => `${move.from.row}-${move.from.col}`));
+    const destinationMap = new Map(legalMoves.map((move) => [`${move.to.row}-${move.to.col}`, move]));
+    const fragment = document.createDocumentFragment();
+
+    for (let row = 0; row < BOARD_SIZE; row += 1) {
+      for (let col = 0; col < BOARD_SIZE; col += 1) {
+        const square = document.createElement("button");
+        const playable = (row + col) % 2 === 1;
+        const piece = board[row][col];
+        const key = `${row}-${col}`;
+        const destination = destinationMap.get(key);
+
+        square.type = "button";
+        square.className = `square ${playable ? "playable" : "light"}`;
+        square.setAttribute("role", "gridcell");
+        square.dataset.row = String(row);
+        square.dataset.col = String(col);
+
+        if (sameSquare(selected, { row, col })) square.classList.add("selected");
+        if (lastMove && (sameSquare(lastMove.from, { row, col }) || sameSquare(lastMove.to, { row, col }))) square.classList.add("last-move");
+        if (selectableKeys.has(key) && (!forcedPiece || sameSquare(forcedPiece, { row, col }))) square.classList.add("selectable");
+        if (destination) {
+          square.classList.add("destination");
+          if (destination.capture) square.classList.add("capture");
+        }
+
+        if (piece) {
+          const pieceElement = document.createElement("span");
+          pieceElement.className = `piece ${piece.color}-piece${piece.king ? " king" : ""}`;
+          pieceElement.setAttribute("aria-hidden", "true");
+          square.appendChild(pieceElement);
+        }
+
+        const contents = piece ? `${capitalize(piece.color)} ${piece.king ? "king" : "piece"}` : "empty";
+        let action = "";
+        if (destination) action = destination.capture ? ", legal capture destination" : ", legal move destination";
+        else if (selectableKeys.has(key)) action = ", selectable";
+        square.setAttribute("aria-label", `${notation(row, col)}, ${contents}${action}`);
+        square.disabled = !playable || gameOver;
+        fragment.appendChild(square);
+      }
+    }
+
+    boardElement.replaceChildren(fragment);
+    const counts = countPieces();
+    redCount.textContent = String(counts.red);
+    blackCount.textContent = String(counts.black);
+    turnText.textContent = gameOver ? "Game finished" : `${capitalize(currentPlayer)} to move`;
+    turnPiece.className = `turn-piece ${currentPlayer === RED ? "red" : "dark"}`;
+    turnPanel.setAttribute("aria-label", gameOver ? "Game finished" : `${capitalize(currentPlayer)} to move`);
+  }
+
+  boardElement.addEventListener("click", (event) => {
+    const square = event.target.closest(".square");
+    if (!square || square.disabled) return;
+    handleSquare(Number(square.dataset.row), Number(square.dataset.col));
+  });
+
+  newGameButton.addEventListener("click", startGame);
+  playAgainButton.addEventListener("click", startGame);
+
+  startGame();
+})();
+</script>
+</body>
+</html>

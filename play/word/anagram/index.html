@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Anagram Game free online. Unscramble letters, build words, score points, and test your vocabulary directly in your browser.">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Anagram Game - Play Free Online</title>
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --secondary: #16B8C4;
+  --action: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game-bg: #111827;
+  --game-secondary: #1F2937;
+  --shadow: 0 16px 45px rgba(23, 27, 45, 0.09);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", "Segoe UI", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, input { font: inherit; }
+
+button { -webkit-tap-highlight-color: transparent; }
+
+a { color: inherit; }
+
+.site-header {
+  height: 72px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+.header-tag {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 72px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 34px;
+}
+
+.breadcrumb a {
+  color: var(--primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hero-copy {
+  max-width: 760px;
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+h1, h2 {
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(40px, 6vw, 60px);
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-size: clamp(27px, 4vw, 34px);
+  margin-bottom: 14px;
+}
+
+.hero-copy p:last-child {
+  color: var(--muted);
+  max-width: 700px;
+  margin: 0;
+  font-size: 18px;
+}
+
+.game-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 64px;
+}
+
+.game-topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 24px;
+  background: var(--game-bg);
+  color: #fff;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.stat-right { justify-content: flex-end; }
+
+.stat-label {
+  color: #AAB2C5;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.stat strong { font-size: 24px; line-height: 1; }
+
+.round-status {
+  color: #D8DCEA;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.game-area {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 42px 28px 34px;
+}
+
+.game-intro { text-align: center; }
+
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #EEF0FF;
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.game-intro h2 { margin: 15px 0 4px; font-size: 30px; }
+
+.instruction {
+  color: var(--muted);
+  margin: 0 0 30px;
+}
+
+.letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  min-height: 68px;
+  margin-bottom: 28px;
+}
+
+.letter-btn {
+  width: 58px;
+  height: 58px;
+  border: 1px solid #D7DAE7;
+  border-bottom-width: 3px;
+  border-radius: 13px;
+  background: #fff;
+  color: var(--text);
+  font-size: 25px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .14s ease, border-color .14s ease, background .14s ease, color .14s ease;
+}
+
+.letter-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.letter-btn:focus-visible,
+.btn:focus-visible,
+.answer-box:focus-visible,
+details summary:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, .25);
+  outline-offset: 2px;
+}
+
+.letter-btn.selected {
+  background: #ECECFF;
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.letter-btn:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+.answer-area { margin-bottom: 16px; }
+
+.answer-label-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.answer-box {
+  min-height: 76px;
+  border: 2px dashed #D8DBE8;
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #FAFAFC;
+}
+
+.answer-placeholder {
+  color: #98A0B4;
+  font-size: 15px;
+  text-align: center;
+}
+
+.answer-letter {
+  width: 43px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  background: var(--game-bg);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 21px;
+  font-weight: 800;
+  cursor: pointer;
+  border: 0;
+}
+
+.feedback {
+  min-height: 28px;
+  margin: 10px 0 4px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.feedback.success { color: #16853D; }
+.feedback.error { color: #C73D3D; }
+.feedback.info { color: var(--primary-dark); }
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  min-height: 48px;
+  padding: 10px 17px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .14s ease, background .14s ease, opacity .14s ease;
+}
+
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: translateY(0); }
+
+.btn-secondary {
+  color: var(--text);
+  background: #EFF0F5;
+}
+
+.btn-secondary:hover:not(:disabled) { background: #E6E8F0; }
+
+.btn-primary {
+  color: #fff;
+  background: var(--primary);
+}
+
+.btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+#hintCost {
+  color: #7A5B19;
+  font-size: 13px;
+  margin-left: 3px;
+}
+
+.keyboard-help {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+kbd {
+  padding: 2px 7px;
+  border: 1px solid #D5D8E3;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.content-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.content-section h2,
+.faq-section h2,
+.related-section h2 {
+  font-size: 26px;
+}
+
+.content-section p,
+.related-section p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.feature-list {
+  margin: 18px 0 0;
+  padding-left: 22px;
+}
+
+.feature-list li { margin-bottom: 8px; }
+
+.score-rules {
+  display: grid;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.score-rules div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 13px;
+  border-radius: 10px;
+  background: #F7F7FA;
+}
+
+.score-rules span { color: var(--muted); }
+
+.wide { margin-bottom: 24px; }
+
+.faq-section,
+.related-section {
+  margin-top: 24px;
+}
+
+.faq-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+details {
+  border-top: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+details:last-child { padding-bottom: 0; }
+
+summary {
+  cursor: pointer;
+  font-weight: 800;
+  list-style-position: inside;
+}
+
+details p {
+  color: var(--muted);
+  margin: 10px 0 0 24px;
+}
+
+.related-section {
+  padding: 4px 0 0;
+}
+
+.related-placeholder {
+  margin-top: 18px;
+  min-height: 90px;
+  border: 1px dashed #D7DAE7;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: #FAFAFC;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: #fff;
+  color: var(--muted);
+  text-align: center;
+  padding: 28px 20px;
+  font-size: 14px;
+}
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+
+  .site-header { height: 64px; }
+
+  .header-inner,
+  .page-shell { width: min(100% - 28px, 1120px); }
+
+  .page-shell { padding-top: 22px; }
+
+  .breadcrumb { margin-bottom: 25px; }
+
+  .hero-copy { margin-bottom: 24px; }
+
+  .hero-copy p:last-child { font-size: 16px; }
+
+  .game-card { border-radius: 16px; margin-bottom: 42px; }
+
+  .game-topbar { padding: 15px 16px; gap: 8px; }
+
+  .stat strong { font-size: 21px; }
+
+  .stat-label { font-size: 11px; }
+
+  .round-status { font-size: 12px; }
+
+  .game-area { padding: 32px 16px 26px; }
+
+  .game-intro h2 { font-size: 26px; }
+
+  .letters { gap: 8px; }
+
+  .letter-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+
+  .answer-box { min-height: 70px; }
+
+  .answer-letter {
+    width: 38px;
+    height: 46px;
+    font-size: 19px;
+  }
+
+  .controls { grid-template-columns: 1fr 1fr; }
+
+  .btn-primary { grid-column: 1 / -1; }
+
+  .keyboard-help { display: none; }
+
+  .content-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  .content-section,
+  .faq-section { padding: 22px; }
+
+  .content-section h2,
+  .faq-section h2,
+  .related-section h2 { font-size: 24px; }
+}
+
+@media (max-width: 420px) {
+  .header-tag { display: none; }
+  .game-topbar { grid-template-columns: 1fr auto 1fr; }
+  .stat { gap: 5px; }
+  .stat-right { justify-content: flex-end; }
+  .letter-btn { width: 46px; height: 46px; }
+  .controls { gap: 8px; }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Anagram Game home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>Anagram Game</span>
+      </a>
+      <span class="header-tag">Word Game</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="./">Games</a><span aria-hidden="true">/</span><span>Anagram Game</span>
+    </nav>
+
+    <section class="hero-copy">
+      <p class="eyebrow">FREE BROWSER WORD GAME</p>
+      <h1>Anagram Game</h1>
+      <p>Unscramble the letters, find the hidden word, and build your score. Play instantly in your browser with no download required.</p>
+    </section>
+
+    <section class="game-card" aria-labelledby="game-heading">
+      <div class="game-topbar">
+        <div class="stat">
+          <span class="stat-label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="round-status" id="roundStatus" aria-live="polite">Round 1 of 10</div>
+        <div class="stat stat-right">
+          <span class="stat-label">Best</span>
+          <strong id="bestScore">0</strong>
+        </div>
+      </div>
+
+      <div class="game-area">
+        <div class="game-intro">
+          <span class="category-pill" id="category">Animals</span>
+          <h2 id="game-heading">Unscramble the letters</h2>
+          <p class="instruction" id="instruction">Arrange the letters to make a word.</p>
+        </div>
+
+        <div class="letters" id="letters" aria-label="Scrambled letters"></div>
+
+        <div class="answer-area">
+          <div class="answer-label-row">
+            <span>Your answer</span>
+            <span id="answerCount">0 letters</span>
+          </div>
+          <div class="answer-box" id="answerBox" aria-live="polite" aria-label="Your current answer">
+            <span class="answer-placeholder">Tap letters above to build your word</span>
+          </div>
+        </div>
+
+        <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+
+        <div class="controls">
+          <button class="btn btn-secondary" id="clearBtn" type="button">Clear</button>
+          <button class="btn btn-secondary" id="hintBtn" type="button">Hint <span id="hintCost">−2</span></button>
+          <button class="btn btn-primary" id="submitBtn" type="button">Check Answer</button>
+        </div>
+
+        <div class="keyboard-help" aria-label="Keyboard controls">
+          <span><kbd>Enter</kbd> Check</span>
+          <span><kbd>Backspace</kbd> Remove</span>
+          <span><kbd>H</kbd> Hint</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article class="content-section">
+        <h2>How to Play Anagram Game</h2>
+        <p>Each round gives you a set of shuffled letters. Select the letters in the correct order to reveal the hidden word. You can also use your keyboard on desktop: type the answer, press Enter to check it, or use Backspace to edit.</p>
+        <ul class="feature-list">
+          <li><strong>10 rounds</strong> make up a complete game.</li>
+          <li><strong>Faster answers</strong> earn a small time bonus.</li>
+          <li><strong>Hints</strong> reveal one correct letter but reduce your score.</li>
+          <li><strong>Streaks</strong> reward consecutive correct answers.</li>
+        </ul>
+      </article>
+
+      <article class="content-section">
+        <h2>Anagram Game Scoring</h2>
+        <p>A correct answer earns points based on word length. A streak adds a bonus, while a hint reduces the reward for that round. Wrong answers do not end the game, so you can keep trying until the round is solved.</p>
+        <div class="score-rules">
+          <div><span>Base</span><strong>10 × letters</strong></div>
+          <div><span>Streak</span><strong>+5 × streak</strong></div>
+          <div><span>Hint</span><strong>−2 per hint</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="content-section wide">
+      <h2>Tips for Solving Anagrams</h2>
+      <p>Look for common beginnings and endings first. If the letters include combinations such as “ING”, “ED”, or “ER”, try forming those patterns. For longer words, identify a likely first letter, then rearrange the remaining letters around it. When you are stuck, use a hint to reveal the next position.</p>
+    </section>
+
+    <section class="faq-section" aria-labelledby="faq-title">
+      <h2 id="faq-title">Anagram Game FAQ</h2>
+      <details>
+        <summary>What is an anagram?</summary>
+        <p>An anagram is a word or phrase formed by rearranging the letters of another word or phrase. In this game, every round gives you shuffled letters that can be rearranged into one target word.</p>
+      </details>
+      <details>
+        <summary>Can I play Anagram Game on mobile?</summary>
+        <p>Yes. The game is designed for touch screens as well as desktop browsers. Tap each letter to build your answer and use the large controls to manage the round.</p>
+      </details>
+      <details>
+        <summary>Do I need to download anything?</summary>
+        <p>No. Anagram Game runs directly in a modern web browser using HTML, CSS, and JavaScript.</p>
+      </details>
+    </section>
+
+    <section class="related-section">
+      <h2>Related Games</h2>
+      <p>More word and puzzle games can be linked here as your Games Hub grows.</p>
+      <div class="related-placeholder">
+        <span>More games coming to the hub</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Anagram Game · Part of the Free Online Games Hub</p>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const WORDS = [
+    { word: "APPLE", category: "Food" },
+    { word: "BREAD", category: "Food" },
+    { word: "CHEESE", category: "Food" },
+    { word: "BANANA", category: "Food" },
+    { word: "CARROT", category: "Food" },
+    { word: "ORANGE", category: "Food" },
+    { word: "TOMATO", category: "Food" },
+    { word: "POTATO", category: "Food" },
+    { word: "GUITAR", category: "Music" },
+    { word: "PIANO", category: "Music" },
+    { word: "DRUMS", category: "Music" },
+    { word: "MELODY", category: "Music" },
+    { word: "RHYTHM", category: "Music" },
+    { word: "SINGER", category: "Music" },
+    { word: "TIGER", category: "Animals" },
+    { word: "HORSE", category: "Animals" },
+    { word: "MONKEY", category: "Animals" },
+    { word: "RABBIT", category: "Animals" },
+    { word: "DOLPHIN", category: "Animals" },
+    { word: "PARROT", category: "Animals" },
+    { word: "CASTLE", category: "Places" },
+    { word: "GARDEN", category: "Places" },
+    { word: "FOREST", category: "Places" },
+    { word: "ISLAND", category: "Places" },
+    { word: "BRIDGE", category: "Places" },
+    { word: "SCHOOL", category: "Places" },
+    { word: "PLANET", category: "Science" },
+    { word: "ROCKET", category: "Science" },
+    { word: "ENERGY", category: "Science" },
+    { word: "OCEAN", category: "Science" },
+    { word: "VOLCANO", category: "Science" },
+    { word: "GALAXY", category: "Science" },
+    { word: "SUMMER", category: "Nature" },
+    { word: "WINTER", category: "Nature" },
+    { word: "FLOWER", category: "Nature" },
+    { word: "THUNDER", category: "Nature" },
+    { word: "RAINBOW", category: "Nature" },
+    { word: "SUNSET", category: "Nature" },
+    { word: "CAMERA", category: "Objects" },
+    { word: "BOTTLE", category: "Objects" },
+    { word: "WINDOW", category: "Objects" },
+    { word: "PENCIL", category: "Objects" },
+    { word: "JACKET", category: "Objects" },
+    { word: "LANTERN", category: "Objects" }
+  ];
+
+  const TOTAL_ROUNDS = 10;
+  const HINT_COST = 2;
+  const ROUND_TIME = 30;
+
+  const els = {
+    score: document.getElementById("score"),
+    bestScore: document.getElementById("bestScore"),
+    roundStatus: document.getElementById("roundStatus"),
+    category: document.getElementById("category"),
+    letters: document.getElementById("letters"),
+    answerBox: document.getElementById("answerBox"),
+    answerCount: document.getElementById("answerCount"),
+    feedback: document.getElementById("feedback"),
+    clearBtn: document.getElementById("clearBtn"),
+    hintBtn: document.getElementById("hintBtn"),
+    submitBtn: document.getElementById("submitBtn"),
+    hintCost: document.getElementById("hintCost")
+  };
+
+  let score = 0;
+  let bestScore = Number(localStorage.getItem("anagramBestScore") || 0);
+  let round = 1;
+  let streak = 0;
+  let current = null;
+  let selected = [];
+  let hintedPositions = new Set();
+  let solved = false;
+  let gameOver = false;
+  let roundStartedAt = 0;
+  let timerId = null;
+  let recentWords = [];
+
+  els.bestScore.textContent = bestScore;
+
+  function shuffle(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function makePuzzle(word) {
+    let letters = word.split("");
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      letters = shuffle(letters);
+      if (letters.join("") !== word) break;
+    }
+    return letters;
+  }
+
+  function chooseWord() {
+    const available = WORDS.filter(item => !recentWords.includes(item.word));
+    const pool = available.length ? available : WORDS;
+    const chosen = pool[Math.floor(Math.random() * pool.length)];
+    recentWords.push(chosen.word);
+    if (recentWords.length > 8) recentWords.shift();
+    return chosen;
+  }
+
+  function startGame() {
+    score = 0;
+    round = 1;
+    streak = 0;
+    gameOver = false;
+    recentWords = [];
+    updateScore();
+    loadRound();
+  }
+
+  function loadRound() {
+    if (round > TOTAL_ROUNDS) {
+      endGame();
+      return;
+    }
+
+    current = chooseWord();
+    selected = [];
+    hintedPositions = new Set();
+    solved = false;
+    roundStartedAt = Date.now();
+
+    els.category.textContent = current.category;
+    els.roundStatus.textContent = `Round ${round} of ${TOTAL_ROUNDS}`;
+    els.feedback.textContent = "";
+    els.feedback.className = "feedback";
+    els.hintBtn.disabled = false;
+    els.submitBtn.disabled = false;
+    els.clearBtn.disabled = false;
+    renderLetters(makePuzzle(current.word));
+    renderAnswer();
+    startTimer();
+  }
+
+  function startTimer() {
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      if (solved || gameOver) return;
+      const elapsed = (Date.now() - roundStartedAt) / 1000;
+      if (elapsed >= ROUND_TIME) {
+        clearInterval(timerId);
+        streak = 0;
+        showFeedback(`Time's up. The answer was ${current.word}.`, "error");
+        solved = true;
+        lockRound();
+        setTimeout(() => {
+          round += 1;
+          loadRound();
+        }, 1100);
+      }
+    }, 250);
+  }
+
+  function renderLetters(scrambled) {
+    els.letters.innerHTML = "";
+    scrambled.forEach((letter, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "letter-btn";
+      button.textContent = letter;
+      button.dataset.index = String(index);
+      button.setAttribute("aria-label", `Letter ${letter}`);
+      button.addEventListener("click", () => selectLetter(index, letter));
+      els.letters.appendChild(button);
+    });
+  }
+
+  function selectLetter(index, letter) {
+    if (solved || gameOver) return;
+
+    const existing = selected.findIndex(item => item.index === index);
+    if (existing !== -1) {
+      selected.splice(existing, 1);
+    } else {
+      selected.push({ index, letter });
+    }
+
+    syncLetterButtons();
+    renderAnswer();
+    clearFeedback();
+  }
+
+  function syncLetterButtons() {
+    const selectedIndexes = new Set(selected.map(item => item.index));
+    document.querySelectorAll(".letter-btn").forEach(button => {
+      const index = Number(button.dataset.index);
+      button.classList.toggle("selected", selectedIndexes.has(index));
+      button.disabled = selectedIndexes.has(index);
+    });
+  }
+
+  function renderAnswer() {
+    els.answerBox.innerHTML = "";
+
+    if (!selected.length) {
+      const placeholder = document.createElement("span");
+      placeholder.className = "answer-placeholder";
+      placeholder.textContent = "Tap letters above to build your word";
+      els.answerBox.appendChild(placeholder);
+    } else {
+      selected.forEach((item, position) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer-letter";
+        button.textContent = item.letter;
+        button.title = "Remove this letter";
+        button.setAttribute("aria-label", `Remove letter ${item.letter}`);
+        button.addEventListener("click", () => {
+          selected.splice(position, 1);
+          syncLetterButtons();
+          renderAnswer();
+        });
+        els.answerBox.appendChild(button);
+      });
+    }
+
+    els.answerCount.textContent = `${selected.length} ${selected.length === 1 ? "letter" : "letters"}`;
+  }
+
+  function clearAnswer() {
+    if (solved || gameOver) return;
+    selected = [];
+    syncLetterButtons();
+    renderAnswer();
+    clearFeedback();
+  }
+
+  function submitAnswer() {
+    if (solved || gameOver) return;
+
+    const answer = selected.map(item => item.letter).join("");
+    if (answer.length !== current.word.length) {
+      showFeedback("Use every letter before checking your answer.", "info");
+      return;
+    }
+
+    if (answer === current.word) {
+      handleCorrect();
+    } else {
+      streak = 0;
+      showFeedback("Not quite. Rearrange the letters and try again.", "error");
+    }
+  }
+
+  function handleCorrect() {
+    solved = true;
+    clearInterval(timerId);
+
+    const elapsed = (Date.now() - roundStartedAt) / 1000;
+    const speedBonus = Math.max(0, Math.floor((ROUND_TIME - elapsed) / 3));
+    const base = current.word.length * 10;
+    const streakBonus = streak * 5;
+    const hintPenalty = hintedPositions.size * HINT_COST;
+    const gained = Math.max(1, base + speedBonus + streakBonus - hintPenalty);
+
+    score += gained;
+    streak += 1;
+    updateScore();
+
+    const streakText = streak > 1 ? ` ${streak}-word streak!` : "";
+    showFeedback(`Correct! +${gained} points.${streakText}`, "success");
+    lockRound();
+
+    setTimeout(() => {
+      round += 1;
+      loadRound();
+    }, 1100);
+  }
+
+  function giveHint() {
+    if (solved || gameOver) return;
+
+    const target = current.word;
+    let position = -1;
+
+    for (let i = 0; i < target.length; i += 1) {
+      if (!hintedPositions.has(i)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position === -1) {
+      showFeedback("No more hints are available for this word.", "info");
+      return;
+    }
+
+    hintedPositions.add(position);
+
+    // Move the correct letter into the next answer position.
+    const letter = target[position];
+    const buttonNodes = [...document.querySelectorAll(".letter-btn")];
+    const selectedIndexes = new Set(selected.map(item => item.index));
+    let sourceIndex = -1;
+
+    for (const node of buttonNodes) {
+      const index = Number(node.dataset.index);
+      if (!selectedIndexes.has(index) && node.textContent === letter) {
+        sourceIndex = index;
+        break;
+      }
+    }
+
+    if (sourceIndex !== -1) {
+      const sourceButton = buttonNodes.find(node => Number(node.dataset.index) === sourceIndex);
+      selected.push({ index: sourceIndex, letter });
+      sourceButton.classList.add("selected");
+      sourceButton.disabled = true;
+      renderAnswer();
+      showFeedback(`Hint: position ${position + 1} is ${letter}.`, "info");
+    } else {
+      hintedPositions.delete(position);
+      showFeedback("Try another move to reveal the hint.", "info");
+    }
+
+    if (hintedPositions.size >= current.word.length) {
+      els.hintBtn.disabled = true;
+    }
+  }
+
+  function lockRound() {
+    els.hintBtn.disabled = true;
+    els.submitBtn.disabled = true;
+    els.clearBtn.disabled = true;
+    document.querySelectorAll(".letter-btn").forEach(button => {
+      button.disabled = true;
+    });
+  }
+
+  function showFeedback(message, type) {
+    els.feedback.textContent = message;
+    els.feedback.className = `feedback ${type}`;
+  }
+
+  function clearFeedback() {
+    if (!solved) {
+      els.feedback.textContent = "";
+      els.feedback.className = "feedback";
+    }
+  }
+
+  function updateScore() {
+    els.score.textContent = score;
+    els.bestScore.textContent = bestScore;
+  }
+
+  function endGame() {
+    gameOver = true;
+    clearInterval(timerId);
+
+    if (score > bestScore) {
+      bestScore = score;
+      localStorage.setItem("anagramBestScore", String(bestScore));
+    }
+
+    updateScore();
+    els.roundStatus.textContent = "Game complete";
+    els.category.textContent = "Well played";
+    els.letters.innerHTML = "";
+    els.answerBox.innerHTML = `<span class="answer-placeholder">Final score: ${score}</span>`;
+    els.answerCount.textContent = "";
+    showFeedback(`You finished all ${TOTAL_ROUNDS} rounds with ${score} points.`, "success");
+
+    els.clearBtn.textContent = "New Game";
+    els.clearBtn.disabled = false;
+    els.clearBtn.onclick = startGame;
+    els.hintBtn.disabled = true;
+    els.submitBtn.disabled = true;
+  }
+
+  function handleKeydown(event) {
+    if (gameOver) {
+      if (event.key === "Enter") startGame();
+      return;
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submitAnswer();
+      return;
+    }
+
+    if (event.key === "Backspace") {
+      event.preventDefault();
+      if (!solved && selected.length) {
+        selected.pop();
+        syncLetterButtons();
+        renderAnswer();
+      }
+      return;
+    }
+
+    if (event.key.toLowerCase() === "h") {
+      event.preventDefault();
+      giveHint();
+      return;
+    }
+
+    if (/^[a-zA-Z]$/.test(event.key) && !solved) {
+      const target = event.key.toUpperCase();
+      const nodes = [...document.querySelectorAll(".letter-btn")];
+      const used = new Set(selected.map(item => item.index));
+      const candidate = nodes.find(node => !used.has(Number(node.dataset.index)) && node.textContent === target);
+
+      if (candidate) {
+        selectLetter(Number(candidate.dataset.index), target);
+      }
+    }
+  }
+
+  els.clearBtn.addEventListener("click", clearAnswer);
+  els.hintBtn.addEventListener("click", giveHint);
+  els.submitBtn.addEventListener("click", submitAnswer);
+  document.addEventListener("keydown", handleKeydown);
+
+  startGame();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Play Drift Game free online in your browser. Master controlled slides, chain drift combos, and chase a high score with no download required.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="./">
+  <title>Drift Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>*{box-sizing:border-box}
+:root{font-family:"Nunito Sans",system-ui,sans-serif;color:#171B2D;background:#F6F7FB}
+body{margin:0;background:#F6F7FB}
+button,a{font:inherit}
+button{cursor:pointer}
+.site-header{height:72px;background:#fff;border-bottom:1px solid #E5E7EF;display:flex;align-items:center}
+.header-inner{width:min(1200px,calc(100% - 32px));margin:auto;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:10px;color:#171B2D;text-decoration:none;font-weight:800;font-size:19px}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:#5B5CE2;color:#fff;display:grid;place-items:center}
+.home-link{color:#4546B8;text-decoration:none;font-weight:700}
+.page{width:min(1120px,calc(100% - 32px));margin:auto;padding:28px 0 70px}
+.breadcrumb{display:flex;gap:8px;color:#667085;font-size:14px;margin-bottom:28px}
+.breadcrumb a{color:#4546B8;text-decoration:none}
+.intro{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:28px}
+.eyebrow{margin:0 0 7px;color:#5B5CE2;font-size:13px;font-weight:800;letter-spacing:.12em}
+h1{font-size:clamp(38px,5vw,58px);line-height:1.08;margin:0 0 10px;font-weight:800}
+.intro p:not(.eyebrow){max-width:720px;color:#667085;font-size:17px;line-height:1.65;margin:0}
+.best-card{min-width:150px;background:#fff;border:1px solid #E5E7EF;border-radius:16px;padding:15px 20px;text-align:center}
+.best-card span{display:block;color:#667085;font-size:12px;font-weight:800;letter-spacing:.08em}
+.best-card strong{font-size:28px}
+.game-shell{background:#111827;border-radius:20px;padding:14px;box-shadow:0 18px 45px rgba(17,24,39,.14)}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.stat{background:#1F2937;border-radius:12px;padding:9px 12px;text-align:center;color:#fff}
+.stat span{display:block;color:#9CA3AF;font-size:12px;font-weight:700}
+.stat strong{font-size:21px;line-height:1.1}
+.combo-stat strong{color:#FFB84D}
+.canvas-wrap{position:relative;overflow:hidden;border-radius:14px;background:#16202c}
+canvas{display:block;width:100%;height:auto;max-height:620px}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(17,24,39,.68);padding:20px}
+.overlay.hidden{display:none}
+.overlay-card{width:min(390px,100%);background:#fff;border-radius:18px;padding:30px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.car-icon{width:52px;height:52px;margin:0 auto 15px;border-radius:14px;background:#FFB84D;color:#171B2D;display:grid;place-items:center;font-size:30px;font-weight:800}
+.overlay h2{font-size:32px;margin:0 0 8px}
+.overlay p:not(.eyebrow){color:#667085;line-height:1.55;margin:0 0 20px}
+#startBtn,.restart-btn{border:0;border-radius:11px;background:#5B5CE2;color:#fff;padding:12px 22px;font-weight:800;min-height:46px}
+.game-controls{display:flex;justify-content:space-between;align-items:center;padding:12px 2px 2px;color:#D1D5DB}
+.control-help{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:14px}
+.control-help strong{color:#fff}
+kbd{background:#374151;border:1px solid #4B5563;border-radius:5px;padding:2px 7px;color:#fff;margin-right:3px;font-size:12px}
+.restart-btn{background:#fff;color:#171B2D}
+.touch-controls{display:none;grid-template-columns:1fr 1.4fr 1fr;gap:10px;padding-top:10px}
+.touch-btn{height:54px;border:0;border-radius:12px;background:#374151;color:#fff;font-size:25px;font-weight:800;touch-action:none}
+.drift-btn{background:#FFB84D;color:#171B2D;font-size:16px}
+.content-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;margin-top:58px}
+.content-grid article,.content-grid aside{background:#fff;border:1px solid #E5E7EF;border-radius:18px;padding:28px}
+h2{font-size:30px;line-height:1.2;margin:0 0 13px}
+h3{font-size:21px;margin:24px 0 5px}
+.content-grid p,.faq p{color:#667085;font-size:16px;line-height:1.7}
+.tips{display:grid;gap:12px;margin-top:22px}
+.tips div{display:flex;gap:14px;align-items:flex-start}
+.tips span{flex:none;width:34px;height:34px;border-radius:10px;background:#EEF0FF;color:#4546B8;display:grid;place-items:center;font-weight:800}
+.tips p{margin:4px 0 0}
+.related{margin-top:58px}
+.related-card{display:flex;align-items:center;gap:15px;background:#fff;border:1px solid #E5E7EF;border-radius:16px;padding:18px 20px}
+.mini-icon{font-size:27px}
+.related-card p{margin:3px 0 0;color:#667085}
+.related-card a{margin-left:auto;color:#4546B8;font-weight:800;text-decoration:none;white-space:nowrap}
+.faq{margin-top:58px}
+.faq details{background:#fff;border:1px solid #E5E7EF;border-radius:12px;padding:16px 18px;margin-top:10px}
+.faq summary{font-weight:700;cursor:pointer}
+.faq p{margin:12px 0 0}
+.site-footer{text-align:center;border-top:1px solid #E5E7EF;padding:28px 16px;color:#667085;font-size:14px}
+@media(max-width:720px){
+ .page{width:min(100% - 20px,1120px);padding-top:20px}
+ .site-header{height:64px}.header-inner{width:calc(100% - 20px)}
+ .intro{align-items:start;flex-direction:column}.best-card{width:100%}
+ .game-shell{padding:8px;border-radius:15px}
+ .hud{grid-template-columns:repeat(2,1fr)}
+ .canvas-wrap{border-radius:10px}
+ .control-help{display:none}
+ .game-controls{justify-content:flex-end}
+ .touch-controls{display:grid}
+ .content-grid{grid-template-columns:1fr;margin-top:38px;gap:15px}
+ .content-grid article,.content-grid aside{padding:21px}
+ h2{font-size:27px}
+ .related,.faq{margin-top:38px}
+ .related-card{align-items:flex-start;flex-wrap:wrap}
+ .related-card a{margin-left:0}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Games Hub home"><span class="brand-mark">G</span><span>Games Hub</span></a>
+      <a class="home-link" href="./" aria-label="Back to Games Hub">All Games</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="./">Games Hub</a><span>›</span><span>Drift Game</span></nav>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow">ARCADE RACING</p>
+        <h1>Drift Game</h1>
+        <p>Master the slide, stay on the asphalt, and build a bigger score by holding clean drifts through the corners. Play directly in your browser with no download required.</p>
+      </div>
+      <div class="best-card" aria-label="Best score">
+        <span>BEST SCORE</span><strong id="bestScore">0</strong>
+      </div>
+    </section>
+
+    <section class="game-shell" aria-label="Drift game">
+      <div class="hud">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat combo-stat"><span>Combo</span><strong id="combo">x1</strong></div>
+        <div class="stat"><span>Speed</span><strong id="speed">0</strong></div>
+        <div class="stat"><span>Best</span><strong id="hudBest">0</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" aria-label="Top-down drift racing game"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card">
+            <div class="car-icon" aria-hidden="true">↗</div>
+            <p class="eyebrow">READY TO RACE</p>
+            <h2 id="overlayTitle">Drift</h2>
+            <p id="overlayText">Steer around the track. Hold the drift button to slide and earn combo points.</p>
+            <button id="startBtn" type="button">Start Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-controls">
+        <div class="control-help">
+          <strong>Controls</strong>
+          <span><kbd>←</kbd><kbd>→</kbd> Steer</span>
+          <span><kbd>Space</kbd> Drift</span>
+          <span><kbd>R</kbd> Restart</span>
+        </div>
+        <button class="restart-btn" id="restartBtn" type="button">Restart</button>
+      </div>
+
+      <div class="touch-controls" aria-label="Touch controls">
+        <button class="touch-btn" id="leftBtn" type="button" aria-label="Steer left">←</button>
+        <button class="touch-btn drift-btn" id="driftBtn" type="button" aria-label="Hold to drift">DRIFT</button>
+        <button class="touch-btn" id="rightBtn" type="button" aria-label="Steer right">→</button>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article>
+        <h2>How to Play Drift</h2>
+        <p>Your car moves forward automatically. Steer left and right to follow the road. When a corner approaches, hold <strong>Drift</strong> while steering to slide around the bend. The longer you maintain a controlled slide, the more your combo grows.</p>
+        <div class="tips">
+          <div><span>01</span><p><strong>Stay on track.</strong> Grass slows you down and heavy contact with the barrier ends the run.</p></div>
+          <div><span>02</span><p><strong>Hold a clean slide.</strong> Drifting near the road edge earns more points, but going too wide is risky.</p></div>
+          <div><span>03</span><p><strong>Build combos.</strong> Finish a drift without crashing to bank the points and increase your multiplier.</p></div>
+        </div>
+      </article>
+      <aside>
+        <h2>About Drift Game</h2>
+        <p>This browser drift game is built around quick arcade handling: automatic acceleration, responsive steering, controlled slides, combo scoring, and increasingly demanding corners.</p>
+        <h3>Scoring</h3>
+        <p>Distance adds points. A successful drift banks bonus points based on its duration and your current combo multiplier.</p>
+      </aside>
+    </section>
+
+    <section class="related">
+      <h2>Related Games</h2>
+      <div class="related-card"><span class="mini-icon">🏁</span><div><strong>More racing games</strong><p>Connect this card to your racing category or other racing game pages when they are added.</p></div><a href="./" aria-label="Browse more games">Browse Games →</a></div>
+    </section>
+
+    <section class="faq">
+      <h2>Drift Game FAQ</h2>
+      <details><summary>Can I play Drift Game on mobile?</summary><p>Yes. Use the large left, Drift, and right touch controls below the game canvas.</p></details>
+      <details><summary>Do I need to download anything?</summary><p>No. The game runs in a modern web browser using HTML5 Canvas and JavaScript.</p></details>
+      <details><summary>How do I get a higher Drift score?</summary><p>Keep the car on the road, maintain longer controlled drifts, and avoid breaking your combo with a crash.</p></details>
+    </section>
+  </main>
+
+  <footer class="site-footer">Drift Game · Part of Games Hub</footer>
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const overlay = document.getElementById("overlay");
+  const overlayTitle = document.getElementById("overlayTitle");
+  const overlayText = document.getElementById("overlayText");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const scoreEl = document.getElementById("score");
+  const comboEl = document.getElementById("combo");
+  const speedEl = document.getElementById("speed");
+  const bestEl = document.getElementById("bestScore");
+  const hudBestEl = document.getElementById("hudBest");
+
+  const W = 900, H = 560;
+  canvas.width = W; canvas.height = H;
+
+  let best = Number(localStorage.getItem("driftBest") || 0);
+  bestEl.textContent = hudBestEl.textContent = best;
+
+  const input = { left:false, right:false, drift:false };
+  let running = false, gameOver = false, last = 0, elapsed = 0;
+  let score = 0, combo = 1, comboCharge = 0, distance = 0;
+  let car = { x:450, y:440, vx:0, angle:0, width:24, height:42 };
+  let road = [], particles = [], skidMarks = [];
+  let shake = 0, driftTime = 0, driftActive = false;
+
+  function makeRoad() {
+    road = [];
+    const segs = 160;
+    for (let i=0;i<segs;i++) {
+      const y = H + 90 - i * 5.2;
+      const center = W/2 + Math.sin(i*.105)*125 + Math.sin(i*.031+1.5)*70;
+      const width = 300 + Math.sin(i*.047)*18;
+      road.push({ y, center, width });
+    }
+  }
+
+  function roadAt(y) {
+    const i = Math.max(0, Math.min(road.length-1, Math.round((H+90-y)/5.2)));
+    return road[i] || road[0];
+  }
+
+  function reset() {
+    makeRoad();
+    score = 0; combo = 1; comboCharge = 0; distance = 0; elapsed = 0;
+    particles = []; skidMarks = [];
+    car = {x:450,y:435,vx:0,angle:0,width:24,height:42};
+    driftTime = 0; driftActive = false; shake = 0; gameOver = false;
+    updateHud();
+    draw();
+  }
+
+  function start() {
+    reset(); running = true; overlay.classList.add("hidden");
+    last = performance.now();
+    requestAnimationFrame(loop);
+  }
+
+  function endGame(reason="Crash!") {
+    running = false; gameOver = true;
+    const finalScore = Math.floor(score);
+    if (finalScore > best) {
+      best = finalScore;
+      localStorage.setItem("driftBest", String(best));
+      bestEl.textContent = hudBestEl.textContent = best;
+    }
+    overlayTitle.textContent = reason;
+    overlayText.textContent = `Run score: ${finalScore.toLocaleString()}. ${finalScore >= best && finalScore > 0 ? "New best score!" : "Try a cleaner line and longer drifts."}`;
+    startBtn.textContent = "Race Again";
+    overlay.classList.remove("hidden");
+  }
+
+  function updateHud() {
+    scoreEl.textContent = Math.floor(score).toLocaleString();
+    comboEl.textContent = `x${combo}`;
+    speedEl.textContent = `${Math.round(150 + Math.abs(car.vx)*1.7)}`;
+  }
+
+  function loop(now) {
+    if (!running) return;
+    const dt = Math.min((now-last)/1000, .033);
+    last = now;
+    elapsed += dt;
+    update(dt);
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  function update(dt) {
+    const steer = (input.right?1:0) - (input.left?1:0);
+    const targetVx = steer * (input.drift ? 270 : 205);
+    car.vx += (targetVx-car.vx) * Math.min(1, dt*(input.drift?4.5:8));
+    car.vx *= Math.pow(.988, dt*60);
+    car.x += car.vx * dt;
+    car.angle += ((car.vx/230)*.36 - car.angle) * Math.min(1,dt*7);
+    distance += dt * (input.drift ? 165 : 190);
+    score += dt * (input.drift ? 7*combo : 5);
+
+    const r = roadAt(car.y);
+    const leftEdge = r.center - r.width/2 + 25;
+    const rightEdge = r.center + r.width/2 - 25;
+    const offRoad = car.x < leftEdge || car.x > rightEdge;
+
+    if (offRoad) {
+      car.vx *= Math.pow(.92, dt*60);
+      score = Math.max(0, score - dt*18);
+    }
+
+    const turning = Math.abs(car.vx) > 80 && Math.abs(steer) > 0;
+    driftActive = input.drift && turning && !offRoad;
+    if (driftActive) {
+      driftTime += dt;
+      comboCharge += dt;
+      if (comboCharge > 1.5 && combo < 8) {
+        combo++;
+        comboCharge = 0;
+      }
+      if (Math.random() < dt*20) {
+        particles.push({x:car.x+(Math.random()-.5)*20,y:car.y+20,vx:-car.vx*.2,vy:40+Math.random()*40,life:.35});
+      }
+      if (Math.random() < dt*18) skidMarks.push({x:car.x-8,y:car.y+17,life:1});
+      score += dt * 22 * combo;
+    } else if (driftTime > .25) {
+      score += Math.min(350, driftTime*70*combo);
+      comboCharge += driftTime*.15;
+      driftTime = 0;
+    }
+
+    if (!driftActive && comboCharge <= 0) combo = Math.max(1, combo-1);
+    if (!driftActive) comboCharge = Math.max(0, comboCharge-dt*.4);
+
+    // Moving road scenery gives the feeling of forward motion.
+    for (const p of particles) { p.x += p.vx*dt; p.y += p.vy*dt; p.life -= dt; }
+    particles = particles.filter(p=>p.life>0);
+    for (const s of skidMarks) s.y += 170*dt, s.life -= dt*.42;
+    skidMarks = skidMarks.filter(s=>s.life>0);
+
+    // A hard barrier hit ends the run.
+    if (car.x < r.center-r.width/2+8 || car.x > r.center+r.width/2-8) {
+      shake = .18;
+      endGame("You Hit the Barrier");
+      return;
+    }
+    updateHud();
+  }
+
+  function draw() {
+    ctx.save();
+    if (shake > 0) { ctx.translate((Math.random()-.5)*10,(Math.random()-.5)*10); shake -= .016; }
+    drawBackground();
+    drawRoad();
+    drawMarks();
+    drawParticles();
+    drawCar();
+    ctx.restore();
+  }
+
+  function drawBackground() {
+    ctx.fillStyle = "#3b6646"; ctx.fillRect(0,0,W,H);
+    // Simple repeating grass texture.
+    ctx.fillStyle = "rgba(255,255,255,.035)";
+    for(let y=0;y<H;y+=28) for(let x=(y%56);x<W;x+=56) ctx.fillRect(x,y,18,2);
+  }
+
+  function drawRoad() {
+    // Road polygons using visible road samples.
+    const pts = road.filter(p=>p.y>-40 && p.y<H+50);
+    ctx.beginPath();
+    pts.forEach((p,i)=>{const l=p.center-p.width/2,r=p.center+p.width/2;if(i===0)ctx.moveTo(l,p.y);else ctx.lineTo(l,p.y)});
+    for(let i=pts.length-1;i>=0;i--){const p=pts[i];ctx.lineTo(p.center+p.width/2,p.y)}
+    ctx.closePath(); ctx.fillStyle="#3C424B"; ctx.fill();
+
+    // Outer edge.
+    ctx.lineWidth=7; ctx.strokeStyle="#F5F1D7";
+    ctx.beginPath(); pts.forEach((p,i)=>{const l=p.center-p.width/2;if(i===0)ctx.moveTo(l,p.y);else ctx.lineTo(l,p.y)}); ctx.stroke();
+    ctx.beginPath(); pts.forEach((p,i)=>{const r=p.center+p.width/2;if(i===0)ctx.moveTo(r,p.y);else ctx.lineTo(r,p.y)}); ctx.stroke();
+
+    // Center dashes.
+    ctx.strokeStyle="rgba(255,255,255,.45)"; ctx.lineWidth=4; ctx.setLineDash([25,22]);
+    ctx.beginPath(); pts.forEach((p,i)=>{if(i===0)ctx.moveTo(p.center,p.y);else ctx.lineTo(p.center,p.y)}); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Roadside markers.
+    for(let i=5;i<pts.length;i+=9){
+      const p=pts[i];
+      for(const side of [-1,1]){
+        const x=p.center+side*(p.width/2+15);
+        ctx.fillStyle = i%18===0 ? "#FFB84D" : "#F5F5F5";
+        ctx.fillRect(x-3,p.y-7,6,14);
+      }
+    }
+  }
+
+  function drawMarks() {
+    for(const s of skidMarks){
+      ctx.fillStyle=`rgba(20,20,20,${Math.max(0,s.life)*.35})`;
+      ctx.fillRect(s.x-2,s.y-10,4,20);
+    }
+  }
+
+  function drawParticles() {
+    for(const p of particles){
+      ctx.fillStyle=`rgba(225,225,225,${Math.max(0,p.life)*.65})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fill();
+    }
+  }
+
+  function drawCar() {
+    ctx.save(); ctx.translate(car.x,car.y); ctx.rotate(car.angle);
+    // shadow
+    ctx.fillStyle="rgba(0,0,0,.3)";ctx.beginPath();ctx.ellipse(0,5,17,27,0,0,Math.PI*2);ctx.fill();
+    // body
+    ctx.fillStyle="#E95454";ctx.beginPath();ctx.roundRect(-12,-23,24,46,7);ctx.fill();
+    ctx.fillStyle="#F7F7F7";ctx.beginPath();ctx.roundRect(-8,-13,16,12,4);ctx.fill();
+    ctx.fillStyle="#232936";ctx.beginPath();ctx.roundRect(-8,3,16,10,4);ctx.fill();
+    // headlights
+    ctx.fillStyle="#FFF3B0";ctx.fillRect(-9,-23,6,4);ctx.fillRect(3,-23,6,4);
+    // wheels
+    ctx.fillStyle="#111827";ctx.fillRect(-15,-15,5,12);ctx.fillRect(10,-15,5,12);ctx.fillRect(-15,7,5,12);ctx.fillRect(10,7,5,12);
+    ctx.restore();
+  }
+
+  function setKey(code,down) {
+    if(code==="ArrowLeft"||code==="KeyA") input.left=down;
+    if(code==="ArrowRight"||code==="KeyD") input.right=down;
+    if(code==="Space") { input.drift=down; if(down) startIfNeeded(); }
+    if(code==="KeyR" && down) start();
+  }
+  function startIfNeeded(){ if(!running && !gameOver) start(); }
+
+  window.addEventListener("keydown",e=>{
+    if(["ArrowLeft","ArrowRight","Space"].includes(e.code)) e.preventDefault();
+    setKey(e.code,true);
+  });
+  window.addEventListener("keyup",e=>setKey(e.code,false));
+
+  function bindHold(id,prop){
+    const el=document.getElementById(id);
+    const down=e=>{e.preventDefault();input[prop]=true;if(!running)start()};
+    const up=e=>{e.preventDefault();input[prop]=false};
+    ["pointerdown","touchstart"].forEach(ev=>el.addEventListener(ev,down,{passive:false}));
+    ["pointerup","pointercancel","pointerleave","touchend"].forEach(ev=>el.addEventListener(ev,up,{passive:false}));
+  }
+  bindHold("leftBtn","left"); bindHold("rightBtn","right"); bindHold("driftBtn","drift");
+  startBtn.addEventListener("click",start);
+  restartBtn.addEventListener("click",start);
+
+  reset();
+})();</script>
+</body>
+</html>

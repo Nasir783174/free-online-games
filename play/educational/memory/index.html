@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Memory Game online for free. Match educational cards, test your memory, learn quick facts, and improve your concentration in your browser with no download.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Memory Game - Play Free Online</title>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+
+:root {
+  --brand: #5B5CE2;
+  --brand-dark: #4546B8;
+  --cyan: #16B8C4;
+  --yellow: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game-2: #1F2937;
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, select { font: inherit; }
+
+button { cursor: pointer; }
+
+.site-header {
+  height: 72px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(8px);
+}
+
+.header-inner {
+  max-width: 1160px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--brand);
+  color: white;
+  font-size: 19px;
+}
+
+.category-pill {
+  color: var(--brand-dark);
+  background: #EEEEFF;
+  border: 1px solid #DDDEFF;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.page-shell {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 34px;
+}
+
+.breadcrumb a {
+  color: var(--brand-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover { text-decoration: underline; }
+
+.intro {
+  max-width: 820px;
+  margin-bottom: 42px;
+}
+
+.eyebrow, .section-kicker {
+  margin: 0 0 7px;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+  color: var(--text);
+}
+
+h1 {
+  margin-bottom: 12px;
+  font-size: clamp(40px, 6vw, 60px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: 34px;
+  line-height: 1.18;
+  font-weight: 700;
+}
+
+h3 {
+  margin: 34px 0 10px;
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+p { margin: 0 0 18px; }
+
+.intro-copy {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.game-section {
+  margin-bottom: 78px;
+}
+
+.game-topbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.game-topbar h2 { margin-bottom: 0; }
+
+.difficulty-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.difficulty-wrap label {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+select {
+  min-height: 46px;
+  padding: 8px 34px 8px 13px;
+  color: var(--text);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-weight: 700;
+  outline: none;
+}
+
+select:focus-visible {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.15);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stat {
+  min-height: 74px;
+  padding: 10px 14px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat strong {
+  margin-top: 1px;
+  color: var(--text);
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.score-stat {
+  background: #EEEEFF;
+  border-color: #DDDEFF;
+}
+
+.score-stat strong { color: var(--brand-dark); }
+
+.game-card {
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--game);
+  box-shadow: 0 14px 40px rgba(17, 24, 39, 0.12);
+}
+
+.game-status {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  color: #E5E7EB;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.board {
+  width: min(100%, 820px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(52px, 1fr));
+  gap: 11px;
+  perspective: 1000px;
+}
+
+.memory-card {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  transform-style: preserve-3d;
+  transition: transform 0.32s ease, filter 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.memory-card:not(:disabled):hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
+
+.memory-card.is-flipped,
+.memory-card.is-matched {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 13px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+  display: grid;
+  place-items: center;
+  background: #293548;
+  border: 2px solid #3D4A5E;
+  color: #AEB8C8;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.card-back::after {
+  content: "✦";
+  width: 36%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 2px solid #657187;
+  border-radius: 50%;
+  color: #AEB8C8;
+  font-size: clamp(17px, 3vw, 25px);
+}
+
+.card-front {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px;
+  background: #FFFFFF;
+  color: var(--text);
+  border: 3px solid #FFFFFF;
+}
+
+.card-emoji {
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1;
+}
+
+.card-word {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(11px, 1.5vw, 14px);
+  font-weight: 800;
+}
+
+.memory-card.is-matched .card-front {
+  border-color: #6EE7B7;
+  box-shadow: inset 0 0 0 2px rgba(34,197,94,0.16);
+}
+
+.memory-card:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 15px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px 0 24px;
+}
+
+.primary-btn, .secondary-btn {
+  min-height: 48px;
+  padding: 10px 22px;
+  border-radius: 11px;
+  border: 1px solid transparent;
+  font-size: 16px;
+  font-weight: 800;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.primary-btn {
+  color: white;
+  background: var(--brand);
+}
+
+.primary-btn:hover { background: var(--brand-dark); }
+
+.secondary-btn {
+  color: var(--text);
+  background: white;
+  border-color: var(--border);
+}
+
+.secondary-btn:hover { background: #F1F2F8; }
+
+.primary-btn:active, .secondary-btn:active { transform: translateY(1px); }
+
+.primary-btn:focus-visible, .secondary-btn:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, 0.25);
+  outline-offset: 2px;
+}
+
+.tip-box {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 15px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.tip-box p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.tip-box strong { color: var(--text); }
+
+.tip-icon { font-size: 22px; line-height: 1.3; }
+
+.content-section {
+  max-width: 820px;
+  margin: 0 auto 64px;
+}
+
+.content-section p, .content-section li {
+  color: var(--muted);
+}
+
+.steps {
+  padding-left: 25px;
+}
+
+.steps li {
+  padding-left: 6px;
+  margin-bottom: 10px;
+}
+
+.steps strong { color: var(--text); }
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.control-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 15px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.control-key {
+  color: var(--brand-dark);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.control-grid > div span:last-child {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.tips-list {
+  padding-left: 24px;
+}
+
+.tips-list li { margin-bottom: 8px; }
+
+.related-placeholder {
+  min-height: 92px;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  border: 1px dashed #C9CCDB;
+  border-radius: 14px;
+  color: var(--muted);
+  background: #FBFBFD;
+  font-weight: 700;
+}
+
+.faq-section details {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+
+.faq-section details:last-child { border-bottom: 1px solid var(--border); }
+
+.faq-section summary {
+  cursor: pointer;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.faq-section details p {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+
+.site-footer {
+  padding: 30px 20px;
+  color: var(--muted);
+  background: white;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 14px;
+}
+
+.site-footer p { margin: 0; }
+
+.win-modal[hidden] { display: none; }
+
+.win-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+}
+
+.modal {
+  position: relative;
+  width: min(100%, 460px);
+  padding: 34px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(17,24,39,0.25);
+  text-align: center;
+  animation: modal-in 0.22s ease-out;
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #F3F4F7;
+  color: var(--text);
+  font-size: 25px;
+  line-height: 1;
+}
+
+.modal-close:hover { background: #E9EAF0; }
+
+.modal-close:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, 0.25);
+}
+
+.win-icon {
+  margin-bottom: 7px;
+  font-size: 42px;
+  line-height: 1;
+}
+
+.modal h2 {
+  margin-bottom: 7px;
+  font-size: 32px;
+}
+
+.modal > p:not(.section-kicker) {
+  color: var(--muted);
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.result-grid > div {
+  padding: 11px 6px;
+  background: var(--bg);
+  border-radius: 10px;
+}
+
+.result-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.result-grid strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 18px;
+}
+
+.modal-action { width: 100%; }
+
+@media (max-width: 800px) {
+  .page-shell { padding-top: 22px; }
+  .stats { grid-template-columns: repeat(3, 1fr); }
+  .score-stat { grid-column: span 1; }
+  .board { grid-template-columns: repeat(5, minmax(48px, 1fr)); gap: 8px; }
+}
+
+@media (max-width: 620px) {
+  body { font-size: 16px; }
+
+  .site-header { height: 64px; }
+  .header-inner { padding: 0 14px; }
+  .brand { font-size: 17px; }
+  .brand-mark { width: 32px; height: 32px; }
+  .category-pill { display: none; }
+
+  .page-shell { padding: 20px 14px 58px; }
+  .breadcrumb { margin-bottom: 25px; }
+
+  h1 { font-size: 40px; }
+  h2 { font-size: 28px; }
+  .intro-copy { font-size: 16px; }
+
+  .game-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .difficulty-wrap { width: 100%; }
+  .difficulty-wrap select { flex: 1; }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat { min-height: 68px; }
+  .stat strong { font-size: 19px; }
+
+  .game-card { padding: 10px; }
+  .game-status { min-height: 40px; padding: 0 5px; font-size: 14px; }
+  .board { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+
+  .card-front { border-width: 2px; }
+  .card-word { font-size: 10px; }
+
+  .controls {
+    width: 100%;
+  }
+
+  .primary-btn, .secondary-btn {
+    flex: 1;
+    min-height: 50px;
+  }
+
+  .control-grid { grid-template-columns: 1fr; }
+
+  .content-section { margin-bottom: 50px; }
+
+  .tip-box { padding: 13px; }
+  .tip-box p { font-size: 14px; }
+
+  .modal { padding: 30px 18px 22px; }
+  .result-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Memory Game home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>Memory Game</span>
+      </a>
+      <span class="category-pill">Educational Game</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="./">Games</a>
+      <span aria-hidden="true">›</span>
+      <span>Educational Games</span>
+      <span aria-hidden="true">›</span>
+      <span>Memory Game</span>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow">LEARN • MATCH • REMEMBER</p>
+        <h1>Memory Game</h1>
+        <p class="intro-copy">
+          Test your memory by finding matching educational cards. Flip two cards at a time,
+          remember their positions, and learn a quick fact whenever you make a match.
+          Play directly in your browser for free.
+        </p>
+      </div>
+    </section>
+
+    <section class="game-section" aria-labelledby="game-heading">
+      <div class="game-topbar">
+        <div>
+          <p class="section-kicker">READY TO PLAY?</p>
+          <h2 id="game-heading">Match the Pairs</h2>
+        </div>
+        <div class="difficulty-wrap">
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty">
+            <option value="easy">Easy · 8 pairs</option>
+            <option value="medium" selected>Medium · 10 pairs</option>
+            <option value="hard">Hard · 12 pairs</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="stats" aria-label="Game statistics">
+        <div class="stat">
+          <span class="stat-label">Time</span>
+          <strong id="time">00:00</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Moves</span>
+          <strong id="moves">0</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Matches</span>
+          <strong id="matches">0 / 10</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Accuracy</span>
+          <strong id="accuracy">100%</strong>
+        </div>
+        <div class="stat score-stat">
+          <span class="stat-label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-status" id="gameStatus" role="status" aria-live="polite">
+          Find two matching cards.
+        </div>
+        <div class="board" id="board" aria-label="Memory card board"></div>
+      </div>
+
+      <div class="controls">
+        <button class="primary-btn" id="newGame" type="button">New Game</button>
+        <button class="secondary-btn" id="restart" type="button">Restart</button>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon" aria-hidden="true">💡</span>
+        <p><strong>Memory tip:</strong> Say the card category or image to yourself as you turn it over. Linking a visual with a word can make recall easier.</p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Memory Game</h2>
+      <p>
+        Memory is a simple matching game designed to exercise visual recall and concentration.
+        Cards are placed face down. Your goal is to uncover every matching pair using as few
+        moves as possible.
+      </p>
+      <ol class="steps">
+        <li><strong>Choose a difficulty.</strong> Easy uses 8 pairs, Medium uses 10 pairs, and Hard uses 12 pairs.</li>
+        <li><strong>Flip a card.</strong> Tap or click a face-down card to reveal it.</li>
+        <li><strong>Find its match.</strong> Flip another card and try to remember where its pair is.</li>
+        <li><strong>Learn from matches.</strong> When a pair is found, a short educational fact appears.</li>
+        <li><strong>Finish the board.</strong> Match every pair before the game ends and try to improve your score.</li>
+      </ol>
+
+      <h3>Controls</h3>
+      <div class="control-grid">
+        <div><span class="control-key">Mouse</span><span>Click a card</span></div>
+        <div><span class="control-key">Touch</span><span>Tap a card</span></div>
+        <div><span class="control-key">Keyboard</span><span>Tab to a card, then press Enter or Space</span></div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>About This Educational Memory Game</h2>
+      <p>
+        This browser memory game combines a classic card-matching mechanic with small learning
+        moments. The cards use familiar subjects such as animals, space, science, geography,
+        and nature. Each matched pair can reveal a concise fact, so the game encourages both
+        recall and curiosity.
+      </p>
+      <p>
+        The game runs entirely in your browser. No account, download, database, or server-side
+        game processing is required.
+      </p>
+
+      <h2>Memory Game Tips</h2>
+      <ul class="tips-list">
+        <li>Build a mental map of the board instead of guessing randomly.</li>
+        <li>Pay attention to cards you have already seen, even when their pair was not found.</li>
+        <li>Start with a steady pace; rushing can create unnecessary moves.</li>
+        <li>On harder boards, remember cards by position, subject, and visual shape.</li>
+      </ul>
+    </section>
+
+    <section class="content-section related-section">
+      <h2>More Educational Games</h2>
+      <p>More games can be linked here as your Games Hub grows.</p>
+      <div class="related-placeholder" aria-label="Related games placeholder">
+        <span>More games coming to the hub</span>
+      </div>
+    </section>
+
+    <section class="content-section faq-section">
+      <h2>Memory Game FAQ</h2>
+      <details>
+        <summary>Is this Memory Game free to play?</summary>
+        <p>Yes. The game is designed to be played for free directly in a modern web browser.</p>
+      </details>
+      <details>
+        <summary>Can I play the Memory Game on a phone?</summary>
+        <p>Yes. The board is responsive and cards can be opened with touch taps on mobile devices.</p>
+      </details>
+      <details>
+        <summary>How is the Memory Game score calculated?</summary>
+        <p>Your score starts with points for matched pairs and is adjusted by move efficiency, accuracy, and elapsed time. Finishing with fewer moves and better accuracy generally produces a higher score.</p>
+      </details>
+      <details>
+        <summary>What do the educational cards teach?</summary>
+        <p>The card set includes short facts covering subjects such as animals, science, space, geography, and nature. The facts are presented after matching a pair.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Memory Game · Free educational browser game</p>
+  </footer>
+
+  <div class="win-modal" id="winModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <button class="modal-close" id="closeModal" type="button" aria-label="Close results">×</button>
+      <div class="win-icon" aria-hidden="true">🎉</div>
+      <p class="section-kicker">BOARD COMPLETE</p>
+      <h2 id="winTitle">Great memory!</h2>
+      <p id="winMessage">You matched every pair.</p>
+      <div class="result-grid">
+        <div><span>Score</span><strong id="finalScore">0</strong></div>
+        <div><span>Moves</span><strong id="finalMoves">0</strong></div>
+        <div><span>Time</span><strong id="finalTime">00:00</strong></div>
+        <div><span>Accuracy</span><strong id="finalAccuracy">100%</strong></div>
+      </div>
+      <button class="primary-btn modal-action" id="playAgain" type="button">Play Again</button>
+    </div>
+  </div>
+
+  <script>(() => {
+  "use strict";
+
+  const CARD_POOL = [
+    { id: "elephant", emoji: "🐘", word: "Elephant", fact: "Elephants are the largest living land animals." },
+    { id: "penguin", emoji: "🐧", word: "Penguin", fact: "Emperor penguins can dive to great depths to find food." },
+    { id: "dolphin", emoji: "🐬", word: "Dolphin", fact: "Dolphins use clicks and whistles to communicate and navigate." },
+    { id: "bee", emoji: "🐝", word: "Bee", fact: "Honeybees can communicate the location of food with a waggle dance." },
+    { id: "panda", emoji: "🐼", word: "Panda", fact: "Giant pandas spend many hours each day eating bamboo." },
+    { id: "owl", emoji: "🦉", word: "Owl", fact: "Owls can turn their heads remarkably far because of special neck anatomy." },
+    { id: "turtle", emoji: "🐢", word: "Turtle", fact: "Some turtles can live for many decades." },
+    { id: "butterfly", emoji: "🦋", word: "Butterfly", fact: "Butterflies taste with sensors on their feet." },
+    { id: "rocket", emoji: "🚀", word: "Rocket", fact: "Rockets move in space by pushing exhaust in the opposite direction." },
+    { id: "earth", emoji: "🌍", word: "Earth", fact: "Earth is the third planet from the Sun." },
+    { id: "moon", emoji: "🌙", word: "Moon", fact: "The Moon takes about 27 days to orbit Earth relative to the stars." },
+    { id: "sun", emoji: "☀️", word: "Sun", fact: "The Sun is a star at the center of our solar system." },
+    { id: "atom", emoji: "⚛️", word: "Atom", fact: "Atoms are the basic units that make up ordinary matter." },
+    { id: "water", emoji: "💧", word: "Water", fact: "Water can naturally occur as a solid, liquid, or gas on Earth." },
+    { id: "volcano", emoji: "🌋", word: "Volcano", fact: "Volcanoes can form where magma reaches or approaches Earth's surface." },
+    { id: "rainbow", emoji: "🌈", word: "Rainbow", fact: "Rainbows form when light is refracted, reflected, and dispersed by water droplets." },
+    { id: "mountain", emoji: "⛰️", word: "Mountain", fact: "Mountains can form when tectonic plates push Earth's crust together." },
+    { id: "tree", emoji: "🌳", word: "Tree", fact: "Trees take in carbon dioxide and release oxygen during photosynthesis." },
+    { id: "compass", emoji: "🧭", word: "Compass", fact: "A magnetic compass aligns with Earth's magnetic field." },
+    { id: "globe", emoji: "🌐", word: "Globe", fact: "A globe is a scale model that represents Earth's roughly spherical shape." },
+    { id: "book", emoji: "📚", word: "Books", fact: "Reading regularly can expose learners to new vocabulary and ideas." },
+    { id: "microscope", emoji: "🔬", word: "Microscope", fact: "Microscopes help scientists observe objects too small to see clearly with the naked eye." },
+    { id: "puzzle", emoji: "🧩", word: "Puzzle", fact: "Memory games can encourage attention, recall, and pattern recognition." },
+    { id: "lightbulb", emoji: "💡", word: "Idea", fact: "The brain continually forms and strengthens connections as we learn." }
+  ];
+
+  const DIFFICULTIES = {
+    easy: { pairs: 8 },
+    medium: { pairs: 10 },
+    hard: { pairs: 12 }
+  };
+
+  const board = document.getElementById("board");
+  const difficulty = document.getElementById("difficulty");
+  const timeEl = document.getElementById("time");
+  const movesEl = document.getElementById("moves");
+  const matchesEl = document.getElementById("matches");
+  const accuracyEl = document.getElementById("accuracy");
+  const scoreEl = document.getElementById("score");
+  const statusEl = document.getElementById("gameStatus");
+  const newGameBtn = document.getElementById("newGame");
+  const restartBtn = document.getElementById("restart");
+  const winModal = document.getElementById("winModal");
+  const closeModalBtn = document.getElementById("closeModal");
+  const playAgainBtn = document.getElementById("playAgain");
+  const finalScore = document.getElementById("finalScore");
+  const finalMoves = document.getElementById("finalMoves");
+  const finalTime = document.getElementById("finalTime");
+  const finalAccuracy = document.getElementById("finalAccuracy");
+  const winMessage = document.getElementById("winMessage");
+
+  let deck = [];
+  let firstCard = null;
+  let secondCard = null;
+  let lockBoard = false;
+  let moves = 0;
+  let matches = 0;
+  let score = 0;
+  let elapsedSeconds = 0;
+  let timerId = null;
+  let gameStarted = false;
+  let gameFinished = false;
+  let lastFocusedCard = null;
+
+  function shuffle(items) {
+    const result = [...items];
+    for (let i = result.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
+
+  function formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+    const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  }
+
+  function getAccuracy() {
+    if (moves === 0) return 100;
+    return Math.round((matches / moves) * 100);
+  }
+
+  function updateStats() {
+    const totalPairs = DIFFICULTIES[difficulty.value].pairs;
+    timeEl.textContent = formatTime(elapsedSeconds);
+    movesEl.textContent = String(moves);
+    matchesEl.textContent = `${matches} / ${totalPairs}`;
+    accuracyEl.textContent = `${getAccuracy()}%`;
+    scoreEl.textContent = String(Math.max(0, score));
+  }
+
+  function startTimer() {
+    if (timerId !== null) return;
+    timerId = window.setInterval(() => {
+      elapsedSeconds += 1;
+      updateStats();
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerId !== null) {
+      window.clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  function buildDeck() {
+    const pairCount = DIFFICULTIES[difficulty.value].pairs;
+    const selected = shuffle(CARD_POOL).slice(0, pairCount);
+    deck = shuffle(
+      selected.flatMap(card => [
+        { ...card, uniqueKey: `${card.id}-a-${Math.random()}` },
+        { ...card, uniqueKey: `${card.id}-b-${Math.random()}` }
+      ])
+    );
+  }
+
+  function createCard(card, index) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "memory-card";
+    button.dataset.cardId = card.id;
+    button.dataset.index = String(index);
+    button.setAttribute("aria-label", `Face-down memory card ${index + 1}`);
+    button.setAttribute("aria-pressed", "false");
+
+    const back = document.createElement("span");
+    back.className = "card-face card-back";
+    back.setAttribute("aria-hidden", "true");
+
+    const front = document.createElement("span");
+    front.className = "card-face card-front";
+    front.setAttribute("aria-hidden", "true");
+    front.innerHTML = `
+      <span class="card-emoji">${card.emoji}</span>
+      <span class="card-word">${card.word}</span>
+    `;
+
+    button.append(back, front);
+    button.addEventListener("click", () => handleCardClick(button, card));
+    return button;
+  }
+
+  function renderBoard() {
+    board.replaceChildren();
+    deck.forEach((card, index) => board.appendChild(createCard(card, index)));
+  }
+
+  function setCardFlipped(cardEl, flipped) {
+    cardEl.classList.toggle("is-flipped", flipped);
+    cardEl.setAttribute("aria-pressed", String(flipped));
+    if (flipped) {
+      const card = deck[Number(cardEl.dataset.index)];
+      cardEl.setAttribute("aria-label", `${card.word} card`);
+    } else {
+      cardEl.setAttribute("aria-label", `Face-down memory card ${Number(cardEl.dataset.index) + 1}`);
+    }
+  }
+
+  function handleCardClick(cardEl, card) {
+    if (lockBoard || gameFinished) return;
+    if (cardEl === firstCard) return;
+    if (cardEl.classList.contains("is-matched")) return;
+
+    if (!gameStarted) {
+      gameStarted = true;
+      startTimer();
+      statusEl.textContent = "Remember the cards and find their pairs.";
+    }
+
+    setCardFlipped(cardEl, true);
+
+    if (!firstCard) {
+      firstCard = cardEl;
+      lastFocusedCard = cardEl;
+      return;
+    }
+
+    secondCard = cardEl;
+    lastFocusedCard = cardEl;
+    moves += 1;
+    lockBoard = true;
+    updateStats();
+
+    const firstId = firstCard.dataset.cardId;
+    if (firstId === card.id) {
+      handleMatch(card);
+    } else {
+      handleMismatch();
+    }
+  }
+
+  function handleMatch(card) {
+    const currentFirst = firstCard;
+    const currentSecond = secondCard;
+
+    currentFirst.classList.add("is-matched");
+    currentSecond.classList.add("is-matched");
+    currentFirst.disabled = true;
+    currentSecond.disabled = true;
+    matches += 1;
+
+    const basePoints = 100;
+    const efficiencyBonus = Math.max(0, 50 - (moves - matches) * 5);
+    const timeBonus = Math.max(0, 40 - Math.floor(elapsedSeconds / 10));
+    score += basePoints + efficiencyBonus + timeBonus;
+
+    statusEl.textContent = `Match found: ${card.word}. ${card.fact}`;
+    updateStats();
+
+    window.setTimeout(() => {
+      resetTurn();
+      if (matches === DIFFICULTIES[difficulty.value].pairs) {
+        finishGame();
+      }
+    }, 420);
+  }
+
+  function handleMismatch() {
+    statusEl.textContent = "Not a match. Try to remember both positions.";
+    updateStats();
+
+    const currentFirst = firstCard;
+    const currentSecond = secondCard;
+
+    window.setTimeout(() => {
+      setCardFlipped(currentFirst, false);
+      setCardFlipped(currentSecond, false);
+      resetTurn();
+      statusEl.textContent = "Keep going — remember the cards you just saw.";
+    }, 780);
+  }
+
+  function resetTurn() {
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+  }
+
+  function finishGame() {
+    gameFinished = true;
+    stopTimer();
+
+    const accuracy = getAccuracy();
+    const timePenalty = Math.min(300, elapsedSeconds * 2);
+    score = Math.max(0, score + 250 - timePenalty);
+
+    updateStats();
+    finalScore.textContent = String(score);
+    finalMoves.textContent = String(moves);
+    finalTime.textContent = formatTime(elapsedSeconds);
+    finalAccuracy.textContent = `${accuracy}%`;
+
+    if (accuracy >= 80) {
+      winMessage.textContent = "Excellent recall! You found every pair with strong accuracy.";
+    } else if (accuracy >= 50) {
+      winMessage.textContent = "Nice work! Keep playing to sharpen your recall.";
+    } else {
+      winMessage.textContent = "You completed the board. Try again and see if you can use fewer moves.";
+    }
+
+    winModal.hidden = false;
+    statusEl.textContent = "Board complete! Great job.";
+  }
+
+  function closeModal() {
+    winModal.hidden = true;
+    if (lastFocusedCard && document.contains(lastFocusedCard)) {
+      lastFocusedCard.focus();
+    } else {
+      newGameBtn.focus();
+    }
+  }
+
+  function startNewGame() {
+    stopTimer();
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+    moves = 0;
+    matches = 0;
+    score = 0;
+    elapsedSeconds = 0;
+    gameStarted = false;
+    gameFinished = false;
+    lastFocusedCard = null;
+    buildDeck();
+    renderBoard();
+    updateStats();
+    statusEl.textContent = "Find two matching cards.";
+    winModal.hidden = true;
+  }
+
+  difficulty.addEventListener("change", startNewGame);
+  newGameBtn.addEventListener("click", startNewGame);
+  restartBtn.addEventListener("click", startNewGame);
+  playAgainBtn.addEventListener("click", startNewGame);
+  closeModalBtn.addEventListener("click", closeModal);
+
+  winModal.addEventListener("click", (event) => {
+    if (event.target.matches("[data-close-modal]")) closeModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !winModal.hidden) {
+      closeModal();
+    }
+  });
+
+  startNewGame();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Typing Game online for free. Type falling words accurately, build combos, improve your speed, and beat your best score directly in your browser.">
+  <meta name="theme-color" content="#5B5CE2">
+  <title>Typing Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --primary: #5B5CE2;
+  --primary-dark: #4546B8;
+  --secondary: #16B8C4;
+  --action: #FFB84D;
+  --success: #22C55E;
+  --danger: #EF5B5B;
+  --bg: #F6F7FB;
+  --card: #FFFFFF;
+  --text: #171B2D;
+  --muted: #667085;
+  --border: #E5E7EF;
+  --game: #111827;
+  --game-secondary: #1F2937;
+  --white: #FFFFFF;
+  --radius: 18px;
+  --shadow: 0 14px 40px rgba(23, 27, 45, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+.game-stage:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(91, 92, 226, 0.35);
+  outline-offset: 3px;
+}
+
+.site-header {
+  height: 72px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  width: min(1120px, calc(100% - 40px));
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
+}
+
+.header-tag {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 80px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.breadcrumb a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+
+.intro-text {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.best-card {
+  flex: 0 0 150px;
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.best-card span,
+.stat span,
+.result-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.best-card strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--primary);
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.game-card {
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.game-toolbar {
+  min-height: 78px;
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  background: #FCFCFE;
+}
+
+.stat {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+}
+
+.stat:last-child {
+  border-right: 0;
+}
+
+.stat strong {
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.stat-wide strong {
+  color: var(--secondary);
+}
+
+.game-stage-wrap {
+  padding: 18px;
+  background: var(--game-secondary);
+}
+
+.game-stage {
+  position: relative;
+  height: min(68vh, 620px);
+  min-height: 430px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    var(--game);
+  background-size: 40px 40px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.22);
+}
+
+.stage-topline {
+  position: absolute;
+  z-index: 6;
+  top: 16px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+#statusLabel {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.word-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.falling-word {
+  position: absolute;
+  z-index: 3;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(31, 41, 55, 0.96);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(15px, 2vw, 19px);
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+
+.falling-word.target {
+  border-color: rgba(255, 184, 77, 0.7);
+  background: rgba(91, 92, 226, 0.98);
+  color: white;
+  box-shadow: 0 7px 22px rgba(91, 92, 226, 0.28);
+}
+
+.falling-word.matched {
+  animation: matched 0.22s ease forwards;
+}
+
+@keyframes matched {
+  to {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+.danger-line {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 54px;
+  height: 2px;
+  background: rgba(239, 91, 91, 0.7);
+  box-shadow: 0 0 16px rgba(239, 91, 91, 0.18);
+}
+
+.danger-line::after {
+  content: "DANGER";
+  position: absolute;
+  right: 14px;
+  bottom: 6px;
+  color: rgba(239, 91, 91, 0.68);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.game-overlay {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 24, 39, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.overlay-panel {
+  width: min(420px, 100%);
+  padding: 30px;
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.overlay-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: rgba(91, 92, 226, 0.1);
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.danger-icon {
+  background: rgba(239, 91, 91, 0.1);
+  color: var(--danger);
+}
+
+.overlay-panel h2 {
+  margin-bottom: 8px;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.overlay-panel p {
+  margin-bottom: 20px;
+  color: var(--muted);
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 800;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.primary-button {
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.primary-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #F7F7FA;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.result-grid > div {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.result-grid strong {
+  display: block;
+  font-size: 20px;
+}
+
+.typing-panel {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.typing-panel label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+#typingInput {
+  width: 100%;
+  min-width: 0;
+  height: 52px;
+  padding: 0 15px;
+  border: 2px solid var(--border);
+  border-radius: 11px;
+  background: white;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#typingInput:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(91, 92, 226, 0.1);
+  outline: none;
+}
+
+#typingInput:disabled {
+  background: #F6F7FB;
+}
+
+.input-help {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: #F6F7FB;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.content-section {
+  margin-top: 68px;
+}
+
+.content-section h2 {
+  margin-bottom: 12px;
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.content-section > p {
+  max-width: 850px;
+  color: var(--muted);
+}
+
+.instruction-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.instruction-grid article {
+  padding: 22px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.instruction-grid h3 {
+  margin-bottom: 7px;
+  font-size: 20px;
+}
+
+.instruction-grid p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.tips-section ul {
+  max-width: 800px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+}
+
+.tips-section li + li {
+  margin-top: 8px;
+}
+
+.related-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.related-placeholder {
+  min-width: 260px;
+  padding: 22px;
+  border: 1px dashed #C7CAD8;
+  border-radius: 14px;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 700;
+}
+
+.faq-section details {
+  max-width: 900px;
+  padding: 17px 0;
+  border-top: 1px solid var(--border);
+}
+
+.faq-section details:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-section summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.faq-section details p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.site-footer {
+  padding: 26px 20px;
+  background: white;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 16px;
+  }
+
+  .header-inner,
+  .page-shell {
+    width: min(100% - 28px, 1120px);
+  }
+
+  .header-tag {
+    display: none;
+  }
+
+  .page-shell {
+    padding-top: 20px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 22px;
+  }
+
+  .intro {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .best-card {
+    align-self: flex-start;
+    flex-basis: auto;
+    min-width: 145px;
+  }
+
+  .game-toolbar {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 10px 8px;
+  }
+
+  .stat {
+    border-right: 0;
+  }
+
+  .stat-wide {
+    grid-column: span 4;
+    flex-direction: row;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+  }
+
+  .stat strong {
+    font-size: 20px;
+  }
+
+  .game-stage-wrap {
+    padding: 10px;
+  }
+
+  .game-stage {
+    height: 68vh;
+    min-height: 390px;
+  }
+
+  .falling-word {
+    padding: 7px 9px;
+    font-size: 15px;
+  }
+
+  .typing-panel {
+    padding: 15px;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+
+  .secondary-button {
+    width: 100%;
+  }
+
+  .instruction-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .related-section {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .related-placeholder {
+    min-width: 0;
+  }
+
+  .content-section {
+    margin-top: 52px;
+  }
+
+  .content-section h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 430px) {
+  .game-stage {
+    min-height: 360px;
+  }
+
+  .stage-topline {
+    left: 12px;
+    right: 12px;
+  }
+
+  .overlay-panel {
+    padding: 24px 18px;
+  }
+
+  .result-grid {
+    gap: 5px;
+  }
+
+  .result-grid > div {
+    padding: 8px 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Play in your browser</span>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="./">Games Hub</a>
+      <span aria-hidden="true">/</span>
+      <span>Typing Game</span>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow">WORD TYPING GAME</p>
+        <h1>Typing Game</h1>
+        <p class="intro-text">
+          Type the falling words before they reach the bottom. Build a combo with accurate typing,
+          protect your lives, and see how fast you can score.
+        </p>
+      </div>
+      <div class="best-card" aria-label="Best score">
+        <span>Best Score</span>
+        <strong id="bestScore">0</strong>
+      </div>
+    </section>
+
+    <section class="game-card" aria-label="Typing game">
+      <div class="game-toolbar">
+        <div class="stat">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="stat">
+          <span>Words</span>
+          <strong id="words">0</strong>
+        </div>
+        <div class="stat">
+          <span>Combo</span>
+          <strong id="combo">0</strong>
+        </div>
+        <div class="stat">
+          <span>Lives</span>
+          <strong id="lives" aria-label="3 lives">3</strong>
+        </div>
+        <div class="stat stat-wide">
+          <span>WPM</span>
+          <strong id="wpm">0</strong>
+        </div>
+      </div>
+
+      <div class="game-stage-wrap">
+        <div id="gameStage" class="game-stage" tabindex="0" aria-label="Typing game play area">
+          <div class="stage-topline">
+            <span id="levelLabel">Level 1</span>
+            <span id="statusLabel">Ready</span>
+          </div>
+          <div id="wordLayer" class="word-layer" aria-hidden="true"></div>
+          <div class="danger-line" aria-hidden="true"></div>
+
+          <div id="startOverlay" class="game-overlay">
+            <div class="overlay-panel">
+              <div class="overlay-icon" aria-hidden="true">⌨</div>
+              <h2>Ready to type?</h2>
+              <p>Start the game, then type the highlighted words as they fall.</p>
+              <button id="startButton" class="primary-button" type="button">Start Game</button>
+            </div>
+          </div>
+
+          <div id="pauseOverlay" class="game-overlay hidden">
+            <div class="overlay-panel">
+              <div class="overlay-icon" aria-hidden="true">Ⅱ</div>
+              <h2>Game Paused</h2>
+              <p>Take a breath. Your words are waiting.</p>
+              <button id="resumeButton" class="primary-button" type="button">Resume</button>
+            </div>
+          </div>
+
+          <div id="gameOverOverlay" class="game-overlay hidden">
+            <div class="overlay-panel">
+              <div class="overlay-icon danger-icon" aria-hidden="true">!</div>
+              <h2>Game Over</h2>
+              <p id="gameOverMessage">Your run has ended.</p>
+              <div class="result-grid">
+                <div><span>Score</span><strong id="finalScore">0</strong></div>
+                <div><span>Words</span><strong id="finalWords">0</strong></div>
+                <div><span>WPM</span><strong id="finalWpm">0</strong></div>
+              </div>
+              <button id="restartButton" class="primary-button" type="button">Play Again</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-panel">
+        <label for="typingInput">Type the words here</label>
+        <div class="input-row">
+          <input
+            id="typingInput"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            maxlength="24"
+            placeholder="Start the game to type..."
+            aria-describedby="inputHelp"
+            disabled
+          >
+          <button id="clearButton" class="secondary-button" type="button" disabled>Clear</button>
+        </div>
+        <p id="inputHelp" class="input-help">
+          Press <kbd>Space</kbd> after a word, or let the game recognize an exact match automatically.
+          Press <kbd>P</kbd> to pause.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Typing Game</h2>
+      <p>
+        Words fall from the top of the play area. Type a word exactly as it appears and submit it
+        with Space or Enter. Correct words disappear and increase your score. Missing a word costs
+        one life.
+      </p>
+      <div class="instruction-grid">
+        <article>
+          <h3>Type accurately</h3>
+          <p>Keep an eye on the highlighted letters and finish each word before it reaches the danger line.</p>
+        </article>
+        <article>
+          <h3>Build your combo</h3>
+          <p>Consecutive correct words increase your combo multiplier and help you earn more points.</p>
+        </article>
+        <article>
+          <h3>Get faster</h3>
+          <p>The game speeds up as your score grows, giving you a progressively harder typing challenge.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>About the Typing Game</h2>
+      <p>
+        This browser typing game combines word recognition, keyboard accuracy, and reaction speed.
+        Everything runs locally in your browser, so you can play without an account, database,
+        or server-side game processing.
+      </p>
+    </section>
+
+    <section class="content-section tips-section">
+      <h2>Typing Game Tips</h2>
+      <ul>
+        <li>Look slightly ahead and choose the next word before you finish the current one.</li>
+        <li>Prioritize accuracy because a missed word costs a life and breaks your combo.</li>
+        <li>Use the keyboard instead of looking down at your hands when possible.</li>
+        <li>As the level rises, stay calm and focus on one complete word at a time.</li>
+      </ul>
+    </section>
+
+    <section class="content-section related-section">
+      <div>
+        <h2>Related Games</h2>
+        <p>More word and puzzle games can be linked here as your Games Hub grows.</p>
+      </div>
+      <div class="related-placeholder" aria-label="Related games placeholder">
+        <span>More games coming soon</span>
+      </div>
+    </section>
+
+    <section class="content-section faq-section">
+      <h2>Typing Game FAQ</h2>
+      <details>
+        <summary>Can I play the Typing Game for free?</summary>
+        <p>Yes. The game is designed for free browser play with no account or download required.</p>
+      </details>
+      <details>
+        <summary>Does the Typing Game work on mobile?</summary>
+        <p>Yes. The game includes a responsive layout and a mobile-friendly text input. A physical keyboard is recommended for the fastest typing experience.</p>
+      </details>
+      <details>
+        <summary>How is the score calculated?</summary>
+        <p>Correct words earn points based on word length, current level, and combo. Consecutive correct answers increase the combo bonus.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Typing Game · Part of the Games Hub</p>
+  </footer>
+
+  <script>(() => {
+  "use strict";
+
+  const WORDS = [
+    "apple", "arrow", "beach", "black", "brain", "bright", "candle", "chair",
+    "cloud", "coffee", "dance", "dream", "earth", "energy", "field", "flame",
+    "flower", "forest", "friend", "garden", "glass", "green", "happy", "house",
+    "jungle", "keyboard", "kitten", "light", "magic", "market", "mouse", "music",
+    "ocean", "orange", "paper", "pencil", "planet", "purple", "rabbit", "river",
+    "rocket", "school", "shadow", "silver", "smile", "snow", "space", "spring",
+    "star", "stone", "summer", "sunny", "table", "tiger", "travel", "tree",
+    "water", "window", "winter", "world", "yellow", "zebra", "adventure",
+    "balance", "breathe", "capture", "curious", "discover", "evening", "freedom",
+    "imagine", "journey", "lantern", "morning", "picture", "rainbow", "sunlight",
+    "thunder", "village", "whisper", "wonder", "backpack", "calendar", "computer",
+    "favorite", "football", "mountain", "notebook", "practice", "question",
+    "remember", "sunrise", "treasure", "creative", "keyboard", "language"
+  ];
+
+  const els = {
+    stage: document.getElementById("gameStage"),
+    wordLayer: document.getElementById("wordLayer"),
+    input: document.getElementById("typingInput"),
+    clear: document.getElementById("clearButton"),
+    start: document.getElementById("startButton"),
+    resume: document.getElementById("resumeButton"),
+    restart: document.getElementById("restartButton"),
+    startOverlay: document.getElementById("startOverlay"),
+    pauseOverlay: document.getElementById("pauseOverlay"),
+    gameOverOverlay: document.getElementById("gameOverOverlay"),
+    score: document.getElementById("score"),
+    words: document.getElementById("words"),
+    combo: document.getElementById("combo"),
+    lives: document.getElementById("lives"),
+    wpm: document.getElementById("wpm"),
+    bestScore: document.getElementById("bestScore"),
+    level: document.getElementById("levelLabel"),
+    status: document.getElementById("statusLabel"),
+    finalScore: document.getElementById("finalScore"),
+    finalWords: document.getElementById("finalWords"),
+    finalWpm: document.getElementById("finalWpm"),
+    gameOverMessage: document.getElementById("gameOverMessage")
+  };
+
+  const state = {
+    running: false,
+    paused: false,
+    score: 0,
+    completed: 0,
+    combo: 0,
+    lives: 3,
+    level: 1,
+    words: [],
+    lastTime: 0,
+    spawnTimer: 0,
+    spawnInterval: 1850,
+    speed: 34,
+    startTime: 0,
+    lastInputLength: 0,
+    bestScore: Number.parseInt(localStorage.getItem("typingGameBestScore") || "0", 10) || 0,
+    animationId: 0
+  };
+
+  const MAX_WORDS = 7;
+
+  els.bestScore.textContent = state.bestScore;
+
+  function randomWord() {
+    const pool = WORDS.filter(word => !state.words.some(item => item.text === word));
+    const source = pool.length ? pool : WORDS;
+    return source[Math.floor(Math.random() * source.length)];
+  }
+
+  function updateStats() {
+    els.score.textContent = state.score;
+    els.words.textContent = state.completed;
+    els.combo.textContent = state.combo;
+    els.lives.textContent = state.lives;
+    els.lives.setAttribute("aria-label", `${state.lives} ${state.lives === 1 ? "life" : "lives"}`);
+    els.level.textContent = `Level ${state.level}`;
+
+    const elapsedMinutes = state.startTime
+      ? Math.max((performance.now() - state.startTime) / 60000, 1 / 60)
+      : 0;
+    const typedWords = state.completed;
+    const currentWpm = elapsedMinutes ? Math.round(typedWords / elapsedMinutes) : 0;
+    els.wpm.textContent = currentWpm;
+  }
+
+  function createWord() {
+    if (!state.running || state.paused || state.words.length >= MAX_WORDS) {
+      return;
+    }
+
+    const text = randomWord();
+    const node = document.createElement("div");
+    node.className = "falling-word";
+    node.textContent = text;
+
+    const stageWidth = els.stage.clientWidth;
+    const safeWidth = Math.max(80, stageWidth - 150);
+    const left = 20 + Math.random() * safeWidth;
+
+    node.style.left = `${Math.min(left, stageWidth - 100)}px`;
+    node.style.top = "-36px";
+    els.wordLayer.appendChild(node);
+
+    state.words.push({
+      id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
+      text,
+      y: -36,
+      node,
+      matched: false
+    });
+
+    refreshTarget();
+  }
+
+  function removeWord(item) {
+    const index = state.words.indexOf(item);
+    if (index !== -1) {
+      state.words.splice(index, 1);
+    }
+    item.node.remove();
+    refreshTarget();
+  }
+
+  function refreshTarget() {
+    state.words.forEach(item => item.node.classList.remove("target"));
+    const inputValue = els.input.value.trim().toLowerCase();
+
+    if (!inputValue) {
+      const nearest = state.words
+        .slice()
+        .sort((a, b) => b.y - a.y)[0];
+      if (nearest) nearest.node.classList.add("target");
+      return;
+    }
+
+    const exactPrefix = state.words
+      .filter(item => item.text.startsWith(inputValue))
+      .sort((a, b) => b.y - a.y);
+
+    if (exactPrefix.length) {
+      exactPrefix[0].node.classList.add("target");
+    }
+  }
+
+  function submitInput() {
+    if (!state.running || state.paused) return;
+
+    const typed = els.input.value.trim().toLowerCase();
+    if (!typed) return;
+
+    const exact = state.words
+      .filter(item => item.text === typed)
+      .sort((a, b) => b.y - a.y)[0];
+
+    if (exact) {
+      scoreWord(exact);
+      els.input.value = "";
+      state.lastInputLength = 0;
+      refreshTarget();
+      return;
+    }
+
+    state.combo = 0;
+    updateStats();
+  }
+
+  function scoreWord(item) {
+    if (!state.running || item.matched) return;
+
+    item.matched = true;
+    item.node.classList.add("matched");
+
+    const base = item.text.length * 10;
+    const comboBonus = Math.min(state.combo, 10) * 5;
+    const levelBonus = state.level * 3;
+    state.score += base + comboBonus + levelBonus;
+    state.completed += 1;
+    state.combo += 1;
+
+    const newLevel = Math.floor(state.completed / 8) + 1;
+    if (newLevel > state.level) {
+      state.level = newLevel;
+      state.speed = 34 + (state.level - 1) * 6;
+      state.spawnInterval = Math.max(760, 1850 - (state.level - 1) * 130);
+      showStatus(`Level ${state.level}`);
+    }
+
+    if (state.score > state.bestScore) {
+      state.bestScore = state.score;
+      localStorage.setItem("typingGameBestScore", String(state.bestScore));
+      els.bestScore.textContent = state.bestScore;
+    }
+
+    setTimeout(() => removeWord(item), 150);
+    updateStats();
+  }
+
+  function missWord(item) {
+    removeWord(item);
+    state.lives -= 1;
+    state.combo = 0;
+
+    if (state.lives <= 0) {
+      endGame();
+    } else {
+      showStatus(`${state.lives} ${state.lives === 1 ? "life" : "lives"} left`);
+      updateStats();
+    }
+  }
+
+  function showStatus(message) {
+    els.status.textContent = message;
+    clearTimeout(showStatus.timeout);
+    showStatus.timeout = setTimeout(() => {
+      if (state.running && !state.paused) {
+        els.status.textContent = "Typing...";
+      }
+    }, 900);
+  }
+
+  function clearBoard() {
+    state.words.forEach(item => item.node.remove());
+    state.words = [];
+  }
+
+  function resetState() {
+    cancelAnimationFrame(state.animationId);
+    clearBoard();
+
+    state.running = false;
+    state.paused = false;
+    state.score = 0;
+    state.completed = 0;
+    state.combo = 0;
+    state.lives = 3;
+    state.level = 1;
+    state.lastTime = 0;
+    state.spawnTimer = 0;
+    state.spawnInterval = 1850;
+    state.speed = 34;
+    state.startTime = 0;
+    state.lastInputLength = 0;
+
+    els.input.value = "";
+    els.input.disabled = true;
+    els.clear.disabled = true;
+    els.status.textContent = "Ready";
+    els.level.textContent = "Level 1";
+    updateStats();
+  }
+
+  function startGame() {
+    resetState();
+
+    state.running = true;
+    state.startTime = performance.now();
+    els.startOverlay.classList.add("hidden");
+    els.pauseOverlay.classList.add("hidden");
+    els.gameOverOverlay.classList.add("hidden");
+    els.input.disabled = false;
+    els.clear.disabled = false;
+    els.input.placeholder = "Type a falling word...";
+    els.status.textContent = "Typing...";
+    els.input.focus();
+
+    createWord();
+    state.spawnTimer = 0;
+    state.lastTime = performance.now();
+    state.animationId = requestAnimationFrame(gameLoop);
+  }
+
+  function pauseGame() {
+    if (!state.running || state.paused) return;
+    state.paused = true;
+    els.pauseOverlay.classList.remove("hidden");
+    els.status.textContent = "Paused";
+    els.input.blur();
+    cancelAnimationFrame(state.animationId);
+  }
+
+  function resumeGame() {
+    if (!state.running || !state.paused) return;
+    state.paused = false;
+    els.pauseOverlay.classList.add("hidden");
+    els.status.textContent = "Typing...";
+    state.lastTime = performance.now();
+    els.input.focus();
+    state.animationId = requestAnimationFrame(gameLoop);
+  }
+
+  function endGame() {
+    if (!state.running) return;
+
+    state.running = false;
+    state.paused = false;
+    cancelAnimationFrame(state.animationId);
+
+    els.input.disabled = true;
+    els.clear.disabled = true;
+    els.status.textContent = "Game Over";
+
+    const elapsedMinutes = state.startTime
+      ? Math.max((performance.now() - state.startTime) / 60000, 1 / 60)
+      : 0;
+    const finalWpm = elapsedMinutes ? Math.round(state.completed / elapsedMinutes) : 0;
+
+    els.finalScore.textContent = state.score;
+    els.finalWords.textContent = state.completed;
+    els.finalWpm.textContent = finalWpm;
+    els.gameOverMessage.textContent = state.score >= state.bestScore && state.score > 0
+      ? "Great run! You set or matched your best score."
+      : "Your run has ended. Try again and beat your best score.";
+
+    els.gameOverOverlay.classList.remove("hidden");
+  }
+
+  function gameLoop(now) {
+    if (!state.running || state.paused) return;
+
+    const delta = Math.min((now - state.lastTime) / 1000, 0.08);
+    state.lastTime = now;
+
+    state.spawnTimer += delta * 1000;
+    if (state.spawnTimer >= state.spawnInterval) {
+      state.spawnTimer = 0;
+      createWord();
+    }
+
+    const dangerY = els.stage.clientHeight - 78;
+
+    for (const item of [...state.words]) {
+      if (item.matched) continue;
+
+      item.y += state.speed * delta;
+      item.node.style.top = `${item.y}px`;
+
+      if (item.y + item.node.offsetHeight >= dangerY) {
+        missWord(item);
+        if (!state.running) break;
+      }
+    }
+
+    updateStats();
+    state.animationId = requestAnimationFrame(gameLoop);
+  }
+
+  function handleKeydown(event) {
+    if (event.key === "Escape") {
+      els.input.value = "";
+      refreshTarget();
+      return;
+    }
+
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      submitInput();
+      return;
+    }
+
+    if (event.key.toLowerCase() === "p" && document.activeElement !== els.input) {
+      if (state.running && !state.paused) pauseGame();
+      else if (state.running && state.paused) resumeGame();
+    }
+  }
+
+  els.input.addEventListener("input", () => {
+    if (!state.running || state.paused) return;
+
+    const current = els.input.value.toLowerCase();
+    if (current.length > state.lastInputLength) {
+      const matching = state.words
+        .filter(item => item.text === current)
+        .sort((a, b) => b.y - a.y)[0];
+
+      if (matching) {
+        scoreWord(matching);
+        els.input.value = "";
+        state.lastInputLength = 0;
+      }
+    }
+
+    state.lastInputLength = els.input.value.length;
+    refreshTarget();
+  });
+
+  els.input.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      submitInput();
+    }
+  });
+
+  document.addEventListener("keydown", handleKeydown);
+
+  els.start.addEventListener("click", startGame);
+  els.restart.addEventListener("click", startGame);
+  els.resume.addEventListener("click", resumeGame);
+
+  els.clear.addEventListener("click", () => {
+    els.input.value = "";
+    state.lastInputLength = 0;
+    refreshTarget();
+    if (state.running && !state.paused) els.input.focus();
+  });
+
+  els.stage.addEventListener("click", () => {
+    if (state.running && !state.paused) els.input.focus();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && state.running && !state.paused) {
+      pauseGame();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    state.words.forEach(item => {
+      const maxLeft = Math.max(10, els.stage.clientWidth - item.node.offsetWidth - 10);
+      const currentLeft = Number.parseFloat(item.node.style.left) || 10;
+      item.node.style.left = `${Math.min(currentLeft, maxLeft)}px`;
+    });
+  });
+
+  resetState();
+})();
+</script>
+</body>
+</html>

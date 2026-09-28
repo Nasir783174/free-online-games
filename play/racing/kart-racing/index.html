@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>Kart Racing Game - Play Free Online</title>
+  <meta name="description" content="Play Kart Racing free online in your browser. Race around the track, avoid barriers, collect coins, and beat your best lap time with no download.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root{
+  --brand:#5B5CE2;--brand-dark:#4546B8;--cyan:#16B8C4;--orange:#FFB84D;
+  --green:#22C55E;--danger:#EF5B5B;--bg:#F6F7FB;--card:#fff;
+  --text:#171B2D;--muted:#667085;--border:#E5E7EF;--game:#111827;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito Sans",system-ui,sans-serif;font-size:17px;line-height:1.65}
+button,a{font:inherit}
+a{color:inherit}
+.site-header{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.header-inner{width:min(1160px,calc(100% - 32px));margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{text-decoration:none;font-weight:800;font-size:20px;display:flex;align-items:center;gap:10px}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--brand);color:#fff}
+.header-badge{font-size:14px;font-weight:700;color:var(--muted);background:#F0F1F8;border-radius:999px;padding:5px 11px}
+.page{width:min(1160px,calc(100% - 32px));margin:auto}
+.breadcrumb{display:flex;gap:9px;align-items:center;margin:28px 0 18px;font-size:14px;color:var(--muted)}
+.breadcrumb a{color:var(--brand);font-weight:700;text-decoration:none}
+.intro{margin-bottom:28px}
+.eyebrow{font-size:13px;letter-spacing:.11em;font-weight:800;color:var(--brand);margin:0 0 6px}
+h1{font-size:clamp(36px,5vw,60px);line-height:1.08;margin:0 0 12px;font-weight:800;letter-spacing:-.03em}
+h2{font-size:32px;line-height:1.15;margin:0 0 15px;font-weight:800}
+h3{font-size:21px;line-height:1.2;margin:0 0 8px}
+.lead{max-width:760px;color:var(--muted);margin:0;font-size:18px}
+.game-card{background:var(--game);border-radius:20px;overflow:hidden;box-shadow:0 14px 35px rgba(17,24,39,.12)}
+.game-topbar{display:grid;grid-template-columns:repeat(5,1fr);background:#1F2937;border-bottom:1px solid #374151}
+.stat{padding:14px 16px;border-right:1px solid #374151}
+.stat:last-child{border-right:0}
+.stat span{display:block;color:#AEB6C5;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.stat strong{display:block;color:#fff;font-size:22px;line-height:1.25}
+.canvas-wrap{position:relative;background:#111827}
+canvas{display:block;width:100%;height:auto;max-height:70vh;touch-action:none}
+.countdown{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:76px;font-weight:800;text-shadow:0 4px 18px rgba(0,0,0,.45);pointer-events:none}
+.game-message{position:absolute;inset:0;background:rgba(17,24,39,.72);display:grid;place-items:center;padding:20px}
+.game-message.hidden{display:none}
+.message-box{width:min(420px,100%);background:#fff;border-radius:18px;padding:28px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.message-box h2{margin-bottom:8px}
+.message-box p:not(.eyebrow){color:var(--muted);margin:0 0 20px}
+.primary-btn,.secondary-btn,.touch-btn{border:0;cursor:pointer;font-weight:800;transition:transform .12s ease,background .12s ease}
+.primary-btn{height:48px;padding:0 22px;background:var(--brand);color:#fff;border-radius:12px}
+.primary-btn:hover{background:var(--brand-dark)}
+.secondary-btn{height:46px;padding:0 18px;background:#fff;color:var(--text);border-radius:11px}
+.secondary-btn:hover{background:#F0F1F8}
+.primary-btn:active,.secondary-btn:active,.touch-btn:active{transform:scale(.97)}
+button:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.controls-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:15px 18px;background:#1F2937}
+.control-copy{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;color:#B9C1CF;font-size:14px}
+.control-copy strong{color:#fff}
+.touch-controls{display:none;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px;background:#111827}
+.touch-btn{height:52px;border-radius:12px;background:#374151;color:#fff;font-size:23px;touch-action:none;user-select:none}
+.touch-boost{background:#4546B8}
+.content-section{padding:68px 0 0;max-width:900px}
+.content-section>p{color:var(--muted);margin:0}
+.tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.tips-grid article{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px}
+.tips-grid p{color:var(--muted);margin:0;font-size:16px}
+.tips-list{color:var(--muted);padding-left:22px;margin:0}
+.faq details{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px 18px;margin:10px 0}
+.faq summary{cursor:pointer;font-weight:800}
+.faq details p{color:var(--muted);margin:10px 0 0}
+.related{padding:68px 0}
+.related-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;color:var(--muted)}
+.site-footer{border-top:1px solid var(--border);padding:28px 16px;text-align:center;color:var(--muted);font-size:14px;margin-top:20px}
+@media(max-width:760px){
+  body{font-size:16px}
+  .page{width:min(100% - 20px,1160px)}
+  .header-inner{width:min(100% - 20px,1160px)}
+  .header-badge{display:none}
+  .game-topbar{grid-template-columns:repeat(3,1fr)}
+  .stat:nth-child(3){border-right:0}
+  .stat{padding:11px 12px}
+  .stat strong{font-size:18px}
+  .stat span{font-size:10px}
+  .timer-stat{grid-column:span 2}
+  .controls-row{padding:12px}
+  .control-copy{font-size:12px;gap:3px 9px}
+  .control-copy span:nth-last-child(-n+2){display:none}
+  .secondary-btn{height:42px;padding:0 13px;font-size:14px}
+  .touch-controls{display:grid}
+  .tips-grid{grid-template-columns:1fr}
+  .content-section{padding-top:48px}
+  h2{font-size:28px}
+}
+@media(max-width:440px){
+  .breadcrumb{margin-top:18px}
+  .intro{margin-bottom:18px}
+  .lead{font-size:16px}
+  .game-topbar{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(3){border-right:1px solid #374151}
+  .timer-stat{grid-column:auto}
+  .controls-row{align-items:flex-start}
+  .control-copy strong{width:100%}
+  .secondary-btn{margin-top:2px}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="Games Hub home">
+        <span class="brand-mark">G</span><span>Games Hub</span>
+      </a>
+      <span class="header-badge">Browser Game</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Games Hub</a><span>/</span><span>Kart Racing</span>
+    </nav>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow">RACING GAME</p>
+        <h1>Kart Racing Game</h1>
+        <p class="lead">Jump into a fast arcade kart race, steer through the circuit, collect coins, and finish three laps as quickly as you can.</p>
+      </div>
+    </section>
+
+    <section class="game-card" aria-label="Kart Racing game">
+      <div class="game-topbar">
+        <div class="stat"><span>Lap</span><strong id="lap">1 / 3</strong></div>
+        <div class="stat"><span>Position</span><strong id="position">1st</strong></div>
+        <div class="stat"><span>Speed</span><strong id="speed">0 km/h</strong></div>
+        <div class="stat"><span>Coins</span><strong id="coins">0</strong></div>
+        <div class="stat timer-stat"><span>Time</span><strong id="timer">00:00.0</strong></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="1000" height="620" aria-label="Kart Racing track"></canvas>
+        <div class="countdown" id="countdown" aria-live="assertive"></div>
+        <div class="game-message hidden" id="gameMessage">
+          <div class="message-box">
+            <p class="eyebrow" id="messageEyebrow">RACE COMPLETE</p>
+            <h2 id="messageTitle">You finished!</h2>
+            <p id="messageText"></p>
+            <button class="primary-btn" id="restartBtn">Race Again</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="control-copy">
+          <strong>Controls</strong>
+          <span>W / ↑ accelerate</span>
+          <span>S / ↓ brake</span>
+          <span>A D / ← → steer</span>
+          <span>Space drift</span>
+        </div>
+        <button class="secondary-btn" id="newRaceBtn">New Race</button>
+      </div>
+
+      <div class="touch-controls" aria-label="Touch controls">
+        <button class="touch-btn" data-control="left" aria-label="Steer left">←</button>
+        <button class="touch-btn touch-boost" data-control="accelerate" aria-label="Accelerate">▲</button>
+        <button class="touch-btn" data-control="brake" aria-label="Brake">▼</button>
+        <button class="touch-btn" data-control="right" aria-label="Steer right">→</button>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Play Kart Racing</h2>
+      <p>Complete three laps around the track while keeping your kart on the road. Accelerate on straights, brake before tight corners, and use drift to carry speed through bends. Hitting barriers slows you down, while coins add to your final score.</p>
+      <div class="tips-grid">
+        <article><h3>Keyboard</h3><p>Use Arrow keys or WASD to drive. Hold Space while steering to drift.</p></article>
+        <article><h3>Mobile</h3><p>Use the large on-screen buttons. Hold a direction and accelerate together for smoother cornering.</p></article>
+        <article><h3>Scoring</h3><p>Your score rewards fast completion, collected coins, and clean driving with fewer crashes.</p></article>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>About Kart Racing</h2>
+      <p>Kart Racing is a lightweight browser racing game built around simple arcade driving. The goal is to balance speed and control, learn the circuit, and improve your best race time. Every race runs locally in your browser, so there is no account, download, database, or server-side processing.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Tips for a Faster Race</h2>
+      <ul class="tips-list">
+        <li>Brake briefly before a sharp corner instead of entering too fast.</li>
+        <li>Stay close to the inside of bends without touching the barrier.</li>
+        <li>Use drift through medium corners to maintain momentum.</li>
+        <li>Collect coins when the detour is small; don't sacrifice a clean racing line for one coin.</li>
+      </ul>
+    </section>
+
+    <section class="content-section faq">
+      <h2>Kart Racing FAQ</h2>
+      <details><summary>Can I play Kart Racing on mobile?</summary><p>Yes. The game includes touch controls and automatically scales the racing area to fit smaller screens.</p></details>
+      <details><summary>Is Kart Racing free to play?</summary><p>Yes. It is designed as a free browser game and does not require a download or account.</p></details>
+      <details><summary>How do I restart the race?</summary><p>Select New Race or use Race Again after finishing a race.</p></details>
+    </section>
+
+    <section class="related">
+      <h2>More Games</h2>
+      <div class="related-card">More racing and arcade games can be linked here as your Games Hub grows.</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">Games Hub · Free browser games</footer>
+  <script>(() => {
+  "use strict";
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const lapEl = document.getElementById("lap");
+  const positionEl = document.getElementById("position");
+  const speedEl = document.getElementById("speed");
+  const coinsEl = document.getElementById("coins");
+  const timerEl = document.getElementById("timer");
+  const countdownEl = document.getElementById("countdown");
+  const messageEl = document.getElementById("gameMessage");
+  const messageTitle = document.getElementById("messageTitle");
+  const messageText = document.getElementById("messageText");
+  const messageEyebrow = document.getElementById("messageEyebrow");
+  const restartBtn = document.getElementById("restartBtn");
+  const newRaceBtn = document.getElementById("newRaceBtn");
+
+  const W = canvas.width, H = canvas.height;
+  const CX = 500, CY = 310;
+  const RX = 355, RY = 205;
+  const INNER_RX = 210, INNER_RY = 100;
+  const ROAD_WIDTH = 105;
+  const TOTAL_LAPS = 3;
+  const keys = {left:false,right:false,accelerate:false,brake:false,drift:false};
+
+  let player, coins, opponents, particles, race, lastTime = 0, raf = 0;
+
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+  function wrapAngle(a){ while(a > Math.PI) a -= Math.PI*2; while(a < -Math.PI) a += Math.PI*2; return a; }
+  function formatTime(ms){
+    const total = Math.max(0,ms);
+    const m = Math.floor(total/60000);
+    const s = Math.floor(total/1000)%60;
+    const d = Math.floor(total/100)%10;
+    return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")+"."+d;
+  }
+  function trackPoint(t, lane=0){
+    return {x:CX+(RX-lane)*Math.cos(t), y:CY+(RY-lane*.58)*Math.sin(t)};
+  }
+  function progressAt(x,y){
+    let t = Math.atan2((y-CY)/RY,(x-CX)/RX);
+    if(t < 0) t += Math.PI*2;
+    return t/(Math.PI*2);
+  }
+  function roadCheck(x,y){
+    const outer = ((x-CX)/RX)**2 + ((y-CY)/RY)**2;
+    const inner = ((x-CX)/INNER_RX)**2 + ((y-CY)/INNER_RY)**2;
+    return outer <= 1.03 && inner >= 1;
+  }
+  function resetGame(){
+    cancelAnimationFrame(raf);
+    player = {x:CX+RX,y:CY,angle:Math.PI/2,speed:0,lap:1,progress:0,lastProgress:0,coins:0,score:0,offroad:0,crashes:0};
+    coins = [];
+    opponents = [];
+    particles = [];
+    for(let i=0;i<12;i++){
+      const t = .35 + i*(Math.PI*2/12);
+      const p = trackPoint(t, 6);
+      coins.push({x:p.x,y:p.y,got:false,bob:i*.5});
+    }
+    const colors = ["#FFB84D","#16B8C4","#EF5B5B"];
+    for(let i=0;i<3;i++){
+      const t = .14 + i*.11;
+      const p = trackPoint(t, 15);
+      opponents.push({x:p.x,y:p.y,angle:t+Math.PI/2,speed:2.0+i*.12,progress:t/(Math.PI*2),lap:1,color:colors[i]});
+    }
+    race = {state:"countdown",start:0,elapsed:0,count:3,lastLapProgress:0};
+    countdownEl.textContent = "3";
+    messageEl.classList.add("hidden");
+    updateHud();
+    setTimeout(()=>{ countdownEl.textContent="2"; },700);
+    setTimeout(()=>{ countdownEl.textContent="1"; },1400);
+    setTimeout(()=>{ countdownEl.textContent="GO!"; race.state="running"; race.start=performance.now(); },2100);
+    setTimeout(()=>{ countdownEl.textContent=""; },2700);
+    lastTime = performance.now();
+    raf = requestAnimationFrame(loop);
+  }
+
+  function updateHud(){
+    lapEl.textContent = `${Math.min(player.lap,TOTAL_LAPS)} / ${TOTAL_LAPS}`;
+    positionEl.textContent = getPosition();
+    speedEl.textContent = `${Math.round(Math.abs(player.speed)*46)} km/h`;
+    coinsEl.textContent = player.coins;
+    timerEl.textContent = formatTime(race.elapsed);
+  }
+
+  function getPosition(){
+    const playerTotal = (player.lap-1)+player.progress;
+    const ahead = opponents.filter(o => (o.lap-1)+o.progress > playerTotal).length;
+    return `${ahead+1}${ahead===0?"st":ahead===1?"nd":ahead===2?"rd":"th"}`;
+  }
+
+  function update(dt, now){
+    if(race.state !== "running") return;
+    race.elapsed = now-race.start;
+
+    const accel = keys.accelerate ? .00015 : 0;
+    const brake = keys.brake ? .00024 : 0;
+    player.speed += accel*dt;
+    player.speed -= brake*dt;
+    player.speed -= .000055*dt;
+    if(keys.drift) player.speed -= .000018*dt;
+    player.speed = clamp(player.speed,0,0.105);
+
+    const turnPower = (0.00095 + player.speed*.011) * dt;
+    if(keys.left) player.angle -= turnPower*(keys.drift?1.25:1);
+    if(keys.right) player.angle += turnPower*(keys.drift?1.25:1);
+
+    player.x += Math.cos(player.angle-Math.PI/2)*player.speed*dt;
+    player.y += Math.sin(player.angle-Math.PI/2)*player.speed*dt;
+
+    if(!roadCheck(player.x,player.y)){
+      player.offroad += dt;
+      player.speed *= Math.pow(.992,dt/16);
+    } else {
+      player.offroad = Math.max(0,player.offroad-dt);
+    }
+
+    if(player.offroad > 650){
+      const p=trackPoint(player.progress*Math.PI*2,0);
+      player.x += (p.x-player.x)*.025;
+      player.y += (p.y-player.y)*.025;
+    }
+
+    const newProgress = progressAt(player.x,player.y);
+    if(player.lastProgress > .82 && newProgress < .18 && player.speed > .012){
+      player.lap++;
+      if(player.lap > TOTAL_LAPS){
+        finishRace();
+        return;
+      }
+    }
+    player.progress = newProgress;
+    player.lastProgress = newProgress;
+
+    for(const c of coins){
+      c.bob += dt*.004;
+      if(!c.got && Math.hypot(player.x-c.x,player.y-c.y)<25){
+        c.got=true; player.coins++;
+        for(let i=0;i<7;i++) particles.push({x:c.x,y:c.y,life:1,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12});
+      }
+    }
+
+    for(const o of opponents){
+      const old=o.progress;
+      o.progress += o.speed*dt/3000;
+      if(o.progress>=1){o.progress-=1;o.lap++;}
+      const p=trackPoint(o.progress*Math.PI*2,15);
+      o.x=p.x;o.y=p.y;o.angle=o.progress*Math.PI*2+Math.PI/2;
+      if(Math.hypot(player.x-o.x,player.y-o.y)<31 && player.speed>.025){
+        player.speed*=.45; player.crashes++;
+        player.x -= Math.cos(player.angle-Math.PI/2)*12;
+        player.y -= Math.sin(player.angle-Math.PI/2)*12;
+      }
+    }
+
+    player.score = Math.max(0, Math.round(10000 - race.elapsed/10 + player.coins*250 - player.crashes*180));
+    particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt*.002});
+    particles=particles.filter(p=>p.life>0);
+    updateHud();
+  }
+
+  function finishRace(){
+    race.state="finished";
+    const bonus = Math.max(0,10000-Math.floor(race.elapsed/10));
+    player.score = bonus + player.coins*250 - player.crashes*180;
+    if(player.score<0) player.score=0;
+    messageEyebrow.textContent="RACE COMPLETE";
+    messageTitle.textContent="You finished!";
+    messageText.textContent=`Time ${formatTime(race.elapsed)} · ${player.coins} coins · Score ${player.score.toLocaleString()}`;
+    messageEl.classList.remove("hidden");
+    updateHud();
+  }
+
+  function drawTrack(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#6D9C55";ctx.fillRect(0,0,W,H);
+    // subtle grass stripes
+    ctx.globalAlpha=.12;
+    for(let y=0;y<H;y+=24){ctx.fillStyle=y%48===0?"#fff":"#172";ctx.fillRect(0,y,W,12);}
+    ctx.globalAlpha=1;
+
+    ctx.save();
+    ctx.translate(CX,CY);
+    ctx.scale(RX,RY);
+    ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fillStyle="#D8DADF";ctx.fill();
+    ctx.restore();
+
+    ctx.save();ctx.translate(CX,CY);ctx.scale(INNER_RX,INNER_RY);
+    ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fillStyle="#6D9C55";ctx.fill();
+    ctx.restore();
+
+    // curbs
+    ctx.save();ctx.translate(CX,CY);ctx.scale(RX+8,RY+8);
+    ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.strokeStyle="#EF5B5B";ctx.lineWidth=.028;ctx.setLineDash([.07,.07]);ctx.stroke();ctx.restore();
+    ctx.save();ctx.translate(CX,CY);ctx.scale(INNER_RX-4,INNER_RY-4);
+    ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.strokeStyle="#EF5B5B";ctx.lineWidth=.055;ctx.setLineDash([.11,.08]);ctx.stroke();ctx.restore();
+
+    // lane markings
+    ctx.save();ctx.translate(CX,CY);ctx.scale((RX+INNER_RX)/2,(RY+INNER_RY)/2);
+    ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=.008;ctx.setLineDash([.05,.045]);ctx.stroke();ctx.restore();
+
+    // start/finish line
+    const x=CX+RX, y=CY;
+    for(let i=0;i<7;i++){
+      ctx.fillStyle=i%2?"#111827":"#fff";
+      ctx.fillRect(x-8+i*10,y-18,10,36);
+    }
+  }
+
+  function drawCoin(c){
+    if(c.got)return;
+    ctx.save();ctx.translate(c.x,c.y+Math.sin(c.bob)*3);
+    ctx.beginPath();ctx.arc(0,0,9,0,Math.PI*2);ctx.fillStyle="#FFB84D";ctx.fill();
+    ctx.lineWidth=3;ctx.strokeStyle="#FFF1C7";ctx.stroke();
+    ctx.fillStyle="#8A5A00";ctx.font="800 10px Nunito Sans";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("$",0,1);
+    ctx.restore();
+  }
+
+  function drawKart(k,color,isPlayer=false){
+    ctx.save();ctx.translate(k.x,k.y);ctx.rotate(k.angle);
+    // shadow
+    ctx.fillStyle="rgba(0,0,0,.25)";ctx.beginPath();ctx.ellipse(0,9,16,8,0,0,Math.PI*2);ctx.fill();
+    // wheels
+    ctx.fillStyle="#171B2D";ctx.fillRect(-14,-11,7,8);ctx.fillRect(7,-11,7,8);ctx.fillRect(-14,5,7,8);ctx.fillRect(7,5,7,8);
+    // body
+    ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(-12,-15,24,30,7);ctx.fill();
+    ctx.fillStyle="#fff";ctx.beginPath();ctx.roundRect(-7,-7,14,10,4);ctx.fill();
+    ctx.fillStyle="#263244";ctx.beginPath();ctx.roundRect(-5,-5,10,6,3);ctx.fill();
+    ctx.fillStyle="#111827";ctx.fillRect(-16,-2,4,8);ctx.fillRect(12,-2,4,8);
+    if(isPlayer){ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();}
+    ctx.restore();
+  }
+
+  function drawParticles(){
+    particles.forEach(p=>{ctx.globalAlpha=p.life;ctx.fillStyle="#FFB84D";ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fill();});
+    ctx.globalAlpha=1;
+  }
+
+  function draw(){
+    drawTrack();
+    coins.forEach(drawCoin);
+    opponents.forEach(o=>drawKart(o,o.color));
+    drawKart(player,"#5B5CE2",true);
+    drawParticles();
+  }
+
+  function loop(now){
+    const dt=Math.min(34,now-lastTime);lastTime=now;
+    update(dt,now);draw();
+    raf=requestAnimationFrame(loop);
+  }
+
+  function setKey(name,val){ keys[name]=val; }
+  window.addEventListener("keydown",e=>{
+    const k=e.key.toLowerCase();
+    if(["arrowleft","arrowright","arrowup","arrowdown"," ","w","a","s","d"].includes(k)) e.preventDefault();
+    if(k==="arrowleft"||k==="a")setKey("left",true);
+    if(k==="arrowright"||k==="d")setKey("right",true);
+    if(k==="arrowup"||k==="w")setKey("accelerate",true);
+    if(k==="arrowdown"||k==="s")setKey("brake",true);
+    if(k===" ")setKey("drift",true);
+    if(k==="r")resetGame();
+  });
+  window.addEventListener("keyup",e=>{
+    const k=e.key.toLowerCase();
+    if(k==="arrowleft"||k==="a")setKey("left",false);
+    if(k==="arrowright"||k==="d")setKey("right",false);
+    if(k==="arrowup"||k==="w")setKey("accelerate",false);
+    if(k==="arrowdown"||k==="s")setKey("brake",false);
+    if(k===" ")setKey("drift",false);
+  });
+
+  document.querySelectorAll(".touch-btn").forEach(btn=>{
+    const control=btn.dataset.control;
+    const on=ev=>{ev.preventDefault();setKey(control,true)};
+    const off=ev=>{ev.preventDefault();setKey(control,false)};
+    btn.addEventListener("pointerdown",on);
+    btn.addEventListener("pointerup",off);
+    btn.addEventListener("pointercancel",off);
+    btn.addEventListener("pointerleave",off);
+  });
+
+  restartBtn.addEventListener("click",resetGame);
+  newRaceBtn.addEventListener("click",resetGame);
+  resetGame();
+})();
+</script>
+</body>
+</html>

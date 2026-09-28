@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5B5CE2">
+  <meta name="description" content="Play the Reaction Game free online and test your response speed in five quick rounds. Works instantly in your browser with no download required.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Reaction Game - Test Your Speed Free Online">
+  <meta property="og:description" content="Test your reaction time in five fast rounds. Free browser gameplay with mouse, keyboard, and touch controls.">
+  <title>Reaction Game - Test Your Speed Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --background: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --game-secondary: #1f2937;
+  --shadow: 0 18px 50px rgba(31, 41, 55, 0.09);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+a { color: inherit; }
+
+.container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; left: 16px; top: -80px; z-index: 100; background: var(--text); color: #fff; padding: 10px 16px; border-radius: 8px; text-decoration: none; }
+.skip-link:focus { top: 16px; }
+
+.site-header { height: 72px; display: flex; align-items: center; background: rgba(255,255,255,.92); border-bottom: 1px solid var(--border); }
+.header-inner, .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; text-decoration: none; }
+.brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; background: var(--brand); color: #fff; line-height: 1; }
+.all-games-link { color: var(--brand-dark); font-size: 15px; font-weight: 800; text-decoration: none; }
+.all-games-link:hover { text-decoration: underline; }
+
+.hero { padding-block: 38px 34px; }
+.breadcrumb { margin-bottom: 36px; }
+.breadcrumb ol { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 14px; }
+.breadcrumb li:not(:last-child)::after { content: "/"; margin-left: 8px; color: #a6adba; }
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--brand); }
+.eyebrow { display: block; margin-bottom: 8px; color: var(--brand); font-size: 14px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { max-width: 850px; margin-bottom: 16px; font-size: clamp(42px, 6vw, 64px); line-height: 1.06; letter-spacing: -.045em; }
+h2 { margin-bottom: 18px; font-size: clamp(28px, 4vw, 36px); line-height: 1.18; letter-spacing: -.025em; }
+h3 { margin-bottom: 8px; font-size: 21px; line-height: 1.25; }
+.hero-copy { max-width: 760px; margin-bottom: 0; color: var(--muted); font-size: 18px; }
+
+.game-section { padding-bottom: 76px; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+.stat-card { padding: 17px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+.stat-label { display: block; margin-bottom: 3px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.stat-value { display: block; font-size: 23px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat-value small { color: var(--muted); font-size: 14px; }
+
+.game-shell { overflow: hidden; background: var(--card); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow); }
+.reaction-pad { position: relative; isolation: isolate; width: 100%; min-height: 430px; padding: 44px 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0; border-radius: 0; color: #fff; cursor: pointer; overflow: hidden; touch-action: manipulation; user-select: none; transition: background-color .18s ease, transform .1s ease; }
+.reaction-pad:active { transform: scale(.998); }
+.reaction-pad:focus-visible { outline: 4px solid var(--action); outline-offset: -6px; }
+.reaction-pad::before, .reaction-pad::after { content: ""; position: absolute; z-index: -1; border: 1px solid rgba(255,255,255,.08); border-radius: 50%; }
+.reaction-pad::before { width: 390px; height: 390px; }
+.reaction-pad::after { width: 610px; height: 610px; }
+.state-idle { background: var(--game); }
+.state-waiting { background: #294c7a; cursor: wait; }
+.state-ready { background: #158447; }
+.state-result { background: var(--brand-dark); }
+.state-false { background: #b43b49; }
+.state-finished { background: #202a3c; }
+.signal-icon { position: relative; width: 86px; height: 86px; display: grid; place-items: center; margin-bottom: 26px; }
+.signal-ring, .signal-dot { position: absolute; border-radius: 50%; }
+.signal-ring { inset: 0; border: 2px solid rgba(255,255,255,.42); }
+.signal-dot { width: 46px; height: 46px; background: #fff; box-shadow: 0 0 0 11px rgba(255,255,255,.12); }
+.state-waiting .signal-dot { width: 20px; height: 20px; }
+.state-waiting .signal-ring { animation: waitPulse 1.45s ease-in-out infinite; }
+.state-ready .signal-ring { animation: readyPulse .75s ease-out infinite; }
+.state-ready .signal-dot { background: #dfffea; }
+.state-false .signal-dot { border-radius: 12px; transform: rotate(45deg); }
+.pad-kicker { margin-bottom: 5px; color: rgba(255,255,255,.72); font-size: 14px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.pad-title { max-width: 720px; font-size: clamp(34px, 6vw, 58px); line-height: 1.06; letter-spacing: -.04em; }
+.state-ready .pad-title { font-size: clamp(46px, 8vw, 78px); }
+.pad-message { max-width: 620px; margin-top: 14px; color: rgba(255,255,255,.78); font-size: 17px; }
+.game-toolbar { min-height: 74px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid var(--border); }
+.game-hint { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--muted); font-size: 14px; }
+.key { padding: 3px 10px; border: 1px solid #cfd3df; border-bottom-width: 3px; border-radius: 7px; background: #fff; color: var(--text); font-size: 12px; font-weight: 800; }
+.button { min-height: 46px; padding: 10px 18px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: background-color .16s ease, border-color .16s ease, transform .16s ease; }
+.button:hover { transform: translateY(-1px); }
+.button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid rgba(91,92,226,.35); outline-offset: 3px; }
+.button-secondary { border: 1px solid var(--border); background: #fff; color: var(--text); }
+.button-secondary:hover { border-color: #c3c7d4; background: #fafaff; }
+.button-primary { border: 1px solid var(--brand); background: var(--brand); color: #fff; }
+.button-primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+.round-progress { padding: 0 18px 20px; display: flex; justify-content: center; gap: 9px; }
+.round-dot { width: 36px; height: 5px; border-radius: 99px; background: var(--border); }
+.round-dot.complete { background: var(--success); }
+.round-dot.current { background: var(--action); }
+
+.results-card { margin-top: 20px; padding: 28px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.results-card[hidden] { display: none; }
+.results-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.results-heading h2 { margin: 0; }
+.result-badge { flex: 0 0 auto; padding: 7px 12px; background: #eafaf0; color: #12743b; border-radius: 99px; font-size: 14px; font-weight: 800; }
+.result-summary { display: grid; grid-template-columns: .9fr 1.7fr; gap: 24px; padding-block: 24px; }
+.average-result { padding: 23px; display: flex; flex-direction: column; justify-content: center; background: #f0f0ff; border-radius: 14px; }
+.average-result span, .result-metrics span { color: var(--muted); font-size: 14px; font-weight: 700; }
+.average-result strong { color: var(--brand-dark); font-size: clamp(38px, 5vw, 56px); font-variant-numeric: tabular-nums; }
+.result-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.result-metrics div { padding: 16px; background: var(--background); border-radius: 12px; }
+.result-metrics strong { display: block; margin-top: 3px; font-size: 20px; font-variant-numeric: tabular-nums; }
+.round-breakdown { margin-bottom: 22px; }
+.round-breakdown h3 { font-size: 17px; }
+.round-breakdown ol { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 0; margin: 0; list-style: none; }
+.round-breakdown li { padding: 12px; background: var(--background); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
+.round-breakdown li span { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+.round-breakdown li strong { font-size: 17px; font-variant-numeric: tabular-nums; }
+
+.content-section, .about-section, .tips-section, .related-section, .faq-section { padding-block: 72px; }
+.content-section, .tips-section, .faq-section { background: #fff; }
+.content-grid { display: grid; grid-template-columns: 1.45fr .85fr; gap: 22px; }
+.content-card { position: relative; padding: 30px; background: var(--background); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.content-card-featured { background: #f1f1ff; }
+.section-number { position: absolute; right: 20px; top: 4px; color: rgba(91,92,226,.09); font-size: 76px; font-weight: 800; line-height: 1; }
+.instruction-list { padding: 0; margin: 26px 0; list-style: none; counter-reset: steps; }
+.instruction-list li { display: grid; grid-template-columns: 75px 1fr; gap: 12px; padding: 13px 0; border-bottom: 1px solid rgba(91,92,226,.15); }
+.instruction-list li:first-child { border-top: 1px solid rgba(91,92,226,.15); }
+.instruction-list span { color: var(--brand-dark); font-weight: 800; }
+.notice { margin: 0; padding: 15px 17px; background: #fff; border-left: 4px solid var(--action); border-radius: 9px; font-size: 15px; }
+.control-list { display: grid; gap: 13px; margin-top: 28px; }
+.control-list > div { display: flex; align-items: center; gap: 14px; padding: 15px; background: #fff; border: 1px solid var(--border); border-radius: 12px; }
+.control-list p { margin: 1px 0 0; color: var(--muted); font-size: 14px; }
+.control-icon { flex: 0 0 45px; width: 45px; height: 45px; display: grid; place-items: center; background: #ececff; color: var(--brand-dark); border-radius: 11px; font-size: 23px; font-weight: 800; }
+.control-icon-wide { font-size: 10px; }
+.section-heading { max-width: 660px; margin-bottom: 34px; }
+.section-heading h2 { margin: 0; }
+.prose-columns { columns: 2; column-gap: 44px; color: var(--muted); }
+.prose-columns p { break-inside: avoid; }
+.tips-grid, .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tips-grid article { padding: 24px; background: var(--background); border: 1px solid var(--border); border-radius: 16px; }
+.tips-grid article > span { color: var(--brand); font-size: 14px; font-weight: 800; }
+.tips-grid h3 { margin-top: 15px; }
+.tips-grid p, .related-card p { margin: 0; color: var(--muted); font-size: 15px; }
+.section-heading-row { max-width: none; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.coming-soon { color: var(--muted); font-size: 14px; font-weight: 700; }
+.related-card { padding: 21px; display: flex; align-items: center; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: 16px; }
+.related-card h3 { margin: 0 0 3px; font-size: 18px; }
+.related-icon { flex: 0 0 52px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 14px; font-size: 28px; font-weight: 800; }
+.related-icon-aim { background: #ffe8e8; color: #d64c4c; }
+.related-icon-memory { background: #e7f8f9; color: #087e87; }
+.related-icon-math { background: #fff1d9; color: #ad6c07; }
+.faq-list { max-width: 850px; display: grid; gap: 12px; }
+.faq-list details { background: var(--background); border: 1px solid var(--border); border-radius: 13px; }
+.faq-list summary { position: relative; padding: 18px 50px 18px 20px; font-weight: 800; cursor: pointer; list-style: none; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--brand); font-size: 25px; line-height: 1; }
+.faq-list details[open] summary::after { content: "−"; }
+.faq-list p { padding: 0 20px 18px; margin: 0; color: var(--muted); }
+.site-footer { padding-block: 32px; background: var(--game); color: #fff; }
+.site-footer .brand { color: #fff; }
+.site-footer p { margin: 0; color: #aeb8c8; font-size: 14px; }
+
+@keyframes waitPulse { 0%, 100% { transform: scale(.88); opacity: .5; } 50% { transform: scale(1); opacity: 1; } }
+@keyframes readyPulse { from { transform: scale(.65); opacity: 1; } to { transform: scale(1.35); opacity: 0; } }
+
+@media (max-width: 800px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .content-grid, .result-summary { grid-template-columns: 1fr; }
+  .tips-grid, .related-grid { grid-template-columns: 1fr; }
+  .content-card { padding: 24px; }
+  .reaction-pad { min-height: 390px; }
+  .round-breakdown ol { grid-template-columns: repeat(5, minmax(80px, 1fr)); overflow-x: auto; padding-bottom: 5px; }
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .container { width: min(100% - 28px, 1160px); }
+  .site-header { height: 64px; }
+  .brand-mark { width: 32px; height: 32px; }
+  .hero { padding-block: 26px 26px; }
+  .breadcrumb { margin-bottom: 27px; }
+  h1 { font-size: 40px; }
+  .hero-copy { font-size: 16px; }
+  .game-section { padding-bottom: 54px; }
+  .stats-grid { gap: 9px; margin-bottom: 10px; }
+  .stat-card { padding: 13px 14px; }
+  .stat-label { font-size: 12px; }
+  .stat-value { font-size: 19px; }
+  .game-shell { border-radius: 16px; }
+  .reaction-pad { min-height: 370px; padding: 34px 18px; }
+  .reaction-pad::before { width: 280px; height: 280px; }
+  .reaction-pad::after { width: 440px; height: 440px; }
+  .signal-icon { width: 72px; height: 72px; margin-bottom: 22px; }
+  .signal-dot { width: 38px; height: 38px; }
+  .pad-title { font-size: 36px; }
+  .state-ready .pad-title { font-size: 52px; }
+  .pad-message { font-size: 15px; }
+  .game-toolbar { align-items: stretch; flex-direction: column; gap: 11px; padding: 15px; }
+  .game-hint { justify-content: center; }
+  .button { width: 100%; }
+  .results-card { padding: 20px; }
+  .results-heading { display: block; }
+  .result-badge { display: inline-block; margin-top: 14px; }
+  .result-metrics { grid-template-columns: 1fr 1fr; }
+  .result-metrics div { padding: 13px; }
+  .result-metrics strong { font-size: 17px; }
+  .content-section, .about-section, .tips-section, .related-section, .faq-section { padding-block: 54px; }
+  .prose-columns { columns: 1; }
+  .section-heading-row, .footer-inner { align-items: flex-start; flex-direction: column; }
+  .coming-soon { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+  <script>"use strict";
+
+const TOTAL_ROUNDS = 5;
+const MIN_WAIT_MS = 1500;
+const MAX_WAIT_MS = 4500;
+const STORAGE_KEY = "gamesHubReactionPersonalBest";
+
+const elements = {
+  pad: document.getElementById("reactionPad"),
+  padKicker: document.getElementById("padKicker"),
+  padTitle: document.getElementById("padTitle"),
+  padMessage: document.getElementById("padMessage"),
+  roundValue: document.getElementById("roundValue"),
+  lastValue: document.getElementById("lastValue"),
+  bestValue: document.getElementById("bestValue"),
+  personalBestValue: document.getElementById("personalBestValue"),
+  restartButton: document.getElementById("restartButton"),
+  playAgainButton: document.getElementById("playAgainButton"),
+  resultsCard: document.getElementById("resultsCard"),
+  resultBadge: document.getElementById("resultBadge"),
+  averageResult: document.getElementById("averageResult"),
+  fastestResult: document.getElementById("fastestResult"),
+  consistencyResult: document.getElementById("consistencyResult"),
+  scoreResult: document.getElementById("scoreResult"),
+  falseStartResult: document.getElementById("falseStartResult"),
+  roundResults: document.getElementById("roundResults"),
+  liveStatus: document.getElementById("liveStatus"),
+  dots: Array.from(document.querySelectorAll(".round-dot"))
+};
+
+let state = "idle";
+let reactionTimes = [];
+let falseStarts = 0;
+let waitTimer = null;
+let transitionTimer = null;
+let signalStartedAt = 0;
+let roundToken = 0;
+
+function readPersonalBest() {
+  try {
+    const saved = Number.parseInt(localStorage.getItem(STORAGE_KEY), 10);
+    return Number.isFinite(saved) && saved > 0 ? saved : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function savePersonalBest(time) {
+  try {
+    localStorage.setItem(STORAGE_KEY, String(time));
+  } catch (error) {
+    // Storage may be disabled; gameplay remains fully functional.
+  }
+}
+
+function formatTime(value) {
+  return Number.isFinite(value) ? `${value} ms` : "—";
+}
+
+function announce(message) {
+  elements.liveStatus.textContent = "";
+  window.setTimeout(() => { elements.liveStatus.textContent = message; }, 30);
+}
+
+function setPadState(nextState, kicker, title, message) {
+  state = nextState;
+  elements.pad.className = `reaction-pad state-${nextState}`;
+  elements.padKicker.textContent = kicker;
+  elements.padTitle.textContent = title;
+  elements.padMessage.textContent = message;
+}
+
+function clearTimers() {
+  window.clearTimeout(waitTimer);
+  window.clearTimeout(transitionTimer);
+  waitTimer = null;
+  transitionTimer = null;
+  roundToken += 1;
+}
+
+function updateStats() {
+  const latest = reactionTimes.at(-1);
+  const best = reactionTimes.length ? Math.min(...reactionTimes) : null;
+  const personalBest = readPersonalBest();
+
+  elements.roundValue.textContent = String(reactionTimes.length);
+  elements.lastValue.textContent = formatTime(latest);
+  elements.bestValue.textContent = formatTime(best);
+  elements.personalBestValue.textContent = formatTime(personalBest);
+
+  elements.dots.forEach((dot, index) => {
+    dot.classList.toggle("complete", index < reactionTimes.length);
+    dot.classList.toggle("current", index === reactionTimes.length && reactionTimes.length < TOTAL_ROUNDS && state !== "idle" && state !== "finished");
+  });
+}
+
+function resetGame(autoStart = false) {
+  clearTimers();
+  reactionTimes = [];
+  falseStarts = 0;
+  signalStartedAt = 0;
+  elements.resultsCard.hidden = true;
+  setPadState("idle", "Ready to test your speed?", "Start Reaction Test", "Five rounds. One goal: react fast.");
+  updateStats();
+  announce("Reaction game reset. Activate the game area to start.");
+  if (autoStart) startRound();
+}
+
+function startRound() {
+  if (reactionTimes.length >= TOTAL_ROUNDS) {
+    finishGame();
+    return;
+  }
+
+  clearTimers();
+  const token = roundToken;
+  const roundNumber = reactionTimes.length + 1;
+  const delay = Math.floor(Math.random() * (MAX_WAIT_MS - MIN_WAIT_MS + 1)) + MIN_WAIT_MS;
+
+  setPadState("waiting", `Round ${roundNumber} of ${TOTAL_ROUNDS}`, "Wait for green…", "Do not tap yet.");
+  updateStats();
+  announce(`Round ${roundNumber}. Wait for the green signal.`);
+
+  waitTimer = window.setTimeout(() => {
+    if (token !== roundToken || state !== "waiting") return;
+    signalStartedAt = performance.now();
+    setPadState("ready", `Round ${roundNumber} of ${TOTAL_ROUNDS}`, "TAP NOW!", "Click, tap, or press Space.");
+    announce("Green signal. React now!");
+  }, delay);
+}
+
+function handleFalseStart() {
+  falseStarts += 1;
+  clearTimers();
+  setPadState("false", "False start", "Too soon!", "Wait for the green signal. This round will retry.");
+  updateStats();
+  announce("False start. You reacted too soon. The same round will retry.");
+  transitionTimer = window.setTimeout(startRound, 1200);
+}
+
+function recordReaction() {
+  const elapsed = Math.max(1, Math.round(performance.now() - signalStartedAt));
+  reactionTimes.push(elapsed);
+
+  const previousBest = readPersonalBest();
+  const isNewPersonalBest = previousBest === null || elapsed < previousBest;
+  if (isNewPersonalBest) savePersonalBest(elapsed);
+
+  setPadState(
+    "result",
+    isNewPersonalBest ? "New personal best" : `Round ${reactionTimes.length} complete`,
+    formatTime(elapsed),
+    reactionTimes.length < TOTAL_ROUNDS ? "Tap or press Space for the next round." : "All five rounds complete. View your report below."
+  );
+  updateStats();
+  announce(`${elapsed} milliseconds.${isNewPersonalBest ? " New personal best." : ""}`);
+
+  if (reactionTimes.length >= TOTAL_ROUNDS) {
+    transitionTimer = window.setTimeout(finishGame, 850);
+  }
+}
+
+function calculateStandardDeviation(values, average) {
+  const variance = values.reduce((sum, value) => sum + Math.pow(value - average, 2), 0) / values.length;
+  return Math.sqrt(variance);
+}
+
+function getRating(average) {
+  if (average < 200) return { label: "Lightning fast", message: "Exceptional average speed" };
+  if (average < 250) return { label: "Quick reflexes", message: "A very fast average" };
+  if (average < 320) return { label: "Nice reactions", message: "A solid reaction average" };
+  if (average < 450) return { label: "Good effort", message: "Keep practicing for speed" };
+  return { label: "Warm up again", message: "Try another run when ready" };
+}
+
+function finishGame() {
+  if (reactionTimes.length !== TOTAL_ROUNDS) return;
+  clearTimers();
+
+  const total = reactionTimes.reduce((sum, value) => sum + value, 0);
+  const average = Math.round(total / TOTAL_ROUNDS);
+  const fastest = Math.min(...reactionTimes);
+  const deviation = Math.round(calculateStandardDeviation(reactionTimes, average));
+  const score = reactionTimes.reduce((sum, value) => sum + Math.max(0, 1000 - value), 0);
+  const rating = getRating(average);
+
+  setPadState("finished", rating.message, `${average} ms average`, "Your five-round reaction report is ready.");
+  updateStats();
+
+  elements.resultBadge.textContent = rating.label;
+  elements.averageResult.textContent = `${average} ms`;
+  elements.fastestResult.textContent = `${fastest} ms`;
+  elements.consistencyResult.textContent = `±${deviation} ms`;
+  elements.scoreResult.textContent = `${score.toLocaleString()} / 5,000`;
+  elements.falseStartResult.textContent = String(falseStarts);
+  elements.roundResults.replaceChildren(...reactionTimes.map((time, index) => {
+    const item = document.createElement("li");
+    const label = document.createElement("span");
+    const value = document.createElement("strong");
+    label.textContent = `Round ${index + 1}`;
+    value.textContent = `${time} ms`;
+    item.append(label, value);
+    return item;
+  }));
+
+  elements.resultsCard.hidden = false;
+  announce(`Game complete. Average reaction time ${average} milliseconds. Fastest time ${fastest} milliseconds.`);
+  elements.resultsCard.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+}
+
+function activateGame() {
+  if (state === "idle") {
+    startRound();
+  } else if (state === "waiting") {
+    handleFalseStart();
+  } else if (state === "ready") {
+    recordReaction();
+  } else if (state === "result" && reactionTimes.length < TOTAL_ROUNDS) {
+    startRound();
+  } else if (state === "finished") {
+    resetGame(true);
+  }
+}
+
+elements.pad.addEventListener("click", activateGame);
+
+document.addEventListener("keydown", (event) => {
+  if (event.code !== "Space" || event.repeat) return;
+  const activeTag = document.activeElement?.tagName;
+  const isAnotherButton = activeTag === "BUTTON" && document.activeElement !== elements.pad;
+  if (activeTag === "SUMMARY" || activeTag === "A" || activeTag === "INPUT" || activeTag === "TEXTAREA" || isAnotherButton) return;
+  event.preventDefault();
+  activateGame();
+});
+
+elements.restartButton.addEventListener("click", () => resetGame(false));
+elements.playAgainButton.addEventListener("click", () => {
+  resetGame(true);
+  elements.pad.focus({ preventScroll: true });
+  elements.pad.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && (state === "waiting" || state === "ready")) {
+    clearTimers();
+    setPadState("idle", "Round paused", "Tap to continue", "The active round was canceled when the tab lost focus.");
+    updateStats();
+  }
+});
+
+updateStats();
+</script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container" aria-labelledby="page-title">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../">Home</a></li>
+          <li><a href="../">Casual Games</a></li>
+          <li aria-current="page">Reaction</li>
+        </ol>
+      </nav>
+      <span class="eyebrow">Casual game</span>
+      <h1 id="page-title">Reaction Game</h1>
+      <p class="hero-copy">How fast can you respond? Wait for the signal, then tap, click, or press Space as quickly as possible. Complete five rounds to find your average reaction time.</p>
+    </section>
+
+    <section class="game-section container" id="game" aria-labelledby="game-heading">
+      <h2 class="visually-hidden" id="game-heading">Play the Reaction Game</h2>
+
+      <div class="stats-grid" aria-label="Game statistics">
+        <div class="stat-card">
+          <span class="stat-label">Round</span>
+          <strong class="stat-value"><span id="roundValue">0</span><small>/5</small></strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Last time</span>
+          <strong class="stat-value" id="lastValue">—</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Best this game</span>
+          <strong class="stat-value" id="bestValue">—</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Personal best</span>
+          <strong class="stat-value" id="personalBestValue">—</strong>
+        </div>
+      </div>
+
+      <div class="game-shell">
+        <button class="reaction-pad state-idle" id="reactionPad" type="button" aria-describedby="gameHint" aria-label="Reaction test area. Start a game, wait for green, then activate this area.">
+          <span class="signal-icon" id="signalIcon" aria-hidden="true">
+            <span class="signal-ring"></span>
+            <span class="signal-dot"></span>
+          </span>
+          <span class="pad-kicker" id="padKicker">Ready to test your speed?</span>
+          <strong class="pad-title" id="padTitle">Start Reaction Test</strong>
+          <span class="pad-message" id="padMessage">Five rounds. One goal: react fast.</span>
+        </button>
+
+        <div class="game-toolbar">
+          <p class="game-hint" id="gameHint">
+            <span class="key" aria-hidden="true">Space</span>
+            <span>or tap the game area</span>
+          </p>
+          <button class="button button-secondary" id="restartButton" type="button">Restart game</button>
+        </div>
+
+        <div class="round-progress" aria-label="Round progress">
+          <span class="round-dot" data-round="1"></span>
+          <span class="round-dot" data-round="2"></span>
+          <span class="round-dot" data-round="3"></span>
+          <span class="round-dot" data-round="4"></span>
+          <span class="round-dot" data-round="5"></span>
+        </div>
+
+        <p class="screen-reader-status visually-hidden" id="liveStatus" role="status" aria-live="polite"></p>
+      </div>
+
+      <section class="results-card" id="resultsCard" aria-labelledby="resultsTitle" hidden>
+        <div class="results-heading">
+          <div>
+            <span class="eyebrow">Final result</span>
+            <h2 id="resultsTitle">Your reaction report</h2>
+          </div>
+          <span class="result-badge" id="resultBadge">Quick reflexes</span>
+        </div>
+
+        <div class="result-summary">
+          <div class="average-result">
+            <span>Average time</span>
+            <strong id="averageResult">—</strong>
+          </div>
+          <div class="result-metrics">
+            <div><span>Fastest</span><strong id="fastestResult">—</strong></div>
+            <div><span>Consistency</span><strong id="consistencyResult">—</strong></div>
+            <div><span>Score</span><strong id="scoreResult">—</strong></div>
+            <div><span>False starts</span><strong id="falseStartResult">0</strong></div>
+          </div>
+        </div>
+
+        <div class="round-breakdown">
+          <h3>Round breakdown</h3>
+          <ol id="roundResults"></ol>
+        </div>
+        <button class="button button-primary" id="playAgainButton" type="button">Play again</button>
+      </section>
+    </section>
+
+    <section class="content-section container" aria-labelledby="how-to-play-title">
+      <div class="content-grid">
+        <article class="content-card content-card-featured">
+          <span class="section-number" aria-hidden="true">01</span>
+          <h2 id="how-to-play-title">How to Play the Reaction Game</h2>
+          <p>Select the reaction area to begin. The screen will enter a waiting state for a random amount of time. Do not react yet.</p>
+          <ol class="instruction-list">
+            <li><span>Start</span>Tap the game area or press Space.</li>
+            <li><span>Wait</span>Stay ready while the screen is blue.</li>
+            <li><span>React</span>Tap, click, or press Space as soon as it turns green.</li>
+            <li><span>Finish</span>Complete five valid rounds to receive your report.</li>
+          </ol>
+          <p class="notice"><strong>Watch out:</strong> reacting before the green signal counts as a false start. The current round will restart.</p>
+        </article>
+
+        <article class="content-card">
+          <span class="section-number" aria-hidden="true">02</span>
+          <h2>Reaction Game Controls</h2>
+          <div class="control-list">
+            <div><span class="control-icon" aria-hidden="true">↖</span><div><strong>Mouse</strong><p>Click the main reaction area.</p></div></div>
+            <div><span class="control-icon" aria-hidden="true">◇</span><div><strong>Touch</strong><p>Tap anywhere inside the game area.</p></div></div>
+            <div><span class="control-icon control-icon-wide" aria-hidden="true">Space</span><div><strong>Keyboard</strong><p>Press Space to start and react.</p></div></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-section container" aria-labelledby="about-title">
+      <div class="section-heading">
+        <span class="eyebrow">Reflex challenge</span>
+        <h2 id="about-title">About the Reaction Game</h2>
+      </div>
+      <div class="prose-columns">
+        <p>This free online Reaction Game measures the delay between a visual signal and your response. Each round uses a different waiting time, so you cannot rely on a fixed countdown. Your final result is based on five successful attempts.</p>
+        <p>Reaction speed can change with focus, device input, display refresh rate, fatigue, and practice. Treat the score as a casual challenge rather than a medical or scientific assessment. Your personal best is saved only in your current browser.</p>
+      </div>
+    </section>
+
+    <section class="tips-section container" aria-labelledby="tips-title">
+      <div class="section-heading">
+        <span class="eyebrow">Play smarter</span>
+        <h2 id="tips-title">Tips for a Faster Reaction Time</h2>
+      </div>
+      <div class="tips-grid">
+        <article><span>01</span><h3>Stay relaxed</h3><p>Keep your hand loose and ready. Too much tension can slow a precise response.</p></article>
+        <article><span>02</span><h3>Watch the whole area</h3><p>Focus on the center without staring at one tiny point. The full color change will be easier to notice.</p></article>
+        <article><span>03</span><h3>Avoid guessing</h3><p>A false start costs time and interrupts your rhythm. Wait for the real green signal.</p></article>
+      </div>
+    </section>
+
+    <section class="related-section container" aria-labelledby="related-title">
+      <div class="section-heading section-heading-row">
+        <div><span class="eyebrow">Keep playing</span><h2 id="related-title">Related Casual Games</h2></div>
+        <span class="coming-soon">More games coming soon</span>
+      </div>
+      <!-- Replace each data-future-slug card with an anchor when that game page exists. -->
+      <div class="related-grid">
+        <article class="related-card" data-future-slug="aim-trainer"><span class="related-icon related-icon-aim" aria-hidden="true">◎</span><div><h3>Aim Trainer</h3><p>Test speed and pointer accuracy.</p></div></article>
+        <article class="related-card" data-future-slug="memory-match"><span class="related-icon related-icon-memory" aria-hidden="true">✦</span><div><h3>Memory Match</h3><p>Find pairs and sharpen your focus.</p></div></article>
+        <article class="related-card" data-future-slug="quick-math"><span class="related-icon related-icon-math" aria-hidden="true">+</span><div><h3>Quick Math</h3><p>Solve simple problems against time.</p></div></article>
+      </div>
+    </section>
+
+    <section class="faq-section container" aria-labelledby="faq-title">
+      <div class="section-heading"><span class="eyebrow">Common questions</span><h2 id="faq-title">Reaction Game FAQ</h2></div>
+      <div class="faq-list">
+        <details><summary>What is a good reaction time?</summary><p>For this casual browser game, a result around 200–300 milliseconds is typically quick. Results vary by device, browser, attention, and input method.</p></details>
+        <details><summary>Can I play the Reaction Game on mobile?</summary><p>Yes. Tap the large reaction area to start each test and tap it again as soon as the signal turns green.</p></details>
+        <details><summary>Why does my reaction score change?</summary><p>Natural variation is normal. Sleep, focus, anticipation, screen refresh rate, and the delay added by a mouse or touchscreen can all affect a result.</p></details>
+        <details><summary>Does the game save my score?</summary><p>The fastest valid reaction is stored in your browser as a personal best. No account, database, or server is used.</p></details>
+        <details><summary>Is this a scientific reaction-time test?</summary><p>No. It is a casual game designed for entertainment and informal comparison, not medical or scientific measurement.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">G</span><span>Games Hub</span></a>
+      <p>Fast, free games for your browser.</p>
+    </div>
+  </footer>
+</body>
+</html>

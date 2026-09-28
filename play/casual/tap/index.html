@@ -1,0 +1,1315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5b5ce2">
+  <meta name="description" content="Play Tap free online in your browser. Test your reactions, build a combo, hit bonus targets, and avoid red decoys—no download required.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tap Game - Play Free Online">
+  <meta property="og:description" content="Play a fast, free reaction game in your browser. Tap targets, build combos, and beat your best score.">
+  <title>Tap Game - Play Free Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>:root {
+  --brand: #5b5ce2;
+  --brand-dark: #4546b8;
+  --accent: #16b8c4;
+  --action: #ffb84d;
+  --success: #22c55e;
+  --danger: #ef5b5b;
+  --background: #f6f7fb;
+  --card: #ffffff;
+  --text: #171b2d;
+  --muted: #667085;
+  --border: #e5e7ef;
+  --game: #111827;
+  --game-secondary: #1f2937;
+  --shadow: 0 18px 48px rgba(23, 27, 45, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito Sans", ui-rounded, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--brand-dark);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--action);
+  outline-offset: 3px;
+}
+
+.shell {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--card);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header {
+  height: 72px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.header-inner,
+.footer-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--brand);
+  color: #fff;
+  line-height: 1;
+}
+
+.all-games-link {
+  font-weight: 700;
+}
+
+.breadcrumb {
+  padding-top: 26px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: "/";
+  margin-left: 8px;
+  color: #98a2b3;
+}
+
+.breadcrumb a {
+  color: var(--muted);
+}
+
+.hero {
+  max-width: 760px;
+  padding: 58px 0 38px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--brand-dark);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: clamp(42px, 6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+}
+
+h2 {
+  margin-bottom: 18px;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+}
+
+h3 {
+  margin-bottom: 12px;
+  font-size: 23px;
+  line-height: 1.25;
+}
+
+.hero-copy {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 19px;
+}
+
+.game-card {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.stat {
+  min-width: 0;
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fafaff;
+}
+
+.stat-label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.stat strong {
+  display: block;
+  overflow: hidden;
+  margin-top: 2px;
+  font-size: 25px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+}
+
+.stat-unit {
+  margin-left: 2px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.arena {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--game);
+  isolation: isolate;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.arena-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.45;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, #000 0, transparent 78%);
+}
+
+.target {
+  position: absolute;
+  z-index: 3;
+  width: 76px;
+  height: 76px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 8px 0 #087aa8, 0 14px 28px rgba(56, 189, 248, 0.24);
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  transition: left 80ms ease-out, top 80ms ease-out, transform 80ms ease-out;
+}
+
+.target::before,
+.target::after,
+.target-core {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.target::before {
+  content: "";
+  inset: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.8);
+}
+
+.target::after {
+  content: "";
+  inset: 24px;
+  background: #fff;
+}
+
+.target-core {
+  inset: 31px;
+  z-index: 1;
+  background: #0c4a6e;
+}
+
+.target:hover {
+  transform: scale(1.04);
+}
+
+.target:active,
+.target.is-hit {
+  transform: scale(0.87);
+}
+
+.target.bonus {
+  background: #fbbf24;
+  box-shadow: 0 8px 0 #b76e00, 0 14px 30px rgba(251, 191, 36, 0.3);
+}
+
+.target.bonus .target-core {
+  background: #78350f;
+}
+
+.target.decoy {
+  background: var(--danger);
+  box-shadow: 0 8px 0 #a92b3b, 0 14px 30px rgba(239, 91, 91, 0.28);
+}
+
+.target.decoy::before,
+.target.decoy::after {
+  border-radius: 4px;
+  background: #fff;
+}
+
+.target.decoy::before {
+  inset: 34px 16px;
+  border: 0;
+  transform: rotate(45deg);
+}
+
+.target.decoy::after {
+  inset: 34px 16px;
+  transform: rotate(-45deg);
+}
+
+.target.decoy .target-core {
+  display: none;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 28px;
+  background: rgba(17, 24, 39, 0.9);
+  color: #fff;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+.game-overlay[hidden] {
+  display: none;
+}
+
+.game-overlay p {
+  max-width: 430px;
+  margin-bottom: 24px;
+  color: #d1d5db;
+}
+
+.overlay-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  background: var(--game-secondary);
+  font-size: 32px;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: var(--action);
+  color: #332000;
+  box-shadow: 0 4px 0 #c88010;
+}
+
+.primary-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c88010;
+}
+
+.secondary-button {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+}
+
+.secondary-button:hover:not(:disabled) {
+  border-color: #c9c9f3;
+  background: #f5f5ff;
+}
+
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.game-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.status {
+  margin: 0 0 0 auto;
+  color: var(--muted);
+  font-size: 15px;
+  text-align: right;
+}
+
+.feedback {
+  position: absolute;
+  z-index: 5;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px #000;
+  pointer-events: none;
+  animation: float-up 550ms ease-out forwards;
+}
+
+.feedback.negative {
+  color: #fecaca;
+}
+
+@keyframes float-up {
+  from { opacity: 1; transform: translate(-50%, -20%); }
+  to { opacity: 0; transform: translate(-50%, -130%); }
+}
+
+.content-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+  gap: 64px;
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.content-section p {
+  color: var(--muted);
+}
+
+.instruction-card {
+  align-self: start;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.control-list {
+  margin: 0;
+}
+
+.control-list div {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  padding: 11px 0;
+  border-top: 1px solid var(--border);
+}
+
+.control-list dt {
+  font-weight: 800;
+}
+
+.control-list dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.about-section {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tips-list {
+  padding-left: 22px;
+  color: var(--muted);
+}
+
+.tips-list li + li {
+  margin-top: 9px;
+}
+
+.related-section,
+.faq-section {
+  padding: 80px 0;
+}
+
+.related-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.section-heading h2 {
+  margin-bottom: 0;
+}
+
+.section-heading > a {
+  flex: none;
+  font-weight: 800;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.related-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.related-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(23, 27, 45, 0.08);
+}
+
+.game-tile {
+  width: 62px;
+  height: 62px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 800;
+}
+
+.snake-tile { background: #15803d; }
+.number-tile { background: #b45309; font-size: 16px; }
+.memory-tile { background: #7c3aed; font-size: 26px; }
+
+.related-card strong,
+.related-card small {
+  display: block;
+}
+
+.related-card small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.faq-section {
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+.faq-section details {
+  border-top: 1px solid var(--border);
+}
+
+.faq-section details:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-section summary {
+  padding: 20px 42px 20px 0;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.faq-section details p {
+  padding: 0 42px 20px 0;
+  margin: 0;
+  color: var(--muted);
+}
+
+.noscript-message {
+  margin: 18px 0 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.site-footer {
+  min-height: 110px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.footer-inner p {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 16px;
+  }
+
+  .shell {
+    width: min(100% - 28px, 1160px);
+  }
+
+  .site-header {
+    height: 64px;
+  }
+
+  .hero {
+    padding: 42px 0 28px;
+  }
+
+  .hero-copy {
+    font-size: 17px;
+  }
+
+  .game-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .scoreboard {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat {
+    padding: 10px 12px;
+  }
+
+  .stat strong {
+    font-size: 22px;
+  }
+
+  .arena {
+    min-height: min(480px, 68vh);
+    border-radius: 14px;
+  }
+
+  .target {
+    width: 68px;
+    height: 68px;
+  }
+
+  .target::before { inset: 9px; }
+  .target::after { inset: 22px; }
+  .target-core { inset: 28px; }
+  .target.decoy::before,
+  .target.decoy::after { inset: 31px 14px; }
+
+  .game-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .status {
+    grid-column: 1 / -1;
+    margin: 2px 0 0;
+    text-align: left;
+  }
+
+  .content-section,
+  .about-section {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 64px 0;
+  }
+
+  .related-section,
+  .faq-section {
+    padding: 64px 0;
+  }
+
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand {
+    font-size: 18px;
+  }
+
+  .all-games-link {
+    font-size: 14px;
+  }
+
+  .game-overlay {
+    padding: 22px;
+  }
+
+  .game-overlay p {
+    font-size: 15px;
+  }
+
+  .section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Tap Game",
+    "description": "A free browser reaction game where players tap moving targets, build combos, collect bonus targets, and avoid decoys.",
+    "genre": ["Casual", "Reaction"],
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "operatingSystem": "Any modern web browser",
+    "isAccessibleForFree": true
+  }
+  </script>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="/games/">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/games/">Casual Games</a></li>
+          <li aria-current="page">Tap</li>
+        </ol>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Casual reaction game</p>
+        <h1 id="page-title">Tap Game</h1>
+        <p class="hero-copy">Tap the targets before they disappear, keep your combo alive, and avoid the red decoys. You have 30 seconds to set a new best score.</p>
+      </section>
+
+      <section class="game-card" id="game" aria-labelledby="game-heading">
+        <h2 class="visually-hidden" id="game-heading">Play Tap</h2>
+
+        <div class="scoreboard" aria-label="Game statistics">
+          <div class="stat">
+            <span class="stat-label">Score</span>
+            <strong id="score">0</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Time</span>
+            <strong><span id="time">30.0</span><span class="stat-unit">s</span></strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Combo</span>
+            <strong><span aria-hidden="true">×</span><span id="combo">0</span></strong>
+          </div>
+          <div class="stat stat-best">
+            <span class="stat-label">Best</span>
+            <strong id="best">0</strong>
+          </div>
+        </div>
+
+        <div class="arena" id="arena" aria-label="Tap game area">
+          <div class="arena-grid" aria-hidden="true"></div>
+          <button class="target" id="target" type="button" aria-label="Tap target" hidden>
+            <span class="target-core" aria-hidden="true"></span>
+          </button>
+          <div class="feedback-layer" id="feedbackLayer" aria-hidden="true"></div>
+
+          <div class="game-overlay" id="gameOverlay">
+            <div class="overlay-icon" id="overlayIcon" aria-hidden="true">☝</div>
+            <h3 id="overlayTitle">Ready to tap?</h3>
+            <p id="overlayText">Hit blue targets, grab gold bonuses, and leave red decoys alone.</p>
+            <button class="primary-button" id="startButton" type="button">Start Game</button>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <button class="secondary-button" id="pauseButton" type="button" disabled>
+            <span id="pauseIcon" aria-hidden="true">Ⅱ</span>
+            <span id="pauseLabel">Pause</span>
+          </button>
+          <button class="secondary-button" id="restartButton" type="button" disabled>
+            <span aria-hidden="true">↻</span>
+            New Game
+          </button>
+          <p class="status" id="status" role="status" aria-live="polite">Press Start Game to begin.</p>
+        </div>
+
+        <noscript>
+          <p class="noscript-message">JavaScript is required to play Tap. Please enable JavaScript and reload this page.</p>
+        </noscript>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div>
+          <p class="eyebrow">Quick guide</p>
+          <h2 id="how-to-play">How to Play Tap</h2>
+          <p>Start the game and select each blue target before it moves. Fast, accurate hits build your combo and increase the points earned from every normal target. Gold targets are rare and award a larger bonus.</p>
+          <p>Do not select red decoys. A decoy costs points and breaks your combo. The round ends when the 30-second timer reaches zero.</p>
+        </div>
+        <div class="instruction-card">
+          <h3>Controls</h3>
+          <dl class="control-list">
+            <div><dt>Mouse</dt><dd>Click a target</dd></div>
+            <div><dt>Touch</dt><dd>Tap a target</dd></div>
+            <div><dt>Keyboard</dt><dd>Tab, then Enter or Space</dd></div>
+            <div><dt>Pause</dt><dd>Press P or use Pause</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="content-section about-section" aria-labelledby="about-tap">
+        <div>
+          <p class="eyebrow">About the game</p>
+          <h2 id="about-tap">About Tap</h2>
+          <p>Tap is a short casual game built around reaction speed, visual attention, and accuracy. Targets move faster as the round continues, so the final seconds demand quicker decisions than the opening moments.</p>
+          <p>The game runs directly in your browser with no download or account. Your best score is saved only on your device.</p>
+        </div>
+        <div>
+          <p class="eyebrow">Improve your score</p>
+          <h2>Tap Game Tips</h2>
+          <ul class="tips-list">
+            <li>Watch the center of the arena so your eyes travel less.</li>
+            <li>Prioritize accuracy; a broken combo costs more than a slow hit.</li>
+            <li>Pause if you are interrupted instead of sacrificing your streak.</li>
+            <li>On mobile, use the hand that comfortably reaches the whole arena.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="related-section" aria-labelledby="related-games">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Keep playing</p>
+            <h2 id="related-games">Related Games</h2>
+          </div>
+          <a href="/games/">Browse all games</a>
+        </div>
+        <!-- Replace or remove these sibling links if the related game folders use different slugs. -->
+        <div class="related-grid">
+          <a class="related-card" href="../snake/">
+            <span class="game-tile snake-tile" aria-hidden="true">●••</span>
+            <span><strong>Snake</strong><small>Arcade</small></span>
+          </a>
+          <a class="related-card" href="../2048/">
+            <span class="game-tile number-tile" aria-hidden="true">2048</span>
+            <span><strong>2048</strong><small>Puzzle</small></span>
+          </a>
+          <a class="related-card" href="../memory-match/">
+            <span class="game-tile memory-tile" aria-hidden="true">✦</span>
+            <span><strong>Memory Match</strong><small>Casual</small></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="faq-section" aria-labelledby="faq-title">
+        <p class="eyebrow">Common questions</p>
+        <h2 id="faq-title">Tap Game FAQ</h2>
+        <details>
+          <summary>Is the Tap game free to play?</summary>
+          <p>Yes. Tap is free to play in a modern browser and requires no download, signup, or purchase.</p>
+        </details>
+        <details>
+          <summary>Can I play Tap on a phone?</summary>
+          <p>Yes. The arena and targets resize for phones and tablets, and the game supports touch input.</p>
+        </details>
+        <details>
+          <summary>How is the Tap score calculated?</summary>
+          <p>Normal targets award 10 points plus a combo bonus. Gold targets award 50 points plus a combo bonus. Red decoys remove 25 points and reset the combo.</p>
+        </details>
+        <details>
+          <summary>Does the game save my score?</summary>
+          <p>The best score is stored in your browser on your current device. No score is sent to a server.</p>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <p>© <span id="year"></span> Games Hub</p>
+      <p>Fast, free games for your browser.</p>
+    </div>
+  </footer>
+
+  <script>"use strict";
+
+(() => {
+  const ROUND_DURATION = 30;
+  const NORMAL_POINTS = 10;
+  const BONUS_POINTS = 50;
+  const DECOY_PENALTY = 25;
+  const STORAGE_KEY = "gamesHubTapBest";
+
+  const elements = {
+    arena: document.getElementById("arena"),
+    target: document.getElementById("target"),
+    score: document.getElementById("score"),
+    time: document.getElementById("time"),
+    combo: document.getElementById("combo"),
+    best: document.getElementById("best"),
+    overlay: document.getElementById("gameOverlay"),
+    overlayIcon: document.getElementById("overlayIcon"),
+    overlayTitle: document.getElementById("overlayTitle"),
+    overlayText: document.getElementById("overlayText"),
+    startButton: document.getElementById("startButton"),
+    pauseButton: document.getElementById("pauseButton"),
+    pauseIcon: document.getElementById("pauseIcon"),
+    pauseLabel: document.getElementById("pauseLabel"),
+    restartButton: document.getElementById("restartButton"),
+    status: document.getElementById("status"),
+    feedbackLayer: document.getElementById("feedbackLayer"),
+    year: document.getElementById("year")
+  };
+
+  const state = {
+    phase: "ready",
+    score: 0,
+    combo: 0,
+    best: loadBestScore(),
+    roundStartingBest: 0,
+    remaining: ROUND_DURATION,
+    startedAt: 0,
+    pausedAt: 0,
+    totalPaused: 0,
+    moveTimer: null,
+    frameId: null,
+    targetType: "normal",
+    lastPosition: null,
+    autoPaused: false
+  };
+
+  function loadBestScore() {
+    try {
+      const stored = Number.parseInt(localStorage.getItem(STORAGE_KEY), 10);
+      return Number.isFinite(stored) && stored >= 0 ? stored : 0;
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  function saveBestScore() {
+    try {
+      localStorage.setItem(STORAGE_KEY, String(state.best));
+    } catch (error) {
+      // The game remains fully playable when browser storage is unavailable.
+    }
+  }
+
+  function setStatus(message) {
+    elements.status.textContent = message;
+  }
+
+  function updateStats() {
+    elements.score.textContent = String(state.score);
+    elements.combo.textContent = String(state.combo);
+    elements.best.textContent = String(state.best);
+    elements.time.textContent = state.remaining.toFixed(1);
+  }
+
+  function clearTimers() {
+    window.clearTimeout(state.moveTimer);
+    state.moveTimer = null;
+    window.cancelAnimationFrame(state.frameId);
+    state.frameId = null;
+  }
+
+  function getMoveDelay() {
+    const elapsed = ROUND_DURATION - state.remaining;
+    return Math.max(420, 900 - elapsed * 15);
+  }
+
+  function chooseTargetType() {
+    const roll = Math.random();
+    if (roll < 0.14) return "decoy";
+    if (roll < 0.26) return "bonus";
+    return "normal";
+  }
+
+  function getTargetSize() {
+    return elements.target.getBoundingClientRect().width || 76;
+  }
+
+  function pickPosition(maxX, maxY) {
+    let position;
+    let attempts = 0;
+
+    do {
+      position = {
+        x: Math.round(Math.random() * maxX),
+        y: Math.round(Math.random() * maxY)
+      };
+      attempts += 1;
+    } while (
+      state.lastPosition &&
+      attempts < 8 &&
+      Math.hypot(position.x - state.lastPosition.x, position.y - state.lastPosition.y) < 115
+    );
+
+    return position;
+  }
+
+  function moveTarget() {
+    if (state.phase !== "running") return;
+
+    const size = getTargetSize();
+    const padding = 12;
+    const maxX = Math.max(0, elements.arena.clientWidth - size - padding * 2);
+    const maxY = Math.max(0, elements.arena.clientHeight - size - padding * 2);
+    const position = pickPosition(maxX, maxY);
+
+    state.lastPosition = position;
+    state.targetType = chooseTargetType();
+
+    elements.target.classList.remove("normal", "bonus", "decoy", "is-hit");
+    elements.target.classList.add(state.targetType);
+    elements.target.style.left = `${position.x + padding}px`;
+    elements.target.style.top = `${position.y + padding}px`;
+
+    const labels = {
+      normal: "Tap target",
+      bonus: "Tap gold bonus target",
+      decoy: "Red decoy, do not tap"
+    };
+    elements.target.setAttribute("aria-label", labels[state.targetType]);
+
+    window.clearTimeout(state.moveTimer);
+    state.moveTimer = window.setTimeout(handleExpiredTarget, getMoveDelay());
+  }
+
+  function handleExpiredTarget() {
+    if (state.phase !== "running") return;
+    if (state.targetType !== "decoy" && state.combo > 0) {
+      state.combo = 0;
+      elements.combo.textContent = "0";
+      setStatus("Missed target. Combo reset.");
+    }
+    moveTarget();
+  }
+
+  function showFeedback(text, isNegative = false) {
+    const targetRect = elements.target.getBoundingClientRect();
+    const arenaRect = elements.arena.getBoundingClientRect();
+    const feedback = document.createElement("span");
+
+    feedback.className = `feedback${isNegative ? " negative" : ""}`;
+    feedback.textContent = text;
+    feedback.style.left = `${targetRect.left - arenaRect.left + targetRect.width / 2}px`;
+    feedback.style.top = `${targetRect.top - arenaRect.top}px`;
+    elements.feedbackLayer.append(feedback);
+    window.setTimeout(() => feedback.remove(), 600);
+  }
+
+  function handleTargetHit(event) {
+    event.preventDefault();
+    if (state.phase !== "running") return;
+
+    window.clearTimeout(state.moveTimer);
+    elements.target.classList.add("is-hit");
+
+    if (state.targetType === "decoy") {
+      state.score = Math.max(0, state.score - DECOY_PENALTY);
+      state.combo = 0;
+      showFeedback(`−${DECOY_PENALTY}`, true);
+      setStatus("Decoy hit. Points lost and combo reset.");
+    } else {
+      state.combo += 1;
+      const comboBonus = Math.min(40, Math.max(0, state.combo - 1) * 2);
+      const basePoints = state.targetType === "bonus" ? BONUS_POINTS : NORMAL_POINTS;
+      const points = basePoints + comboBonus;
+      state.score += points;
+      showFeedback(`+${points}`);
+      setStatus(state.targetType === "bonus" ? "Gold bonus! Keep going." : `Great hit. Combo ×${state.combo}.`);
+    }
+
+    if (state.score > state.best) {
+      state.best = state.score;
+    }
+
+    updateStats();
+    window.setTimeout(moveTarget, 70);
+  }
+
+  function tick(now) {
+    if (state.phase !== "running") return;
+
+    const elapsed = (now - state.startedAt - state.totalPaused) / 1000;
+    state.remaining = Math.max(0, ROUND_DURATION - elapsed);
+    elements.time.textContent = state.remaining.toFixed(1);
+
+    if (state.remaining <= 0) {
+      endGame();
+      return;
+    }
+
+    state.frameId = window.requestAnimationFrame(tick);
+  }
+
+  function showOverlay(title, text, buttonText, icon) {
+    elements.overlayTitle.textContent = title;
+    elements.overlayText.textContent = text;
+    elements.startButton.textContent = buttonText;
+    elements.overlayIcon.textContent = icon;
+    elements.overlay.hidden = false;
+  }
+
+  function startGame() {
+    clearTimers();
+    state.phase = "running";
+    state.score = 0;
+    state.combo = 0;
+    state.roundStartingBest = state.best;
+    state.remaining = ROUND_DURATION;
+    state.startedAt = performance.now();
+    state.pausedAt = 0;
+    state.totalPaused = 0;
+    state.lastPosition = null;
+    state.autoPaused = false;
+
+    elements.feedbackLayer.replaceChildren();
+    elements.overlay.hidden = true;
+    elements.target.hidden = false;
+    elements.pauseButton.disabled = false;
+    elements.restartButton.disabled = false;
+    elements.pauseIcon.textContent = "Ⅱ";
+    elements.pauseLabel.textContent = "Pause";
+    setStatus("Game started. Tap the blue and gold targets.");
+    updateStats();
+    moveTarget();
+    state.frameId = window.requestAnimationFrame(tick);
+  }
+
+  function pauseGame(isAutomatic = false) {
+    if (state.phase !== "running") return;
+
+    state.phase = "paused";
+    state.pausedAt = performance.now();
+    state.autoPaused = isAutomatic;
+    clearTimers();
+    elements.target.hidden = true;
+    elements.pauseIcon.textContent = "▶";
+    elements.pauseLabel.textContent = "Resume";
+    showOverlay("Game paused", "Your score and remaining time are safe.", "Resume Game", "Ⅱ");
+    setStatus("Game paused.");
+  }
+
+  function resumeGame() {
+    if (state.phase !== "paused") return;
+
+    state.totalPaused += performance.now() - state.pausedAt;
+    state.phase = "running";
+    state.autoPaused = false;
+    elements.overlay.hidden = true;
+    elements.target.hidden = false;
+    elements.pauseIcon.textContent = "Ⅱ";
+    elements.pauseLabel.textContent = "Pause";
+    setStatus("Game resumed.");
+    moveTarget();
+    state.frameId = window.requestAnimationFrame(tick);
+  }
+
+  function endGame() {
+    if (state.phase === "over") return;
+
+    clearTimers();
+    state.phase = "over";
+    state.remaining = 0;
+    elements.target.hidden = true;
+    elements.pauseButton.disabled = true;
+
+    const isNewBest = state.score > state.roundStartingBest;
+    if (state.score > state.best) state.best = state.score;
+    saveBestScore();
+    updateStats();
+
+    const message = isNewBest
+      ? `New best score: ${state.score}. Your reactions were sharp!`
+      : `You scored ${state.score}. Your best is ${state.best}.`;
+    showOverlay("Time’s up!", message, "Play Again", isNewBest ? "★" : "✓");
+    setStatus(message);
+  }
+
+  function handleStartButton() {
+    if (state.phase === "paused") {
+      resumeGame();
+    } else {
+      startGame();
+    }
+  }
+
+  function togglePause() {
+    if (state.phase === "running") pauseGame();
+    else if (state.phase === "paused") resumeGame();
+  }
+
+  elements.startButton.addEventListener("click", handleStartButton);
+  elements.pauseButton.addEventListener("click", togglePause);
+  elements.restartButton.addEventListener("click", startGame);
+  elements.target.addEventListener("click", handleTargetHit);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key.toLowerCase() === "p" && !event.repeat) {
+      event.preventDefault();
+      togglePause();
+    }
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && state.phase === "running") {
+      pauseGame(true);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (state.phase === "running") moveTarget();
+  });
+
+  elements.year.textContent = String(new Date().getFullYear());
+  elements.best.textContent = String(state.best);
+  updateStats();
+})();
+</script>
+</body>
+</html>
