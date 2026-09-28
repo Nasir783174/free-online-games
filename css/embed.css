@@ -1,0 +1,5 @@
+/* Applied only to game sources loaded inside the game-page iframe */
+.site-header,header,footer,.site-footer,.breadcrumb,.intro,.hero h1,.hero-copy,.hero>p,.hero>.eyebrow,.eyebrow,.content,.content-section,.content-grid,.faq,.faq-section,.related,.related-section,.info-section,.tip-grid,.skip-link{display:none!important}
+html,body{background:transparent!important;min-height:0!important}
+.page,.page-shell,.shell,.container,.wrap,.hero{width:100%!important;max-width:none!important;margin:0!important;padding-top:0!important;padding-bottom:0!important}
+.game-card,.game-shell{margin:0!important;max-width:none!important;border:0!important;border-radius:0!important;box-shadow:none!important}
