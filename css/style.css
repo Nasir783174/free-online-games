@@ -61,8 +61,8 @@ a{color:var(--pd);font-weight:500}a:hover{color:var(--p)}
 .crumb{font-size:14px;color:var(--mu);padding-block:18px 6px}.crumb a{color:var(--mu);text-decoration:none}.crumb a:hover{color:var(--pd)}.crumb span{margin:0 6px}
 .gh{padding-block:6px 14px}.gh h1{margin-bottom:6px}.gh p{margin:0;color:var(--mu)}
 .game-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
-.frame{position:relative;overflow:hidden;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);height:clamp(400px,calc(100dvh - 230px),720px)}
-.frame iframe{position:absolute;top:50%;left:50%;border:0;transform-origin:center center;opacity:0;transition:opacity .25s}
+.frame{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);height:clamp(400px,calc(100dvh - 230px),720px)}
+.frame iframe{width:100%;border:0;opacity:0;transition:opacity .25s;flex:none}
 .frame iframe.ready{opacity:1}
 .frame .fspin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:14px;font-weight:600}
 .frame .fspin::before{content:"";width:22px;height:22px;margin-right:10px;border:3px solid var(--bd);border-top-color:var(--p);border-radius:50%;animation:fspin .7s linear infinite}

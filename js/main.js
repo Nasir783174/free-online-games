@@ -10,13 +10,12 @@ if(f){
   function measure(){
     try{
       var doc=f.contentDocument, de=doc.documentElement;
-      var w=de.scrollWidth, h=de.scrollHeight;
-      if(!w||!h){return false}
-      f.style.width=w+'px'; f.style.height=h+'px';
+      var natH=de.scrollHeight, natW=de.scrollWidth;
+      if(!natH||!natW) return false;
+      f.style.transform='none'; f.style.height=natH+'px'; // reset before re-measuring on resize
       var bw=box.clientWidth, bh=box.clientHeight;
-      var scale=Math.min(bw/w, bh/h);
-      scale=Math.min(scale,1.4); // don't blow up a tiny game too much
-      f.style.transform='translate(-50%,-50%) scale('+scale+')';
+      var scale=Math.min(1, bh/natH, bw/natW);
+      if(scale<0.999) f.style.transform='scale('+scale.toFixed(4)+')';
       return true;
     }catch(e){return false}
   }
