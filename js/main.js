@@ -12,10 +12,20 @@ if(f){
       var doc=f.contentDocument, de=doc.documentElement;
       var natH=de.scrollHeight, natW=de.scrollWidth;
       if(!natH||!natW) return false;
-      f.style.transform='none'; f.style.height=natH+'px'; // reset before re-measuring on resize
-      var bw=box.clientWidth, bh=box.clientHeight;
-      var scale=Math.min(1, bh/natH, bw/natW);
-      if(scale<0.999) f.style.transform='scale('+scale.toFixed(4)+')';
+      // Shape the box itself to the game's own aspect ratio (instead of forcing every
+      // game into one fixed box), so the frame hugs the content with no dead space.
+      var bw=box.clientWidth, boxH;
+      if(document.fullscreenElement){
+        boxH=box.clientHeight; // CSS forces this to 100vh; just fit-within, no reshaping
+      } else {
+        var fitH=natW ? natH*(bw/natW) : natH;
+        var maxH=Math.min(window.innerHeight*0.75,700), minH=320;
+        boxH=Math.min(maxH,Math.max(minH,fitH));
+        box.style.height=boxH+'px';
+      }
+      var scale=Math.min(boxH/natH, bw/natW);
+      f.style.width=natW+'px'; f.style.height=natH+'px';
+      f.style.transform = scale<0.999 ? 'scale('+scale.toFixed(4)+')' : 'none';
       return true;
     }catch(e){return false}
   }
@@ -26,6 +36,7 @@ if(f){
     var tries=0, iv=setInterval(function(){ fit(); if(++tries>20) clearInterval(iv) },300);
   });
   window.addEventListener('resize',fit);
+  document.addEventListener('fullscreenchange',function(){ setTimeout(fit,50) });
   var abar=document.querySelector('.abar');
   if(abar){
     var fs=abar.querySelector('[data-fs]');
