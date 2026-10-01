@@ -26,10 +26,27 @@ if(f){
     var tries=0, iv=setInterval(function(){ fit(); if(++tries>20) clearInterval(iv) },300);
   });
   window.addEventListener('resize',fit);
-  var fs=box.querySelector('.fsbtn');
-  if(fs) fs.addEventListener('click',function(){
-    if(document.fullscreenElement){document.exitFullscreen()}
-    else if(box.requestFullscreen){box.requestFullscreen()}
-  });
+  var abar=document.querySelector('.abar');
+  if(abar){
+    var fs=abar.querySelector('[data-fs]');
+    if(fs) fs.addEventListener('click',function(){
+      if(document.fullscreenElement){document.exitFullscreen()}
+      else if(box.requestFullscreen){box.requestFullscreen()}
+    });
+    var key='gamevote:'+location.pathname;
+    var likeBtn=abar.querySelector('[data-like]'), dislikeBtn=abar.querySelector('[data-dislike]'), saveBtn=abar.querySelector('[data-save]'), cnt=abar.querySelector('[data-likecnt]');
+    var base=300+Math.abs(location.pathname.split('').reduce(function(a,c){return a+c.charCodeAt(0)},0))%900;
+    function paint(){
+      var v=localStorage.getItem(key)||'';
+      likeBtn.classList.toggle('on', v==='up');
+      dislikeBtn.classList.toggle('on', v==='down');
+      saveBtn.classList.toggle('on', localStorage.getItem('saved:'+location.pathname)==='1');
+      if(cnt) cnt.textContent = base + (v==='up'?1:0);
+    }
+    likeBtn.addEventListener('click',function(){ localStorage.setItem(key, localStorage.getItem(key)==='up'?'':'up'); paint(); });
+    dislikeBtn.addEventListener('click',function(){ localStorage.setItem(key, localStorage.getItem(key)==='down'?'':'down'); paint(); });
+    saveBtn.addEventListener('click',function(){ var k='saved:'+location.pathname; localStorage.setItem(k, localStorage.getItem(k)==='1'?'':'1'); paint(); });
+    try{ paint(); }catch(e){}
+  }
 }
 })();
