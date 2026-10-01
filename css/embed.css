@@ -1,36 +1,19 @@
-/* Applied only inside the /play/ iframe source: keep just the interactive game area. */
-html,body{background:transparent!important;min-height:0!important}
+/* Applied only inside the /play/ iframe source. */
+html,body{background:#fff!important}
 header,footer,.site-header,.site-footer,.skip-link{display:none!important}
+.page,.page-shell,.shell,.container,.wrap,main{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
 
-/* Hide only confirmed marketing/SEO text blocks (verified against every game's markup).
-   Never hide by guessing "this looks like the game" — only remove known-safe marketing
-   section names, so the actual play area (whatever it's called per game) is never touched. */
+/* Hide only confirmed marketing/SEO text blocks that duplicate what our own page already
+   shows (verified safe against every game's markup — never touches the actual game). */
 [class*="content-section"],[class*="content-grid"],[class*="content-card"],
 [class*="faq"],[class*="related"],
 [class*="info-section"],[class*="info-grid"],[class*="info-card"],
 [class*="about-section"],[class*="about-card"],[class*="about-copy"],[class~="about"],
 [class*="tips"],[class*="intro"],[class*="text-section"],[class*="split-section"],
 [class*="article-section"],[class*="alt-section"],[class~="eyebrow"],
-[class*="section-heading"],[class*="hero-copy"],[class*="breadcrumb"]
+[class*="section-heading"],[class*="hero-copy"],[class*="breadcrumb"],
+main>[class~="content"]
 {display:none!important}
-/* the one wrapper that is sometimes marketing text and sometimes the real game (rare):
-   keep it only if it actually contains the interactive game */
 .hero:not(:has(canvas,button,input,[role="application"],[tabindex])),
 .hero-section:not(:has(canvas,button,input,[role="application"],[tabindex]))
 {display:none!important}
-/* bare "content" is only safe to hide when it's a top-level page section (verified);
-   nested uses like "content-main"/"overlay-content" inside a live modal must stay */
-main>[class~="content"]{display:none!important}
-
-.page,.page-shell,.shell,.container,.wrap,main{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
-
-/* redundant duplicate game title/description (already shown as our own H1 above the frame) + decorative logo icon */
-[class*="topbar"] h1,[class*="topbar"] h2,[class*="topbar"] h3,[class*="topbar"]>p,
-[class*="heading"] h1,[class*="heading"] h2,[class*="heading"] h3,[class*="heading"]>p,
-[class*="mini-logo"]{display:none!important}
-/* compact score/stat/action rows into one thin bar instead of removing them (they stay functional, just small) */
-[class*="topbar"],[class*="toolbar"],[class*="game-stats"],[class*="stat-bar"],[class*="stats-bar"],[class$="-actions"],[class^="actions"]{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:6px!important;padding:6px 10px!important;margin:0 0 6px!important;min-height:0!important;height:auto!important}
-[class*="topbar"] [class*="box"],[class*="toolbar"] [class*="box"],[class*="stat"]{padding:3px 8px!important;font-size:12px!important;line-height:1.2!important}
-[class*="topbar"] button,[class*="toolbar"] button,[class$="-actions"] button{padding:4px 10px!important;font-size:12px!important}
-/* redundant static "how to play" captions repeated inside the game (already shown in our own sidebar) */
-[class~="control-hint"],[class~="controls-hint"],[class~="keyboard-hint"],[class~="mouse-hint"],[class~="touch-hint"],[class~="desktop-hint"],[class~="mobile-hint"]{display:none!important}

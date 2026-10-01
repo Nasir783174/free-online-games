@@ -179,5 +179,5 @@ function moveDrag(e){if(!drag)return;drag.ghost.style.left=e.clientX+"px";drag.g
 function endDrag(e){if(!drag)return;const hit=document.elementFromPoint(e.clientX,e.clientY),cell=hit&&hit.closest(".cell");if(cell)tryPlace(drag.i,+cell.dataset.r,+cell.dataset.c);drag.ghost.remove();drag=null;clearPreview();window.removeEventListener("pointermove",moveDrag)}
 document.getElementById("newGame").addEventListener("click",init);document.getElementById("playAgain").addEventListener("click",init);
 init();</script>
-<script src="/js/isolate.js"></script></body>
+</body>
 </html>
