@@ -87,5 +87,5 @@ for(const p of particles){ctx.globalAlpha=Math.max(0,p.life*1.5);ctx.fillStyle=p
 function loop(t){let dt=Math.min(.033,(t-last)/1000||0);last=t;acc+=dt;while(acc>=1/120){update(1/120);acc-=1/120}draw();requestAnimationFrame(loop)}
 resetLevel();requestAnimationFrame(loop);
 })();</script>
-</body>
+<script src="/js/isolate.js"></script></body>
 </html>
