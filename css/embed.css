@@ -1,5 +1,7 @@
 /* Applied only inside the /play/ iframe source. */
 html,body{background:#fff!important}
+/* the HTML hidden attribute must always win (some games override it with display:grid/flex) */
+[hidden]{display:none!important}
 header,footer,.site-header,.site-footer,.skip-link{display:none!important}
 .page,.page-shell,.shell,.container,.wrap,main{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
 

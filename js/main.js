@@ -17,6 +17,17 @@
     function ready(){ f.classList.add('ready'); if(spin) spin.style.display='none'; }
     f.addEventListener('load', ready);
     setTimeout(ready, 4000); // safety net: never leave the loading spinner stuck
+    // Fill the rest of the first screen: frame top -> bottom of the window (never taller than the screen)
+    function sizeFrame(){
+      if(document.fullscreenElement) return;
+      var top=box.getBoundingClientRect().top+window.pageYOffset;      // distance from page top to the frame
+      var h=window.innerHeight-top-14;
+      f.style.removeProperty('--frame-h');
+      box.style.setProperty('--frame-h', Math.max(460, Math.min(920, Math.round(h)))+'px');
+    }
+    sizeFrame();
+    window.addEventListener('resize', sizeFrame);
+    window.addEventListener('load', sizeFrame);
     var fs=box ? box.querySelector('.fsbtn') : null;
     if(fs) fs.addEventListener('click',function(){
       if(document.fullscreenElement){ document.exitFullscreen(); }

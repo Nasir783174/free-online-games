@@ -220,7 +220,7 @@ details p{margin:9px 0 0}
   .overlay-card h2{font-size:28px}
 }
 </style>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
 <body>
   <header class="site-header">
     <div class="header-inner">
@@ -433,11 +433,12 @@ details p{margin:9px 0 0}
       terrain.push({x:spawnX + rampLen + gap + 140, y:GROUND - Math.random()*35});
       spawnX += rampLen + gap + 280;
     }
-    for (const s of stars) {
-      if (s.x > stars[stars.length-1].x - 250) {
-        const last = stars[stars.length-1];
-        stars.push({x:last.x + 240 + Math.random()*180,y:0,r:10,collected:false,bob:Math.random()*TAU});
-      }
+    // keep adding stars until they reach limitX (the old for-of loop pushed into the array it was iterating -> infinite loop)
+    while (stars.length && stars[stars.length-1].x < limitX) {
+      const last = stars[stars.length-1];
+      const star = {x:last.x + 240 + Math.random()*180,y:0,r:10,collected:false,bob:Math.random()*TAU};
+      star.y = terrainY(star.x) - 85;
+      stars.push(star);
     }
   }
 

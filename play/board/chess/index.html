@@ -184,6 +184,18 @@ details p { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* ---- compact layout so the whole board fits inside the embedded frame ---- */
+.game-card { padding: 12px 18px; }
+.game-toolbar { padding-bottom: 10px; }
+.game-toolbar h2 { font-size: 21px; }
+.button { min-height: 38px; padding: 0 16px; }
+.game-layout { padding-top: 12px; gap: 20px; }
+.player-bar { padding: 5px 12px; }
+.board-wrap { margin: 8px auto; padding: 8px; }
+.panel-section { padding: 12px 16px; }
+.move-list { max-height: 220px; }
+.control-hint { display: none; }
 </style>
   <script type="application/ld+json">
   {
@@ -198,7 +210,7 @@ details p { margin-bottom: 0; }
     "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
   }
   </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css"></head>
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
 <body>
   <header class="site-header">
     <a class="brand" href="/" aria-label="Games Hub home">
