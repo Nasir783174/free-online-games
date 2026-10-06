@@ -113,4 +113,5 @@
 <url><loc>https://demo.com/contact/</loc><lastmod>2026-10-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 <url><loc>https://demo.com/privacy-policy/</loc><lastmod>2026-10-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 <url><loc>https://demo.com/terms/</loc><lastmod>2026-10-01</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+<url><loc>https://demo.com/games/</loc></url>
 </urlset>

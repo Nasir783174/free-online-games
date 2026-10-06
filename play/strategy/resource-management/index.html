@@ -188,7 +188,160 @@ dialog button { width: 100%; min-height: 48px; color: #fff; background: var(--br
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 </style>
-  <script>"use strict";
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../../" aria-label="Games Hub home">
+      <span class="brand-mark" aria-hidden="true">G</span>
+      <span>Games Hub</span>
+    </a>
+    <span class="header-label">Strategy Game</span>
+  </header>
+
+  <main>
+    <div class="page-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Home</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Resource Management</span>
+      </nav>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Build smart. Stay balanced.</p>
+        <h1 id="page-title">Resource Management Game</h1>
+        <p>Guide a small settlement through 12 changing seasons. Build production, protect essential supplies, and grow a community that is both prosperous and happy.</p>
+      </section>
+
+      <section class="game-card" aria-label="Resource Management game">
+        <div class="game-topbar">
+          <div>
+            <p class="season-label">Current season</p>
+            <p class="season-value"><span id="seasonIcon" aria-hidden="true">🌱</span> <span id="seasonName">Spring</span> · Year <span id="yearNumber">1</span></p>
+          </div>
+          <div class="turn-block">
+            <span>Season</span>
+            <strong><span id="turnNumber">1</span>/12</strong>
+          </div>
+          <button class="sound-button" id="soundButton" type="button" aria-label="Turn sound off" aria-pressed="true">Sound: On</button>
+        </div>
+
+        <div class="game-layout">
+          <div class="main-panel">
+            <div class="resource-grid" aria-label="Settlement resources" aria-live="polite">
+              <article class="resource resource-food"><span aria-hidden="true">🌾</span><div><small>Food</small><strong id="foodValue">18</strong></div><em id="foodRate">+0</em></article>
+              <article class="resource resource-energy"><span aria-hidden="true">⚡</span><div><small>Energy</small><strong id="energyValue">14</strong></div><em id="energyRate">+0</em></article>
+              <article class="resource resource-materials"><span aria-hidden="true">🪵</span><div><small>Materials</small><strong id="materialsValue">16</strong></div><em id="materialsRate">+0</em></article>
+              <article class="resource resource-coins"><span aria-hidden="true">●</span><div><small>Coins</small><strong id="coinsValue">22</strong></div><em id="coinsRate">+0</em></article>
+              <article class="resource resource-people"><span aria-hidden="true">♟</span><div><small>People</small><strong id="peopleValue">12</strong></div><em id="peopleRate">Stable</em></article>
+              <article class="resource resource-happy"><span aria-hidden="true">♥</span><div><small>Happiness</small><strong><span id="happinessValue">58</span>%</strong></div><em id="happinessRate">Steady</em></article>
+            </div>
+
+            <div class="settlement" aria-labelledby="settlement-title">
+              <div class="section-heading">
+                <div><p class="kicker">Your settlement</p><h2 id="settlement-title">Choose your actions</h2></div>
+                <p class="action-points"><span id="actionsLeft">2</span> actions left</p>
+              </div>
+              <div class="building-grid" id="buildingGrid"></div>
+            </div>
+          </div>
+
+          <aside class="side-panel">
+            <section class="objective-card" aria-labelledby="objective-title">
+              <p class="kicker">Council objective</p>
+              <h2 id="objective-title">Thrive by Season 12</h2>
+              <ul class="goal-list">
+                <li data-goal="people"><span>Reach 20 people</span><strong id="peopleGoal">12/20</strong></li>
+                <li data-goal="happiness"><span>Keep 60% happiness</span><strong id="happinessGoal">58%</strong></li>
+                <li data-goal="coins"><span>Save 40 coins</span><strong id="coinsGoal">22/40</strong></li>
+              </ul>
+              <div class="score-row"><span>Prosperity score</span><strong id="scoreValue">0</strong></div>
+            </section>
+
+            <section class="forecast-card" aria-labelledby="forecast-title">
+              <div class="forecast-header"><h2 id="forecast-title">Season forecast</h2><span id="weatherIcon" aria-hidden="true">☀️</span></div>
+              <p id="forecastText">Mild skies. Normal production expected.</p>
+              <div class="upkeep"><span>Next upkeep</span><strong id="upkeepText">−6 food · −4 energy</strong></div>
+            </section>
+
+            <section class="log-card" aria-labelledby="log-title">
+              <h2 id="log-title">Settlement log</h2>
+              <ol id="gameLog" aria-live="polite" aria-relevant="additions"></ol>
+            </section>
+
+            <button class="end-turn-button" id="endTurnButton" type="button">End Season <span aria-hidden="true">→</span></button>
+            <button class="new-game-button" id="newGameButton" type="button">Start New Game</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div class="content-copy">
+          <p class="eyebrow">Simple rules, meaningful choices</p>
+          <h2 id="how-to-play">How to Play Resource Management</h2>
+          <p>You have two actions in each season. Use them to construct buildings or support your community, then end the season to collect production and pay population upkeep. Every choice affects what you can afford next.</p>
+          <ol class="steps">
+            <li><strong>Check your supplies.</strong> Food and energy are consumed at the end of every season.</li>
+            <li><strong>Choose two actions.</strong> Build production sites, trade at the market, or hold a festival.</li>
+            <li><strong>Read the forecast.</strong> Seasonal events can help or reduce production.</li>
+            <li><strong>Meet all objectives.</strong> Finish Season 12 with 20 people, 60% happiness, and 40 coins.</li>
+          </ol>
+        </div>
+        <aside class="controls-card">
+          <h3>Game Controls</h3>
+          <dl>
+            <div><dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>Choose an action</dd></div>
+            <div><dt><kbd>Enter</kbd></dt><dd>End the season</dd></div>
+            <div><dt><kbd>R</kbd></dt><dd>Start a new game</dd></div>
+            <div><dt>Tap</dt><dd>All mobile controls</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="article-section">
+        <h2>About the Resource Management Game</h2>
+        <p>This free online strategy game turns resource planning into a short, replayable challenge. Farms, solar fields, workshops, and markets form a connected economy: one building supplies what another action needs, while population growth raises both your earning potential and upkeep costs.</p>
+        <p>Each run creates a different sequence of events, so the best build order can change. The game is played entirely in your browser with no download or account.</p>
+      </section>
+
+      <section class="article-section">
+        <h2>Resource Management Strategy Tips</h2>
+        <div class="tip-grid">
+          <article><span>01</span><h3>Secure essentials first</h3><p>A growing population consumes more food and energy. Build enough production before pushing growth.</p></article>
+          <article><span>02</span><h3>Watch dependencies</h3><p>Workshops create valuable materials, but their seasonal production also uses energy.</p></article>
+          <article><span>03</span><h3>Protect happiness</h3><p>Shortages reduce happiness quickly. Festivals help, but prevention is usually more efficient.</p></article>
+        </div>
+      </section>
+
+      <section class="article-section" aria-labelledby="related-title">
+        <h2 id="related-title">Related Strategy Games</h2>
+        <div class="related-grid">
+          <article><span aria-hidden="true">🏙️</span><div><h3>City Builder</h3><p>Plan districts and grow a city.</p></div><small>Coming soon</small></article>
+          <article><span aria-hidden="true">🏭</span><div><h3>Factory Flow</h3><p>Build an efficient production line.</p></div><small>Coming soon</small></article>
+          <article><span aria-hidden="true">🌾</span><div><h3>Farm Planner</h3><p>Balance crops, weather, and trade.</p></div><small>Coming soon</small></article>
+        </div>
+      </section>
+
+      <section class="article-section faq-section">
+        <h2>Resource Management Game FAQ</h2>
+        <details><summary>Is this resource management game free?</summary><p>Yes. You can play the complete game online for free in a modern browser.</p></details>
+        <details><summary>Can I play on a mobile phone?</summary><p>Yes. The layout and controls are designed for touch screens as well as desktop browsers.</p></details>
+        <details><summary>How do I win the game?</summary><p>Complete Season 12 with at least 20 people, 60% happiness, and 40 coins. Your settlement must also avoid a total resource collapse.</p></details>
+        <details><summary>Does the game save my progress?</summary><p>Your current run is saved automatically in your browser. You can continue after refreshing the page on the same device.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer><p>© <span id="currentYear"></span> Games Hub · Free games made for the browser.</p></footer>
+
+  <dialog id="gameDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-art" id="dialogArt" aria-hidden="true">🌄</div>
+    <p class="eyebrow" id="dialogEyebrow">Settlement report</p>
+    <h2 id="dialogTitle">A new chapter</h2>
+    <p id="dialogText"></p>
+    <div class="final-score"><span>Final score</span><strong id="finalScore">0</strong></div>
+    <button id="playAgainButton" type="button">Play Again</button>
+  </dialog>
+<script>"use strict";
 
 const STORAGE_KEY = "gamesHubResourceManagementV1";
 const TOTAL_TURNS = 12;
@@ -518,157 +671,5 @@ document.addEventListener("DOMContentLoaded", () => {
   render();
 });
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="../../" aria-label="Games Hub home">
-      <span class="brand-mark" aria-hidden="true">G</span>
-      <span>Games Hub</span>
-    </a>
-    <span class="header-label">Strategy Game</span>
-  </header>
-
-  <main>
-    <div class="page-shell">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../../">Home</a><span aria-hidden="true">/</span>
-        <span aria-current="page">Resource Management</span>
-      </nav>
-
-      <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow">Build smart. Stay balanced.</p>
-        <h1 id="page-title">Resource Management Game</h1>
-        <p>Guide a small settlement through 12 changing seasons. Build production, protect essential supplies, and grow a community that is both prosperous and happy.</p>
-      </section>
-
-      <section class="game-card" aria-label="Resource Management game">
-        <div class="game-topbar">
-          <div>
-            <p class="season-label">Current season</p>
-            <p class="season-value"><span id="seasonIcon" aria-hidden="true">🌱</span> <span id="seasonName">Spring</span> · Year <span id="yearNumber">1</span></p>
-          </div>
-          <div class="turn-block">
-            <span>Season</span>
-            <strong><span id="turnNumber">1</span>/12</strong>
-          </div>
-          <button class="sound-button" id="soundButton" type="button" aria-label="Turn sound off" aria-pressed="true">Sound: On</button>
-        </div>
-
-        <div class="game-layout">
-          <div class="main-panel">
-            <div class="resource-grid" aria-label="Settlement resources" aria-live="polite">
-              <article class="resource resource-food"><span aria-hidden="true">🌾</span><div><small>Food</small><strong id="foodValue">18</strong></div><em id="foodRate">+0</em></article>
-              <article class="resource resource-energy"><span aria-hidden="true">⚡</span><div><small>Energy</small><strong id="energyValue">14</strong></div><em id="energyRate">+0</em></article>
-              <article class="resource resource-materials"><span aria-hidden="true">🪵</span><div><small>Materials</small><strong id="materialsValue">16</strong></div><em id="materialsRate">+0</em></article>
-              <article class="resource resource-coins"><span aria-hidden="true">●</span><div><small>Coins</small><strong id="coinsValue">22</strong></div><em id="coinsRate">+0</em></article>
-              <article class="resource resource-people"><span aria-hidden="true">♟</span><div><small>People</small><strong id="peopleValue">12</strong></div><em id="peopleRate">Stable</em></article>
-              <article class="resource resource-happy"><span aria-hidden="true">♥</span><div><small>Happiness</small><strong><span id="happinessValue">58</span>%</strong></div><em id="happinessRate">Steady</em></article>
-            </div>
-
-            <div class="settlement" aria-labelledby="settlement-title">
-              <div class="section-heading">
-                <div><p class="kicker">Your settlement</p><h2 id="settlement-title">Choose your actions</h2></div>
-                <p class="action-points"><span id="actionsLeft">2</span> actions left</p>
-              </div>
-              <div class="building-grid" id="buildingGrid"></div>
-            </div>
-          </div>
-
-          <aside class="side-panel">
-            <section class="objective-card" aria-labelledby="objective-title">
-              <p class="kicker">Council objective</p>
-              <h2 id="objective-title">Thrive by Season 12</h2>
-              <ul class="goal-list">
-                <li data-goal="people"><span>Reach 20 people</span><strong id="peopleGoal">12/20</strong></li>
-                <li data-goal="happiness"><span>Keep 60% happiness</span><strong id="happinessGoal">58%</strong></li>
-                <li data-goal="coins"><span>Save 40 coins</span><strong id="coinsGoal">22/40</strong></li>
-              </ul>
-              <div class="score-row"><span>Prosperity score</span><strong id="scoreValue">0</strong></div>
-            </section>
-
-            <section class="forecast-card" aria-labelledby="forecast-title">
-              <div class="forecast-header"><h2 id="forecast-title">Season forecast</h2><span id="weatherIcon" aria-hidden="true">☀️</span></div>
-              <p id="forecastText">Mild skies. Normal production expected.</p>
-              <div class="upkeep"><span>Next upkeep</span><strong id="upkeepText">−6 food · −4 energy</strong></div>
-            </section>
-
-            <section class="log-card" aria-labelledby="log-title">
-              <h2 id="log-title">Settlement log</h2>
-              <ol id="gameLog" aria-live="polite" aria-relevant="additions"></ol>
-            </section>
-
-            <button class="end-turn-button" id="endTurnButton" type="button">End Season <span aria-hidden="true">→</span></button>
-            <button class="new-game-button" id="newGameButton" type="button">Start New Game</button>
-          </aside>
-        </div>
-      </section>
-
-      <section class="content-section" aria-labelledby="how-to-play">
-        <div class="content-copy">
-          <p class="eyebrow">Simple rules, meaningful choices</p>
-          <h2 id="how-to-play">How to Play Resource Management</h2>
-          <p>You have two actions in each season. Use them to construct buildings or support your community, then end the season to collect production and pay population upkeep. Every choice affects what you can afford next.</p>
-          <ol class="steps">
-            <li><strong>Check your supplies.</strong> Food and energy are consumed at the end of every season.</li>
-            <li><strong>Choose two actions.</strong> Build production sites, trade at the market, or hold a festival.</li>
-            <li><strong>Read the forecast.</strong> Seasonal events can help or reduce production.</li>
-            <li><strong>Meet all objectives.</strong> Finish Season 12 with 20 people, 60% happiness, and 40 coins.</li>
-          </ol>
-        </div>
-        <aside class="controls-card">
-          <h3>Game Controls</h3>
-          <dl>
-            <div><dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>Choose an action</dd></div>
-            <div><dt><kbd>Enter</kbd></dt><dd>End the season</dd></div>
-            <div><dt><kbd>R</kbd></dt><dd>Start a new game</dd></div>
-            <div><dt>Tap</dt><dd>All mobile controls</dd></div>
-          </dl>
-        </aside>
-      </section>
-
-      <section class="article-section">
-        <h2>About the Resource Management Game</h2>
-        <p>This free online strategy game turns resource planning into a short, replayable challenge. Farms, solar fields, workshops, and markets form a connected economy: one building supplies what another action needs, while population growth raises both your earning potential and upkeep costs.</p>
-        <p>Each run creates a different sequence of events, so the best build order can change. The game is played entirely in your browser with no download or account.</p>
-      </section>
-
-      <section class="article-section">
-        <h2>Resource Management Strategy Tips</h2>
-        <div class="tip-grid">
-          <article><span>01</span><h3>Secure essentials first</h3><p>A growing population consumes more food and energy. Build enough production before pushing growth.</p></article>
-          <article><span>02</span><h3>Watch dependencies</h3><p>Workshops create valuable materials, but their seasonal production also uses energy.</p></article>
-          <article><span>03</span><h3>Protect happiness</h3><p>Shortages reduce happiness quickly. Festivals help, but prevention is usually more efficient.</p></article>
-        </div>
-      </section>
-
-      <section class="article-section" aria-labelledby="related-title">
-        <h2 id="related-title">Related Strategy Games</h2>
-        <div class="related-grid">
-          <article><span aria-hidden="true">🏙️</span><div><h3>City Builder</h3><p>Plan districts and grow a city.</p></div><small>Coming soon</small></article>
-          <article><span aria-hidden="true">🏭</span><div><h3>Factory Flow</h3><p>Build an efficient production line.</p></div><small>Coming soon</small></article>
-          <article><span aria-hidden="true">🌾</span><div><h3>Farm Planner</h3><p>Balance crops, weather, and trade.</p></div><small>Coming soon</small></article>
-        </div>
-      </section>
-
-      <section class="article-section faq-section">
-        <h2>Resource Management Game FAQ</h2>
-        <details><summary>Is this resource management game free?</summary><p>Yes. You can play the complete game online for free in a modern browser.</p></details>
-        <details><summary>Can I play on a mobile phone?</summary><p>Yes. The layout and controls are designed for touch screens as well as desktop browsers.</p></details>
-        <details><summary>How do I win the game?</summary><p>Complete Season 12 with at least 20 people, 60% happiness, and 40 coins. Your settlement must also avoid a total resource collapse.</p></details>
-        <details><summary>Does the game save my progress?</summary><p>Your current run is saved automatically in your browser. You can continue after refreshing the page on the same device.</p></details>
-      </section>
-    </div>
-  </main>
-
-  <footer><p>© <span id="currentYear"></span> Games Hub · Free games made for the browser.</p></footer>
-
-  <dialog id="gameDialog" aria-labelledby="dialogTitle">
-    <div class="dialog-art" id="dialogArt" aria-hidden="true">🌄</div>
-    <p class="eyebrow" id="dialogEyebrow">Settlement report</p>
-    <h2 id="dialogTitle">A new chapter</h2>
-    <p id="dialogText"></p>
-    <div class="final-score"><span>Final score</span><strong id="finalScore">0</strong></div>
-    <button id="playAgainButton" type="button">Play Again</button>
-  </dialog>
 </body>
 </html>

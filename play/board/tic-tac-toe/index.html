@@ -385,7 +385,164 @@ details p { padding: 0 28px 20px 4px; color: var(--muted); }
   .text-section p { font-size: 17px; }
 }
 </style>
-  <script>'use strict';
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <a class="skip-link" href="#game-board">Skip to game</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-tag">Free browser games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Board Games</span>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Tic Tac Toe</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Classic board game</p>
+        <h1 id="page-title">Tic Tac Toe Game</h1>
+        <p>Play free Tic Tac Toe online against a smart computer or share the board with a friend. Make three in a row before your opponent does.</p>
+      </section>
+
+      <section class="game-shell" aria-label="Tic Tac Toe game">
+        <div class="game-toolbar">
+          <div class="field-group">
+            <span class="field-label" id="mode-label">Game mode</span>
+            <div class="segmented" role="group" aria-labelledby="mode-label">
+              <button class="segment active" type="button" data-mode="computer" aria-pressed="true">Vs computer</button>
+              <button class="segment" type="button" data-mode="friend" aria-pressed="false">Two players</button>
+            </div>
+          </div>
+
+          <div class="field-group" id="difficulty-group">
+            <label class="field-label" for="difficulty">Difficulty</label>
+            <select id="difficulty" name="difficulty">
+              <option value="easy">Easy</option>
+              <option value="hard" selected>Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="scoreboard" aria-label="Scoreboard">
+          <div class="score-card player-x" id="x-score-card">
+            <span class="score-symbol" aria-hidden="true">X</span>
+            <span class="score-label" id="x-label">You</span>
+            <strong id="x-score">0</strong>
+          </div>
+          <div class="score-card draws">
+            <span class="score-symbol" aria-hidden="true">—</span>
+            <span class="score-label">Draws</span>
+            <strong id="draw-score">0</strong>
+          </div>
+          <div class="score-card player-o" id="o-score-card">
+            <span class="score-symbol" aria-hidden="true">O</span>
+            <span class="score-label" id="o-label">Computer</span>
+            <strong id="o-score">0</strong>
+          </div>
+        </div>
+
+        <div class="play-area">
+          <div class="turn-panel">
+            <span class="turn-icon x" id="turn-icon" aria-hidden="true">X</span>
+            <div>
+              <p class="turn-kicker">Game status</p>
+              <p class="status" id="status" role="status" aria-live="polite">Your turn</p>
+            </div>
+          </div>
+
+          <div class="board-wrap">
+            <div class="board" id="game-board" role="grid" aria-label="Tic Tac Toe board">
+              <button class="cell" type="button" role="gridcell" data-index="0" aria-label="Top left, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="1" aria-label="Top center, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="2" aria-label="Top right, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="3" aria-label="Middle left, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="4" aria-label="Center, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="5" aria-label="Middle right, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="6" aria-label="Bottom left, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="7" aria-label="Bottom center, empty"></button>
+              <button class="cell" type="button" role="gridcell" data-index="8" aria-label="Bottom right, empty"></button>
+            </div>
+          </div>
+
+          <div class="game-actions">
+            <button class="button primary" id="new-round" type="button">New round</button>
+            <button class="button secondary" id="reset-score" type="button">Reset score</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid" aria-label="Game guide">
+        <article class="content-card">
+          <h2>How to Play Tic Tac Toe</h2>
+          <p>Choose an empty square to place your mark. You play as X against the computer, while two-player mode lets X and O take turns on the same device.</p>
+          <ol>
+            <li>Select <strong>Vs computer</strong> or <strong>Two players</strong>.</li>
+            <li>Place your mark in any open square.</li>
+            <li>Complete a horizontal, vertical, or diagonal line of three marks to win.</li>
+          </ol>
+          <p>The round ends immediately when someone wins or all nine squares are filled. Select <strong>New round</strong> to play again; the starting player alternates each round.</p>
+        </article>
+
+        <aside class="content-card tips-card">
+          <h2>Tic Tac Toe Tips</h2>
+          <ul class="tip-list">
+            <li><span>1</span><div><strong>Control the center</strong><br>The center connects to four possible winning lines.</div></li>
+            <li><span>2</span><div><strong>Watch every threat</strong><br>Block two marks in a row before making your own plan.</div></li>
+            <li><span>3</span><div><strong>Create a fork</strong><br>Build two winning threats that cannot both be blocked.</div></li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="text-section">
+        <h2>About Tic Tac Toe</h2>
+        <p>Tic Tac Toe is a two-player strategy game played on a 3×3 grid. Players take turns placing X and O, and the first player to connect three matching marks wins. Its simple rules make it quick to learn, while careful play rewards planning and pattern recognition.</p>
+        <p>This browser version needs no download. Scores are kept on your device, so you can play several rounds against the computer or a friend.</p>
+      </section>
+
+      <section class="related-section" aria-labelledby="related-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Keep playing</p>
+            <h2 id="related-title">Related Board Games</h2>
+          </div>
+          <span class="coming-note">More games coming soon</span>
+        </div>
+        <div class="related-grid">
+          <article class="related-card"><span class="game-badge purple">4</span><div><h3>Four in a Row</h3><p>Connect four matching pieces.</p></div><span class="soon">Soon</span></article>
+          <article class="related-card"><span class="game-badge teal">●</span><div><h3>Checkers</h3><p>Plan jumps and capture pieces.</p></div><span class="soon">Soon</span></article>
+          <article class="related-card"><span class="game-badge amber">▦</span><div><h3>Sudoku</h3><p>Complete the number grid.</p></div><span class="soon">Soon</span></article>
+        </div>
+      </section>
+
+      <section class="faq-section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Tic Tac Toe FAQ</h2>
+        <details><summary>Can I play Tic Tac Toe for free?</summary><p>Yes. This Tic Tac Toe game is free to play in your browser and requires no download, login, or signup.</p></details>
+        <details><summary>Can I play against another person?</summary><p>Yes. Choose Two players to let X and O take turns on the same phone, tablet, or computer.</p></details>
+        <details><summary>How does Hard mode work?</summary><p>Hard mode evaluates possible moves and plays optimal Tic Tac Toe strategy. You can draw with perfect play, but you cannot force a win.</p></details>
+        <details><summary>Does the game work on mobile?</summary><p>Yes. Tap any open square to play. The board and controls resize for modern mobile screens.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>© <span id="current-year"></span> Games Hub</span>
+      <span>Play fast. Think smart. Have fun.</span>
+    </div>
+  </footer>
+<script>'use strict';
 
 const WINNING_LINES = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -684,161 +841,5 @@ document.getElementById('current-year').textContent = new Date().getFullYear();
 renderScores();
 setMode('computer');
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <a class="skip-link" href="#game-board">Skip to game</a>
-
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="brand" href="../../index.html" aria-label="Games Hub home">
-        <span class="brand-mark" aria-hidden="true">G</span>
-        <span>Games Hub</span>
-      </a>
-      <span class="header-tag">Free browser games</span>
-    </div>
-  </header>
-
-  <main>
-    <div class="shell">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../../index.html">Home</a>
-        <span aria-hidden="true">/</span>
-        <span>Board Games</span>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">Tic Tac Toe</span>
-      </nav>
-
-      <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">Classic board game</p>
-        <h1 id="page-title">Tic Tac Toe Game</h1>
-        <p>Play free Tic Tac Toe online against a smart computer or share the board with a friend. Make three in a row before your opponent does.</p>
-      </section>
-
-      <section class="game-shell" aria-label="Tic Tac Toe game">
-        <div class="game-toolbar">
-          <div class="field-group">
-            <span class="field-label" id="mode-label">Game mode</span>
-            <div class="segmented" role="group" aria-labelledby="mode-label">
-              <button class="segment active" type="button" data-mode="computer" aria-pressed="true">Vs computer</button>
-              <button class="segment" type="button" data-mode="friend" aria-pressed="false">Two players</button>
-            </div>
-          </div>
-
-          <div class="field-group" id="difficulty-group">
-            <label class="field-label" for="difficulty">Difficulty</label>
-            <select id="difficulty" name="difficulty">
-              <option value="easy">Easy</option>
-              <option value="hard" selected>Hard</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="scoreboard" aria-label="Scoreboard">
-          <div class="score-card player-x" id="x-score-card">
-            <span class="score-symbol" aria-hidden="true">X</span>
-            <span class="score-label" id="x-label">You</span>
-            <strong id="x-score">0</strong>
-          </div>
-          <div class="score-card draws">
-            <span class="score-symbol" aria-hidden="true">—</span>
-            <span class="score-label">Draws</span>
-            <strong id="draw-score">0</strong>
-          </div>
-          <div class="score-card player-o" id="o-score-card">
-            <span class="score-symbol" aria-hidden="true">O</span>
-            <span class="score-label" id="o-label">Computer</span>
-            <strong id="o-score">0</strong>
-          </div>
-        </div>
-
-        <div class="play-area">
-          <div class="turn-panel">
-            <span class="turn-icon x" id="turn-icon" aria-hidden="true">X</span>
-            <div>
-              <p class="turn-kicker">Game status</p>
-              <p class="status" id="status" role="status" aria-live="polite">Your turn</p>
-            </div>
-          </div>
-
-          <div class="board-wrap">
-            <div class="board" id="game-board" role="grid" aria-label="Tic Tac Toe board">
-              <button class="cell" type="button" role="gridcell" data-index="0" aria-label="Top left, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="1" aria-label="Top center, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="2" aria-label="Top right, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="3" aria-label="Middle left, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="4" aria-label="Center, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="5" aria-label="Middle right, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="6" aria-label="Bottom left, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="7" aria-label="Bottom center, empty"></button>
-              <button class="cell" type="button" role="gridcell" data-index="8" aria-label="Bottom right, empty"></button>
-            </div>
-          </div>
-
-          <div class="game-actions">
-            <button class="button primary" id="new-round" type="button">New round</button>
-            <button class="button secondary" id="reset-score" type="button">Reset score</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="content-grid" aria-label="Game guide">
-        <article class="content-card">
-          <h2>How to Play Tic Tac Toe</h2>
-          <p>Choose an empty square to place your mark. You play as X against the computer, while two-player mode lets X and O take turns on the same device.</p>
-          <ol>
-            <li>Select <strong>Vs computer</strong> or <strong>Two players</strong>.</li>
-            <li>Place your mark in any open square.</li>
-            <li>Complete a horizontal, vertical, or diagonal line of three marks to win.</li>
-          </ol>
-          <p>The round ends immediately when someone wins or all nine squares are filled. Select <strong>New round</strong> to play again; the starting player alternates each round.</p>
-        </article>
-
-        <aside class="content-card tips-card">
-          <h2>Tic Tac Toe Tips</h2>
-          <ul class="tip-list">
-            <li><span>1</span><div><strong>Control the center</strong><br>The center connects to four possible winning lines.</div></li>
-            <li><span>2</span><div><strong>Watch every threat</strong><br>Block two marks in a row before making your own plan.</div></li>
-            <li><span>3</span><div><strong>Create a fork</strong><br>Build two winning threats that cannot both be blocked.</div></li>
-          </ul>
-        </aside>
-      </section>
-
-      <section class="text-section">
-        <h2>About Tic Tac Toe</h2>
-        <p>Tic Tac Toe is a two-player strategy game played on a 3×3 grid. Players take turns placing X and O, and the first player to connect three matching marks wins. Its simple rules make it quick to learn, while careful play rewards planning and pattern recognition.</p>
-        <p>This browser version needs no download. Scores are kept on your device, so you can play several rounds against the computer or a friend.</p>
-      </section>
-
-      <section class="related-section" aria-labelledby="related-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Keep playing</p>
-            <h2 id="related-title">Related Board Games</h2>
-          </div>
-          <span class="coming-note">More games coming soon</span>
-        </div>
-        <div class="related-grid">
-          <article class="related-card"><span class="game-badge purple">4</span><div><h3>Four in a Row</h3><p>Connect four matching pieces.</p></div><span class="soon">Soon</span></article>
-          <article class="related-card"><span class="game-badge teal">●</span><div><h3>Checkers</h3><p>Plan jumps and capture pieces.</p></div><span class="soon">Soon</span></article>
-          <article class="related-card"><span class="game-badge amber">▦</span><div><h3>Sudoku</h3><p>Complete the number grid.</p></div><span class="soon">Soon</span></article>
-        </div>
-      </section>
-
-      <section class="faq-section" aria-labelledby="faq-title">
-        <h2 id="faq-title">Tic Tac Toe FAQ</h2>
-        <details><summary>Can I play Tic Tac Toe for free?</summary><p>Yes. This Tic Tac Toe game is free to play in your browser and requires no download, login, or signup.</p></details>
-        <details><summary>Can I play against another person?</summary><p>Yes. Choose Two players to let X and O take turns on the same phone, tablet, or computer.</p></details>
-        <details><summary>How does Hard mode work?</summary><p>Hard mode evaluates possible moves and plays optimal Tic Tac Toe strategy. You can draw with perfect play, but you cannot force a win.</p></details>
-        <details><summary>Does the game work on mobile?</summary><p>Yes. Tap any open square to play. The board and controls resize for modern mobile screens.</p></details>
-      </section>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <span>© <span id="current-year"></span> Games Hub</span>
-      <span>Play fast. Think smart. Have fun.</span>
-    </div>
-  </footer>
 </body>
 </html>

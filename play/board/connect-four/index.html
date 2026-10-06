@@ -210,7 +210,150 @@ details p { margin: -4px 40px 20px 0; color: var(--muted); }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 </style>
-  <script>"use strict";
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>Games Hub</span>
+      </a>
+      <span class="header-label">Board Games</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../">Games</a><span aria-hidden="true">/</span>
+        <a href="../">Board Games</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Connect Four</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Classic two-player strategy</p>
+          <h1 id="page-title">Connect Four Game</h1>
+          <p class="hero-copy">Take turns dropping colorful discs into the grid. Be the first player to connect four horizontally, vertically, or diagonally. It is free, quick to learn, and ready to play with a friend on one device.</p>
+        </div>
+        <div class="hero-pattern" aria-hidden="true">
+          <span class="mini-disc red"></span><span class="mini-disc yellow"></span>
+          <span class="mini-disc yellow"></span><span class="mini-disc red"></span>
+          <span class="mini-disc red"></span><span class="mini-disc yellow"></span>
+        </div>
+      </section>
+
+      <section class="game-shell" id="game" aria-labelledby="game-heading">
+        <h2 class="sr-only" id="game-heading">Play Connect Four</h2>
+
+        <div class="scoreboard" aria-label="Match score">
+          <div class="score-card player-red" id="redScoreCard">
+            <span class="score-disc" aria-hidden="true"></span>
+            <span><small>Red</small><strong id="redScore">0</strong></span>
+          </div>
+          <div class="round-card">
+            <small>Round</small>
+            <strong id="roundNumber">1</strong>
+          </div>
+          <div class="score-card player-yellow" id="yellowScoreCard">
+            <span class="score-disc" aria-hidden="true"></span>
+            <span><small>Yellow</small><strong id="yellowScore">0</strong></span>
+          </div>
+        </div>
+
+        <div class="status-panel" aria-live="polite" aria-atomic="true">
+          <span class="turn-disc red" id="turnDisc" aria-hidden="true"></span>
+          <span id="statusText">Red's turn — choose a column</span>
+        </div>
+
+        <div class="board-stage">
+          <div class="column-controls" id="columnControls" aria-label="Choose a column"></div>
+          <div class="board-wrap">
+            <div class="drop-preview" id="dropPreview" aria-hidden="true"></div>
+            <div class="board" id="board" role="grid" aria-label="Connect Four board. Seven columns and six rows."></div>
+          </div>
+        </div>
+
+        <p class="keyboard-hint"><kbd>←</kbd> <kbd>→</kbd> choose a column · <kbd>Enter</kbd> drop a disc</p>
+
+        <div class="game-actions">
+          <button class="btn btn-primary" id="newRoundButton" type="button">New Round</button>
+          <button class="btn btn-secondary" id="resetMatchButton" type="button">Reset Match</button>
+        </div>
+      </section>
+
+      <section class="content-section instructions" aria-labelledby="how-to-play">
+        <div>
+          <p class="section-kicker">Simple rules, clever choices</p>
+          <h2 id="how-to-play">How to Play Connect Four</h2>
+          <p>Connect Four is played on a seven-column, six-row board. Red moves first. Players then alternate turns, dropping one disc into any column that still has space. Gravity places the disc in the lowest open slot.</p>
+          <p>The round ends when one player forms an unbroken line of four matching discs. The line can run across, up and down, or diagonally. If all 42 spaces fill without a winning line, the round is a draw.</p>
+        </div>
+        <ol class="steps">
+          <li><span>1</span><div><strong>Choose a column</strong><p>Tap a numbered arrow or any open column.</p></div></li>
+          <li><span>2</span><div><strong>Drop your disc</strong><p>Your piece falls to the lowest available space.</p></div></li>
+          <li><span>3</span><div><strong>Connect four</strong><p>Build a line before your opponent blocks it.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="content-section split-section" aria-labelledby="strategy-heading">
+        <div>
+          <p class="section-kicker">Play smarter</p>
+          <h2 id="strategy-heading">Connect Four Strategy Tips</h2>
+        </div>
+        <div class="tips-grid">
+          <article><span aria-hidden="true">◎</span><h3>Control the center</h3><p>Middle columns participate in more possible four-disc lines, giving your pieces more ways to connect.</p></article>
+          <article><span aria-hidden="true">◇</span><h3>Watch every threat</h3><p>Before each move, check whether your opponent can win on the next turn and block that space first.</p></article>
+          <article><span aria-hidden="true">↗</span><h3>Create two options</h3><p>A strong setup produces two winning spaces at once, so your opponent cannot block both with one disc.</p></article>
+        </div>
+      </section>
+
+      <section class="content-section about" aria-labelledby="about-heading">
+        <p class="section-kicker">A timeless board game</p>
+        <h2 id="about-heading">About the Connect Four Game</h2>
+        <p>Connect Four combines simple rules with meaningful strategy. Each move changes the spaces available above it, so a helpful-looking disc can also create an opening for the other player. This browser version keeps the classic 7-by-6 board and local two-player gameplay, with no download or account required.</p>
+      </section>
+
+      <section class="content-section related" aria-labelledby="related-heading">
+        <div class="section-heading-row">
+          <div><p class="section-kicker">Keep playing</p><h2 id="related-heading">Related Board Games</h2></div>
+          <p>More games will appear here as the Games Hub grows.</p>
+        </div>
+        <div class="related-grid">
+          <article><span class="related-icon">×○</span><div><h3>Tic-Tac-Toe</h3><p>Classic three-in-a-row strategy.</p></div><span class="coming-soon">Coming soon</span></article>
+          <article><span class="related-icon">♟</span><div><h3>Checkers</h3><p>Plan jumps and capture pieces.</p></div><span class="coming-soon">Coming soon</span></article>
+          <article><span class="related-icon">●</span><div><h3>Reversi</h3><p>Flip pieces and control the board.</p></div><span class="coming-soon">Coming soon</span></article>
+        </div>
+      </section>
+
+      <section class="content-section faq" aria-labelledby="faq-heading">
+        <p class="section-kicker">Quick answers</p>
+        <h2 id="faq-heading">Connect Four FAQ</h2>
+        <details><summary>Can I play Connect Four online for free?</summary><p>Yes. This Connect Four game is free to play in your browser and does not require a download, signup, or account.</p></details>
+        <details><summary>How do you win Connect Four?</summary><p>Win by placing four discs of your color in one continuous horizontal, vertical, or diagonal line before the other player.</p></details>
+        <details><summary>Can I play on a phone or tablet?</summary><p>Yes. Tap a column arrow or the board to drop a disc. The game board automatically resizes for smaller screens.</p></details>
+        <details><summary>What happens when the board is full?</summary><p>If every space is filled and neither player has connected four discs, the round is recorded as a draw.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container"><span>Games Hub</span><p>Fast, free games made for your browser.</p></div></footer>
+
+  <div class="modal-backdrop" id="resultModal" hidden>
+    <section class="result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultMessage">
+      <div class="result-mark" id="resultMark" aria-hidden="true"></div>
+      <h2 id="resultTitle">Red wins!</h2>
+      <p id="resultMessage">Four in a row. Great game!</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="playAgainButton" type="button">Play Again</button>
+        <button class="btn btn-secondary" id="closeModalButton" type="button">View Board</button>
+      </div>
+    </section>
+  </div>
+<script>"use strict";
 
 const ROWS = 6;
 const COLUMNS = 7;
@@ -514,147 +657,5 @@ window.addEventListener("resize", updatePreview);
 createBoard();
 resetBoard();
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <a class="skip-link" href="#game">Skip to game</a>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="../../" aria-label="Games Hub home">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span>Games Hub</span>
-      </a>
-      <span class="header-label">Board Games</span>
-    </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../../">Games</a><span aria-hidden="true">/</span>
-        <a href="../">Board Games</a><span aria-hidden="true">/</span>
-        <span aria-current="page">Connect Four</span>
-      </nav>
-
-      <section class="hero" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">Classic two-player strategy</p>
-          <h1 id="page-title">Connect Four Game</h1>
-          <p class="hero-copy">Take turns dropping colorful discs into the grid. Be the first player to connect four horizontally, vertically, or diagonally. It is free, quick to learn, and ready to play with a friend on one device.</p>
-        </div>
-        <div class="hero-pattern" aria-hidden="true">
-          <span class="mini-disc red"></span><span class="mini-disc yellow"></span>
-          <span class="mini-disc yellow"></span><span class="mini-disc red"></span>
-          <span class="mini-disc red"></span><span class="mini-disc yellow"></span>
-        </div>
-      </section>
-
-      <section class="game-shell" id="game" aria-labelledby="game-heading">
-        <h2 class="sr-only" id="game-heading">Play Connect Four</h2>
-
-        <div class="scoreboard" aria-label="Match score">
-          <div class="score-card player-red" id="redScoreCard">
-            <span class="score-disc" aria-hidden="true"></span>
-            <span><small>Red</small><strong id="redScore">0</strong></span>
-          </div>
-          <div class="round-card">
-            <small>Round</small>
-            <strong id="roundNumber">1</strong>
-          </div>
-          <div class="score-card player-yellow" id="yellowScoreCard">
-            <span class="score-disc" aria-hidden="true"></span>
-            <span><small>Yellow</small><strong id="yellowScore">0</strong></span>
-          </div>
-        </div>
-
-        <div class="status-panel" aria-live="polite" aria-atomic="true">
-          <span class="turn-disc red" id="turnDisc" aria-hidden="true"></span>
-          <span id="statusText">Red's turn — choose a column</span>
-        </div>
-
-        <div class="board-stage">
-          <div class="column-controls" id="columnControls" aria-label="Choose a column"></div>
-          <div class="board-wrap">
-            <div class="drop-preview" id="dropPreview" aria-hidden="true"></div>
-            <div class="board" id="board" role="grid" aria-label="Connect Four board. Seven columns and six rows."></div>
-          </div>
-        </div>
-
-        <p class="keyboard-hint"><kbd>←</kbd> <kbd>→</kbd> choose a column · <kbd>Enter</kbd> drop a disc</p>
-
-        <div class="game-actions">
-          <button class="btn btn-primary" id="newRoundButton" type="button">New Round</button>
-          <button class="btn btn-secondary" id="resetMatchButton" type="button">Reset Match</button>
-        </div>
-      </section>
-
-      <section class="content-section instructions" aria-labelledby="how-to-play">
-        <div>
-          <p class="section-kicker">Simple rules, clever choices</p>
-          <h2 id="how-to-play">How to Play Connect Four</h2>
-          <p>Connect Four is played on a seven-column, six-row board. Red moves first. Players then alternate turns, dropping one disc into any column that still has space. Gravity places the disc in the lowest open slot.</p>
-          <p>The round ends when one player forms an unbroken line of four matching discs. The line can run across, up and down, or diagonally. If all 42 spaces fill without a winning line, the round is a draw.</p>
-        </div>
-        <ol class="steps">
-          <li><span>1</span><div><strong>Choose a column</strong><p>Tap a numbered arrow or any open column.</p></div></li>
-          <li><span>2</span><div><strong>Drop your disc</strong><p>Your piece falls to the lowest available space.</p></div></li>
-          <li><span>3</span><div><strong>Connect four</strong><p>Build a line before your opponent blocks it.</p></div></li>
-        </ol>
-      </section>
-
-      <section class="content-section split-section" aria-labelledby="strategy-heading">
-        <div>
-          <p class="section-kicker">Play smarter</p>
-          <h2 id="strategy-heading">Connect Four Strategy Tips</h2>
-        </div>
-        <div class="tips-grid">
-          <article><span aria-hidden="true">◎</span><h3>Control the center</h3><p>Middle columns participate in more possible four-disc lines, giving your pieces more ways to connect.</p></article>
-          <article><span aria-hidden="true">◇</span><h3>Watch every threat</h3><p>Before each move, check whether your opponent can win on the next turn and block that space first.</p></article>
-          <article><span aria-hidden="true">↗</span><h3>Create two options</h3><p>A strong setup produces two winning spaces at once, so your opponent cannot block both with one disc.</p></article>
-        </div>
-      </section>
-
-      <section class="content-section about" aria-labelledby="about-heading">
-        <p class="section-kicker">A timeless board game</p>
-        <h2 id="about-heading">About the Connect Four Game</h2>
-        <p>Connect Four combines simple rules with meaningful strategy. Each move changes the spaces available above it, so a helpful-looking disc can also create an opening for the other player. This browser version keeps the classic 7-by-6 board and local two-player gameplay, with no download or account required.</p>
-      </section>
-
-      <section class="content-section related" aria-labelledby="related-heading">
-        <div class="section-heading-row">
-          <div><p class="section-kicker">Keep playing</p><h2 id="related-heading">Related Board Games</h2></div>
-          <p>More games will appear here as the Games Hub grows.</p>
-        </div>
-        <div class="related-grid">
-          <article><span class="related-icon">×○</span><div><h3>Tic-Tac-Toe</h3><p>Classic three-in-a-row strategy.</p></div><span class="coming-soon">Coming soon</span></article>
-          <article><span class="related-icon">♟</span><div><h3>Checkers</h3><p>Plan jumps and capture pieces.</p></div><span class="coming-soon">Coming soon</span></article>
-          <article><span class="related-icon">●</span><div><h3>Reversi</h3><p>Flip pieces and control the board.</p></div><span class="coming-soon">Coming soon</span></article>
-        </div>
-      </section>
-
-      <section class="content-section faq" aria-labelledby="faq-heading">
-        <p class="section-kicker">Quick answers</p>
-        <h2 id="faq-heading">Connect Four FAQ</h2>
-        <details><summary>Can I play Connect Four online for free?</summary><p>Yes. This Connect Four game is free to play in your browser and does not require a download, signup, or account.</p></details>
-        <details><summary>How do you win Connect Four?</summary><p>Win by placing four discs of your color in one continuous horizontal, vertical, or diagonal line before the other player.</p></details>
-        <details><summary>Can I play on a phone or tablet?</summary><p>Yes. Tap a column arrow or the board to drop a disc. The game board automatically resizes for smaller screens.</p></details>
-        <details><summary>What happens when the board is full?</summary><p>If every space is filled and neither player has connected four discs, the round is recorded as a draw.</p></details>
-      </section>
-    </div>
-  </main>
-
-  <footer class="site-footer"><div class="container"><span>Games Hub</span><p>Fast, free games made for your browser.</p></div></footer>
-
-  <div class="modal-backdrop" id="resultModal" hidden>
-    <section class="result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultMessage">
-      <div class="result-mark" id="resultMark" aria-hidden="true"></div>
-      <h2 id="resultTitle">Red wins!</h2>
-      <p id="resultMessage">Four in a row. Great game!</p>
-      <div class="modal-actions">
-        <button class="btn btn-primary" id="playAgainButton" type="button">Play Again</button>
-        <button class="btn btn-secondary" id="closeModalButton" type="button">View Board</button>
-      </div>
-    </section>
-  </div>
 </body>
 </html>

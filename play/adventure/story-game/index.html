@@ -170,7 +170,133 @@ footer p { margin: 0; font-size: 15px; }
   footer { align-items: flex-start; flex-direction: column; }
 }
 </style>
-  <script>"use strict";
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <a class="brand" href="../../" aria-label="Games Hub home">
+      <span class="brand-mark" aria-hidden="true">G</span>
+      <span>Games Hub</span>
+    </a>
+    <a class="all-games" href="../../">All games</a>
+  </header>
+
+  <main>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../">Home</a><span aria-hidden="true">/</span><a href="../">Adventure Games</a><span aria-hidden="true">/</span><span aria-current="page">Story</span>
+    </nav>
+
+    <section class="game-intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Interactive adventure</p>
+        <h1 id="page-title">Story Adventure Game</h1>
+        <p>Enter Ember Hollow, where a stolen lantern is the only thing keeping the valley safe. Choose your path, gather clues, and decide how the story ends.</p>
+      </div>
+      <div class="intro-badge" aria-label="Game features">
+        <span>5–10 min</span><span>6 endings</span><span>No download</span>
+      </div>
+    </section>
+
+    <section class="game-shell" id="game" aria-label="Story game">
+      <div class="game-topbar">
+        <div class="chapter-wrap">
+          <span class="label">Chapter</span>
+          <strong id="chapterLabel">The Missing Light</strong>
+        </div>
+        <div class="stats" aria-label="Current game statistics">
+          <div class="stat"><span aria-hidden="true">◆</span><small>Score</small><strong id="scoreValue">0</strong></div>
+          <div class="stat courage"><span aria-hidden="true">♥</span><small>Courage</small><strong id="courageValue">3</strong></div>
+          <div class="stat supplies"><span aria-hidden="true">●</span><small>Supplies</small><strong id="suppliesValue">2</strong></div>
+        </div>
+      </div>
+
+      <div class="story-stage" id="storyStage" data-mood="village">
+        <div class="scene-art" aria-hidden="true">
+          <div class="moon"></div>
+          <div class="mountain mountain-back"></div>
+          <div class="mountain mountain-front"></div>
+          <div class="lantern"><span></span></div>
+          <div class="mist mist-one"></div>
+          <div class="mist mist-two"></div>
+        </div>
+
+        <article class="story-card" aria-live="polite" aria-atomic="true">
+          <p class="scene-number" id="sceneNumber">Scene 1</p>
+          <h2 id="sceneTitle">The Missing Light</h2>
+          <p id="sceneText">The lantern above Ember Hollow has vanished. Without its flame, the mountain mist creeps toward the village. Elder Mira presses an old compass into your hand and asks you to bring the light home before midnight.</p>
+          <div class="discovery" id="discovery" hidden>
+            <span aria-hidden="true">✦</span>
+            <p><strong id="discoveryTitle">Clue found</strong><br><span id="discoveryText"></span></p>
+          </div>
+          <div class="choices" id="choices" aria-label="Choose your next action"></div>
+          <p class="keyboard-hint" id="keyboardHint">Press 1, 2, or 3 to choose</p>
+        </article>
+      </div>
+
+      <div class="game-footer">
+        <div class="progress-wrap">
+          <span id="progressText">Journey progress: 0%</span>
+          <div class="progress-track" role="progressbar" aria-label="Journey progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressBar"></span></div>
+        </div>
+        <button class="restart-button" id="restartButton" type="button">Restart story</button>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article>
+        <p class="eyebrow">Your quest</p>
+        <h2>How to Play Story</h2>
+        <p>Read each scene and choose the action that best fits your plan. Your choices change your Courage, Supplies, clues, route, score, and final ending.</p>
+        <ol class="steps">
+          <li><strong>Read the scene.</strong> Important details may hint at safer or more rewarding choices.</li>
+          <li><strong>Choose an action.</strong> Tap a choice or use number keys 1–3 on a keyboard.</li>
+          <li><strong>Manage resources.</strong> Courage helps with dangerous actions. Supplies help solve practical problems.</li>
+          <li><strong>Find an ending.</strong> Your route and discoveries decide how Ember Hollow’s story concludes.</li>
+        </ol>
+      </article>
+      <aside class="tips-card">
+        <h2>Adventure Tips</h2>
+        <ul>
+          <li>Gathering information can unlock stronger choices later.</li>
+          <li>A bold route may score more, but it can cost Courage.</li>
+          <li>Not every peaceful choice is safe, and not every risk is reckless.</li>
+          <li>Replay to discover all six endings.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="about-section">
+      <div>
+        <p class="eyebrow">About the game</p>
+        <h2>What Is the Story Adventure Game?</h2>
+      </div>
+      <p>Story is a free browser-based choice adventure. Instead of reflex controls, you shape the journey through decisions. Each playthrough branches through Ember Hollow’s forest, river, ruins, or mountain pass, with different clues and outcomes to uncover.</p>
+    </section>
+
+    <section class="related-section" aria-labelledby="related-title">
+      <div class="section-heading"><div><p class="eyebrow">Keep playing</p><h2 id="related-title">Related Games</h2></div><span>More games coming soon</span></div>
+      <div class="related-grid">
+        <div class="related-card"><span class="game-icon" aria-hidden="true">♟</span><div><h3>Chess</h3><p>Strategy</p></div></div>
+        <div class="related-card"><span class="game-icon" aria-hidden="true">⌁</span><div><h3>Maze</h3><p>Puzzle</p></div></div>
+        <div class="related-card"><span class="game-icon" aria-hidden="true">Aa</span><div><h3>Word Quest</h3><p>Word</p></div></div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <p class="eyebrow">Questions</p>
+      <h2>Story Game FAQ</h2>
+      <details><summary>Is Story free to play online?</summary><p>Yes. Story is free to play in a modern browser, with no download, account, or installation required.</p></details>
+      <details><summary>Does the game have multiple endings?</summary><p>Yes. There are six endings. Your route, resources, clues, and final decisions determine which one you reach.</p></details>
+      <details><summary>Can I play Story on mobile?</summary><p>Yes. The layout and choice controls adapt to phones and tablets. Tap a choice to continue the adventure.</p></details>
+      <details><summary>Does Story save personal information?</summary><p>No. The game runs entirely in your browser and does not require an account or send gameplay data to a server.</p></details>
+    </section>
+  </main>
+
+  <footer><span>Games Hub</span><p>Free games. Fast play. No downloads.</p></footer>
+  <noscript><p class="noscript">JavaScript is required to play this story adventure.</p></noscript>
+<script>"use strict";
 
 const scenes = {
   start: {
@@ -471,130 +597,5 @@ els.restart.addEventListener("click", () => {
 state = freshState();
 renderScene();
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <a class="skip-link" href="#game">Skip to game</a>
-
-  <header class="site-header">
-    <a class="brand" href="../../" aria-label="Games Hub home">
-      <span class="brand-mark" aria-hidden="true">G</span>
-      <span>Games Hub</span>
-    </a>
-    <a class="all-games" href="../../">All games</a>
-  </header>
-
-  <main>
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="../../">Home</a><span aria-hidden="true">/</span><a href="../">Adventure Games</a><span aria-hidden="true">/</span><span aria-current="page">Story</span>
-    </nav>
-
-    <section class="game-intro" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">Interactive adventure</p>
-        <h1 id="page-title">Story Adventure Game</h1>
-        <p>Enter Ember Hollow, where a stolen lantern is the only thing keeping the valley safe. Choose your path, gather clues, and decide how the story ends.</p>
-      </div>
-      <div class="intro-badge" aria-label="Game features">
-        <span>5–10 min</span><span>6 endings</span><span>No download</span>
-      </div>
-    </section>
-
-    <section class="game-shell" id="game" aria-label="Story game">
-      <div class="game-topbar">
-        <div class="chapter-wrap">
-          <span class="label">Chapter</span>
-          <strong id="chapterLabel">The Missing Light</strong>
-        </div>
-        <div class="stats" aria-label="Current game statistics">
-          <div class="stat"><span aria-hidden="true">◆</span><small>Score</small><strong id="scoreValue">0</strong></div>
-          <div class="stat courage"><span aria-hidden="true">♥</span><small>Courage</small><strong id="courageValue">3</strong></div>
-          <div class="stat supplies"><span aria-hidden="true">●</span><small>Supplies</small><strong id="suppliesValue">2</strong></div>
-        </div>
-      </div>
-
-      <div class="story-stage" id="storyStage" data-mood="village">
-        <div class="scene-art" aria-hidden="true">
-          <div class="moon"></div>
-          <div class="mountain mountain-back"></div>
-          <div class="mountain mountain-front"></div>
-          <div class="lantern"><span></span></div>
-          <div class="mist mist-one"></div>
-          <div class="mist mist-two"></div>
-        </div>
-
-        <article class="story-card" aria-live="polite" aria-atomic="true">
-          <p class="scene-number" id="sceneNumber">Scene 1</p>
-          <h2 id="sceneTitle">The Missing Light</h2>
-          <p id="sceneText">The lantern above Ember Hollow has vanished. Without its flame, the mountain mist creeps toward the village. Elder Mira presses an old compass into your hand and asks you to bring the light home before midnight.</p>
-          <div class="discovery" id="discovery" hidden>
-            <span aria-hidden="true">✦</span>
-            <p><strong id="discoveryTitle">Clue found</strong><br><span id="discoveryText"></span></p>
-          </div>
-          <div class="choices" id="choices" aria-label="Choose your next action"></div>
-          <p class="keyboard-hint" id="keyboardHint">Press 1, 2, or 3 to choose</p>
-        </article>
-      </div>
-
-      <div class="game-footer">
-        <div class="progress-wrap">
-          <span id="progressText">Journey progress: 0%</span>
-          <div class="progress-track" role="progressbar" aria-label="Journey progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressBar"></span></div>
-        </div>
-        <button class="restart-button" id="restartButton" type="button">Restart story</button>
-      </div>
-    </section>
-
-    <section class="content-grid">
-      <article>
-        <p class="eyebrow">Your quest</p>
-        <h2>How to Play Story</h2>
-        <p>Read each scene and choose the action that best fits your plan. Your choices change your Courage, Supplies, clues, route, score, and final ending.</p>
-        <ol class="steps">
-          <li><strong>Read the scene.</strong> Important details may hint at safer or more rewarding choices.</li>
-          <li><strong>Choose an action.</strong> Tap a choice or use number keys 1–3 on a keyboard.</li>
-          <li><strong>Manage resources.</strong> Courage helps with dangerous actions. Supplies help solve practical problems.</li>
-          <li><strong>Find an ending.</strong> Your route and discoveries decide how Ember Hollow’s story concludes.</li>
-        </ol>
-      </article>
-      <aside class="tips-card">
-        <h2>Adventure Tips</h2>
-        <ul>
-          <li>Gathering information can unlock stronger choices later.</li>
-          <li>A bold route may score more, but it can cost Courage.</li>
-          <li>Not every peaceful choice is safe, and not every risk is reckless.</li>
-          <li>Replay to discover all six endings.</li>
-        </ul>
-      </aside>
-    </section>
-
-    <section class="about-section">
-      <div>
-        <p class="eyebrow">About the game</p>
-        <h2>What Is the Story Adventure Game?</h2>
-      </div>
-      <p>Story is a free browser-based choice adventure. Instead of reflex controls, you shape the journey through decisions. Each playthrough branches through Ember Hollow’s forest, river, ruins, or mountain pass, with different clues and outcomes to uncover.</p>
-    </section>
-
-    <section class="related-section" aria-labelledby="related-title">
-      <div class="section-heading"><div><p class="eyebrow">Keep playing</p><h2 id="related-title">Related Games</h2></div><span>More games coming soon</span></div>
-      <div class="related-grid">
-        <div class="related-card"><span class="game-icon" aria-hidden="true">♟</span><div><h3>Chess</h3><p>Strategy</p></div></div>
-        <div class="related-card"><span class="game-icon" aria-hidden="true">⌁</span><div><h3>Maze</h3><p>Puzzle</p></div></div>
-        <div class="related-card"><span class="game-icon" aria-hidden="true">Aa</span><div><h3>Word Quest</h3><p>Word</p></div></div>
-      </div>
-    </section>
-
-    <section class="faq-section">
-      <p class="eyebrow">Questions</p>
-      <h2>Story Game FAQ</h2>
-      <details><summary>Is Story free to play online?</summary><p>Yes. Story is free to play in a modern browser, with no download, account, or installation required.</p></details>
-      <details><summary>Does the game have multiple endings?</summary><p>Yes. There are six endings. Your route, resources, clues, and final decisions determine which one you reach.</p></details>
-      <details><summary>Can I play Story on mobile?</summary><p>Yes. The layout and choice controls adapt to phones and tablets. Tap a choice to continue the adventure.</p></details>
-      <details><summary>Does Story save personal information?</summary><p>No. The game runs entirely in your browser and does not require an account or send gameplay data to a server.</p></details>
-    </section>
-  </main>
-
-  <footer><span>Games Hub</span><p>Free games. Fast play. No downloads.</p></footer>
-  <noscript><p class="noscript">JavaScript is required to play this story adventure.</p></noscript>
 </body>
 </html>

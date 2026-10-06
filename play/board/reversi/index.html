@@ -442,7 +442,191 @@ details p { padding: 0 34px 20px 4px; color: var(--muted); }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 </style>
-  <script>"use strict";
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../../index.html">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../index.html#board-games">Board Games</a></li>
+          <li aria-current="page">Reversi</li>
+        </ol>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Classic strategy board game</p>
+        <h1 id="page-title">Reversi Game</h1>
+        <p class="intro">Play Reversi free online against the computer. Place a disc to trap your opponent’s pieces, flip them to your color, and finish with the most discs on the board.</p>
+      </section>
+
+      <section class="game-card" id="game" aria-labelledby="game-heading">
+        <div class="game-toolbar">
+          <div>
+            <p class="game-label">You play</p>
+            <p class="player-color"><span class="mini-disc black" aria-hidden="true"></span> Black</p>
+          </div>
+
+          <label class="difficulty-control" for="difficulty">
+            <span>Difficulty</span>
+            <select id="difficulty" aria-label="Computer difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="scoreboard" aria-label="Game score">
+          <div class="score-box player-score active" id="black-score-box">
+            <span class="mini-disc black" aria-hidden="true"></span>
+            <span class="score-name">You</span>
+            <strong id="black-score">2</strong>
+          </div>
+          <div class="turn-panel">
+            <span class="turn-kicker">Game status</span>
+            <strong id="status" role="status" aria-live="polite">Your turn</strong>
+          </div>
+          <div class="score-box" id="white-score-box">
+            <span class="mini-disc white" aria-hidden="true"></span>
+            <span class="score-name">Computer</span>
+            <strong id="white-score">2</strong>
+          </div>
+        </div>
+
+        <h2 class="sr-only" id="game-heading">Play Reversi</h2>
+        <div class="board-wrap">
+          <div class="board-coordinates top" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+          <div id="board" class="board" role="grid" aria-label="Reversi board" aria-rowcount="8" aria-colcount="8"></div>
+          <div class="board-coordinates side" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+        </div>
+
+        <div class="game-actions">
+          <button class="primary-button" id="new-game" type="button">New Game</button>
+          <button class="secondary-button" id="toggle-hints" type="button" aria-pressed="true">Hide Move Hints</button>
+        </div>
+
+        <p class="control-note"><strong>Controls:</strong> Tap or click a highlighted square. On a keyboard, use the arrow keys and press Enter or Space.</p>
+
+        <div class="result-panel" id="result-panel" hidden>
+          <div class="result-icon" id="result-icon" aria-hidden="true">●</div>
+          <div>
+            <h3 id="result-title">Game Over</h3>
+            <p id="result-message"></p>
+          </div>
+          <button class="primary-button" id="play-again" type="button">Play Again</button>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-play">
+        <div class="section-heading">
+          <p class="eyebrow">Rules and controls</p>
+          <h2 id="how-to-play">How to Play Reversi</h2>
+        </div>
+        <p>Reversi is played on an 8×8 board with black and white discs. Black moves first. Your goal is to have more discs showing your color when neither player can make another legal move.</p>
+
+        <div class="steps-grid">
+          <article>
+            <span>1</span>
+            <h3>Find a legal square</h3>
+            <p>Choose an empty highlighted square next to one or more white discs.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3>Trap the discs</h3>
+            <p>Your new black disc must sandwich at least one white disc in a straight line.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3>Flip and continue</h3>
+            <p>Every trapped disc flips to black. Turns continue until no legal moves remain.</p>
+          </article>
+        </div>
+
+        <div class="rules-callout">
+          <h3>When does a player pass?</h3>
+          <p>If you have no legal move, your turn passes automatically. The game ends when both players have no move or the board is full.</p>
+        </div>
+      </section>
+
+      <section class="content-section split-section" aria-labelledby="about-reversi">
+        <div>
+          <p class="eyebrow">A quick introduction</p>
+          <h2 id="about-reversi">About the Reversi Game</h2>
+          <p>Reversi is a two-player strategy game built around positional control. A single move can flip several lines of discs horizontally, vertically, or diagonally, so the lead can change quickly.</p>
+          <p>This browser version lets you play as Black against the computer. It runs entirely on your device and requires no download, account, or sign-up.</p>
+        </div>
+        <aside class="strategy-card" aria-labelledby="strategy-title">
+          <h3 id="strategy-title">Reversi strategy tips</h3>
+          <ul>
+            <li>Prioritize corners because corner discs cannot be flipped.</li>
+            <li>Avoid giving away squares beside an open corner.</li>
+            <li>Keep your opponent’s legal move count low.</li>
+            <li>Do not chase an early lead; stable positions matter more.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="content-section" aria-labelledby="related-games">
+        <div class="section-heading row-heading">
+          <div>
+            <p class="eyebrow">Keep playing</p>
+            <h2 id="related-games">Related Board Games</h2>
+          </div>
+          <a href="../../index.html#board-games">View all board games</a>
+        </div>
+        <div class="related-grid" aria-label="Related game suggestions">
+          <article><span class="game-symbol">♟</span><div><h3>Chess</h3><p>Plan ahead and control the board.</p></div></article>
+          <article><span class="game-symbol">⛀</span><div><h3>Checkers</h3><p>Jump pieces in a classic duel.</p></div></article>
+          <article><span class="game-symbol">×</span><div><h3>Tic-Tac-Toe</h3><p>Make three in a row.</p></div></article>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <p class="eyebrow">Common questions</p>
+          <h2 id="faq-title">Reversi Game FAQ</h2>
+        </div>
+        <details>
+          <summary>Is Reversi the same as Othello?</summary>
+          <p>The games use the same core flanking and disc-flipping mechanics. Othello is a trademarked commercial version with a standardized starting setup.</p>
+        </details>
+        <details>
+          <summary>Can I play this Reversi game on mobile?</summary>
+          <p>Yes. The board scales to fit smaller screens, and you can tap any highlighted legal move.</p>
+        </details>
+        <details>
+          <summary>How do you win at Reversi?</summary>
+          <p>You win by having more discs of your color when the game ends. Corners, stable edges, and limiting the opponent’s choices are usually more valuable than an early disc lead.</p>
+        </details>
+        <details>
+          <summary>What happens when there are no legal moves?</summary>
+          <p>A player with no legal move must pass. If neither player can move, the game ends and the discs are counted.</p>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell">
+      <p>Play quick, free online games directly in your browser.</p>
+      <a href="../../index.html">Explore Games Hub</a>
+    </div>
+  </footer>
+<script>"use strict";
 
 const EMPTY = 0;
 const BLACK = 1;
@@ -846,188 +1030,5 @@ difficultyElement.addEventListener("change", startGame);
 
 startGame();
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <a class="skip-link" href="#game">Skip to game</a>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="../../index.html" aria-label="Games Hub home">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
-        <span>Games Hub</span>
-      </a>
-      <a class="all-games-link" href="../../index.html">All Games</a>
-    </div>
-  </header>
-
-  <main>
-    <div class="page-shell">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../index.html">Home</a></li>
-          <li><a href="../../index.html#board-games">Board Games</a></li>
-          <li aria-current="page">Reversi</li>
-        </ol>
-      </nav>
-
-      <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">Classic strategy board game</p>
-        <h1 id="page-title">Reversi Game</h1>
-        <p class="intro">Play Reversi free online against the computer. Place a disc to trap your opponent’s pieces, flip them to your color, and finish with the most discs on the board.</p>
-      </section>
-
-      <section class="game-card" id="game" aria-labelledby="game-heading">
-        <div class="game-toolbar">
-          <div>
-            <p class="game-label">You play</p>
-            <p class="player-color"><span class="mini-disc black" aria-hidden="true"></span> Black</p>
-          </div>
-
-          <label class="difficulty-control" for="difficulty">
-            <span>Difficulty</span>
-            <select id="difficulty" aria-label="Computer difficulty">
-              <option value="easy">Easy</option>
-              <option value="medium" selected>Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="scoreboard" aria-label="Game score">
-          <div class="score-box player-score active" id="black-score-box">
-            <span class="mini-disc black" aria-hidden="true"></span>
-            <span class="score-name">You</span>
-            <strong id="black-score">2</strong>
-          </div>
-          <div class="turn-panel">
-            <span class="turn-kicker">Game status</span>
-            <strong id="status" role="status" aria-live="polite">Your turn</strong>
-          </div>
-          <div class="score-box" id="white-score-box">
-            <span class="mini-disc white" aria-hidden="true"></span>
-            <span class="score-name">Computer</span>
-            <strong id="white-score">2</strong>
-          </div>
-        </div>
-
-        <h2 class="sr-only" id="game-heading">Play Reversi</h2>
-        <div class="board-wrap">
-          <div class="board-coordinates top" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
-          <div id="board" class="board" role="grid" aria-label="Reversi board" aria-rowcount="8" aria-colcount="8"></div>
-          <div class="board-coordinates side" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
-        </div>
-
-        <div class="game-actions">
-          <button class="primary-button" id="new-game" type="button">New Game</button>
-          <button class="secondary-button" id="toggle-hints" type="button" aria-pressed="true">Hide Move Hints</button>
-        </div>
-
-        <p class="control-note"><strong>Controls:</strong> Tap or click a highlighted square. On a keyboard, use the arrow keys and press Enter or Space.</p>
-
-        <div class="result-panel" id="result-panel" hidden>
-          <div class="result-icon" id="result-icon" aria-hidden="true">●</div>
-          <div>
-            <h3 id="result-title">Game Over</h3>
-            <p id="result-message"></p>
-          </div>
-          <button class="primary-button" id="play-again" type="button">Play Again</button>
-        </div>
-      </section>
-
-      <section class="content-section" aria-labelledby="how-to-play">
-        <div class="section-heading">
-          <p class="eyebrow">Rules and controls</p>
-          <h2 id="how-to-play">How to Play Reversi</h2>
-        </div>
-        <p>Reversi is played on an 8×8 board with black and white discs. Black moves first. Your goal is to have more discs showing your color when neither player can make another legal move.</p>
-
-        <div class="steps-grid">
-          <article>
-            <span>1</span>
-            <h3>Find a legal square</h3>
-            <p>Choose an empty highlighted square next to one or more white discs.</p>
-          </article>
-          <article>
-            <span>2</span>
-            <h3>Trap the discs</h3>
-            <p>Your new black disc must sandwich at least one white disc in a straight line.</p>
-          </article>
-          <article>
-            <span>3</span>
-            <h3>Flip and continue</h3>
-            <p>Every trapped disc flips to black. Turns continue until no legal moves remain.</p>
-          </article>
-        </div>
-
-        <div class="rules-callout">
-          <h3>When does a player pass?</h3>
-          <p>If you have no legal move, your turn passes automatically. The game ends when both players have no move or the board is full.</p>
-        </div>
-      </section>
-
-      <section class="content-section split-section" aria-labelledby="about-reversi">
-        <div>
-          <p class="eyebrow">A quick introduction</p>
-          <h2 id="about-reversi">About the Reversi Game</h2>
-          <p>Reversi is a two-player strategy game built around positional control. A single move can flip several lines of discs horizontally, vertically, or diagonally, so the lead can change quickly.</p>
-          <p>This browser version lets you play as Black against the computer. It runs entirely on your device and requires no download, account, or sign-up.</p>
-        </div>
-        <aside class="strategy-card" aria-labelledby="strategy-title">
-          <h3 id="strategy-title">Reversi strategy tips</h3>
-          <ul>
-            <li>Prioritize corners because corner discs cannot be flipped.</li>
-            <li>Avoid giving away squares beside an open corner.</li>
-            <li>Keep your opponent’s legal move count low.</li>
-            <li>Do not chase an early lead; stable positions matter more.</li>
-          </ul>
-        </aside>
-      </section>
-
-      <section class="content-section" aria-labelledby="related-games">
-        <div class="section-heading row-heading">
-          <div>
-            <p class="eyebrow">Keep playing</p>
-            <h2 id="related-games">Related Board Games</h2>
-          </div>
-          <a href="../../index.html#board-games">View all board games</a>
-        </div>
-        <div class="related-grid" aria-label="Related game suggestions">
-          <article><span class="game-symbol">♟</span><div><h3>Chess</h3><p>Plan ahead and control the board.</p></div></article>
-          <article><span class="game-symbol">⛀</span><div><h3>Checkers</h3><p>Jump pieces in a classic duel.</p></div></article>
-          <article><span class="game-symbol">×</span><div><h3>Tic-Tac-Toe</h3><p>Make three in a row.</p></div></article>
-        </div>
-      </section>
-
-      <section class="content-section faq-section" aria-labelledby="faq-title">
-        <div class="section-heading">
-          <p class="eyebrow">Common questions</p>
-          <h2 id="faq-title">Reversi Game FAQ</h2>
-        </div>
-        <details>
-          <summary>Is Reversi the same as Othello?</summary>
-          <p>The games use the same core flanking and disc-flipping mechanics. Othello is a trademarked commercial version with a standardized starting setup.</p>
-        </details>
-        <details>
-          <summary>Can I play this Reversi game on mobile?</summary>
-          <p>Yes. The board scales to fit smaller screens, and you can tap any highlighted legal move.</p>
-        </details>
-        <details>
-          <summary>How do you win at Reversi?</summary>
-          <p>You win by having more discs of your color when the game ends. Corners, stable edges, and limiting the opponent’s choices are usually more valuable than an early disc lead.</p>
-        </details>
-        <details>
-          <summary>What happens when there are no legal moves?</summary>
-          <p>A player with no legal move must pass. If neither player can move, the game ends and the discs are counted.</p>
-        </details>
-      </section>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="page-shell">
-      <p>Play quick, free online games directly in your browser.</p>
-      <a href="../../index.html">Explore Games Hub</a>
-    </div>
-  </footer>
 </body>
 </html>

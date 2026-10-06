@@ -124,7 +124,7 @@
     wall:   {name:"Wall", cost:{wood:20,stone:0,food:0}, icon:"▦", income:{wood:0,stone:0,food:0}, defense:4, pop:0}
   };
 
-  let state;
+  let state = { timer: null };
 
   const $ = id => document.getElementById(id);
   const board = $("board");

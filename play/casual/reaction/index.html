@@ -239,7 +239,199 @@ h3 { margin-bottom: 8px; font-size: 21px; line-height: 1.25; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 </style>
-  <script>"use strict";
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container" aria-labelledby="page-title">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../">Home</a></li>
+          <li><a href="../">Casual Games</a></li>
+          <li aria-current="page">Reaction</li>
+        </ol>
+      </nav>
+      <span class="eyebrow">Casual game</span>
+      <h1 id="page-title">Reaction Game</h1>
+      <p class="hero-copy">How fast can you respond? Wait for the signal, then tap, click, or press Space as quickly as possible. Complete five rounds to find your average reaction time.</p>
+    </section>
+
+    <section class="game-section container" id="game" aria-labelledby="game-heading">
+      <h2 class="visually-hidden" id="game-heading">Play the Reaction Game</h2>
+
+      <div class="stats-grid" aria-label="Game statistics">
+        <div class="stat-card">
+          <span class="stat-label">Round</span>
+          <strong class="stat-value"><span id="roundValue">0</span><small>/5</small></strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Last time</span>
+          <strong class="stat-value" id="lastValue">—</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Best this game</span>
+          <strong class="stat-value" id="bestValue">—</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Personal best</span>
+          <strong class="stat-value" id="personalBestValue">—</strong>
+        </div>
+      </div>
+
+      <div class="game-shell">
+        <button class="reaction-pad state-idle" id="reactionPad" type="button" aria-describedby="gameHint" aria-label="Reaction test area. Start a game, wait for green, then activate this area.">
+          <span class="signal-icon" id="signalIcon" aria-hidden="true">
+            <span class="signal-ring"></span>
+            <span class="signal-dot"></span>
+          </span>
+          <span class="pad-kicker" id="padKicker">Ready to test your speed?</span>
+          <strong class="pad-title" id="padTitle">Start Reaction Test</strong>
+          <span class="pad-message" id="padMessage">Five rounds. One goal: react fast.</span>
+        </button>
+
+        <div class="game-toolbar">
+          <p class="game-hint" id="gameHint">
+            <span class="key" aria-hidden="true">Space</span>
+            <span>or tap the game area</span>
+          </p>
+          <button class="button button-secondary" id="restartButton" type="button">Restart game</button>
+        </div>
+
+        <div class="round-progress" aria-label="Round progress">
+          <span class="round-dot" data-round="1"></span>
+          <span class="round-dot" data-round="2"></span>
+          <span class="round-dot" data-round="3"></span>
+          <span class="round-dot" data-round="4"></span>
+          <span class="round-dot" data-round="5"></span>
+        </div>
+
+        <p class="screen-reader-status visually-hidden" id="liveStatus" role="status" aria-live="polite"></p>
+      </div>
+
+      <section class="results-card" id="resultsCard" aria-labelledby="resultsTitle" hidden>
+        <div class="results-heading">
+          <div>
+            <span class="eyebrow">Final result</span>
+            <h2 id="resultsTitle">Your reaction report</h2>
+          </div>
+          <span class="result-badge" id="resultBadge">Quick reflexes</span>
+        </div>
+
+        <div class="result-summary">
+          <div class="average-result">
+            <span>Average time</span>
+            <strong id="averageResult">—</strong>
+          </div>
+          <div class="result-metrics">
+            <div><span>Fastest</span><strong id="fastestResult">—</strong></div>
+            <div><span>Consistency</span><strong id="consistencyResult">—</strong></div>
+            <div><span>Score</span><strong id="scoreResult">—</strong></div>
+            <div><span>False starts</span><strong id="falseStartResult">0</strong></div>
+          </div>
+        </div>
+
+        <div class="round-breakdown">
+          <h3>Round breakdown</h3>
+          <ol id="roundResults"></ol>
+        </div>
+        <button class="button button-primary" id="playAgainButton" type="button">Play again</button>
+      </section>
+    </section>
+
+    <section class="content-section container" aria-labelledby="how-to-play-title">
+      <div class="content-grid">
+        <article class="content-card content-card-featured">
+          <span class="section-number" aria-hidden="true">01</span>
+          <h2 id="how-to-play-title">How to Play the Reaction Game</h2>
+          <p>Select the reaction area to begin. The screen will enter a waiting state for a random amount of time. Do not react yet.</p>
+          <ol class="instruction-list">
+            <li><span>Start</span>Tap the game area or press Space.</li>
+            <li><span>Wait</span>Stay ready while the screen is blue.</li>
+            <li><span>React</span>Tap, click, or press Space as soon as it turns green.</li>
+            <li><span>Finish</span>Complete five valid rounds to receive your report.</li>
+          </ol>
+          <p class="notice"><strong>Watch out:</strong> reacting before the green signal counts as a false start. The current round will restart.</p>
+        </article>
+
+        <article class="content-card">
+          <span class="section-number" aria-hidden="true">02</span>
+          <h2>Reaction Game Controls</h2>
+          <div class="control-list">
+            <div><span class="control-icon" aria-hidden="true">↖</span><div><strong>Mouse</strong><p>Click the main reaction area.</p></div></div>
+            <div><span class="control-icon" aria-hidden="true">◇</span><div><strong>Touch</strong><p>Tap anywhere inside the game area.</p></div></div>
+            <div><span class="control-icon control-icon-wide" aria-hidden="true">Space</span><div><strong>Keyboard</strong><p>Press Space to start and react.</p></div></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-section container" aria-labelledby="about-title">
+      <div class="section-heading">
+        <span class="eyebrow">Reflex challenge</span>
+        <h2 id="about-title">About the Reaction Game</h2>
+      </div>
+      <div class="prose-columns">
+        <p>This free online Reaction Game measures the delay between a visual signal and your response. Each round uses a different waiting time, so you cannot rely on a fixed countdown. Your final result is based on five successful attempts.</p>
+        <p>Reaction speed can change with focus, device input, display refresh rate, fatigue, and practice. Treat the score as a casual challenge rather than a medical or scientific assessment. Your personal best is saved only in your current browser.</p>
+      </div>
+    </section>
+
+    <section class="tips-section container" aria-labelledby="tips-title">
+      <div class="section-heading">
+        <span class="eyebrow">Play smarter</span>
+        <h2 id="tips-title">Tips for a Faster Reaction Time</h2>
+      </div>
+      <div class="tips-grid">
+        <article><span>01</span><h3>Stay relaxed</h3><p>Keep your hand loose and ready. Too much tension can slow a precise response.</p></article>
+        <article><span>02</span><h3>Watch the whole area</h3><p>Focus on the center without staring at one tiny point. The full color change will be easier to notice.</p></article>
+        <article><span>03</span><h3>Avoid guessing</h3><p>A false start costs time and interrupts your rhythm. Wait for the real green signal.</p></article>
+      </div>
+    </section>
+
+    <section class="related-section container" aria-labelledby="related-title">
+      <div class="section-heading section-heading-row">
+        <div><span class="eyebrow">Keep playing</span><h2 id="related-title">Related Casual Games</h2></div>
+        <span class="coming-soon">More games coming soon</span>
+      </div>
+      <!-- Replace each data-future-slug card with an anchor when that game page exists. -->
+      <div class="related-grid">
+        <article class="related-card" data-future-slug="aim-trainer"><span class="related-icon related-icon-aim" aria-hidden="true">◎</span><div><h3>Aim Trainer</h3><p>Test speed and pointer accuracy.</p></div></article>
+        <article class="related-card" data-future-slug="memory-match"><span class="related-icon related-icon-memory" aria-hidden="true">✦</span><div><h3>Memory Match</h3><p>Find pairs and sharpen your focus.</p></div></article>
+        <article class="related-card" data-future-slug="quick-math"><span class="related-icon related-icon-math" aria-hidden="true">+</span><div><h3>Quick Math</h3><p>Solve simple problems against time.</p></div></article>
+      </div>
+    </section>
+
+    <section class="faq-section container" aria-labelledby="faq-title">
+      <div class="section-heading"><span class="eyebrow">Common questions</span><h2 id="faq-title">Reaction Game FAQ</h2></div>
+      <div class="faq-list">
+        <details><summary>What is a good reaction time?</summary><p>For this casual browser game, a result around 200–300 milliseconds is typically quick. Results vary by device, browser, attention, and input method.</p></details>
+        <details><summary>Can I play the Reaction Game on mobile?</summary><p>Yes. Tap the large reaction area to start each test and tap it again as soon as the signal turns green.</p></details>
+        <details><summary>Why does my reaction score change?</summary><p>Natural variation is normal. Sleep, focus, anticipation, screen refresh rate, and the delay added by a mouse or touchscreen can all affect a result.</p></details>
+        <details><summary>Does the game save my score?</summary><p>The fastest valid reaction is stored in your browser as a personal best. No account, database, or server is used.</p></details>
+        <details><summary>Is this a scientific reaction-time test?</summary><p>No. It is a casual game designed for entertainment and informal comparison, not medical or scientific measurement.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">G</span><span>Games Hub</span></a>
+      <p>Fast, free games for your browser.</p>
+    </div>
+  </footer>
+<script>"use strict";
 
 const TOTAL_ROUNDS = 5;
 const MIN_WAIT_MS = 1500;
@@ -491,196 +683,5 @@ document.addEventListener("visibilitychange", () => {
 
 updateStats();
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <a class="skip-link" href="#game">Skip to game</a>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="../../" aria-label="Games Hub home">
-        <span class="brand-mark" aria-hidden="true">G</span>
-        <span>Games Hub</span>
-      </a>
-      <a class="all-games-link" href="../">All Games</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero container" aria-labelledby="page-title">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Home</a></li>
-          <li><a href="../">Casual Games</a></li>
-          <li aria-current="page">Reaction</li>
-        </ol>
-      </nav>
-      <span class="eyebrow">Casual game</span>
-      <h1 id="page-title">Reaction Game</h1>
-      <p class="hero-copy">How fast can you respond? Wait for the signal, then tap, click, or press Space as quickly as possible. Complete five rounds to find your average reaction time.</p>
-    </section>
-
-    <section class="game-section container" id="game" aria-labelledby="game-heading">
-      <h2 class="visually-hidden" id="game-heading">Play the Reaction Game</h2>
-
-      <div class="stats-grid" aria-label="Game statistics">
-        <div class="stat-card">
-          <span class="stat-label">Round</span>
-          <strong class="stat-value"><span id="roundValue">0</span><small>/5</small></strong>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Last time</span>
-          <strong class="stat-value" id="lastValue">—</strong>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Best this game</span>
-          <strong class="stat-value" id="bestValue">—</strong>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Personal best</span>
-          <strong class="stat-value" id="personalBestValue">—</strong>
-        </div>
-      </div>
-
-      <div class="game-shell">
-        <button class="reaction-pad state-idle" id="reactionPad" type="button" aria-describedby="gameHint" aria-label="Reaction test area. Start a game, wait for green, then activate this area.">
-          <span class="signal-icon" id="signalIcon" aria-hidden="true">
-            <span class="signal-ring"></span>
-            <span class="signal-dot"></span>
-          </span>
-          <span class="pad-kicker" id="padKicker">Ready to test your speed?</span>
-          <strong class="pad-title" id="padTitle">Start Reaction Test</strong>
-          <span class="pad-message" id="padMessage">Five rounds. One goal: react fast.</span>
-        </button>
-
-        <div class="game-toolbar">
-          <p class="game-hint" id="gameHint">
-            <span class="key" aria-hidden="true">Space</span>
-            <span>or tap the game area</span>
-          </p>
-          <button class="button button-secondary" id="restartButton" type="button">Restart game</button>
-        </div>
-
-        <div class="round-progress" aria-label="Round progress">
-          <span class="round-dot" data-round="1"></span>
-          <span class="round-dot" data-round="2"></span>
-          <span class="round-dot" data-round="3"></span>
-          <span class="round-dot" data-round="4"></span>
-          <span class="round-dot" data-round="5"></span>
-        </div>
-
-        <p class="screen-reader-status visually-hidden" id="liveStatus" role="status" aria-live="polite"></p>
-      </div>
-
-      <section class="results-card" id="resultsCard" aria-labelledby="resultsTitle" hidden>
-        <div class="results-heading">
-          <div>
-            <span class="eyebrow">Final result</span>
-            <h2 id="resultsTitle">Your reaction report</h2>
-          </div>
-          <span class="result-badge" id="resultBadge">Quick reflexes</span>
-        </div>
-
-        <div class="result-summary">
-          <div class="average-result">
-            <span>Average time</span>
-            <strong id="averageResult">—</strong>
-          </div>
-          <div class="result-metrics">
-            <div><span>Fastest</span><strong id="fastestResult">—</strong></div>
-            <div><span>Consistency</span><strong id="consistencyResult">—</strong></div>
-            <div><span>Score</span><strong id="scoreResult">—</strong></div>
-            <div><span>False starts</span><strong id="falseStartResult">0</strong></div>
-          </div>
-        </div>
-
-        <div class="round-breakdown">
-          <h3>Round breakdown</h3>
-          <ol id="roundResults"></ol>
-        </div>
-        <button class="button button-primary" id="playAgainButton" type="button">Play again</button>
-      </section>
-    </section>
-
-    <section class="content-section container" aria-labelledby="how-to-play-title">
-      <div class="content-grid">
-        <article class="content-card content-card-featured">
-          <span class="section-number" aria-hidden="true">01</span>
-          <h2 id="how-to-play-title">How to Play the Reaction Game</h2>
-          <p>Select the reaction area to begin. The screen will enter a waiting state for a random amount of time. Do not react yet.</p>
-          <ol class="instruction-list">
-            <li><span>Start</span>Tap the game area or press Space.</li>
-            <li><span>Wait</span>Stay ready while the screen is blue.</li>
-            <li><span>React</span>Tap, click, or press Space as soon as it turns green.</li>
-            <li><span>Finish</span>Complete five valid rounds to receive your report.</li>
-          </ol>
-          <p class="notice"><strong>Watch out:</strong> reacting before the green signal counts as a false start. The current round will restart.</p>
-        </article>
-
-        <article class="content-card">
-          <span class="section-number" aria-hidden="true">02</span>
-          <h2>Reaction Game Controls</h2>
-          <div class="control-list">
-            <div><span class="control-icon" aria-hidden="true">↖</span><div><strong>Mouse</strong><p>Click the main reaction area.</p></div></div>
-            <div><span class="control-icon" aria-hidden="true">◇</span><div><strong>Touch</strong><p>Tap anywhere inside the game area.</p></div></div>
-            <div><span class="control-icon control-icon-wide" aria-hidden="true">Space</span><div><strong>Keyboard</strong><p>Press Space to start and react.</p></div></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="about-section container" aria-labelledby="about-title">
-      <div class="section-heading">
-        <span class="eyebrow">Reflex challenge</span>
-        <h2 id="about-title">About the Reaction Game</h2>
-      </div>
-      <div class="prose-columns">
-        <p>This free online Reaction Game measures the delay between a visual signal and your response. Each round uses a different waiting time, so you cannot rely on a fixed countdown. Your final result is based on five successful attempts.</p>
-        <p>Reaction speed can change with focus, device input, display refresh rate, fatigue, and practice. Treat the score as a casual challenge rather than a medical or scientific assessment. Your personal best is saved only in your current browser.</p>
-      </div>
-    </section>
-
-    <section class="tips-section container" aria-labelledby="tips-title">
-      <div class="section-heading">
-        <span class="eyebrow">Play smarter</span>
-        <h2 id="tips-title">Tips for a Faster Reaction Time</h2>
-      </div>
-      <div class="tips-grid">
-        <article><span>01</span><h3>Stay relaxed</h3><p>Keep your hand loose and ready. Too much tension can slow a precise response.</p></article>
-        <article><span>02</span><h3>Watch the whole area</h3><p>Focus on the center without staring at one tiny point. The full color change will be easier to notice.</p></article>
-        <article><span>03</span><h3>Avoid guessing</h3><p>A false start costs time and interrupts your rhythm. Wait for the real green signal.</p></article>
-      </div>
-    </section>
-
-    <section class="related-section container" aria-labelledby="related-title">
-      <div class="section-heading section-heading-row">
-        <div><span class="eyebrow">Keep playing</span><h2 id="related-title">Related Casual Games</h2></div>
-        <span class="coming-soon">More games coming soon</span>
-      </div>
-      <!-- Replace each data-future-slug card with an anchor when that game page exists. -->
-      <div class="related-grid">
-        <article class="related-card" data-future-slug="aim-trainer"><span class="related-icon related-icon-aim" aria-hidden="true">◎</span><div><h3>Aim Trainer</h3><p>Test speed and pointer accuracy.</p></div></article>
-        <article class="related-card" data-future-slug="memory-match"><span class="related-icon related-icon-memory" aria-hidden="true">✦</span><div><h3>Memory Match</h3><p>Find pairs and sharpen your focus.</p></div></article>
-        <article class="related-card" data-future-slug="quick-math"><span class="related-icon related-icon-math" aria-hidden="true">+</span><div><h3>Quick Math</h3><p>Solve simple problems against time.</p></div></article>
-      </div>
-    </section>
-
-    <section class="faq-section container" aria-labelledby="faq-title">
-      <div class="section-heading"><span class="eyebrow">Common questions</span><h2 id="faq-title">Reaction Game FAQ</h2></div>
-      <div class="faq-list">
-        <details><summary>What is a good reaction time?</summary><p>For this casual browser game, a result around 200–300 milliseconds is typically quick. Results vary by device, browser, attention, and input method.</p></details>
-        <details><summary>Can I play the Reaction Game on mobile?</summary><p>Yes. Tap the large reaction area to start each test and tap it again as soon as the signal turns green.</p></details>
-        <details><summary>Why does my reaction score change?</summary><p>Natural variation is normal. Sleep, focus, anticipation, screen refresh rate, and the delay added by a mouse or touchscreen can all affect a result.</p></details>
-        <details><summary>Does the game save my score?</summary><p>The fastest valid reaction is stored in your browser as a personal best. No account, database, or server is used.</p></details>
-        <details><summary>Is this a scientific reaction-time test?</summary><p>No. It is a casual game designed for entertainment and informal comparison, not medical or scientific measurement.</p></details>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">G</span><span>Games Hub</span></a>
-      <p>Fast, free games for your browser.</p>
-    </div>
-  </footer>
 </body>
 </html>

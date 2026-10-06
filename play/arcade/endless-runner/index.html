@@ -181,7 +181,137 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
 </style>
-  <script>"use strict";
+  
+<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
+<body>
+  <a class="skip-link" href="#game">Skip to game</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html" aria-label="Games Hub home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Games Hub</span>
+      </a>
+      <a class="all-games-link" href="../../index.html">All Games</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container" aria-labelledby="page-title">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a><span aria-hidden="true">/</span>
+        <a href="../../index.html#arcade-games">Arcade Games</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Endless Runner</span>
+      </nav>
+      <h1 id="page-title">Endless Runner Game</h1>
+      <p class="hero-copy">Keep moving, time every jump, and collect coins as the course gets faster. Play this free Endless Runner game online with no download.</p>
+    </section>
+
+    <section class="game-section container" id="game" aria-label="Endless Runner game">
+      <div class="scorebar" aria-label="Current game statistics">
+        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat"><span>Coins</span><strong id="coins">0</strong></div>
+        <div class="stat"><span>Best</span><strong id="best-score">0</strong></div>
+        <button class="icon-button" id="pause-button" type="button" aria-label="Pause game" disabled>
+          <span aria-hidden="true">Ⅱ</span><span class="button-label">Pause</span>
+        </button>
+      </div>
+
+      <div class="game-shell">
+        <canvas id="game-canvas" width="900" height="400" aria-label="Endless Runner play area. Jump over obstacles and collect coins."></canvas>
+        <div class="game-overlay" id="game-overlay">
+          <div class="overlay-card">
+            <p class="eyebrow" id="overlay-eyebrow">Ready to run?</p>
+            <h2 id="overlay-title">Endless Runner</h2>
+            <p id="overlay-message">Jump over obstacles, collect coins, and survive as the pace increases.</p>
+            <button class="primary-button" id="start-button" type="button">Start Run</button>
+            <p class="shortcut-hint">Press Space or tap Jump to play</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-controls" aria-label="Touch controls">
+        <button class="control-button jump-button" id="jump-button" type="button" aria-label="Jump">
+          <span class="control-icon" aria-hidden="true">↑</span><span>Jump</span>
+        </button>
+      </div>
+      <p class="game-status" id="game-status" role="status" aria-live="polite">Game ready. Press Start Run.</p>
+    </section>
+
+    <section class="content-section container">
+      <div class="content-grid">
+        <article class="content-card">
+          <h2>How to Play Endless Runner</h2>
+          <p>Your runner moves forward automatically. Jump at the right moment to clear crates and barriers. Collect floating coins for bonus points and stay alive as the running speed increases.</p>
+          <ol class="steps">
+            <li><strong>Start the run.</strong> Select Start Run or press Space.</li>
+            <li><strong>Time your jumps.</strong> Jump once from the ground and once more in the air for a double jump.</li>
+            <li><strong>Avoid obstacles.</strong> Hitting any barrier ends the run.</li>
+            <li><strong>Collect coins.</strong> Each coin adds 25 bonus points.</li>
+          </ol>
+        </article>
+
+        <aside class="content-card controls-card">
+          <h2>Game Controls</h2>
+          <div class="control-row"><span>Jump / Double Jump</span><kbd>Space</kbd><kbd>↑</kbd></div>
+          <div class="control-row"><span>Pause / Resume</span><kbd>P</kbd></div>
+          <div class="control-row"><span>Restart after game over</span><kbd>R</kbd></div>
+          <p>On a phone or tablet, use the large Jump button. You can also tap the game area to jump.</p>
+        </aside>
+      </div>
+
+      <article class="wide-card">
+        <h2>About the Endless Runner Game</h2>
+        <p>Endless Runner is a fast browser arcade game built around timing and concentration. The route continues for as long as you can avoid hazards. Speed rises gradually, so each run becomes more challenging without changing the simple controls.</p>
+        <p>The game runs entirely in your browser using HTML5. There is no account, installation, or download required. Your best score is saved only in your current browser.</p>
+      </article>
+
+      <article class="wide-card">
+        <h2>Tips for a Higher Score</h2>
+        <ul class="tip-list">
+          <li>Watch the space in front of the runner instead of focusing only on the character.</li>
+          <li>Save the second jump for tall barriers or a late correction.</li>
+          <li>Do not chase a coin if collecting it puts you on course to hit an obstacle.</li>
+          <li>Use short, deliberate taps. Holding the key does not create extra jumps.</li>
+        </ul>
+      </article>
+
+      <section class="wide-card related-games" aria-labelledby="related-title">
+        <h2 id="related-title">More Games</h2>
+        <p>Explore more free online arcade and skill games from the Games Hub.</p>
+        <div class="related-grid">
+          <div class="related-placeholder"><span aria-hidden="true">🐍</span><strong>Snake</strong><small>Coming soon</small></div>
+          <div class="related-placeholder"><span aria-hidden="true">🧱</span><strong>Tetris</strong><small>Coming soon</small></div>
+          <div class="related-placeholder"><span aria-hidden="true">🔢</span><strong>2048</strong><small>Coming soon</small></div>
+        </div>
+      </section>
+
+      <section class="wide-card faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">Endless Runner FAQ</h2>
+        <details>
+          <summary>Is Endless Runner free to play?</summary>
+          <p>Yes. This Endless Runner game is free to play online in a modern web browser.</p>
+        </details>
+        <details>
+          <summary>Do I need to download the game?</summary>
+          <p>No. The game loads and runs directly in your browser without an app or game download.</p>
+        </details>
+        <details>
+          <summary>Can I play Endless Runner on mobile?</summary>
+          <p>Yes. Use the on-screen Jump button or tap the game area on a phone or tablet.</p>
+        </details>
+        <details>
+          <summary>How is the score calculated?</summary>
+          <p>Your score rises with the distance you run. Every collected coin adds 25 bonus points.</p>
+        </details>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><p>© <span id="current-year"></span> Games Hub. Play free online games.</p></div>
+  </footer>
+<script>"use strict";
 
 (() => {
   const canvas = document.getElementById("game-canvas");
@@ -608,134 +738,5 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
   resizeCanvas();
 })();
 </script>
-<meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/embed.css?v=20261005a"><script src="/js/embed.js?v=20261005a" defer></script></head>
-<body>
-  <a class="skip-link" href="#game">Skip to game</a>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="../../index.html" aria-label="Games Hub home">
-        <span class="brand-mark" aria-hidden="true">G</span>
-        <span>Games Hub</span>
-      </a>
-      <a class="all-games-link" href="../../index.html">All Games</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero container" aria-labelledby="page-title">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../../index.html">Home</a><span aria-hidden="true">/</span>
-        <a href="../../index.html#arcade-games">Arcade Games</a><span aria-hidden="true">/</span>
-        <span aria-current="page">Endless Runner</span>
-      </nav>
-      <h1 id="page-title">Endless Runner Game</h1>
-      <p class="hero-copy">Keep moving, time every jump, and collect coins as the course gets faster. Play this free Endless Runner game online with no download.</p>
-    </section>
-
-    <section class="game-section container" id="game" aria-label="Endless Runner game">
-      <div class="scorebar" aria-label="Current game statistics">
-        <div class="stat"><span>Score</span><strong id="score">0</strong></div>
-        <div class="stat"><span>Coins</span><strong id="coins">0</strong></div>
-        <div class="stat"><span>Best</span><strong id="best-score">0</strong></div>
-        <button class="icon-button" id="pause-button" type="button" aria-label="Pause game" disabled>
-          <span aria-hidden="true">Ⅱ</span><span class="button-label">Pause</span>
-        </button>
-      </div>
-
-      <div class="game-shell">
-        <canvas id="game-canvas" width="900" height="400" aria-label="Endless Runner play area. Jump over obstacles and collect coins."></canvas>
-        <div class="game-overlay" id="game-overlay">
-          <div class="overlay-card">
-            <p class="eyebrow" id="overlay-eyebrow">Ready to run?</p>
-            <h2 id="overlay-title">Endless Runner</h2>
-            <p id="overlay-message">Jump over obstacles, collect coins, and survive as the pace increases.</p>
-            <button class="primary-button" id="start-button" type="button">Start Run</button>
-            <p class="shortcut-hint">Press Space or tap Jump to play</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="mobile-controls" aria-label="Touch controls">
-        <button class="control-button jump-button" id="jump-button" type="button" aria-label="Jump">
-          <span class="control-icon" aria-hidden="true">↑</span><span>Jump</span>
-        </button>
-      </div>
-      <p class="game-status" id="game-status" role="status" aria-live="polite">Game ready. Press Start Run.</p>
-    </section>
-
-    <section class="content-section container">
-      <div class="content-grid">
-        <article class="content-card">
-          <h2>How to Play Endless Runner</h2>
-          <p>Your runner moves forward automatically. Jump at the right moment to clear crates and barriers. Collect floating coins for bonus points and stay alive as the running speed increases.</p>
-          <ol class="steps">
-            <li><strong>Start the run.</strong> Select Start Run or press Space.</li>
-            <li><strong>Time your jumps.</strong> Jump once from the ground and once more in the air for a double jump.</li>
-            <li><strong>Avoid obstacles.</strong> Hitting any barrier ends the run.</li>
-            <li><strong>Collect coins.</strong> Each coin adds 25 bonus points.</li>
-          </ol>
-        </article>
-
-        <aside class="content-card controls-card">
-          <h2>Game Controls</h2>
-          <div class="control-row"><span>Jump / Double Jump</span><kbd>Space</kbd><kbd>↑</kbd></div>
-          <div class="control-row"><span>Pause / Resume</span><kbd>P</kbd></div>
-          <div class="control-row"><span>Restart after game over</span><kbd>R</kbd></div>
-          <p>On a phone or tablet, use the large Jump button. You can also tap the game area to jump.</p>
-        </aside>
-      </div>
-
-      <article class="wide-card">
-        <h2>About the Endless Runner Game</h2>
-        <p>Endless Runner is a fast browser arcade game built around timing and concentration. The route continues for as long as you can avoid hazards. Speed rises gradually, so each run becomes more challenging without changing the simple controls.</p>
-        <p>The game runs entirely in your browser using HTML5. There is no account, installation, or download required. Your best score is saved only in your current browser.</p>
-      </article>
-
-      <article class="wide-card">
-        <h2>Tips for a Higher Score</h2>
-        <ul class="tip-list">
-          <li>Watch the space in front of the runner instead of focusing only on the character.</li>
-          <li>Save the second jump for tall barriers or a late correction.</li>
-          <li>Do not chase a coin if collecting it puts you on course to hit an obstacle.</li>
-          <li>Use short, deliberate taps. Holding the key does not create extra jumps.</li>
-        </ul>
-      </article>
-
-      <section class="wide-card related-games" aria-labelledby="related-title">
-        <h2 id="related-title">More Games</h2>
-        <p>Explore more free online arcade and skill games from the Games Hub.</p>
-        <div class="related-grid">
-          <div class="related-placeholder"><span aria-hidden="true">🐍</span><strong>Snake</strong><small>Coming soon</small></div>
-          <div class="related-placeholder"><span aria-hidden="true">🧱</span><strong>Tetris</strong><small>Coming soon</small></div>
-          <div class="related-placeholder"><span aria-hidden="true">🔢</span><strong>2048</strong><small>Coming soon</small></div>
-        </div>
-      </section>
-
-      <section class="wide-card faq" aria-labelledby="faq-title">
-        <h2 id="faq-title">Endless Runner FAQ</h2>
-        <details>
-          <summary>Is Endless Runner free to play?</summary>
-          <p>Yes. This Endless Runner game is free to play online in a modern web browser.</p>
-        </details>
-        <details>
-          <summary>Do I need to download the game?</summary>
-          <p>No. The game loads and runs directly in your browser without an app or game download.</p>
-        </details>
-        <details>
-          <summary>Can I play Endless Runner on mobile?</summary>
-          <p>Yes. Use the on-screen Jump button or tap the game area on a phone or tablet.</p>
-        </details>
-        <details>
-          <summary>How is the score calculated?</summary>
-          <p>Your score rises with the distance you run. Every collected coin adds 25 bonus points.</p>
-        </details>
-      </section>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container"><p>© <span id="current-year"></span> Games Hub. Play free online games.</p></div>
-  </footer>
 </body>
 </html>
