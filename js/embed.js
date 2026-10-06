@@ -1,28 +1,29 @@
 /* Loaded only inside the /play/ iframe pages.
-   Goal: the whole game (board / canvas + its buttons) is visible with NO scrolling inside the frame.
+   Goal: the game fills the frame as much as possible — never scrolls, never looks tiny.
 
-   How it works
    1. Finds the "stage" = the main play area (largest canvas / board / grid).
-   2. Measures how much taller the page is than the frame.
-   3. First compacts the surrounding UI (scores, buttons, hints) a little,
-      then shrinks the stage (keeping its aspect ratio) so everything fits.
-   Runs on load and on resize. Nothing is touched when the game already fits. */
+   2. Lifts hard-coded min-heights / max-widths / big paddings around it.
+   3. Picks the biggest zoom for the stage (shrinks OR grows, up to MAX_ZOOM) so that the whole page
+      still fits the frame with no scrollbars. If that makes the stage smaller than natural size,
+      the surrounding UI (scores, buttons, hints) is compacted a little first.
+   4. Centres the content vertically when there is room left.
+   Runs on load and on resize. Falls back to leaving the game untouched on old browsers. */
 (function () {
   'use strict';
-  var MIN_ZOOM = 0.4;                  // never shrink the play area below this ratio
-  var CHROME_LEVELS = [1, 0.9, 0.8, 0.7, 0.6];   // how much the surrounding UI may be compacted
-  var GOOD_ENOUGH = 0.85;              // stop compacting once the stage keeps at least this size
-  var doc = document.documentElement;
-  var stage = null, chrome = [], savedStyle = null, timer = null, relaxed = [];
+  var MIN_ZOOM = 0.22, MAX_ZOOM = 1.6;
+  var CHROME_LEVELS = [1, 0.92, 0.85, 0.78, 0.7, 0.62];
+  var GOOD = 0.95;                       // stage must reach this (relative to natural size) before we stop compacting UI
+  var doc = document.documentElement, body = document.body;
+  var stage = null, chrome = [], savedStyle = null, timer = null, undo = [], whole = null;
 
   function box(el) { return el.getBoundingClientRect(); }
-  function over() { return doc.scrollHeight - window.innerHeight; }
   function shown(el) {
     var cs = getComputedStyle(el);
     if (cs.display === 'none' || cs.visibility === 'hidden') return false;
-    var r = box(el);
-    return r.width > 40 && r.height > 40;
+    var r = box(el); return r.width > 40 && r.height > 40;
   }
+  function remember(el) { undo.push([el, el.getAttribute('style')]); }
+  function fits() { return doc.scrollHeight <= window.innerHeight + 1 && doc.scrollWidth <= window.innerWidth + 1; }
 
   function findStage() {
     var sel = 'canvas,svg,[id*="board" i],[class*="board" i],[id*="grid" i],[class*="grid" i],[id*="stage" i],' +
@@ -40,7 +41,7 @@
     var big = list.filter(function (el) { var r = box(el); return r.width * r.height >= max * 0.6; });
     big.sort(function (a, b) { var ra = box(a), rb = box(b); return ra.width * ra.height - rb.width * rb.height; });
     var el = big[0];
-    while (el.parentElement && el.parentElement !== document.body) {   // climb to the tight wrapper (frame/padding only)
+    while (el.parentElement && el.parentElement !== body) {
       var p = el.parentElement, rp = box(p), re = box(el);
       if (/^(MAIN|SECTION|ARTICLE|ASIDE)$/.test(p.tagName)) break;
       if (rp.width <= re.width + 60 && rp.height <= re.height + 60) el = p; else break;
@@ -48,10 +49,10 @@
     return el;
   }
 
-  // everything that sits next to the stage (or next to one of its ancestors) = surrounding UI
+  // surrounding UI = siblings of the stage and of its ancestors
   function collectChrome(st) {
     var out = [];
-    for (var el = st; el && el.parentElement && el !== document.body; el = el.parentElement) {
+    for (var el = st; el && el.parentElement && el !== body; el = el.parentElement) {
       [].forEach.call(el.parentElement.children, function (s) {
         if (s === el || /^(SCRIPT|STYLE|LINK|TEMPLATE)$/.test(s.tagName)) return;
         var cs = getComputedStyle(s);
@@ -63,115 +64,140 @@
     return out;
   }
 
-  // Many games hard-code min-height:680px style values on their layout / panels. Those are what keeps the page tall,
-  // so lift them (except on the stage itself and anything inside it).
+  // hard-coded min-heights (also on html/body) keep the page tall and make "fits" lie; lift them
   function relaxMinHeights(st) {
-    [].forEach.call(document.body.querySelectorAll('*'), function (el) {
+    [doc, body].concat([].slice.call(body.querySelectorAll('*'))).forEach(function (el) {
       if (st && (el === st || st.contains(el))) return;
       if (/^(SCRIPT|STYLE|CANVAS|SVG)$/i.test(el.tagName)) return;
       var cs = getComputedStyle(el);
-      if (cs.minHeight.indexOf('px') < 0 || parseFloat(cs.minHeight) < 150) return;
       if (cs.position === 'fixed') return;
-      relaxed.push([el, el.getAttribute('style')]);
-      el.style.minHeight = '0';
+      if (cs.minHeight.indexOf('px') < 0 || parseFloat(cs.minHeight) < 150) { if (el !== doc && el !== body) return; if (cs.minHeight === '0px' || cs.minHeight === 'auto') return; }
+      remember(el); el.style.minHeight = '0';
     });
   }
-
-  // Big top/bottom padding & margins on the wrappers around the game are wasted space inside a small frame.
-  function compactAncestors(st) {
-    if (!st) return;
+  // wrappers around the game: no max-width cap (so a bigger stage can use the width), tighter vertical padding
+  function loosenAncestors(st) {
     for (var el = st.parentElement; el; el = el.parentElement) {
-      var cs = getComputedStyle(el), changes = {};
-      ['paddingTop', 'paddingBottom', 'marginTop', 'marginBottom'].forEach(function (k) {
-        var v = parseFloat(cs[k]);
-        if (v > 10) changes[k] = '10px';
-      });
-      if (Object.keys(changes).length) {
-        relaxed.push([el, el.getAttribute('style')]);
-        for (var k in changes) el.style[k] = changes[k];
-      }
-      if (el === document.documentElement) break;
+      var cs = getComputedStyle(el), ch = {};
+      if (cs.maxWidth !== 'none' && el !== doc) ch.maxWidth = 'none';
+      ['paddingTop', 'paddingBottom', 'marginTop', 'marginBottom'].forEach(function (k) { if (parseFloat(cs[k]) > 10) ch[k] = '10px'; });
+      if (parseFloat(cs.rowGap) > 8) ch.rowGap = '8px';
+      if (Object.keys(ch).length) { remember(el); for (var k in ch) el.style[k] = ch[k]; }
+      if (el === doc) break;
     }
+  }
+
+  function tightenChrome() {
+    chrome.forEach(function (c) {
+      var cs = getComputedStyle(c), ch = {};
+      ['marginTop', 'marginBottom'].forEach(function (k) { if (parseFloat(cs[k]) > 8) ch[k] = '8px'; });
+      ['paddingTop', 'paddingBottom'].forEach(function (k) { if (parseFloat(cs[k]) > 12 && !c.querySelector('canvas')) ch[k] = '12px'; });
+      if (Object.keys(ch).length) { remember(c); for (var k in ch) c.style[k] = ch[k]; }
+    });
+  }
+  // last resort: hide text-only hints (controls are also described in the page around the frame)
+  function hideHints() {
+    var n = 0;
+    chrome.forEach(function (c) {
+      if (c.querySelector('button,input,select,canvas,a,[role=button],[tabindex]')) return;
+      var t = (c.textContent || '').trim();
+      if (t.length < 12 || box(c).height > 90) return;
+      remember(c); c.style.display = 'none'; n++;
+    });
+    return n;
   }
 
   function reset() {
-    for (var i = relaxed.length - 1; i >= 0; i--) {       // newest first, so the oldest (original) style wins
-      var el = relaxed[i][0], st = relaxed[i][1];
-      if (st === null) el.removeAttribute('style'); else el.setAttribute('style', st);
-    }
-    relaxed = [];
+    for (var i = undo.length - 1; i >= 0; i--) { var e = undo[i][0], s = undo[i][1]; if (s === null) e.removeAttribute('style'); else e.setAttribute('style', s); }
+    undo = [];
     chrome.forEach(function (s) { s.style.zoom = ''; });
-    if (stage) {
-      if (savedStyle === null) stage.removeAttribute('style'); else stage.setAttribute('style', savedStyle);
-    }
+    if (stage) { if (savedStyle === null) stage.removeAttribute('style'); else stage.setAttribute('style', savedStyle); }
+    if (whole) { whole.style.zoom = ''; whole = null; }
     stage = null; chrome = []; savedStyle = null;
   }
 
   function setStage(z, w0) {
-    stage.style.boxSizing = 'border-box';
-    stage.style.maxWidth = 'none';
-    stage.style.flex = 'none';
-    stage.style.marginLeft = 'auto';
-    stage.style.marginRight = 'auto';
-    stage.style.width = w0 + 'px';          // width in zoomed space -> visual width = w0 * z
+    stage.style.boxSizing = 'border-box'; stage.style.maxWidth = 'none'; stage.style.flex = 'none';
+    stage.style.marginLeft = 'auto'; stage.style.marginRight = 'auto';
+    stage.style.width = w0 + 'px';
     stage.style.zoom = z === 1 ? '' : String(z);
   }
-
-  function solveStage(w0) {
-    var z = 1; setStage(1, w0);
-    for (var i = 0; i < 6; i++) {
-      var o = over(); if (o <= 1) break;
-      var h = box(stage).height;
-      var next = Math.max(MIN_ZOOM, Math.min(1, z * Math.max(0.2, (h - o - 2) / h)));
-      if (Math.abs(next - z) < 0.004) break;
-      z = next; setStage(z, w0);
+  // biggest zoom in [MIN_ZOOM, MAX_ZOOM] for which the page still fits the frame
+  function solve(w0) {
+    setStage(MAX_ZOOM, w0); if (fits()) return MAX_ZOOM;
+    var lo = MIN_ZOOM, hi = MAX_ZOOM, ok = fits;
+    setStage(MIN_ZOOM, w0);
+    if (!fits()) {                                    // something else (e.g. a tall side panel) sets the height
+      var base = doc.scrollHeight;
+      ok = function () { return doc.scrollHeight <= base + 1 && doc.scrollWidth <= window.innerWidth + 1; };
     }
-    return z;
+    for (var i = 0; i < 11; i++) { var mid = (lo + hi) / 2; setStage(mid, w0); if (ok()) lo = mid; else hi = mid; }
+    setStage(lo, w0); return lo;
   }
 
-  // Safety net: no clear "board" (menu / quiz / shop style games) or still too tall -> scale the whole game a little
-  var wholeEl = null, wholeSaved = null;
-  function resetWhole() {
-    if (!wholeEl) return;
-    if (wholeSaved === null) wholeEl.removeAttribute('style'); else wholeEl.setAttribute('style', wholeSaved);
-    wholeEl = null; wholeSaved = null;
-  }
+  // no clear board (menu / quiz / shop games): scale the whole content to fit if it is too tall
   function fitWhole() {
-    wholeEl = document.querySelector('main') || document.body;
-    wholeSaved = wholeEl.getAttribute('style');
+    whole = document.querySelector('main') || body;
     var z = 1;
-    for (var i = 0; i < 8; i++) {
-      var o = over(); if (o <= 1) break;
-      var h = box(wholeEl).height;
-      var next = Math.max(0.5, Math.min(1, z * Math.max(0.3, (h - o - 2) / h)));
+    for (var i = 0; i < 8 && !fits(); i++) {
+      var o = doc.scrollHeight - window.innerHeight, h = box(whole).height;
+      var next = Math.max(0.4, Math.min(1, z * Math.max(0.3, (h - o - 2) / h)));
       if (Math.abs(next - z) < 0.004) break;
-      z = next; wholeEl.style.zoom = String(z);
+      z = next; whole.style.zoom = String(z);
     }
+  }
+
+  // leftover vertical room -> centre the content instead of leaving a blank strip at the bottom
+  function centre() {
+    var free = window.innerHeight - doc.scrollHeight;
+    var kids = [].slice.call(body.children).filter(function (k) { return !/^(SCRIPT|STYLE|LINK)$/.test(k.tagName) && getComputedStyle(k).position !== 'fixed'; });
+    var last = kids.length ? kids[kids.length - 1] : null;
+    if (!last) return;
+    var used = box(last).bottom + (window.pageYOffset || 0);
+    var spare = window.innerHeight - used;
+    if (spare > 40 && spare < window.innerHeight * 0.5) { remember(body); body.style.paddingTop = Math.round(spare / 2 - 8) + 'px'; }
+  }
+
+  // the page around the frame already shows the game title -> hide a duplicate page-level <h1> inside the game
+  function hideTitle() {
+    [].forEach.call(document.querySelectorAll('h1'), function (h) {
+      if (h.closest('[class*="overlay" i],[class*="modal" i],[role="dialog"],[class*="panel" i],[class*="card" i],[class*="start" i]')) return;
+      if (h.querySelector('button,input,a')) return;
+      if (box(h).top > 160 || box(h).height < 8) return;
+      remember(h); h.style.display = 'none';
+    });
   }
 
   function fit() {
-    reset(); resetWhole();
-    if (over() <= 1) return;
-    stage = findStage();
-    relaxMinHeights(stage);
-    compactAncestors(stage);
-    if (over() <= 1) return;
-    if (!stage) { fitWhole(); return; }
-    savedStyle = stage.getAttribute('style');
-    var w0 = Math.round(box(stage).width);
-    chrome = collectChrome(stage);
-    for (var i = 0; i < CHROME_LEVELS.length; i++) {
-      var c = CHROME_LEVELS[i];
-      chrome.forEach(function (s) { s.style.zoom = c === 1 ? '' : String(c); });
-      var z = solveStage(w0);
-      if (over() <= 1 && z >= GOOD_ENOUGH) break;
+    reset(); hideTitle();
+    var st = findStage();
+    doc.removeAttribute('data-fit');
+    if (st) {
+      var w0 = Math.round(box(st).width);
+      stage = st; savedStyle = st.getAttribute('style');
+      relaxMinHeights(st); loosenAncestors(st);
+      chrome = collectChrome(st); tightenChrome();
+      var z = 1;
+      for (var i = 0; i < CHROME_LEVELS.length; i++) {
+        var c = CHROME_LEVELS[i];
+        chrome.forEach(function (s) { s.style.zoom = c === 1 ? '' : String(c); });
+        z = solve(w0);
+        var r = box(stage);   // stop compacting the UI once the stage already uses most of the frame
+        if (fits() && (z >= GOOD || r.height >= window.innerHeight * 0.8 || r.width >= window.innerWidth * 0.85)) break;
+      }
+      var r2 = box(stage);
+      if (z < GOOD && r2.height < window.innerHeight * 0.8 && r2.width < window.innerWidth * 0.85 && hideHints()) z = solve(w0);
+      doc.setAttribute('data-fit', z.toFixed(2));
+      if (!fits()) fitWhole();
+      else centre();
+    } else {
+      relaxMinHeights(null);
+      if (!fits()) fitWhole();
     }
-    if (over() > 1) fitWhole();
   }
 
   function schedule() { clearTimeout(timer); timer = setTimeout(fit, 80); }
-
-  if (!('zoom' in document.body.style)) return;        // very old browsers: leave the game exactly as it was
+  if (!('zoom' in body.style)) return;
   window.addEventListener('resize', schedule);
   window.addEventListener('orientationchange', schedule);
   window.addEventListener('load', function () { fit(); setTimeout(fit, 300); setTimeout(fit, 1200); });

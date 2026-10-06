@@ -19,3 +19,6 @@ main>[class~="content"]
 .hero:not(:has(canvas,button,input,[role="application"],[tabindex])),
 .hero-section:not(:has(canvas,button,input,[role="application"],[tabindex]))
 {display:none!important}
+
+/* the page around the frame already shows the game title */
+main>h1,.shell>h1,.hero>h1,.page>h1,.page-shell>h1,.page-container>h1{display:none!important}
