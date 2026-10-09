@@ -161,8 +161,8 @@ button,input{font:inherit;color:inherit}
 .poster .pbtn .ic{width:36px;height:36px;fill:#fff;stroke:#fff;margin-left:4px}
 .poster small{font-weight:700;opacity:.85;font-size:14px}
 .ftools{position:absolute;top:12px;right:12px;z-index:5;display:flex;gap:8px}
-.frame.playing .ftools{position:relative;top:auto;right:auto;order:-1;justify-content:flex-end;align-items:center;padding:6px 10px;background:#0b1224}
-.frame.playing .ftools>button{width:34px;height:34px;font-size:17px;border-radius:9px;background:rgba(255,255,255,.1)}
+.frame.playing .ftools{position:relative;top:auto;right:auto;order:-1;justify-content:flex-end;align-items:center;padding:4px 10px;background:#0b1224}
+.frame.playing .ftools>button{width:32px;height:32px;font-size:16px;border-radius:9px;background:rgba(255,255,255,.1)}
 .frame.playing .ftools .tt{margin-right:auto;color:#9fb3e6;font-weight:800;font-size:13.5px;display:block}
 .ftools .tt{display:none}
 .frame.playing .fmenu{top:40px;right:0}
