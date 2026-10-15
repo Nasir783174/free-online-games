@@ -61,7 +61,7 @@
       } else if (e.key === 'Enter') {
         e.preventDefault();
         if (items[sel > -1 ? sel : 0]) location.href = items[sel > -1 ? sel : 0].getAttribute('href');
-        else if (hi.value.trim()) location.href = '/games/?q=' + encodeURIComponent(hi.value.trim());
+        else if (hi.value.trim()) location.href = '/?q=' + encodeURIComponent(hi.value.trim());
       }
     });
   }
