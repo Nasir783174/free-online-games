@@ -6,13 +6,13 @@
   var stage = $("stage"), board = $("board"), cellsEl = $("cells"), tilesEl = $("tiles");
   var scoreEl = $("score"), bestEl = $("best"), statusEl = $("status");
   var over = $("over"), overKick = $("over-kick"), overTitle = $("over-title"), overText = $("over-text");
-  var keepBtn = $("keep"), againBtn = $("again"), newBtn = $("new");
+  var poster = $("poster"), keepBtn = $("keep"), againBtn = $("again"), newBtn = $("new");
 
   var LOOK = { 2: ["#eee4da", "#655d55"], 4: ["#ede0c8", "#655d55"], 8: ["#f2b179", "#fff"], 16: ["#f59563", "#fff"], 32: ["#f67c5f", "#fff"], 64: ["#f65e3b", "#fff"], 128: ["#edcf72", "#fff"], 256: ["#edcc61", "#fff"], 512: ["#edc850", "#fff"], 1024: ["#edc53f", "#fff"], 2048: ["#edc22e", "#fff"] };
   stage.style.setProperty("--board", "#8f8174");
 
   var grid = [], score = 0, best = loadBest(), gameOver = false, won = false, keepPlaying = false;
-  var visible = true, tx = 0, ty = 0;
+  var started = false, visible = true, tx = 0, ty = 0;
 
   function loadBest() { try { var n = parseInt(localStorage.getItem(KEY) || "0", 10); return n > 0 ? n : 0; } catch (e) { return 0; } }
   function saveBest() { try { localStorage.setItem(KEY, String(best)); } catch (e) {} }
@@ -25,6 +25,8 @@
     for (var i = 0; i < SIZE * SIZE; i++) { var d = document.createElement("div"); d.className = "cell"; f.appendChild(d); }
     cellsEl.replaceChildren(f);
   }
+
+  function begin() { started = true; poster.hidden = true; start(); }
 
   function start() {
     grid = empty(); score = 0; gameOver = false; won = false; keepPlaying = false;
@@ -63,7 +65,7 @@
   }
 
   function move(dir) {
-    if (gameOver || (won && !keepPlaying)) return;
+    if (!started || gameOver || (won && !keepPlaying)) return;
     var before = grid.map(function (r) { return r.slice(); }), gained = 0;
     for (var i = 0; i < SIZE; i++) { var res = slide(getLine(i, dir)); setLine(i, dir, res.line); gained += res.pts; }
     if (same(before, grid)) { statusEl.textContent = "No tiles moved. Try another direction."; return; }
@@ -116,11 +118,12 @@
   Array.prototype.forEach.call(document.querySelectorAll("[data-dir]"), function (b) {
     b.addEventListener("click", function () { move(b.getAttribute("data-dir")); board.focus({ preventScroll: true }); });
   });
-  newBtn.addEventListener("click", start);
-  againBtn.addEventListener("click", start);
+  poster.addEventListener("click", begin);
+  newBtn.addEventListener("click", begin);
+  againBtn.addEventListener("click", begin);
   keepBtn.addEventListener("click", function () { keepPlaying = true; over.hidden = true; statusEl.textContent = "Keep going. Build the largest tile you can."; board.focus({ preventScroll: true }); });
   /* arrow keys only control the game while the board is on screen, so the text below can still be scrolled */
   if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { visible = en[0].intersectionRatio >= 0.4; }, { threshold: [0, 0.4, 1] }).observe(board);
 
-  buildCells(); start();
+  buildCells(); grid = empty(); render(false);
 })();

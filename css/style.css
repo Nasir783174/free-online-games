@@ -295,6 +295,7 @@ details.q p{margin:0;padding:0 16px 14px}
 .cell{background:rgba(255,255,255,.2);border-radius:10px}
 .pop{animation:pop .16s ease-out}
 @keyframes pop{from{transform:scale(.6);opacity:.4}to{transform:none;opacity:1}}
+.stage .poster{border-radius:inherit}
 .over{position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:20px;background:rgba(8,20,45,.72);border-radius:inherit}
 .over[hidden]{display:none}
 .over .card{padding:26px 28px;text-align:center;max-width:380px}
