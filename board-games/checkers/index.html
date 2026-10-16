@@ -71,21 +71,8 @@
 <div class="stage">
 <button id="poster" class="poster p-checker" type="button" style="--h:122" aria-label="Play Checkers"><span class="bg1">🔴</span><span class="bg2">🔴</span><span class="ctr"><span class="ptitle">Checkers</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-labelledby="game-heading" class="game-card">
-<h2 class="visually-hidden" id="game-heading">Play Checkers</h2>
-<div class="game-toolbar">
-<div class="turn-panel" id="turn-panel">
-<span aria-hidden="true" class="turn-piece red" id="turn-piece"></span>
-<div>
-<span class="toolbar-label">Current turn</span>
-<strong id="turn-text">Red to move</strong>
-</div>
-</div>
-<div aria-label="Pieces remaining" class="piece-counts">
-<div><span aria-hidden="true" class="mini-piece red"></span><span>Red</span><strong id="red-count">12</strong></div>
-<div><span aria-hidden="true" class="mini-piece dark"></span><span>Black</span><strong id="black-count">12</strong></div>
-</div>
-<button class="button secondary" id="new-game-button" type="button">New game</button>
-</div>
+
+
 <div class="game-stage">
 <div class="player-rank opponent-rank">
 <span aria-hidden="true" class="mini-piece dark"></span>
@@ -107,6 +94,31 @@
 <span>Red side</span>
 </div>
 </div>
+
+
+</section></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Checkers Online</h1>
+<p>Play a free Checkers game online in your browser. Enjoy local two-player gameplay with forced captures, multi-jumps, kings, and no download.</p>
+<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-labelledby="game-heading" class="game-card">
+<h2 class="visually-hidden" id="game-heading">Play Checkers</h2>
+<div class="game-toolbar">
+<div class="turn-panel" id="turn-panel">
+<span aria-hidden="true" class="turn-piece red" id="turn-piece"></span>
+<div>
+<span class="toolbar-label">Current turn</span>
+<strong id="turn-text">Red to move</strong>
+</div>
+</div>
+<div aria-label="Pieces remaining" class="piece-counts">
+<div><span aria-hidden="true" class="mini-piece red"></span><span>Red</span><strong id="red-count">12</strong></div>
+<div><span aria-hidden="true" class="mini-piece dark"></span><span>Black</span><strong id="black-count">12</strong></div>
+</div>
+<button class="button secondary" id="new-game-button" type="button">New game</button>
+</div>
+
 <div aria-atomic="true" aria-live="polite" class="status-bar" role="status">
 <span aria-hidden="true" class="status-dot"></span>
 <span id="status-text">Red moves first. Select a piece to begin.</span>
@@ -117,11 +129,6 @@
 <div><span class="control-number">3</span><span>Captures are required</span></div>
 </div>
 </section></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Checkers Online</h1>
-<p>Play a free Checkers game online in your browser. Enjoy local two-player gameplay with forced captures, multi-jumps, kings, and no download.</p>
-<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

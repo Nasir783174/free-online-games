@@ -71,6 +71,35 @@
 <div class="stage">
 <button id="poster" class="poster p-dots" type="button" style="--h:202" aria-label="Play Spider Solitaire"><span class="bg1">🕷️</span><span class="bg2">🕷️</span><span class="ctr"><span class="ptitle">Spider Solitaire</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-labelledby="game-panel-title" class="game-card">
+
+
+<div class="table-wrap">
+<div class="tabletop" id="tabletop">
+<div class="table-top-row">
+<button aria-label="Deal one new row of cards" class="stock-area" id="stock" type="button">
+<span aria-hidden="true" class="stock-card-back"></span>
+<span class="stock-count" id="stock-count">5 deals</span>
+</button>
+<div aria-label="Completed King-to-Ace runs" class="completed-area" id="completed-area"></div>
+</div>
+<div aria-label="Spider Solitaire tableau" class="tableau" id="tableau"></div>
+</div>
+</div>
+
+</section><div aria-hidden="true" class="win-modal" id="win-modal">
+<div aria-labelledby="win-title" aria-modal="true" class="win-dialog" role="dialog">
+<div aria-hidden="true" class="win-icon">♠</div>
+<h2 id="win-title">You cleared the table!</h2>
+<p id="win-summary">Great game.</p>
+<button class="button button-primary" id="play-again" type="button">Play Again</button>
+</div>
+</div></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Spider Solitaire Online</h1>
+<p>Play Spider Solitaire free online in your browser. Choose 1, 2, or 4 suits, build complete runs from King to Ace, and enjoy responsive desktop and mobile controls with no download.</p>
+<div class="tags"><a class="pill" href="/card-games/">Card</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-labelledby="game-panel-title" class="game-card">
 <div class="game-toolbar">
 <div>
 <p class="toolbar-label" id="game-panel-title">Spider Solitaire</p>
@@ -93,34 +122,11 @@
 </div>
 </div>
 <div aria-live="polite" class="game-message" id="game-message" role="status">Build descending sequences. Same-suit sequences can move together.</div>
-<div class="table-wrap">
-<div class="tabletop" id="tabletop">
-<div class="table-top-row">
-<button aria-label="Deal one new row of cards" class="stock-area" id="stock" type="button">
-<span aria-hidden="true" class="stock-card-back"></span>
-<span class="stock-count" id="stock-count">5 deals</span>
-</button>
-<div aria-label="Completed King-to-Ace runs" class="completed-area" id="completed-area"></div>
-</div>
-<div aria-label="Spider Solitaire tableau" class="tableau" id="tableau"></div>
-</div>
-</div>
+
 <div class="mobile-help">
 <strong>Touch controls:</strong> tap a face-up card to select its movable sequence, then tap another column to move it. Tap the stock to deal.
         </div>
-</section><div aria-hidden="true" class="win-modal" id="win-modal">
-<div aria-labelledby="win-title" aria-modal="true" class="win-dialog" role="dialog">
-<div aria-hidden="true" class="win-icon">♠</div>
-<h2 id="win-title">You cleared the table!</h2>
-<p id="win-summary">Great game.</p>
-<button class="button button-primary" id="play-again" type="button">Play Again</button>
-</div>
-</div></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Spider Solitaire Online</h1>
-<p>Play Spider Solitaire free online in your browser. Choose 1, 2, or 4 suits, build complete runs from King to Ace, and enjoy responsive desktop and mobile controls with no download.</p>
-<div class="tags"><a class="pill" href="/card-games/">Card</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

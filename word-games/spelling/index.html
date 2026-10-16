@@ -71,20 +71,7 @@
 <div class="stage">
 <button id="poster" class="poster p-grid" type="button" style="--h:204" aria-label="Play Spelling"><span class="bg1">🔡</span><span class="bg2">🔡</span><span class="ctr"><span class="ptitle">Spelling</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-labelledby="game-heading" class="game-card">
-<div class="game-topbar">
-<div class="stat">
-<span class="stat-label">Score</span>
-<strong id="score">0</strong>
-</div>
-<div class="stat streak-stat">
-<span class="stat-label">Streak</span>
-<strong id="streak">0</strong>
-</div>
-<div class="stat">
-<span class="stat-label">Round</span>
-<strong><span id="round">1</span>/10</strong>
-</div>
-</div>
+
 <div class="game-stage">
 <div class="status-badge" id="statusBadge">Ready</div>
 <div class="word-card">
@@ -123,6 +110,23 @@
 <h1>Play Spelling Online</h1>
 <p>Play Spelling Game online for free. Listen to or read each word, type the correct spelling, and build your score with fast browser gameplay. No download required.</p>
 <div class="tags"><a class="pill" href="/word-games/">Word</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-labelledby="game-heading" class="game-card">
+<div class="game-topbar">
+<div class="stat">
+<span class="stat-label">Score</span>
+<strong id="score">0</strong>
+</div>
+<div class="stat streak-stat">
+<span class="stat-label">Streak</span>
+<strong id="streak">0</strong>
+</div>
+<div class="stat">
+<span class="stat-label">Round</span>
+<strong><span id="round">1</span>/10</strong>
+</div>
+</div>
+
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

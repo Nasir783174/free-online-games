@@ -71,14 +71,7 @@
 <div class="stage">
 <button id="poster" class="poster p-grid" type="button" style="--h:312" aria-label="Play Math"><span class="bg1">➕</span><span class="bg2">➕</span><span class="ctr"><span class="ptitle">Math</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="Math Game" class="game-card">
-<div class="game-topbar">
-<div class="stat"><span>Score</span><strong id="score">0</strong></div>
-<div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
-<div class="stat"><span>Best</span><strong id="best">0</strong></div>
-<div aria-label="Time remaining" class="timer-wrap">
-<span>Time</span><strong id="timer">15</strong>
-</div>
-</div>
+
 <div class="game-main">
 <div class="difficulty-row">
 <span id="round-label">Round 1</span>
@@ -96,18 +89,30 @@
 </div>
 <p class="keyboard-hint">Keyboard: press <kbd>1</kbd>–<kbd>4</kbd> to answer. Press <kbd>Enter</kbd> to start.</p>
 </div>
+
 <div class="game-over" hidden="" id="game-over">
 <div aria-hidden="true" class="result-icon">✓</div>
 <h2>Time's up!</h2>
 <p>Your score was <strong id="final-score">0</strong> with a best streak of <strong id="final-streak">0</strong>.</p>
 <button class="btn btn-primary" id="play-again-btn" type="button">Play Again</button>
-</div>
-</section></div>
+</div></section></div>
 </div>
 <aside class="side card" aria-label="Game controls">
 <h1>Play Math Online</h1>
 <p>Play Math Game online for free. Solve fast mental math questions, build streaks, earn points, and improve your arithmetic skills with no download.</p>
 <div class="tags"><a class="pill" href="/educational-games/">Educational</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="Math Game" class="game-card">
+<div class="game-topbar">
+<div class="stat"><span>Score</span><strong id="score">0</strong></div>
+<div class="stat"><span>Streak</span><strong id="streak">0</strong></div>
+<div class="stat"><span>Best</span><strong id="best">0</strong></div>
+<div aria-label="Time remaining" class="timer-wrap">
+<span>Time</span><strong id="timer">15</strong>
+</div>
+</div>
+
+
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

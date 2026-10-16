@@ -72,12 +72,37 @@
 <button id="poster" class="poster p-grid" type="button" style="--h:345" aria-label="Play Word Search"><span class="bg1">🔍</span><span class="bg2">🔍</span><span class="ctr"><span class="ptitle">Word Search</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><main class="page-shell">
 
-<section class="hero">
-<div>
-<p class="eyebrow">WORD PUZZLE</p>
-<h2>Word Search Game</h2>
-<p class="intro">Find every hidden word in the letter grid. Play a free Word Search puzzle directly in your browser with mouse, touch, or keyboard controls.</p>
+<section aria-labelledby="puzzle-heading" class="game-card">
+
+<div class="game-layout">
+<div class="board-wrap">
+<div aria-label="Word Search letter grid" class="word-grid" id="grid" role="grid"></div>
+<div class="selection-hint" id="selectionHint">Drag from the first letter to the last.</div>
 </div>
+
+</div>
+</section>
+
+
+
+
+</main><div class="modal" hidden="" id="winModal">
+<div aria-labelledby="winTitle" aria-modal="true" class="modal-card" role="dialog">
+<div aria-hidden="true" class="success-icon">✓</div>
+<p class="eyebrow">PUZZLE COMPLETE</p>
+<h2 id="winTitle">You found every word!</h2>
+<p id="finalSummary">Great work.</p>
+<button class="primary-btn" id="playAgainBtn" type="button">Play Again</button>
+</div>
+</div></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Word Search Online</h1>
+<p>Play Word Search free online in your browser. Find hidden words in a responsive puzzle with keyboard, mouse, and touch controls. No download required.</p>
+<div class="tags"><a class="pill" href="/word-games/">Word</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><main class="page-shell">
+<section class="hero">
+
 <div aria-label="Game statistics" class="stats">
 <div class="stat-card">
 <span class="stat-label">Found</span>
@@ -102,10 +127,7 @@
 <button class="primary-btn" id="newGameBtn" type="button">New Game</button>
 </div>
 <div class="game-layout">
-<div class="board-wrap">
-<div aria-label="Word Search letter grid" class="word-grid" id="grid" role="grid"></div>
-<div class="selection-hint" id="selectionHint">Drag from the first letter to the last.</div>
-</div>
+
 <aside aria-labelledby="words-heading" class="word-panel">
 <div class="panel-heading">
 <h2 id="words-heading">Words to find</h2>
@@ -115,65 +137,11 @@
 </aside>
 </div>
 </section>
-<section class="info-grid">
-<article class="content-card">
-<h2>How to Play Word Search</h2>
-<p>Look through the grid for each word in the list. Words can run horizontally, vertically, or diagonally, and they may appear forwards or backwards.</p>
-<ol>
-<li>Press or click the first letter of a word.</li>
-<li>Drag or move to the final letter in a straight line.</li>
-<li>Release to check your selection.</li>
-<li>Find all 12 words to complete the puzzle.</li>
-</ol>
-</article>
-<article class="content-card">
-<h2>Word Search Controls</h2>
-<ul class="control-list">
-<li><strong>Mouse:</strong> click and drag across a word.</li>
-<li><strong>Touch:</strong> press and drag across the letters.</li>
-<li><strong>Keyboard:</strong> use arrow keys to move the active cell and Enter/Space to begin or finish a selection.</li>
-<li><strong>New Game:</strong> starts a fresh puzzle with a new word placement.</li>
-</ul>
-</article>
-</section>
-<section class="content-card about-card">
-<h2>About Word Search</h2>
-<p>Word Search is a classic word puzzle built around pattern recognition, spelling, and careful scanning. This browser version creates a fresh letter arrangement each time you start a new game, while keeping the word list readable and the controls comfortable on both desktop and mobile screens.</p>
-<p>Each discovered word is highlighted on the board and marked in the list. Complete the entire puzzle to see your final score and time.</p>
-</section>
-<section class="content-card tips-card">
-<h2>Word Search Tips</h2>
-<p>Start with unusual letters or longer words, then scan in straight lines. If a word seems difficult, check diagonal lines and remember that hidden words can be reversed.</p>
-</section>
-<section class="content-card faq-card">
-<h2>Word Search FAQ</h2>
-<details>
-<summary>Can I play Word Search on my phone?</summary>
-<p>Yes. The puzzle supports touch dragging and adapts its grid to smaller screens.</p>
-</details>
-<details>
-<summary>Are words always placed in straight lines?</summary>
-<p>Yes. Each hidden word is placed horizontally, vertically, or diagonally in a straight line.</p>
-</details>
-<details>
-<summary>Does the game need a download?</summary>
-<p>No. The game runs in a modern browser using client-side HTML, CSS, and JavaScript.</p>
-</details>
-</section>
-</main><div class="modal" hidden="" id="winModal">
-<div aria-labelledby="winTitle" aria-modal="true" class="modal-card" role="dialog">
-<div aria-hidden="true" class="success-icon">✓</div>
-<p class="eyebrow">PUZZLE COMPLETE</p>
-<h2 id="winTitle">You found every word!</h2>
-<p id="finalSummary">Great work.</p>
-<button class="primary-btn" id="playAgainBtn" type="button">Play Again</button>
-</div>
-</div></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Word Search Online</h1>
-<p>Play Word Search free online in your browser. Find hidden words in a responsive puzzle with keyboard, mouse, and touch controls. No download required.</p>
-<div class="tags"><a class="pill" href="/word-games/">Word</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+
+
+
+
+</main></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

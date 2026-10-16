@@ -72,23 +72,8 @@
 <button id="poster" class="poster p-stripe" type="button" style="--h:203" aria-label="Play Drift"><span class="bg1">🛞</span><span class="bg2">🛞</span><span class="ctr"><span class="ptitle">Drift</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><main class="page">
 
-<section class="intro">
-<div>
-<p class="eyebrow">ARCADE RACING</p>
-<h2>Drift Game</h2>
-<p>Master the slide, stay on the asphalt, and build a bigger score by holding clean drifts through the corners. Play directly in your browser with no download required.</p>
-</div>
-<div aria-label="Best score" class="best-card">
-<span>BEST SCORE</span><strong id="bestScore">0</strong>
-</div>
-</section>
 <section aria-label="Drift game" class="game-shell">
-<div class="hud">
-<div class="stat"><span>Score</span><strong id="score">0</strong></div>
-<div class="stat combo-stat"><span>Combo</span><strong id="combo">x1</strong></div>
-<div class="stat"><span>Speed</span><strong id="speed">0</strong></div>
-<div class="stat"><span>Best</span><strong id="hudBest">0</strong></div>
-</div>
+
 <div class="canvas-wrap">
 <canvas aria-label="Top-down drift racing game" id="gameCanvas"></canvas>
 <div class="overlay" id="overlay">
@@ -101,6 +86,33 @@
 </div>
 </div>
 </div>
+
+
+</section>
+
+
+
+</main></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Drift Online</h1>
+<p>Play Drift Game free online in your browser. Master controlled slides, chain drift combos, and chase a high score with no download required.</p>
+<div class="tags"><a class="pill" href="/racing-games/">Racing</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><main class="page">
+<section class="intro">
+
+<div aria-label="Best score" class="best-card">
+<span>BEST SCORE</span><strong id="bestScore">0</strong>
+</div>
+</section>
+<section aria-label="Drift game" class="game-shell">
+<div class="hud">
+<div class="stat"><span>Score</span><strong id="score">0</strong></div>
+<div class="stat combo-stat"><span>Combo</span><strong id="combo">x1</strong></div>
+<div class="stat"><span>Speed</span><strong id="speed">0</strong></div>
+<div class="stat"><span>Best</span><strong id="hudBest">0</strong></div>
+</div>
+
 <div class="game-controls">
 <div class="control-help">
 <strong>Controls</strong>
@@ -116,39 +128,10 @@
 <button aria-label="Steer right" class="touch-btn" id="rightBtn" type="button">→</button>
 </div>
 </section>
-<section class="content-grid">
-<article>
-<h2>How to Play Drift</h2>
-<p>Your car moves forward automatically. Steer left and right to follow the road. When a corner approaches, hold <strong>Drift</strong> while steering to slide around the bend. The longer you maintain a controlled slide, the more your combo grows.</p>
-<div class="tips">
-<div><span>01</span><p><strong>Stay on track.</strong> Grass slows you down and heavy contact with the barrier ends the run.</p></div>
-<div><span>02</span><p><strong>Hold a clean slide.</strong> Drifting near the road edge earns more points, but going too wide is risky.</p></div>
-<div><span>03</span><p><strong>Build combos.</strong> Finish a drift without crashing to bank the points and increase your multiplier.</p></div>
-</div>
-</article>
-<aside>
-<h2>About Drift Game</h2>
-<p>This browser drift game is built around quick arcade handling: automatic acceleration, responsive steering, controlled slides, combo scoring, and increasingly demanding corners.</p>
-<h3>Scoring</h3>
-<p>Distance adds points. A successful drift banks bonus points based on its duration and your current combo multiplier.</p>
-</aside>
-</section>
-<section class="related">
-<h2>Related Games</h2>
-<div class="related-card"><span class="mini-icon">🏁</span><div><strong>More racing games</strong><p>Connect this card to your racing category or other racing game pages when they are added.</p></div><a aria-label="Browse more games" href="./">Browse Games →</a></div>
-</section>
-<section class="faq">
-<h2>Drift Game FAQ</h2>
-<details><summary>Can I play Drift Game on mobile?</summary><p>Yes. Use the large left, Drift, and right touch controls below the game canvas.</p></details>
-<details><summary>Do I need to download anything?</summary><p>No. The game runs in a modern web browser using HTML5 Canvas and JavaScript.</p></details>
-<details><summary>How do I get a higher Drift score?</summary><p>Keep the car on the road, maintain longer controlled drifts, and avoid breaking your combo with a crash.</p></details>
-</section>
+
+
+
 </main></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Drift Online</h1>
-<p>Play Drift Game free online in your browser. Master controlled slides, chain drift combos, and chase a high score with no download required.</p>
-<div class="tags"><a class="pill" href="/racing-games/">Racing</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

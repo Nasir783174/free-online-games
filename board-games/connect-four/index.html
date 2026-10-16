@@ -71,6 +71,35 @@
 <div class="stage">
 <button id="poster" class="poster p-checker" type="button" style="--h:45" aria-label="Play Connect Four"><span class="bg1">🟡</span><span class="bg2">🟡</span><span class="ctr"><span class="ptitle">Connect Four</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-labelledby="game-heading" class="game-shell" id="game">
+
+
+
+<div class="board-stage">
+<div aria-label="Choose a column" class="column-controls" id="columnControls"></div>
+<div class="board-wrap">
+<div aria-hidden="true" class="drop-preview" id="dropPreview"></div>
+<div aria-label="Connect Four board. Seven columns and six rows." class="board" id="board" role="grid"></div>
+</div>
+</div>
+
+
+</section><div class="modal-backdrop" hidden="" id="resultModal">
+<section aria-describedby="resultMessage" aria-labelledby="resultTitle" aria-modal="true" class="result-modal" role="dialog">
+<div aria-hidden="true" class="result-mark" id="resultMark"></div>
+<h2 id="resultTitle">Red wins!</h2>
+<p id="resultMessage">Four in a row. Great game!</p>
+<div class="modal-actions">
+<button class="btn btn-primary" id="playAgainButton" type="button">Play Again</button>
+<button class="btn btn-secondary" id="closeModalButton" type="button">View Board</button>
+</div>
+</section>
+</div></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Connect Four Online</h1>
+<p>Play Connect Four online for free in your browser. Drop discs, connect four in a row, and challenge a friend on desktop or mobile—no download needed.</p>
+<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-labelledby="game-heading" class="game-shell">
 <h2 class="sr-only" id="game-heading">Play Connect Four</h2>
 <div aria-label="Match score" class="scoreboard">
 <div class="score-card player-red" id="redScoreCard">
@@ -90,34 +119,13 @@
 <span aria-hidden="true" class="turn-disc red" id="turnDisc"></span>
 <span id="statusText">Red's turn — choose a column</span>
 </div>
-<div class="board-stage">
-<div aria-label="Choose a column" class="column-controls" id="columnControls"></div>
-<div class="board-wrap">
-<div aria-hidden="true" class="drop-preview" id="dropPreview"></div>
-<div aria-label="Connect Four board. Seven columns and six rows." class="board" id="board" role="grid"></div>
-</div>
-</div>
+
 <p class="keyboard-hint"><kbd>←</kbd> <kbd>→</kbd> choose a column · <kbd>Enter</kbd> drop a disc</p>
 <div class="game-actions">
 <button class="btn btn-primary" id="newRoundButton" type="button">New Round</button>
 <button class="btn btn-secondary" id="resetMatchButton" type="button">Reset Match</button>
 </div>
-</section><div class="modal-backdrop" hidden="" id="resultModal">
-<section aria-describedby="resultMessage" aria-labelledby="resultTitle" aria-modal="true" class="result-modal" role="dialog">
-<div aria-hidden="true" class="result-mark" id="resultMark"></div>
-<h2 id="resultTitle">Red wins!</h2>
-<p id="resultMessage">Four in a row. Great game!</p>
-<div class="modal-actions">
-<button class="btn btn-primary" id="playAgainButton" type="button">Play Again</button>
-<button class="btn btn-secondary" id="closeModalButton" type="button">View Board</button>
-</div>
-</section>
-</div></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Connect Four Online</h1>
-<p>Play Connect Four online for free in your browser. Drop discs, connect four in a row, and challenge a friend on desktop or mobile—no download needed.</p>
-<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

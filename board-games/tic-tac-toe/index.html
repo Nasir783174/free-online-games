@@ -71,6 +71,32 @@
 <div class="stage">
 <button id="poster" class="poster p-checker" type="button" style="--h:280" aria-label="Play Tic Tac Toe"><span class="bg1">❌</span><span class="bg2">❌</span><span class="ctr"><span class="ptitle">Tic Tac Toe</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="Tic Tac Toe game" class="game-shell">
+
+
+<div class="play-area">
+
+<div class="board-wrap">
+<div aria-label="Tic Tac Toe board" class="board" id="game-board" role="grid">
+<button aria-label="Top left, empty" class="cell" data-index="0" role="gridcell" type="button"></button>
+<button aria-label="Top center, empty" class="cell" data-index="1" role="gridcell" type="button"></button>
+<button aria-label="Top right, empty" class="cell" data-index="2" role="gridcell" type="button"></button>
+<button aria-label="Middle left, empty" class="cell" data-index="3" role="gridcell" type="button"></button>
+<button aria-label="Center, empty" class="cell" data-index="4" role="gridcell" type="button"></button>
+<button aria-label="Middle right, empty" class="cell" data-index="5" role="gridcell" type="button"></button>
+<button aria-label="Bottom left, empty" class="cell" data-index="6" role="gridcell" type="button"></button>
+<button aria-label="Bottom center, empty" class="cell" data-index="7" role="gridcell" type="button"></button>
+<button aria-label="Bottom right, empty" class="cell" data-index="8" role="gridcell" type="button"></button>
+</div>
+</div>
+
+</div>
+</section><span hidden="" id="current-year"></span></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Tic Tac Toe Online</h1>
+<p>Play Tic Tac Toe online for free in your browser. Challenge the computer or play with a friend—no download or signup required.</p>
+<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="Tic Tac Toe game" class="game-shell">
 <div class="game-toolbar">
 <div class="field-group">
 <span class="field-label" id="mode-label">Game mode</span>
@@ -112,30 +138,13 @@
 <p aria-live="polite" class="status" id="status" role="status">Your turn</p>
 </div>
 </div>
-<div class="board-wrap">
-<div aria-label="Tic Tac Toe board" class="board" id="game-board" role="grid">
-<button aria-label="Top left, empty" class="cell" data-index="0" role="gridcell" type="button"></button>
-<button aria-label="Top center, empty" class="cell" data-index="1" role="gridcell" type="button"></button>
-<button aria-label="Top right, empty" class="cell" data-index="2" role="gridcell" type="button"></button>
-<button aria-label="Middle left, empty" class="cell" data-index="3" role="gridcell" type="button"></button>
-<button aria-label="Center, empty" class="cell" data-index="4" role="gridcell" type="button"></button>
-<button aria-label="Middle right, empty" class="cell" data-index="5" role="gridcell" type="button"></button>
-<button aria-label="Bottom left, empty" class="cell" data-index="6" role="gridcell" type="button"></button>
-<button aria-label="Bottom center, empty" class="cell" data-index="7" role="gridcell" type="button"></button>
-<button aria-label="Bottom right, empty" class="cell" data-index="8" role="gridcell" type="button"></button>
-</div>
-</div>
+
 <div class="game-actions">
 <button class="button primary" id="new-round" type="button">New round</button>
 <button class="button secondary" id="reset-score" type="button">Reset score</button>
 </div>
 </div>
-</section><span hidden id="current-year"></span></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Tic Tac Toe Online</h1>
-<p>Play Tic Tac Toe online for free in your browser. Challenge the computer or play with a friend—no download or signup required.</p>
-<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

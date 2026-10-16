@@ -71,17 +71,7 @@
 <div class="stage">
 <button id="poster" class="poster p-checker" type="button" style="--h:235" aria-label="Play Resource Management"><span class="bg1">📦</span><span class="bg2">📦</span><span class="ctr"><span class="ptitle">Resource Management</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="Resource Management game" class="game-card">
-<div class="game-topbar">
-<div>
-<p class="season-label">Current season</p>
-<p class="season-value"><span aria-hidden="true" id="seasonIcon">🌱</span> <span id="seasonName">Spring</span> · Year <span id="yearNumber">1</span></p>
-</div>
-<div class="turn-block">
-<span>Season</span>
-<strong><span id="turnNumber">1</span>/12</strong>
-</div>
-<button aria-label="Turn sound off" aria-pressed="true" class="sound-button" id="soundButton" type="button">Sound: On</button>
-</div>
+
 <div class="game-layout">
 <div class="main-panel">
 <div aria-label="Settlement resources" aria-live="polite" class="resource-grid">
@@ -94,12 +84,41 @@
 </div>
 <div aria-labelledby="settlement-title" class="settlement">
 <div class="section-heading">
-<div><p class="kicker">Your settlement</p><h2 id="settlement-title">Choose your actions</h2></div>
+
 <p class="action-points"><span id="actionsLeft">2</span> actions left</p>
 </div>
 <div class="building-grid" id="buildingGrid"></div>
 </div>
 </div>
+
+</div>
+</section><dialog aria-labelledby="dialogTitle" id="gameDialog">
+<div aria-hidden="true" class="dialog-art" id="dialogArt">🌄</div>
+<p class="eyebrow" id="dialogEyebrow">Settlement report</p>
+<h2 id="dialogTitle">A new chapter</h2>
+<p id="dialogText"></p>
+<div class="final-score"><span>Final score</span><strong id="finalScore">0</strong></div>
+<button id="playAgainButton" type="button">Play Again</button>
+</dialog><span hidden="" id="currentYear"></span></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Resource Management Online</h1>
+<p>Play Resource Management free online. Build a thriving settlement, balance supplies, and survive 12 seasons in your browser with no download.</p>
+<div class="tags"><a class="pill" href="/strategy-games/">Strategy</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="Resource Management game" class="game-card">
+<div class="game-topbar">
+<div>
+<p class="season-label">Current season</p>
+<p class="season-value"><span aria-hidden="true" id="seasonIcon">🌱</span> <span id="seasonName">Spring</span> · Year <span id="yearNumber">1</span></p>
+</div>
+<div class="turn-block">
+<span>Season</span>
+<strong><span id="turnNumber">1</span>/12</strong>
+</div>
+<button aria-label="Turn sound off" aria-pressed="true" class="sound-button" id="soundButton" type="button">Sound: On</button>
+</div>
+<div class="game-layout">
+
 <aside class="side-panel">
 <section aria-labelledby="objective-title" class="objective-card">
 <p class="kicker">Council objective</p>
@@ -124,19 +143,7 @@
 <button class="new-game-button" id="newGameButton" type="button">Start New Game</button>
 </aside>
 </div>
-</section><dialog aria-labelledby="dialogTitle" id="gameDialog">
-<div aria-hidden="true" class="dialog-art" id="dialogArt">🌄</div>
-<p class="eyebrow" id="dialogEyebrow">Settlement report</p>
-<h2 id="dialogTitle">A new chapter</h2>
-<p id="dialogText"></p>
-<div class="final-score"><span>Final score</span><strong id="finalScore">0</strong></div>
-<button id="playAgainButton" type="button">Play Again</button>
-</dialog><span hidden id="currentYear"></span></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Resource Management Online</h1>
-<p>Play Resource Management free online. Build a thriving settlement, balance supplies, and survive 12 seasons in your browser with no download.</p>
-<div class="tags"><a class="pill" href="/strategy-games/">Strategy</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

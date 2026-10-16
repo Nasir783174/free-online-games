@@ -71,6 +71,32 @@
 <div class="stage">
 <button id="poster" class="poster p-stripe" type="button" style="--h:141" aria-label="Play Volleyball"><span class="bg1">🏐</span><span class="bg2">🏐</span><span class="ctr"><span class="ptitle">Volleyball</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="Playable volleyball game" class="game-section" id="game">
+
+<div class="game-card">
+<div class="canvas-wrap">
+<canvas aria-label="Volleyball court. Use A and D or the arrow keys to move and W, Up Arrow, or Space to jump." height="540" id="gameCanvas" tabindex="0" width="960">
+              Your browser does not support HTML5 canvas. Please use a modern browser to play the volleyball game.
+            </canvas>
+<div class="game-overlay" id="gameOverlay">
+<div class="overlay-panel">
+<span aria-hidden="true" class="overlay-icon" id="overlayIcon">🏐</span>
+<h2 id="overlayTitle">Volleyball</h2>
+<p id="overlayMessage">Score 7 points and win by 2. Keep the ball off your side of the court.</p>
+<button class="button button-primary" id="overlayButton" type="button">Start Match</button>
+</div>
+</div>
+</div>
+
+</div>
+
+
+</section></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Volleyball Online</h1>
+<p>Play a free volleyball game online against a CPU opponent. Jump, bump, and score in your browser with keyboard or mobile touch controls—no download needed.</p>
+<div class="tags"><a class="pill" href="/sports-games/">Sports</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="Playable volleyball game" class="game-section">
 <div aria-label="Match scoreboard" class="scoreboard">
 <div class="team-score player-score">
 <span class="team-label"><span class="team-dot player-dot"></span>You</span>
@@ -86,19 +112,7 @@
 </div>
 </div>
 <div class="game-card">
-<div class="canvas-wrap">
-<canvas aria-label="Volleyball court. Use A and D or the arrow keys to move and W, Up Arrow, or Space to jump." height="540" id="gameCanvas" tabindex="0" width="960">
-              Your browser does not support HTML5 canvas. Please use a modern browser to play the volleyball game.
-            </canvas>
-<div class="game-overlay" id="gameOverlay">
-<div class="overlay-panel">
-<span aria-hidden="true" class="overlay-icon" id="overlayIcon">🏐</span>
-<h2 id="overlayTitle">Volleyball</h2>
-<p id="overlayMessage">Score 7 points and win by 2. Keep the ball off your side of the court.</p>
-<button class="button button-primary" id="overlayButton" type="button">Start Match</button>
-</div>
-</div>
-</div>
+
 <div class="game-toolbar">
 <div class="control-hint">
 <span><kbd>A</kbd><kbd>D</kbd> Move</span>
@@ -118,11 +132,6 @@
 </div>
 <p aria-live="polite" class="sr-only" id="liveStatus"></p>
 </section></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Volleyball Online</h1>
-<p>Play a free volleyball game online against a CPU opponent. Jump, bump, and score in your browser with keyboard or mobile touch controls—no download needed.</p>
-<div class="tags"><a class="pill" href="/sports-games/">Sports</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

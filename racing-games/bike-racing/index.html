@@ -72,24 +72,8 @@
 <button id="poster" class="poster p-stripe" type="button" style="--h:109" aria-label="Play Bike Racing"><span class="bg1">🚴</span><span class="bg2">🚴</span><span class="ctr"><span class="ptitle">Bike Racing</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><main class="page">
 
-<section class="hero">
-<div>
-<p class="eyebrow">Arcade Racing</p>
-<h2>Bike Racing Game</h2>
-<p class="intro">Race through busy roads, avoid traffic, collect coins, and push your bike as far as possible. Play directly in your browser with keyboard or touch controls.</p>
-</div>
-<div aria-label="Best score" class="best-score">
-<span>BEST</span>
-<strong id="bestScore">0</strong>
-</div>
-</section>
 <section aria-label="Bike Racing game" class="game-shell">
-<div class="hud">
-<div class="hud-item"><span>Score</span><strong id="score">0</strong></div>
-<div class="hud-item"><span>Speed</span><strong id="speed">0</strong></div>
-<div class="hud-item"><span>Coins</span><strong id="coins">0</strong></div>
-<div class="hud-item status"><span>Status</span><strong id="status">Ready</strong></div>
-</div>
+
 <div class="canvas-wrap">
 <canvas aria-label="Bike Racing game area" height="600" id="gameCanvas" width="900"></canvas>
 <div class="overlay" id="startOverlay">
@@ -109,6 +93,34 @@
 </div>
 </div>
 </div>
+
+
+</section>
+
+
+
+</main></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Bike Racing Online</h1>
+<p>Play Bike Racing online for free in your browser. Dodge traffic, collect coins, build your score, and race as far as you can with keyboard or touch controls.</p>
+<div class="tags"><a class="pill" href="/racing-games/">Racing</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><main class="page">
+<section class="hero">
+
+<div aria-label="Best score" class="best-score">
+<span>BEST</span>
+<strong id="bestScore">0</strong>
+</div>
+</section>
+<section aria-label="Bike Racing game" class="game-shell">
+<div class="hud">
+<div class="hud-item"><span>Score</span><strong id="score">0</strong></div>
+<div class="hud-item"><span>Speed</span><strong id="speed">0</strong></div>
+<div class="hud-item"><span>Coins</span><strong id="coins">0</strong></div>
+<div class="hud-item status"><span>Status</span><strong id="status">Ready</strong></div>
+</div>
+
 <div aria-label="Bike controls" class="controls">
 <button aria-label="Steer left" class="control-btn" id="leftBtn">←</button>
 <button aria-label="Brake" class="control-btn brake" id="brakeBtn">Brake</button>
@@ -116,49 +128,10 @@
 </div>
 <p class="control-help">Keyboard: <b>Left / Right</b> or <b>A / D</b> • Hold <b>Space</b> to brake</p>
 </section>
-<section class="content-grid">
-<article>
-<h2>How to Play Bike Racing</h2>
-<p>Start the race and steer your motorcycle between lanes. Traffic gets faster as your distance increases. Passing vehicles earns points, while collecting coins adds bonus points.</p>
-<ul>
-<li>Stay inside the road and avoid cars.</li>
-<li>Move left or right to change lanes.</li>
-<li>Collect coins whenever the path is safe.</li>
-<li>Use the brake when traffic gets crowded.</li>
-<li>Keep racing to increase your score multiplier.</li>
-</ul>
-</article>
-<article>
-<h2>Bike Racing Tips</h2>
-<p>Look ahead instead of reacting to the vehicle immediately in front of you. Keep a lane open for your next move, and use short steering movements when traffic is dense.</p>
-<p>The safest route is not always the fastest one. A clean overtake followed by a coin pickup can be worth more than a risky maneuver.</p>
-</article>
-</section>
-<section class="about">
-<h2>About Bike Racing</h2>
-<p>Bike Racing is a lightweight browser arcade game built for quick sessions on desktop and mobile. There is no download, account, or server connection required to play.</p>
-</section>
-<section class="faq">
-<h2>Bike Racing FAQ</h2>
-<details>
-<summary>Can I play Bike Racing on mobile?</summary>
-<p>Yes. Use the large left, brake, and right touch controls below the game.</p>
-</details>
-<details>
-<summary>How do I control the bike on a computer?</summary>
-<p>Use the Left and Right arrow keys or A and D. Hold Space to slow down.</p>
-</details>
-<details>
-<summary>How is the score calculated?</summary>
-<p>Your score increases with distance and successful overtakes. Coins provide an additional bonus.</p>
-</details>
-</section>
+
+
+
 </main></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Bike Racing Online</h1>
-<p>Play Bike Racing online for free in your browser. Dodge traffic, collect coins, build your score, and race as far as you can with keyboard or touch controls.</p>
-<div class="tags"><a class="pill" href="/racing-games/">Racing</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

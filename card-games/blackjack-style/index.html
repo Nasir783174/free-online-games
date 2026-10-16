@@ -71,6 +71,39 @@
 <div class="stage">
 <button id="poster" class="poster p-dots" type="button" style="--h:327" aria-label="Play Blackjack-style"><span class="bg1">🃏</span><span class="bg2">🃏</span><span class="ctr"><span class="ptitle">Blackjack-style</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><div class="game-shell">
+
+<div class="table-wrap">
+<div aria-label="Card table" class="felt-table" role="group">
+<div class="hand-zone dealer-zone">
+<div class="hand-heading">
+
+<div aria-live="polite" class="score-pill" id="dealerScore">?</div>
+</div>
+<div aria-label="Dealer cards" class="cards" id="dealerCards"></div>
+</div>
+<div aria-hidden="true" class="table-center">
+<div class="table-mark">BLACKJACK</div>
+<div class="table-rule">Dealer stands on 17</div>
+</div>
+<div class="hand-zone player-zone">
+<div class="hand-heading">
+
+<div aria-live="polite" class="score-pill" id="playerScore">0</div>
+</div>
+<div aria-label="Your cards" class="cards" id="playerCards"></div>
+</div>
+</div>
+</div>
+
+
+
+</div></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Blackjack-style Online</h1>
+<p>Play Blackjack-style free online in your browser. Hit, stand, and try to beat the dealer without going over 21. No download required.</p>
+<div class="tags"><a class="pill" href="/card-games/">Card</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><div class="game-shell">
 <div class="game-topbar">
 <div>
 <span class="label">Round</span>
@@ -89,34 +122,7 @@
 <strong id="pushesValue">0</strong>
 </div>
 </div>
-<div class="table-wrap">
-<div aria-label="Card table" class="felt-table" role="group">
-<div class="hand-zone dealer-zone">
-<div class="hand-heading">
-<div>
-<span class="hand-kicker">Dealer</span>
-<h2>Dealer Hand</h2>
-</div>
-<div aria-live="polite" class="score-pill" id="dealerScore">?</div>
-</div>
-<div aria-label="Dealer cards" class="cards" id="dealerCards"></div>
-</div>
-<div aria-hidden="true" class="table-center">
-<div class="table-mark">BLACKJACK</div>
-<div class="table-rule">Dealer stands on 17</div>
-</div>
-<div class="hand-zone player-zone">
-<div class="hand-heading">
-<div>
-<span class="hand-kicker">You</span>
-<h2>Your Hand</h2>
-</div>
-<div aria-live="polite" class="score-pill" id="playerScore">0</div>
-</div>
-<div aria-label="Your cards" class="cards" id="playerCards"></div>
-</div>
-</div>
-</div>
+
 <div aria-atomic="true" aria-live="polite" class="status-panel">
 <p class="status-title" id="statusTitle">Ready?</p>
 <p class="status-text" id="statusText">Start a round and try to beat the dealer.</p>
@@ -129,11 +135,6 @@
 </div>
 <p class="keyboard-hint">Keyboard: <kbd>D</kbd> deal · <kbd>H</kbd> hit · <kbd>S</kbd> stand · <kbd>R</kbd> reset</p>
 </div></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Blackjack-style Online</h1>
-<p>Play Blackjack-style free online in your browser. Hit, stand, and try to beat the dealer without going over 21. No download required.</p>
-<div class="tags"><a class="pill" href="/card-games/">Card</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

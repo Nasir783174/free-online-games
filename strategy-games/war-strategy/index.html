@@ -71,32 +71,7 @@
 <div class="stage">
 <button id="poster" class="poster p-checker" type="button" style="--h:63" aria-label="Play War Strategy"><span class="bg1">🪖</span><span class="bg2">🪖</span><span class="ctr"><span class="ptitle">War Strategy</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="War Strategy game" class="game-shell">
-<aside class="sidebar">
-<div class="panel">
-<div class="panel-title">COMMAND</div>
-<div class="stat-grid">
-<div><span>Gold</span><b id="gold">120</b></div>
-<div><span>Supplies</span><b id="supplies">90</b></div>
-<div><span>Army</span><b id="army">18</b></div>
-<div><span>Turns</span><b id="turns">30</b></div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-title">SELECTED</div>
-<div class="selected-info" id="selectedInfo">Select one of your territories.</div>
-</div>
-<div class="panel">
-<div class="panel-title">ORDERS</div>
-<button class="action-btn primary" disabled="" id="attackBtn">⚔ Attack</button>
-<button class="action-btn" disabled="" id="fortifyBtn">▣ Fortify</button>
-<button class="action-btn" id="endTurnBtn">End Turn</button>
-<button class="action-btn danger" id="restartBtn">Restart Mission</button>
-</div>
-<div class="panel log-panel">
-<div class="panel-title">BATTLE LOG</div>
-<div aria-live="polite" class="log" id="log"></div>
-</div>
-</aside>
+
 <div class="board-wrap">
 <div class="board-top">
 <div><strong>Frontier Command</strong><span id="objective">Capture all enemy territory.</span></div>
@@ -123,6 +98,35 @@
 <h1>Play War Strategy Online</h1>
 <p>Play War Strategy free online in your browser. Command your army, capture territory, manage resources, and defeat the enemy without downloads.</p>
 <div class="tags"><a class="pill" href="/strategy-games/">Strategy</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="War Strategy game" class="game-shell">
+<aside class="sidebar">
+<div class="panel">
+<div class="panel-title">COMMAND</div>
+<div class="stat-grid">
+<div><span>Gold</span><b id="gold">120</b></div>
+<div><span>Supplies</span><b id="supplies">90</b></div>
+<div><span>Army</span><b id="army">18</b></div>
+<div><span>Turns</span><b id="turns">30</b></div>
+</div>
+</div>
+<div class="panel">
+<div class="panel-title">SELECTED</div>
+<div class="selected-info" id="selectedInfo">Select one of your territories.</div>
+</div>
+<div class="panel">
+<div class="panel-title">ORDERS</div>
+<button class="action-btn primary" disabled="" id="attackBtn">⚔ Attack</button>
+<button class="action-btn" disabled="" id="fortifyBtn">▣ Fortify</button>
+<button class="action-btn" id="endTurnBtn">End Turn</button>
+<button class="action-btn danger" id="restartBtn">Restart Mission</button>
+</div>
+<div class="panel log-panel">
+<div class="panel-title">BATTLE LOG</div>
+<div aria-live="polite" class="log" id="log"></div>
+</div>
+</aside>
+
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

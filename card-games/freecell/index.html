@@ -72,29 +72,8 @@
 <button id="poster" class="poster p-dots" type="button" style="--h:14" aria-label="Play FreeCell"><span class="bg1">♠️</span><span class="bg2">♠️</span><span class="ctr"><span class="ptitle">FreeCell</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><main class="container page-shell">
 
-<section class="hero">
-<div>
-<p class="eyebrow">Classic solitaire strategy</p>
-<h2>FreeCell Game</h2>
-<p class="hero-copy">Play a complete FreeCell game in your browser. Build four suit foundations from Ace to King, use the four free cells carefully, and rearrange the eight cascades to uncover every card.</p>
-</div>
-<div aria-label="Game actions" class="hero-actions">
-<button class="btn btn-primary" id="newGameBtn" type="button">New Game</button>
-<button class="btn btn-secondary" id="restartBtn" type="button">Restart Deal</button>
-</div>
-</section>
 <section aria-labelledby="gameAreaTitle" class="game-card">
-<div class="game-toolbar">
-<div>
-<p class="toolbar-kicker">FreeCell</p>
-<h2 id="gameAreaTitle">Game Area</h2>
-</div>
-<div aria-live="polite" class="stats" role="status">
-<div class="stat"><span>Moves</span><strong id="movesCount">0</strong></div>
-<div class="stat"><span>Time</span><strong id="timer">00:00</strong></div>
-<div class="stat"><span>Status</span><strong id="statusText">Playing</strong></div>
-</div>
-</div>
+
 <div class="board-wrap">
 <div aria-label="FreeCell game board" class="game-board" id="gameBoard">
 <div class="top-row">
@@ -110,82 +89,12 @@
 <div aria-label="Card cascades" class="cascades" id="cascades"></div>
 </div>
 </div>
-<div class="interaction-panel">
-<div class="selection-help">
-<strong id="selectionTitle">Select a card</strong>
-<span id="selectionHint">Tap or click a card, then choose its destination.</span>
-</div>
-<div class="toolbar-buttons">
-<button class="btn btn-compact" id="autoFoundationBtn" type="button">Auto Move Safe Cards</button>
-<button class="btn btn-compact btn-secondary" id="clearSelectionBtn" type="button">Clear Selection</button>
-</div>
-</div>
-<div aria-live="polite" class="message-box" id="messageBox" role="status"></div>
+
+
 </section>
-<section class="content-grid">
-<article class="content-card">
-<h2>How to Play FreeCell</h2>
-<p>FreeCell uses one standard 52-card deck. All cards are dealt face up into eight cascades, so every card is visible from the start. Your goal is to move all cards to the four foundation piles.</p>
-<ol>
-<li>Build foundations upward by suit, starting with Ace and ending with King.</li>
-<li>Build cascade columns downward in alternating colors.</li>
-<li>Move one exposed card into any empty free cell.</li>
-<li>Use empty cascades and free cells to temporarily store cards and unlock longer sequences.</li>
-<li>Move every card to the foundations to win.</li>
-</ol>
-</article>
-<article class="content-card">
-<h2>FreeCell Controls</h2>
-<ul>
-<li><strong>Desktop:</strong> Click a card or valid sequence, then click a destination.</li>
-<li><strong>Mobile:</strong> Tap a card or sequence, then tap a free cell, foundation, or cascade.</li>
-<li><strong>Double-click / double-tap:</strong> Sends an eligible exposed card to its foundation.</li>
-<li><strong>Restart Deal:</strong> Resets the current shuffled deal.</li>
-<li><strong>New Game:</strong> Creates a fresh shuffled deal.</li>
-</ul>
-</article>
-<article class="content-card">
-<h2>About FreeCell</h2>
-<p>FreeCell is an open-information solitaire game because every card starts face up. Unlike many luck-heavy solitaire variants, FreeCell emphasizes planning, temporary storage, sequencing, and careful use of empty spaces.</p>
-</article>
-<article class="content-card">
-<h2>FreeCell Strategy Tips</h2>
-<ul>
-<li>Keep at least one free cell open when possible.</li>
-<li>Expose low cards early so Aces and Twos can reach the foundations.</li>
-<li>Empty a cascade only when you have a clear plan for how to use it.</li>
-<li>Do not rush every available card to the foundation if it may block an important alternating sequence.</li>
-</ul>
-</article>
-</section>
-<section class="content-card related-card">
-<h2>Related Games</h2>
-<p>This page is ready for internal links to other board and solitaire games in your larger Games Hub. Replace these placeholders when those pages exist.</p>
-<div aria-label="Related games placeholders" class="related-grid">
-<span class="related-pill">Klondike Solitaire</span>
-<span class="related-pill">Spider Solitaire</span>
-<span class="related-pill">Hearts</span>
-</div>
-</section>
-<section class="content-card faq-card">
-<h2>FreeCell FAQ</h2>
-<details>
-<summary>Is this FreeCell game free to play?</summary>
-<p>Yes. It runs entirely in your browser and does not require a download, account, database, or backend.</p>
-</details>
-<details>
-<summary>Can I play FreeCell on mobile?</summary>
-<p>Yes. The layout adapts to smaller screens and supports tap-based card selection and movement.</p>
-</details>
-<details>
-<summary>How many free cells are there?</summary>
-<p>There are four free cells. Each can temporarily hold one exposed card.</p>
-</details>
-<details>
-<summary>How do I win FreeCell?</summary>
-<p>Move all 52 cards to the four suit foundations in ascending order from Ace through King.</p>
-</details>
-</section>
+
+
+
 </main><div aria-labelledby="winTitle" aria-modal="true" class="modal" hidden="" id="winModal" role="dialog">
 <div class="modal-card">
 <p class="eyebrow">Deal complete</p>
@@ -202,6 +111,40 @@
 <h1>Play FreeCell Online</h1>
 <p>Play FreeCell online for free in your browser. Move cards strategically between cascades, free cells, and foundations with no download required.</p>
 <div class="tags"><a class="pill" href="/card-games/">Card</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><main class="container page-shell">
+<section class="hero">
+
+<div aria-label="Game actions" class="hero-actions">
+<button class="btn btn-primary" id="newGameBtn" type="button">New Game</button>
+<button class="btn btn-secondary" id="restartBtn" type="button">Restart Deal</button>
+</div>
+</section>
+<section aria-labelledby="gameAreaTitle" class="game-card">
+<div class="game-toolbar">
+
+<div aria-live="polite" class="stats" role="status">
+<div class="stat"><span>Moves</span><strong id="movesCount">0</strong></div>
+<div class="stat"><span>Time</span><strong id="timer">00:00</strong></div>
+<div class="stat"><span>Status</span><strong id="statusText">Playing</strong></div>
+</div>
+</div>
+
+<div class="interaction-panel">
+<div class="selection-help">
+<strong id="selectionTitle">Select a card</strong>
+<span id="selectionHint">Tap or click a card, then choose its destination.</span>
+</div>
+<div class="toolbar-buttons">
+<button class="btn btn-compact" id="autoFoundationBtn" type="button">Auto Move Safe Cards</button>
+<button class="btn btn-compact btn-secondary" id="clearSelectionBtn" type="button">Clear Selection</button>
+</div>
+</div>
+<div aria-live="polite" class="message-box" id="messageBox" role="status"></div>
+</section>
+
+
+
+</main></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

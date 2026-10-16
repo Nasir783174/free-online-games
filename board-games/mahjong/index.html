@@ -71,6 +71,33 @@
 <div class="stage">
 <button id="poster" class="poster p-checker" type="button" style="--h:186" aria-label="Play Mahjong"><span class="bg1">🀄</span><span class="bg2">🀄</span><span class="ctr"><span class="ptitle">Mahjong</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><div class="game-panel">
+
+
+<div class="board-wrap">
+<h2 class="visually-hidden" id="game-heading">Mahjong game board</h2>
+<div aria-label="Mahjong tile board" class="mahjong-board" id="mahjongBoard" role="grid"></div>
+</div>
+
+</div><div aria-hidden="true" class="modal" id="resultModal">
+<div class="modal-backdrop" data-close-modal=""></div>
+<div aria-labelledby="resultTitle" aria-modal="true" class="modal-dialog" role="dialog">
+<p class="eyebrow" id="resultEyebrow">Game Complete</p>
+<h2 id="resultTitle">You cleared the board!</h2>
+<p id="resultText">Great game.</p>
+<div class="modal-stats">
+<div><span>Score</span><strong id="finalScore">0</strong></div>
+<div><span>Moves</span><strong id="finalMoves">0</strong></div>
+<div><span>Time</span><strong id="finalTime">00:00</strong></div>
+</div>
+<button class="btn btn-primary modal-button" id="playAgainBtn" type="button">Play Again</button>
+</div>
+</div></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Mahjong Online</h1>
+<p>Play a free Mahjong matching game online in your browser. Match open tile pairs, clear the board, track your score, and restart anytime. No download required.</p>
+<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><div class="game-panel">
 <div aria-label="Game status and controls" class="game-toolbar">
 <div class="status-group">
 <div class="status-card">
@@ -97,32 +124,11 @@
 </div>
 </div>
 <div aria-live="polite" class="game-status" id="gameStatus" role="status">Match two open tiles with the same symbol.</div>
-<div class="board-wrap">
-<h2 class="visually-hidden" id="game-heading">Mahjong game board</h2>
-<div aria-label="Mahjong tile board" class="mahjong-board" id="mahjongBoard" role="grid"></div>
-</div>
+
 <div aria-label="Mobile gameplay tip" class="mobile-help">
 <strong>Mobile:</strong> tap one open tile, then tap its matching open tile.
           </div>
-</div><div aria-hidden="true" class="modal" id="resultModal">
-<div class="modal-backdrop" data-close-modal=""></div>
-<div aria-labelledby="resultTitle" aria-modal="true" class="modal-dialog" role="dialog">
-<p class="eyebrow" id="resultEyebrow">Game Complete</p>
-<h2 id="resultTitle">You cleared the board!</h2>
-<p id="resultText">Great game.</p>
-<div class="modal-stats">
-<div><span>Score</span><strong id="finalScore">0</strong></div>
-<div><span>Moves</span><strong id="finalMoves">0</strong></div>
-<div><span>Time</span><strong id="finalTime">00:00</strong></div>
-</div>
-<button class="btn btn-primary modal-button" id="playAgainBtn" type="button">Play Again</button>
-</div>
 </div></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Mahjong Online</h1>
-<p>Play a free Mahjong matching game online in your browser. Match open tile pairs, clear the board, track your score, and restart anytime. No download required.</p>
-<div class="tags"><a class="pill" href="/board-games/">Board</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

@@ -71,21 +71,7 @@
 <div class="stage">
 <button id="poster" class="poster p-grid" type="button" style="--h:15" aria-label="Play Tile Puzzle"><span class="bg1">🔳</span><span class="bg2">🔳</span><span class="ctr"><span class="ptitle">Tile Puzzle</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-labelledby="game-heading" class="game-card">
-<div class="game-toolbar">
-<div>
-<p class="toolbar-label">Puzzle size</p>
-<div aria-label="Choose puzzle size" class="size-picker" role="group">
-<button class="size-btn" data-size="3" type="button">3 × 3</button>
-<button class="size-btn active" data-size="4" type="button">4 × 4</button>
-<button class="size-btn" data-size="5" type="button">5 × 5</button>
-</div>
-</div>
-<div aria-label="Game statistics" class="stats">
-<div class="stat"><span>Moves</span><strong id="moves">0</strong></div>
-<div class="stat"><span>Time</span><strong id="timer">00:00</strong></div>
-<div class="stat"><span>Best</span><strong id="best">—</strong></div>
-</div>
-</div>
+
 <div class="game-stage">
 <div class="stage-topline">
 <div>
@@ -119,6 +105,24 @@
 <h1>Play Tile Puzzle Online</h1>
 <p>Play Tile Puzzle free online in your browser. Slide numbered tiles into order, track your moves and time, and solve the puzzle with no download required.</p>
 <div class="tags"><a class="pill" href="/puzzle-games/">Puzzle</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-labelledby="game-heading" class="game-card">
+<div class="game-toolbar">
+<div>
+<p class="toolbar-label">Puzzle size</p>
+<div aria-label="Choose puzzle size" class="size-picker" role="group">
+<button class="size-btn" data-size="3" type="button">3 × 3</button>
+<button class="size-btn active" data-size="4" type="button">4 × 4</button>
+<button class="size-btn" data-size="5" type="button">5 × 5</button>
+</div>
+</div>
+<div aria-label="Game statistics" class="stats">
+<div class="stat"><span>Moves</span><strong id="moves">0</strong></div>
+<div class="stat"><span>Time</span><strong id="timer">00:00</strong></div>
+<div class="stat"><span>Best</span><strong id="best">—</strong></div>
+</div>
+</div>
+
+</section></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

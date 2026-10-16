@@ -71,26 +71,7 @@
 <div class="stage">
 <button id="poster" class="poster p-stripe" type="button" style="--h:125" aria-label="Play Archery"><span class="bg1">🏹</span><span class="bg2">🏹</span><span class="ctr"><span class="ptitle">Archery</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="Archery game" class="game-card" id="game">
-<div class="game-toolbar">
-<div class="stat">
-<span class="stat-label">Score</span>
-<strong id="score">0</strong>
-</div>
-<div class="stat">
-<span class="stat-label">Arrows</span>
-<strong><span id="arrows">10</span><span class="stat-total"> / 10</span></strong>
-</div>
-<div class="stat hide-small">
-<span class="stat-label">Best</span>
-<strong id="best-score">0</strong>
-</div>
-<button aria-label="Mute game sound" aria-pressed="false" class="icon-button" id="sound-button" type="button">
-<span aria-hidden="true" id="sound-icon">♪</span>
-</button>
-<button aria-label="Pause game" aria-pressed="false" class="icon-button" id="pause-button" type="button">
-<span aria-hidden="true" id="pause-icon">Ⅱ</span>
-</button>
-</div>
+
 <div class="canvas-wrap">
 <canvas aria-label="Archery range. Move your pointer to aim, hold to draw the bow, and release to shoot." height="600" id="game-canvas" tabindex="0" width="960"></canvas>
 <div aria-label="Wind speed and direction" class="wind-card">
@@ -137,6 +118,35 @@
 </div>
 </div>
 </div>
+
+</section></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Archery Online</h1>
+<p>Play a free Archery game online in your browser. Aim, manage wind and power, hit the moving target, and chase a new high score—no download needed.</p>
+<div class="tags"><a class="pill" href="/sports-games/">Sports</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="Archery game" class="game-card">
+<div class="game-toolbar">
+<div class="stat">
+<span class="stat-label">Score</span>
+<strong id="score">0</strong>
+</div>
+<div class="stat">
+<span class="stat-label">Arrows</span>
+<strong><span id="arrows">10</span><span class="stat-total"> / 10</span></strong>
+</div>
+<div class="stat hide-small">
+<span class="stat-label">Best</span>
+<strong id="best-score">0</strong>
+</div>
+<button aria-label="Mute game sound" aria-pressed="false" class="icon-button" id="sound-button" type="button">
+<span aria-hidden="true" id="sound-icon">♪</span>
+</button>
+<button aria-label="Pause game" aria-pressed="false" class="icon-button" id="pause-button" type="button">
+<span aria-hidden="true" id="pause-icon">Ⅱ</span>
+</button>
+</div>
+
 <div class="control-strip">
 <div class="control-copy">
 <strong id="control-title">Aim anywhere on the range</strong>
@@ -145,11 +155,6 @@
 <button class="secondary-button" id="restart-button" type="button">Restart Round</button>
 </div>
 </section></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Archery Online</h1>
-<p>Play a free Archery game online in your browser. Aim, manage wind and power, hit the moving target, and chase a new high score—no download needed.</p>
-<div class="tags"><a class="pill" href="/sports-games/">Sports</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

@@ -71,19 +71,8 @@
 <div class="stage">
 <button id="poster" class="poster p-dots" type="button" style="--h:29" aria-label="Play Meteor Dodge"><span class="bg1">🚧</span><span class="bg2">🚧</span><span class="ctr"><span class="ptitle">Meteor Dodge</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-labelledby="game-heading" class="game-card">
-<h2 class="sr-only" id="game-heading">Play Meteor Dodge</h2>
-<div aria-label="Game statistics" class="game-toolbar">
-<div class="stat"><span class="stat-label">Score</span><strong id="score">0</strong></div>
-<div class="stat"><span class="stat-label">Best</span><strong id="best-score">0</strong></div>
-<div class="stat"><span class="stat-label">Level</span><strong id="level">1</strong></div>
-<div class="stat lives-stat">
-<span class="stat-label">Lives</span>
-<strong aria-label="3 lives" id="lives">● ● ●</strong>
-</div>
-<button aria-label="Pause game" class="toolbar-button" disabled="" id="pause-button" type="button">
-<span aria-hidden="true">Ⅱ</span> Pause
-          </button>
-</div>
+
+
 <div class="canvas-wrap" id="canvas-wrap">
 <canvas aria-label="Meteor Dodge game area" height="520" id="game-canvas" width="900"></canvas>
 <div class="game-overlay" id="game-overlay">
@@ -97,6 +86,29 @@
 </div>
 <div aria-live="polite" class="sr-only" id="status-announcer"></div>
 </div>
+
+
+</section></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Meteor Dodge Online</h1>
+<p>Play a free avoidance game online. Dodge meteors, collect stars, and chase a high score in your browser with no download required.</p>
+<div class="tags"><a class="pill" href="/arcade-games/">Arcade</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-labelledby="game-heading" class="game-card">
+<h2 class="sr-only" id="game-heading">Play Meteor Dodge</h2>
+<div aria-label="Game statistics" class="game-toolbar">
+<div class="stat"><span class="stat-label">Score</span><strong id="score">0</strong></div>
+<div class="stat"><span class="stat-label">Best</span><strong id="best-score">0</strong></div>
+<div class="stat"><span class="stat-label">Level</span><strong id="level">1</strong></div>
+<div class="stat lives-stat">
+<span class="stat-label">Lives</span>
+<strong aria-label="3 lives" id="lives">● ● ●</strong>
+</div>
+<button aria-label="Pause game" class="toolbar-button" disabled="" id="pause-button" type="button">
+<span aria-hidden="true">Ⅱ</span> Pause
+          </button>
+</div>
+
 <div aria-label="Touch controls" class="mobile-controls">
 <button aria-label="Move up" class="control-button up" data-direction="up" type="button">↑</button>
 <button aria-label="Move left" class="control-button left" data-direction="left" type="button">←</button>
@@ -109,11 +121,6 @@
 <span><i aria-hidden="true" class="legend-star">★</i>Collect +100</span>
 </div>
 </section></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Meteor Dodge Online</h1>
-<p>Play a free avoidance game online. Dodge meteors, collect stars, and chase a high score in your browser with no download required.</p>
-<div class="tags"><a class="pill" href="/arcade-games/">Arcade</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>

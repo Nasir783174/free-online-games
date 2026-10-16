@@ -71,16 +71,26 @@
 <div class="stage">
 <button id="poster" class="poster p-stripe" type="button" style="--h:266" aria-label="Play Football"><span class="bg1">🏈</span><span class="bg2">🏈</span><span class="ctr"><span class="ptitle">Football</span><span class="pbtn"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></svg></span><small>Click to play</small></span></button>
 <div class="gm" id="gm" hidden><section aria-label="Football game" class="game-card">
+
+<div class="canvas-wrap">
+<canvas aria-label="Football penalty shootout game" id="gameCanvas"></canvas>
+<div aria-live="polite" class="game-message hidden" id="message" role="status"></div>
+</div>
+
+</section></div>
+</div>
+<aside class="side card" aria-label="Game controls">
+<h1>Play Football Online</h1>
+<p>Play Football Game free online in your browser. Take shots, beat the goalkeeper, score goals, and improve your accuracy with no download.</p>
+<div class="tags"><a class="pill" href="/sports-games/">Sports</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
+<div class="gm hud" id="hud"><section aria-label="Football game" class="game-card">
 <div class="hud">
 <div class="stat"><span>Score</span><strong id="score">0</strong></div>
 <div class="stat"><span>Goals</span><strong id="goals">0</strong></div>
 <div class="stat"><span>Shots</span><strong id="shots">0</strong></div>
 <div class="stat timer-stat"><span>Time</span><strong id="time">60</strong></div>
 </div>
-<div class="canvas-wrap">
-<canvas aria-label="Football penalty shootout game" id="gameCanvas"></canvas>
-<div aria-live="polite" class="game-message hidden" id="message" role="status"></div>
-</div>
+
 <div class="controls">
 <div class="control-group">
 <label for="aim">Aim</label>
@@ -99,11 +109,6 @@
 <p class="keyboard-hint">Keyboard: <kbd>←</kbd><kbd>→</kbd> aim   <kbd>↑</kbd><kbd>↓</kbd> power   <kbd>Space</kbd> shoot</p>
 </div>
 </section></div>
-</div>
-<aside class="side card" aria-label="Game controls">
-<h1>Play Football Online</h1>
-<p>Play Football Game free online in your browser. Take shots, beat the goalkeeper, score goals, and improve your accuracy with no download.</p>
-<div class="tags"><a class="pill" href="/sports-games/">Sports</a><span class="pill g">Free</span><span class="pill v">No download</span></div>
 <button class="btn" id="new" type="button">New Game</button>
 <button class="btn btn--soft" id="fsBtn" type="button">Fullscreen</button>
 <div class="keys"><span>Mouse, touch or keyboard - the controls are shown inside the game.</span></div>
