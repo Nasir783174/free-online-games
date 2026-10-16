@@ -282,3 +282,38 @@ details.q p{margin:0;padding:0 16px 14px}
   .grid--list{grid-template-columns:1fr}
   .chips--start{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}
 }
+
+/* ---------- GAME PAGE: one page per game, game runs inline (no iframe) ---------- */
+/* .play = stage (game screen) + .side (score, buttons). Game look comes from its own js/play/<game>.js */
+.play{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start;margin-top:16px}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:22px;min-height:min(72vh,680px);border-radius:20px;background:var(--card);border:1px solid var(--bd);box-shadow:var(--sh2)}
+.stage:fullscreen{height:100%;min-height:0;border:0;border-radius:0}
+.board{position:relative;container-type:inline-size;width:min(100%,max(280px,min(66vh,600px)));aspect-ratio:1;background:var(--board,#475569);border-radius:18px;overflow:hidden;touch-action:none;user-select:none}
+.stage:fullscreen .board{width:min(92vw,84vh)}
+.board:focus-visible{outline:3px solid var(--pri);outline-offset:3px}
+.cells{position:absolute;inset:0;display:grid;grid-template:repeat(var(--n,4),1fr)/repeat(var(--n,4),1fr);gap:var(--gap,10px);padding:var(--gap,10px)}
+.cell{background:rgba(255,255,255,.2);border-radius:10px}
+.pop{animation:pop .16s ease-out}
+@keyframes pop{from{transform:scale(.6);opacity:.4}to{transform:none;opacity:1}}
+.over{position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:20px;background:rgba(8,20,45,.72);border-radius:inherit}
+.over[hidden]{display:none}
+.over .card{padding:26px 28px;text-align:center;max-width:380px}
+.over h2{margin:0 0 6px;font-size:26px;color:var(--head)}
+.over p{margin:0 0 16px;color:var(--mu)}
+.over .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.side{padding:20px;display:grid;gap:14px}
+.side h1{margin:0;font-size:26px;line-height:1.15;color:var(--head);letter-spacing:-.5px}
+.side p{margin:0;color:var(--mu);font-size:14.5px;line-height:1.5}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc{padding:10px 14px;border-radius:12px;background:var(--pri-soft);text-align:center}
+.sc span{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+.sc b{display:block;font-size:26px;line-height:1.2;color:var(--head);font-variant-numeric:tabular-nums}
+.side .btn{height:44px;font-size:15px;width:100%}
+.btn--soft{background:var(--pri-soft);color:var(--pri2)}
+.btn--soft:hover{background:var(--bd);color:var(--pri2)}
+.keys{display:grid;gap:8px;font-size:13.5px;color:var(--mu)}
+kbd{display:inline-block;min-width:24px;padding:1px 6px;margin-right:3px;border:1px solid var(--bd);border-bottom-width:2px;border-radius:6px;background:var(--card2);color:var(--head);font-weight:700;font-size:12.5px;text-align:center}
+.dpad{display:none;grid-template-columns:repeat(4,56px);gap:8px;justify-content:center}
+.dpad button{height:48px;border:0;border-radius:12px;background:var(--pri-soft);color:var(--pri2);font-size:20px;font-weight:800;cursor:pointer}
+@media(max-width:900px){.play{grid-template-columns:1fr}.stage{min-height:0;padding:14px}}
+@media(max-width:900px),(pointer:coarse){.dpad{display:grid}}

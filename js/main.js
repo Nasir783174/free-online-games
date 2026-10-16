@@ -134,4 +134,15 @@
       var rs = $('#restart'); if (rs) rs.addEventListener('click', function () { sm.classList.remove('on'); load(true); });
     }
   }
+
+  /* ---- inline game stage: fullscreen ---- */
+  var stg = $('.stage'), fsb = $('#fsBtn');
+  if (stg && fsb) {
+    if (!(stg.requestFullscreen || stg.webkitRequestFullscreen)) fsb.hidden = true;
+    fsb.addEventListener('click', function () {
+      if (d.fullscreenElement) d.exitFullscreen();
+      else if (stg.requestFullscreen) stg.requestFullscreen().catch(function () {});
+      else if (stg.webkitRequestFullscreen) stg.webkitRequestFullscreen();
+    });
+  }
 })();

@@ -38,6 +38,16 @@
       "source": "/games/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/play/puzzle/2048",
+      "destination": "/puzzle-games/2048/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/2048/",
+      "destination": "/puzzle-games/2048/",
+      "permanent": true
     }
   ]
 }
