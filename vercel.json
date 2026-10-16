@@ -48,6 +48,956 @@
       "source": "/play/puzzle/2048/",
       "destination": "/puzzle-games/2048/",
       "permanent": true
+    },
+    {
+      "source": "/play/board/chess",
+      "destination": "/board-games/chess/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/chess/",
+      "destination": "/board-games/chess/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/sudoku",
+      "destination": "/puzzle-games/sudoku/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/sudoku/",
+      "destination": "/puzzle-games/sudoku/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/snake",
+      "destination": "/arcade-games/snake/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/snake/",
+      "destination": "/arcade-games/snake/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/minesweeper",
+      "destination": "/puzzle-games/minesweeper/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/minesweeper/",
+      "destination": "/puzzle-games/minesweeper/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/klondike",
+      "destination": "/card-games/klondike-solitaire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/klondike/",
+      "destination": "/card-games/klondike-solitaire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/checkers",
+      "destination": "/board-games/checkers/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/checkers/",
+      "destination": "/board-games/checkers/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/hangman",
+      "destination": "/word-games/hangman/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/hangman/",
+      "destination": "/word-games/hangman/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/car-racing",
+      "destination": "/racing-games/car-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/car-racing/",
+      "destination": "/racing-games/car-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/basketball",
+      "destination": "/sports-games/basketball/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/basketball/",
+      "destination": "/sports-games/basketball/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/tower-defense",
+      "destination": "/strategy-games/tower-defense/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/tower-defense/",
+      "destination": "/strategy-games/tower-defense/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/zombie",
+      "destination": "/action-games/zombie/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/zombie/",
+      "destination": "/action-games/zombie/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/boss-fight",
+      "destination": "/action-games/boss-fight/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/boss-fight/",
+      "destination": "/action-games/boss-fight/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/bullet-hell",
+      "destination": "/action-games/bullet-hell/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/bullet-hell/",
+      "destination": "/action-games/bullet-hell/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/dodging",
+      "destination": "/action-games/dodging/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/dodging/",
+      "destination": "/action-games/dodging/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/fighting",
+      "destination": "/action-games/fighting/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/fighting/",
+      "destination": "/action-games/fighting/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/platform-action",
+      "destination": "/action-games/platform-action/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/platform-action/",
+      "destination": "/action-games/platform-action/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/shooting",
+      "destination": "/action-games/shooting/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/shooting/",
+      "destination": "/action-games/shooting/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/stickman",
+      "destination": "/action-games/stickman/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/stickman/",
+      "destination": "/action-games/stickman/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/survival",
+      "destination": "/action-games/survival/",
+      "permanent": true
+    },
+    {
+      "source": "/play/action/survival/",
+      "destination": "/action-games/survival/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/escape",
+      "destination": "/adventure-games/escape/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/escape/",
+      "destination": "/adventure-games/escape/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/exploration",
+      "destination": "/adventure-games/exploration/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/exploration/",
+      "destination": "/adventure-games/exploration/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/maze-adventure",
+      "destination": "/adventure-games/maze-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/maze-adventure/",
+      "destination": "/adventure-games/maze-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/platform-adventure",
+      "destination": "/adventure-games/platform-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/platform-adventure/",
+      "destination": "/adventure-games/platform-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/point-and-click",
+      "destination": "/adventure-games/point-andamp-click-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/point-and-click/",
+      "destination": "/adventure-games/point-andamp-click-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/quest-game",
+      "destination": "/adventure-games/quest-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/quest-game/",
+      "destination": "/adventure-games/quest-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/story-game",
+      "destination": "/adventure-games/story-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/adventure/story-game/",
+      "destination": "/adventure-games/story-adventure/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/avoidance",
+      "destination": "/arcade-games/meteor-dodge/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/avoidance/",
+      "destination": "/arcade-games/meteor-dodge/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/brick-breaker",
+      "destination": "/arcade-games/brick-breaker/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/brick-breaker/",
+      "destination": "/arcade-games/brick-breaker/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/classic-arcade",
+      "destination": "/arcade-games/classic-arcade/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/classic-arcade/",
+      "destination": "/arcade-games/classic-arcade/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/endless-runner",
+      "destination": "/arcade-games/endless-runner/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/endless-runner/",
+      "destination": "/arcade-games/endless-runner/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/flappy-bird-style",
+      "destination": "/arcade-games/flappy-bird-style/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/flappy-bird-style/",
+      "destination": "/arcade-games/flappy-bird-style/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/platform-arcade",
+      "destination": "/arcade-games/platform-arcade/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/platform-arcade/",
+      "destination": "/arcade-games/platform-arcade/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/reaction-games",
+      "destination": "/arcade-games/quick-reaction/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/reaction-games/",
+      "destination": "/arcade-games/quick-reaction/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/space-shooter",
+      "destination": "/arcade-games/space-shooter/",
+      "permanent": true
+    },
+    {
+      "source": "/play/arcade/space-shooter/",
+      "destination": "/arcade-games/space-shooter/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/connect-four",
+      "destination": "/board-games/connect-four/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/connect-four/",
+      "destination": "/board-games/connect-four/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/four-in-a-row",
+      "destination": "/board-games/four-in-a-row/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/four-in-a-row/",
+      "destination": "/board-games/four-in-a-row/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/ludo",
+      "destination": "/board-games/ludo/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/ludo/",
+      "destination": "/board-games/ludo/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/mahjong",
+      "destination": "/board-games/mahjong/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/mahjong/",
+      "destination": "/board-games/mahjong/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/reversi",
+      "destination": "/board-games/reversi/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/reversi/",
+      "destination": "/board-games/reversi/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/tic-tac-toe",
+      "destination": "/board-games/tic-tac-toe/",
+      "permanent": true
+    },
+    {
+      "source": "/play/board/tic-tac-toe/",
+      "destination": "/board-games/tic-tac-toe/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/blackjack-style",
+      "destination": "/card-games/blackjack-style/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/blackjack-style/",
+      "destination": "/card-games/blackjack-style/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/freecell",
+      "destination": "/card-games/freecell/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/freecell/",
+      "destination": "/card-games/freecell/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/matching-cards",
+      "destination": "/card-games/matching-cards/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/matching-cards/",
+      "destination": "/card-games/matching-cards/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/memory-cards",
+      "destination": "/card-games/memory-cards/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/memory-cards/",
+      "destination": "/card-games/memory-cards/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/solitaire",
+      "destination": "/card-games/solitaire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/solitaire/",
+      "destination": "/card-games/solitaire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/spider-solitaire",
+      "destination": "/card-games/spider-solitaire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/card/spider-solitaire/",
+      "destination": "/card-games/spider-solitaire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/clicker",
+      "destination": "/casual-games/clicker/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/clicker/",
+      "destination": "/casual-games/clicker/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/hypercasual",
+      "destination": "/casual-games/hypercasual-rush/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/hypercasual/",
+      "destination": "/casual-games/hypercasual-rush/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/idle",
+      "destination": "/casual-games/idle-empire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/idle/",
+      "destination": "/casual-games/idle-empire/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/reaction",
+      "destination": "/casual-games/reaction/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/reaction/",
+      "destination": "/casual-games/reaction/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/relaxing",
+      "destination": "/casual-games/relaxing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/relaxing/",
+      "destination": "/casual-games/relaxing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/simulation",
+      "destination": "/casual-games/simulation/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/simulation/",
+      "destination": "/casual-games/simulation/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/tap",
+      "destination": "/casual-games/tap/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/tap/",
+      "destination": "/casual-games/tap/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/time-management",
+      "destination": "/casual-games/time-management/",
+      "permanent": true
+    },
+    {
+      "source": "/play/casual/time-management/",
+      "destination": "/casual-games/time-management/",
+      "permanent": true
+    },
+    {
+      "source": "/play/educational/geography",
+      "destination": "/educational-games/geography-quiz/",
+      "permanent": true
+    },
+    {
+      "source": "/play/educational/geography/",
+      "destination": "/educational-games/geography-quiz/",
+      "permanent": true
+    },
+    {
+      "source": "/play/educational/math",
+      "destination": "/educational-games/math/",
+      "permanent": true
+    },
+    {
+      "source": "/play/educational/math/",
+      "destination": "/educational-games/math/",
+      "permanent": true
+    },
+    {
+      "source": "/play/educational/memory",
+      "destination": "/educational-games/memory/",
+      "permanent": true
+    },
+    {
+      "source": "/play/educational/memory/",
+      "destination": "/educational-games/memory/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/block-puzzle",
+      "destination": "/puzzle-games/block-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/block-puzzle/",
+      "destination": "/puzzle-games/block-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/logic-puzzle",
+      "destination": "/puzzle-games/logic-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/logic-puzzle/",
+      "destination": "/puzzle-games/logic-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/maze-puzzle",
+      "destination": "/puzzle-games/maze-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/maze-puzzle/",
+      "destination": "/puzzle-games/maze-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/memory-puzzle",
+      "destination": "/puzzle-games/memory-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/memory-puzzle/",
+      "destination": "/puzzle-games/memory-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/number-puzzle",
+      "destination": "/puzzle-games/number-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/number-puzzle/",
+      "destination": "/puzzle-games/number-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/physics-puzzle",
+      "destination": "/puzzle-games/physics-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/physics-puzzle/",
+      "destination": "/puzzle-games/physics-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/sorting-puzzle",
+      "destination": "/puzzle-games/sorting-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/sorting-puzzle/",
+      "destination": "/puzzle-games/sorting-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/tile-puzzle",
+      "destination": "/puzzle-games/tile-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/tile-puzzle/",
+      "destination": "/puzzle-games/tile-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/word-puzzle",
+      "destination": "/puzzle-games/word-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/puzzle/word-puzzle/",
+      "destination": "/puzzle-games/word-puzzle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/bike-racing",
+      "destination": "/racing-games/bike-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/bike-racing/",
+      "destination": "/racing-games/bike-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/drag-racing",
+      "destination": "/racing-games/drag-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/drag-racing/",
+      "destination": "/racing-games/drag-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/drift",
+      "destination": "/racing-games/drift/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/drift/",
+      "destination": "/racing-games/drift/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/kart-racing",
+      "destination": "/racing-games/kart-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/kart-racing/",
+      "destination": "/racing-games/kart-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/motorcycle",
+      "destination": "/racing-games/motorcycle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/motorcycle/",
+      "destination": "/racing-games/motorcycle/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/stunt",
+      "destination": "/racing-games/stunt/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/stunt/",
+      "destination": "/racing-games/stunt/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/time-trial",
+      "destination": "/racing-games/time-trial/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/time-trial/",
+      "destination": "/racing-games/time-trial/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/traffic-racing",
+      "destination": "/racing-games/traffic-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/racing/traffic-racing/",
+      "destination": "/racing-games/traffic-racing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/archery",
+      "destination": "/sports-games/archery/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/archery/",
+      "destination": "/sports-games/archery/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/baseball",
+      "destination": "/sports-games/baseball/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/baseball/",
+      "destination": "/sports-games/baseball/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/bowling",
+      "destination": "/sports-games/bowling/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/bowling/",
+      "destination": "/sports-games/bowling/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/football",
+      "destination": "/sports-games/football/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/football/",
+      "destination": "/sports-games/football/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/golf",
+      "destination": "/sports-games/golf/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/golf/",
+      "destination": "/sports-games/golf/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/pool",
+      "destination": "/sports-games/pool/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/pool/",
+      "destination": "/sports-games/pool/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/soccer",
+      "destination": "/sports-games/soccer/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/soccer/",
+      "destination": "/sports-games/soccer/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/tennis",
+      "destination": "/sports-games/tennis/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/tennis/",
+      "destination": "/sports-games/tennis/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/volleyball",
+      "destination": "/sports-games/volleyball/",
+      "permanent": true
+    },
+    {
+      "source": "/play/sports/volleyball/",
+      "destination": "/sports-games/volleyball/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/base-building",
+      "destination": "/strategy-games/base-building/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/base-building/",
+      "destination": "/strategy-games/base-building/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/resource-management",
+      "destination": "/strategy-games/resource-management/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/resource-management/",
+      "destination": "/strategy-games/resource-management/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/tactical",
+      "destination": "/strategy-games/tactical/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/tactical/",
+      "destination": "/strategy-games/tactical/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/territory",
+      "destination": "/strategy-games/territory/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/territory/",
+      "destination": "/strategy-games/territory/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/turn-based",
+      "destination": "/strategy-games/turn-based/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/turn-based/",
+      "destination": "/strategy-games/turn-based/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/war-strategy",
+      "destination": "/strategy-games/war-strategy/",
+      "permanent": true
+    },
+    {
+      "source": "/play/strategy/war-strategy/",
+      "destination": "/strategy-games/war-strategy/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/anagram",
+      "destination": "/word-games/anagram/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/anagram/",
+      "destination": "/word-games/anagram/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/crossword",
+      "destination": "/word-games/crossword/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/crossword/",
+      "destination": "/word-games/crossword/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/spelling",
+      "destination": "/word-games/spelling/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/spelling/",
+      "destination": "/word-games/spelling/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/typing",
+      "destination": "/word-games/typing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/typing/",
+      "destination": "/word-games/typing/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/word-guess",
+      "destination": "/word-games/word-guess/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/word-guess/",
+      "destination": "/word-games/word-guess/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/word-search",
+      "destination": "/word-games/word-search/",
+      "permanent": true
+    },
+    {
+      "source": "/play/word/word-search/",
+      "destination": "/word-games/word-search/",
+      "permanent": true
     }
   ]
 }

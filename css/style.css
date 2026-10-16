@@ -319,3 +319,10 @@ kbd{display:inline-block;min-width:24px;padding:1px 6px;margin-right:3px;border:
 .dpad button{height:48px;border:0;border-radius:12px;background:var(--pri-soft);color:var(--pri2);font-size:20px;font-weight:800;cursor:pointer}
 @media(max-width:900px){.play{grid-template-columns:1fr}.stage{min-height:0;padding:14px}}
 @media(max-width:900px),(pointer:coarse){.dpad{display:grid}}
+
+/* ---------- GAME SURFACE: the game's own markup lives in .gm inside .stage; its look comes from js/play/<game>.js ---------- */
+.gm{width:100%;max-width:880px;margin:auto;color:var(--head);font-family:inherit;--brand:var(--pri);--brand-dark:var(--pri2);--bg:transparent;--card:var(--card2);--text:var(--head);--muted:var(--mu);--border:var(--bd)}
+.gm[hidden]{display:none}
+.gm canvas{display:block;max-width:100%;height:auto;margin-inline:auto;border-radius:14px;touch-action:none}
+.gm button{font:inherit}
+.stage:fullscreen .gm{max-width:min(96vw,1100px)}
