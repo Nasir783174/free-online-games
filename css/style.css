@@ -342,3 +342,12 @@ kbd{display:inline-block;min-width:24px;padding:1px 6px;margin-right:3px;border:
 .stage .gm :is([class*="game-layout"],[class*="game-area"],[class*="gameLayout"],.layout,.game-main){display:block!important;grid-template-columns:1fr!important}
 .side .hud :is(span,small,p,label,li,div):not(button):not(button *):not(kbd):not(.key){color:var(--mu)}
 .side .hud :is(strong,b,h2,h3,output,em){color:var(--head)}
+
+/* game page header: h1 + intro + tags sit above the two blocks (game | score panel) */
+.ghead{margin-top:16px;padding:18px 24px;display:flex;flex-direction:column;gap:8px}
+.ghead h1{margin:0;font-size:28px;line-height:1.15;color:var(--head);letter-spacing:-.5px}
+.ghead p{margin:0;color:var(--mu);font-size:15px;line-height:1.55;max-width:80ch}
+.ghead .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.ghead+.play{margin-top:16px}
+@media(max-width:900px){.ghead{padding:14px 16px}.ghead h1{font-size:24px}}
+@media(max-width:900px){.play{grid-template-columns:minmax(0,1fr)}}
