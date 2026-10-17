@@ -136,7 +136,7 @@
   }
 
   /* ---- inline game stage: fullscreen ---- */
-  var stg = $('.stage'), fsb = $('#fsBtn');
+  var stg = $('.player') || $('.stage'), fsb = $('#fsBtn');
   if (stg && fsb) {
     if (!(stg.requestFullscreen || stg.webkitRequestFullscreen)) fsb.hidden = true;
     fsb.addEventListener('click', function () {
@@ -144,5 +144,53 @@
       else if (stg.requestFullscreen) stg.requestFullscreen().catch(function () {});
       else if (stg.webkitRequestFullscreen) stg.webkitRequestFullscreen();
     });
+  }
+
+  /* ---- game page frame: size var, like/save, how-to-play popover ---- */
+  var pl = $('.player');
+  if (pl) {
+    var gpw = pl.closest('.gframe'), st = $('.stage', pl), pos = $('#poster', pl), slug = pl.getAttribute('data-slug');
+    function sh() { pl.style.setProperty('--sh', st.clientHeight + 'px'); }
+    sh(); if (window.ResizeObserver) new ResizeObserver(sh).observe(st);
+    if (pos && gpw) pos.addEventListener('click', function () { gpw.classList.add('is-playing'); });
+    function flag(id, key, other) {
+      var b = $(id); if (!b) return;
+      function paint() { b.setAttribute('aria-pressed', store('gh-' + key + ':' + slug) === '1' ? 'true' : 'false'); }
+      paint();
+      b.addEventListener('click', function () {
+        var on = store('gh-' + key + ':' + slug) === '1';
+        store('gh-' + key + ':' + slug, on ? '0' : '1');
+        if (!on && other) { store('gh-' + other + ':' + slug, '0'); var o = $(other === 'like' ? '#likeBtn' : '#dislikeBtn'); if (o) o.setAttribute('aria-pressed', 'false'); }
+        paint();
+      });
+    }
+    flag('#likeBtn', 'like', 'dislike'); flag('#dislikeBtn', 'dislike', 'like'); flag('#saveBtn', 'save');
+    var hb = $('#helpBtn'), hp = $('#phelp');
+    if (hb && hp) {
+      hb.addEventListener('click', function (e) { e.stopPropagation(); hp.hidden = !hp.hidden; hb.setAttribute('aria-expanded', hp.hidden ? 'false' : 'true'); });
+      d.addEventListener('click', function (e) { if (!hp.hidden && !hp.contains(e.target)) { hp.hidden = true; hb.setAttribute('aria-expanded', 'false'); } });
+      d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !hp.hidden) { hp.hidden = true; hb.setAttribute('aria-expanded', 'false'); } });
+    }
+  }
+
+  /* ---- game page: scale DOM-based games down when they are taller than the frame ---- */
+  if (pl) {
+    var gmEl = $('.gm', st), raf = 0;
+    function fit() {
+      raf = 0; if (!gmEl || gmEl.hidden) return;
+      gmEl.style.transform = ''; gmEl.style.margin = '';
+      var avail = st.clientHeight - 24, h = gmEl.offsetHeight;
+      if (h > avail + 2 && avail > 100) {
+        var r = Math.max(0.4, avail / h);
+        gmEl.style.transformOrigin = 'top center'; gmEl.style.transform = 'scale(' + r + ')';
+        gmEl.style.margin = '0 auto ' + (-(h * (1 - r))) + 'px';
+      }
+    }
+    function queueFit() { if (!raf) raf = requestAnimationFrame(fit); }
+    if (gmEl) {
+      if (window.ResizeObserver) { new ResizeObserver(queueFit).observe(gmEl); new ResizeObserver(queueFit).observe(st); }
+      window.addEventListener('resize', queueFit); d.addEventListener('fullscreenchange', function () { setTimeout(queueFit, 120); });
+      var ps = $('#poster', pl); if (ps) ps.addEventListener('click', function () { setTimeout(queueFit, 80); setTimeout(queueFit, 600); });
+    }
   }
 })();
