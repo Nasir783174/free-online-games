@@ -387,3 +387,14 @@ kbd{display:inline-block;min-width:24px;padding:1px 6px;margin-right:3px;border:
 @media(max-aspect-ratio:1/1),(max-width:700px){.player .stage{aspect-ratio:auto;height:min(72vh,680px)}}
 @media(max-width:720px){.pbt span{display:none}.pbt{min-width:38px;height:38px;padding:0 10px}.pt strong{font-size:16px}.pa{gap:6px}.pbar{flex-wrap:wrap}.prose h1{font-size:26px}}
 @media(max-width:520px){.pa{width:100%;justify-content:space-between}.rate{display:contents}.rate .pbt{border-radius:999px}}
+
+/* ===== Game page: score panel beside the frame on wide screens ===== */
+@media(min-width:1000px) and (min-aspect-ratio:1/1){
+.gframe{display:grid;grid-template-columns:min(1180px,calc((100vh - 200px)*1.7778),calc(min(1340px,100vw - 48px) - 316px)) 300px;gap:16px;align-items:start;justify-content:center}
+.gframe .player,.gframe .hudbar{width:100%;max-width:none;margin:0}
+.gframe .hudbar{display:block;position:sticky;top:84px;max-height:calc(100vh - 110px);overflow:auto;padding:14px}
+.gframe:not(.is-playing) .hudbar>*{display:none}
+.gframe:not(.is-playing) .hudbar::before{content:"Press play to start. Your score will show here.";display:block;color:var(--mu);font-weight:700;line-height:1.5}
+.gframe .hudbar:not(:has(*)){display:none}
+}
+.prose .chips{justify-content:flex-start}
