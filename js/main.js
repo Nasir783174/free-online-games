@@ -202,4 +202,17 @@
       ps0.click(); ps0.hidden = false; gw.classList.add('is-playing');
     });
   }
+  /* ---- game page: stop arrows / space from scrolling the page while a game is being played ---- */
+  if (pl) {
+    var SK = { ArrowUp: 1, ArrowDown: 1, ArrowLeft: 1, ArrowRight: 1, ' ': 1, Spacebar: 1, PageUp: 1, PageDown: 1 };
+    d.addEventListener('keydown', function (e) {
+      if (!SK[e.key] || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+      var pst = $('#poster', pl); if (pst && !pst.hidden) return;
+      var t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON|A|SUMMARY)$/.test(t.tagName))) return;
+      var r = pl.getBoundingClientRect();
+      if (r.bottom < innerHeight * 0.25 || r.top > innerHeight * 0.75) return;
+      e.preventDefault();
+    });
+  }
 })();

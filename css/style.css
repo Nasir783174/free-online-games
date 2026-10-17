@@ -399,3 +399,40 @@ kbd{display:inline-block;min-width:24px;padding:1px 6px;margin-right:3px;border:
 .gframe .hudbar:not(:has(*)){display:none}
 }
 .prose .chips{justify-content:flex-start}
+
+/* ===== v2 fixes (audit) ===== */
+html,body{overflow-x:clip}
+/* 1. poster must always sit above a game's own overlays so every game opens the same way */
+.stage .poster{z-index:100}
+/* 2. sidebar: grow with content instead of clipping/scrolling inside a small box (Sudoku keypad, Ludo, Reversi...) */
+.gframe .hudbar{position:static;max-height:none;overflow:visible}
+.side .hud{overflow:visible}
+.gframe>*{min-width:0}
+@media(max-width:900px){.gframe{grid-template-columns:minmax(0,1fr)}}
+/* forced position:static broke absolute decorations (Minesweeper's red mine icon flooded the whole panel) */
+.side .hud *{position:relative!important;inset:auto!important}
+.side .hud .mine-icon::after{display:none}
+/* 3. HUD text: game styles use light text on boxes the site makes transparent -> invisible numbers */
+.side .hud :is(span,small,p,label,li,div,td,th,strong,b,output,em,h2,h3):not(button):not(button *):not(kbd):not(.key){color:var(--head)!important}
+.side .hud :is(small,p,label,li):not(button *){color:var(--mu)!important}
+
+.side .hud table,.side .hud .scorecard{display:block;max-width:100%;overflow-x:auto}
+/* 4. panel-heavy games: let the stage grow to fit instead of scrolling inside a fixed 16:9 box */
+@media(min-width:701px) and (min-aspect-ratio:1/1){
+  .player[data-slug="simulation"]:not(:fullscreen) .stage,
+  .player[data-slug="idle-empire"]:not(:fullscreen) .stage,
+  .player[data-slug="point-and-click-adventure"]:not(:fullscreen) .stage,
+  .player[data-slug="exploration"]:not(:fullscreen) .stage,
+  .player[data-slug="base-building"]:not(:fullscreen) .stage,
+  .player[data-slug="war-strategy"]:not(:fullscreen) .stage,
+  .player[data-slug="bowling"]:not(:fullscreen) .stage,
+  .player[data-slug="turn-based"]:not(:fullscreen) .stage{overflow:visible;aspect-ratio:auto;height:auto}
+}
+/* 5. chess: white pieces were nearly invisible on light squares */
+.gm .square.white-piece{color:#fff!important;text-shadow:-1px -1px 0 #2b1f17,1px -1px 0 #2b1f17,-1px 1px 0 #2b1f17,1px 1px 0 #2b1f17,0 2px 3px rgba(0,0,0,.45)!important}
+/* 6. touch: comfortable tap targets for the page controls */
+@media(pointer:coarse){.pbt{min-width:44px;height:44px}}
+/* canvases that fill their own wrapper (Relaxing) were shrunk to 300x150 by the generic canvas rule */
+.stage .gm .canvas-wrap>canvas{width:100%!important;height:100%!important;max-height:none!important}
+/* keycaps in the sidebar: text was white on a transparent background */
+.side .hud :is(kbd,.key){color:var(--head)!important;background:rgba(127,127,127,.16)!important;border-color:var(--bd)!important}
