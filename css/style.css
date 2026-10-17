@@ -393,6 +393,7 @@ kbd{display:inline-block;min-width:24px;padding:1px 6px;margin-right:3px;border:
 .gframe{display:grid;grid-template-columns:min(1180px,calc((100vh - 200px)*1.7778),calc(min(1340px,100vw - 48px) - 316px)) 300px;gap:16px;align-items:start;justify-content:center}
 .gframe .player,.gframe .hudbar{width:100%;max-width:none;margin:0}
 .gframe .hudbar{display:block;position:sticky;top:84px;max-height:calc(100vh - 110px);overflow:auto;padding:14px}
+.gframe:not(.is-playing) .hudbar{display:block}
 .gframe:not(.is-playing) .hudbar>*{display:none}
 .gframe:not(.is-playing) .hudbar::before{content:"Press play to start. Your score will show here.";display:block;color:var(--mu);font-weight:700;line-height:1.5}
 .gframe .hudbar:not(:has(*)){display:none}

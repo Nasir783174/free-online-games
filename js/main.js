@@ -193,4 +193,13 @@
       var ps = $('#poster', pl); if (ps) ps.addEventListener('click', function () { setTimeout(queueFit, 80); setTimeout(queueFit, 600); });
     }
   }
+
+  /* ---- game page: boot the game on load so the score panel is visible and styled from the start; the poster keeps covering the board until the visitor presses play ---- */
+  if (pl) {
+    window.addEventListener('load', function () {
+      var ps0 = $('#poster', pl), gw = pl.closest('.gframe');
+      if (!ps0 || !gw || pl.hasAttribute('data-noboot')) return;
+      ps0.click(); ps0.hidden = false; gw.classList.add('is-playing');
+    });
+  }
 })();
